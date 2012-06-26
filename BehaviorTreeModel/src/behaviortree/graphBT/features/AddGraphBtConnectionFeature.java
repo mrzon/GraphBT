@@ -1,6 +1,6 @@
 package behaviortree.graphBT.features;
 
-import java.awt.Color;
+
 
 import org.eclipse.emf.ecore.EReference;
 import behaviortree.graphBT.StyleUtil;
