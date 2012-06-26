@@ -204,7 +204,7 @@ IAddFeature {
             gaService.setLocationAndSize(textOperator, 140, 5, 30, 20);
      
             link(shapeOperator, addedOperatorClass);
-            
+            //this is only a comment
             IDirectEditingInfo directEditingInfo =
                 getFeatureProvider().getDirectEditingInfo();
             directEditingInfo.setMainPictogramElement(shapeOperator);
