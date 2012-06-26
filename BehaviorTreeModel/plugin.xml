@@ -64,5 +64,19 @@
          <propertyCategory></propertyCategory>
       </propertyContributor>
    </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="BehaviorTreeModel.category.wizards"
+            name="New Project Wizards">
+      </category>
+      <wizard
+            category="BehaviorTreeModel.category.wizards"
+            class="behaviortree.wizard.CustomProjectNewWizard"
+            id="BehaviorTreeModel.wizard.newproject"
+            name="New Project"
+            project="true">
+      </wizard>
+   </extension>
 
 </plugin>
