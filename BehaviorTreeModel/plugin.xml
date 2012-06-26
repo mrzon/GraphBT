@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://defaultname/1.0"
+            class="behaviortree.BehaviorTreePackage"
+            genModel="model/DefaultName.genmodel"/>
+   </extension>
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypes">
+      <diagramType
+            name="Tes Diagram Type"
+            type="tes"
+            id="tes.tesDiagramType">
+      </diagramType>
+   </extension>
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypeProviders">
+      <diagramTypeProvider
+            name="Tes Diagram Type Provider"
+            class="behaviortree.graphBT.diagram.GraphBTDiagramTypeProvider"
+            id="tes.tesDiagramTypeProvider">
+         <diagramType
+               id="tes.tesDiagramType">
+         </diagramType>
+      </diagramTypeProvider>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs
+            contributorId="BehaviorTreeModel.propertyTabs1">
+         <propertyTab
+               category="BehaviorTreeModel.propertyTab1"
+               id="BehaviorTreeModel.propertyTab1"
+               label="label">
+         </propertyTab>
+      </propertyTabs>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections
+            contributorId="BehaviorTreeModel.propertySections1">
+         <propertySection
+               class="behaviortreemodel.AbstractPropertySection1"
+               id="BehaviorTreeModel.propertySection1"
+               tab="BehaviorTreeModel.propertySection1">
+         </propertySection>
+      </propertySections>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+      <propertyContributor
+            contributorId="BehaviorTreeModel.propertyContributor1">
+         <propertyCategory></propertyCategory>
+      </propertyContributor>
+   </extension>
+
+</plugin>
