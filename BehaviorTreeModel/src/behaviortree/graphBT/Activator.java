@@ -1,8 +1,5 @@
 package behaviortree.graphBT;
-/**
- * Created by Emerson Chan Simbolon
- * 0806336773
- */
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;

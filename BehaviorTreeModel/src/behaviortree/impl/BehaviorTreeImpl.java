@@ -97,11 +97,10 @@ public class BehaviorTreeImpl extends EObjectImpl implements BehaviorTree {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 * @generated
 	 */
 	protected BehaviorTreeImpl() {
 		super();
-		System.out.println("BehaviorTreedibuat");
 	}
 
 	/**
