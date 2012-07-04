@@ -30,7 +30,7 @@ public enum SpecialEdgeEnum implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	REFERENCE(0, "Reference", "Reference"),
+	REFERENCE(0, "Reference", "=>"),
 
 	/**
 	 * The '<em><b>Reversion</b></em>' literal object.
@@ -40,7 +40,7 @@ public enum SpecialEdgeEnum implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	REVERSION(1, "Reversion", "Reversion"),
+	REVERSION(1, "Reversion", "^"),
 
 	/**
 	 * The '<em><b>Branch Kill</b></em>' literal object.
@@ -50,7 +50,7 @@ public enum SpecialEdgeEnum implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	BRANCH_KILL(2, "BranchKill", "BranchKill"),
+	BRANCH_KILL(2, "BranchKill", "--"),
 
 	/**
 	 * The '<em><b>Synchronize</b></em>' literal object.
@@ -60,7 +60,7 @@ public enum SpecialEdgeEnum implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	SYNCHRONIZE(4, "Synchronize", "Synchronize");
+	SYNCHRONIZE(4, "Synchronize", "@");
 
 	/**
 	 * The '<em><b>Reference</b></em>' literal value.
@@ -71,7 +71,7 @@ public enum SpecialEdgeEnum implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #REFERENCE
-	 * @model name="Reference"
+	 * @model name="Reference" literal="=>"
 	 * @generated
 	 * @ordered
 	 */
@@ -86,7 +86,7 @@ public enum SpecialEdgeEnum implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #REVERSION
-	 * @model name="Reversion"
+	 * @model name="Reversion" literal="^"
 	 * @generated
 	 * @ordered
 	 */
@@ -101,7 +101,7 @@ public enum SpecialEdgeEnum implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #BRANCH_KILL
-	 * @model name="BranchKill"
+	 * @model name="BranchKill" literal="--"
 	 * @generated
 	 * @ordered
 	 */
@@ -116,7 +116,7 @@ public enum SpecialEdgeEnum implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SYNCHRONIZE
-	 * @model name="Synchronize"
+	 * @model name="Synchronize" literal="@"
 	 * @generated
 	 * @ordered
 	 */

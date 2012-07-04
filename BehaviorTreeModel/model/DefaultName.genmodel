@@ -22,6 +22,7 @@
       <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//Operator/Conjunction"/>
       <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//Operator/Disjunction"/>
       <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//Operator/ExclusiveOR"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//Operator/NoOperator"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="DefaultName.ecore#//BehaviorType">
       <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//BehaviorType/StateRealization"/>
@@ -115,6 +116,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Requirements/Key"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Requirements/Requirement"/>
     </genClasses>
-    <nestedGenPackages prefix="Behaviortree" disposableProviderFactory="true" ecorePackage="DefaultName.ecore#//behaviortree"/>
+    <nestedGenPackages prefix="Behaviortree" basePackage="behaviortree" disposableProviderFactory="true"
+        ecorePackage="DefaultName.ecore#//behaviortree"/>
   </genPackages>
 </genmodel:GenModel>

@@ -1,5 +1,10 @@
 package behaviortree.graphBT.features;
 
+/**
+ * General BT Node adalah diagram untuk node 
+ * kosong yang bisa dispesifikasikan menjadi Node yang lebih spesifik
+ */
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.graphiti.features.IAddFeature;
@@ -16,6 +21,8 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.services.ICreateService;
+import org.eclipse.graphiti.services.IGaLayoutService;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.ColorConstant;
@@ -44,7 +51,7 @@ IAddFeature {
  
     public boolean canAdd(IAddContext context) {
         // check if user wants to add a EClass
-        if (context.getNewObject() instanceof EClass) {
+        if (context.getNewObject() instanceof StandardNode) {
             // check if user wants to add to a diagram
             if (context.getTargetContainer() instanceof Diagram) {
                 return true;
@@ -54,14 +61,11 @@ IAddFeature {
     }
  
     public PictogramElement add(IAddContext context) {
-    	
-        EClass addedComponentClass = EcoreFactory.eINSTANCE.createEClass(); //(EClass) context.getNewObject();
-        
-        EClass addedBehaviorClass = EcoreFactory.eINSTANCE.createEClass();
-        EClass addedTraceabilityLinkClass = EcoreFactory.eINSTANCE.createEClass();
-        EClass addedTraceabilityStatusClass = EcoreFactory.eINSTANCE.createEClass();
-        EClass addedOperatorClass = EcoreFactory.eINSTANCE.createEClass();
-        
+		ICreateService createService = Graphiti.getCreateService();
+		IGaLayoutService layoutService = Graphiti.getGaLayoutService();
+		
+		StandardNode node = (StandardNode) context.getNewObject();
+		
         Diagram targetDiagram = (Diagram) context.getTargetContainer();
  
         // CONTAINER SHAPE WITH RECTANGLE
@@ -80,33 +84,7 @@ IAddFeature {
         rectangle.setBackground(manageColor(E_CLASS_BACKGROUND));
         rectangle.setLineWidth(1);
         gaService.setLocationAndSize(rectangle, context.getX(), context.getY(), width, height);
- 
-        if (addedComponentClass.eResource() == null) {
-        	getDiagram().eResource().getContents().add(addedComponentClass);
-        }
-            
-        link(containerShape, addedComponentClass);
-           
-        if (addedBehaviorClass.eResource() == null)
-        	getDiagram().eResource().getContents().add(addedBehaviorClass);
-	       
-        link(containerShape, addedBehaviorClass);
-            
-        if (addedTraceabilityLinkClass.eResource() == null) 
-        	getDiagram().eResource().getContents().add(addedTraceabilityLinkClass);
-	       
-        link(containerShape, addedTraceabilityLinkClass);
-	       
-	    if (addedTraceabilityStatusClass.eResource() == null) 
-	    	getDiagram().eResource().getContents().add(addedTraceabilityStatusClass);
-	       
-	    link(containerShape, addedTraceabilityStatusClass);
-	       
-	    if (addedOperatorClass.eResource() == null) 
-	    	getDiagram().eResource().getContents().add(addedOperatorClass);
-	       
-	    link(containerShape, addedOperatorClass);
-            
+
         // SHAPE FOR LINE
         {
             // create shape for line
@@ -122,14 +100,13 @@ IAddFeature {
         // SHAPE WITH TEXT FOR COMPONENT
         {  	
         	Shape shapeComponent = peCreateService.createShape(containerShape, false);      	 
-            Text text = gaService.createText(shapeComponent, addedComponentClass.getName());
+            Text text = gaService.createText(shapeComponent, node.getComponentName());
             text.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER); 
             text.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             gaService.setLocationAndSize(text, 40, height/2 - 20, width - 40, 20);
      
-            link(shapeComponent, addedComponentClass);
-     
+
             IDirectEditingInfo directEditingInfo =
                 getFeatureProvider().getDirectEditingInfo();
             directEditingInfo.setMainPictogramElement(shapeComponent);
@@ -140,14 +117,13 @@ IAddFeature {
         // SHAPE WITH TEXT FOR BEHAVIOR
         {  	
         	Shape shapeBehavior = peCreateService.createShape(containerShape, true);        	 
-            Text textBehavior = gaService.createText(shapeBehavior, addedBehaviorClass.getName());
+            Text textBehavior = gaService.createText(shapeBehavior, node.getBehavior());
             textBehavior.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             textBehavior.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER); 
             textBehavior.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             gaService.setLocationAndSize(textBehavior, 40, height/2 + 10, width - 40, 20);
      
-            link(shapeBehavior, addedBehaviorClass);
-            
+           
             IDirectEditingInfo directEditingInfo =
                 getFeatureProvider().getDirectEditingInfo();
             directEditingInfo.setMainPictogramElement(shapeBehavior);
@@ -159,33 +135,31 @@ IAddFeature {
         {  	
         	Shape shapeTraceabilityLink = peCreateService.createShape(containerShape, true);
         	 
-            Text textTraceanilityLink = gaService.createText(shapeTraceabilityLink, addedTraceabilityLinkClass.getName());
-            textTraceanilityLink.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
-            textTraceanilityLink.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER); 
-            textTraceanilityLink.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
-            gaService.setLocationAndSize(textTraceanilityLink, 0, height/2 - 20, 40, 20);
+            Text textTraceabilityLink = gaService.createText(shapeTraceabilityLink, node.getTraceabilityLink());
+            textTraceabilityLink.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
+            textTraceabilityLink.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER); 
+            textTraceabilityLink.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
+            gaService.setLocationAndSize(textTraceabilityLink, 0, height/2 - 20, 40, 20);
      
-            link(shapeTraceabilityLink, addedTraceabilityLinkClass);
-            
+           
             IDirectEditingInfo directEditingInfo =
                 getFeatureProvider().getDirectEditingInfo();
             directEditingInfo.setMainPictogramElement(shapeTraceabilityLink);
             directEditingInfo.setPictogramElement(shapeTraceabilityLink);
-            directEditingInfo.setGraphicsAlgorithm(textTraceanilityLink);
+            directEditingInfo.setGraphicsAlgorithm(textTraceabilityLink);
         }
         
         // SHAPE WITH TEXT FOR TRACEABILITY STATUS
         {  	
         	Shape shapeTraceabilityStatus = peCreateService.createShape(containerShape, true);
         	 
-            Text textTraceabilityStatus = gaService.createText(shapeTraceabilityStatus, addedTraceabilityStatusClass.getName());
+            Text textTraceabilityStatus = gaService.createText(shapeTraceabilityStatus, node.getTraceabilityStatus().getLiteral());
             textTraceabilityStatus.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             textTraceabilityStatus.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER); 
             textTraceabilityStatus.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             gaService.setLocationAndSize(textTraceabilityStatus, 0, height/2 + 10, 40, 20);
      
-            link(shapeTraceabilityStatus, addedTraceabilityStatusClass);
-            
+         
             IDirectEditingInfo directEditingInfo =
                 getFeatureProvider().getDirectEditingInfo();
             directEditingInfo.setMainPictogramElement(shapeTraceabilityStatus);
@@ -197,14 +171,13 @@ IAddFeature {
         {  	
         	Shape shapeOperator = peCreateService.createShape(containerShape, true);
         	 
-            Text textOperator = gaService.createText(shapeOperator, addedOperatorClass.getName());
+            Text textOperator = gaService.createText(shapeOperator, node.getOperator().getLiteral());
             textOperator.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             textOperator.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER); 
             textOperator.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             gaService.setLocationAndSize(textOperator, 140, 5, 30, 20);
      
-            link(shapeOperator, addedOperatorClass);
-            
+           
             IDirectEditingInfo directEditingInfo =
                 getFeatureProvider().getDirectEditingInfo();
             directEditingInfo.setMainPictogramElement(shapeOperator);

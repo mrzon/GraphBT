@@ -27,70 +27,78 @@ public enum Operator implements Enumerator {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #REFERENCE_VALUE
-	 * @generated
+	 * 
 	 * @ordered
 	 */
-	REFERENCE(0, "Reference", "Reference"),
+	REFERENCE(0, "Reference", "=>"),
 
 	/**
 	 * The '<em><b>Reversion</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #REVERSION_VALUE
-	 * @generated
+	 * 
 	 * @ordered
 	 */
-	REVERSION(1, "Reversion", "Reversion"),
+	REVERSION(1, "Reversion", "^"),
 
 	/**
 	 * The '<em><b>Branch Kill</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #BRANCH_KILL_VALUE
-	 * @generated
+	 * 
 	 * @ordered
 	 */
-	BRANCH_KILL(2, "BranchKill", "BranchKill"),
+	BRANCH_KILL(2, "BranchKill", "--"),
 
 	/**
 	 * The '<em><b>Synchronize</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #SYNCHRONIZE_VALUE
-	 * @generated
+	 * 
 	 * @ordered
 	 */
-	SYNCHRONIZE(3, "Synchronize", "Synchronize"),
+	SYNCHRONIZE(3, "Synchronize", "@"),
 
 	/**
 	 * The '<em><b>Conjunction</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #CONJUNCTION_VALUE
-	 * @generated
+	 * 
 	 * @ordered
 	 */
-	CONJUNCTION(4, "Conjunction", "Conjunction"),
+	CONJUNCTION(4, "Conjunction", "&&"),
 
 	/**
 	 * The '<em><b>Disjunction</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #DISJUNCTION_VALUE
-	 * @generated
+	 * 
 	 * @ordered
 	 */
-	DISJUNCTION(5, "Disjunction", "Disjunction"),
+	DISJUNCTION(5, "Disjunction", "||"),
 
 	/**
 	 * The '<em><b>Exclusive OR</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #EXCLUSIVE_OR_VALUE
+	 * @
+	 * @ordered
+	 */
+	EXCLUSIVE_OR(6, "ExclusiveOR", "^^"), /**
+	 * The '<em><b>No Operator</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NO_OPERATOR_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	EXCLUSIVE_OR(6, "ExclusiveOR", "ExclusiveOR");
+	NO_OPERATOR(7, "NoOperator", "");
 
 	/**
 	 * The '<em><b>Reference</b></em>' literal value.
@@ -101,7 +109,7 @@ public enum Operator implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #REFERENCE
-	 * @model name="Reference"
+	 * @model name="Reference" literal="=>"
 	 * @generated
 	 * @ordered
 	 */
@@ -116,7 +124,7 @@ public enum Operator implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #REVERSION
-	 * @model name="Reversion"
+	 * @model name="Reversion" literal="^"
 	 * @generated
 	 * @ordered
 	 */
@@ -131,7 +139,7 @@ public enum Operator implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #BRANCH_KILL
-	 * @model name="BranchKill"
+	 * @model name="BranchKill" literal="--"
 	 * @generated
 	 * @ordered
 	 */
@@ -146,7 +154,7 @@ public enum Operator implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SYNCHRONIZE
-	 * @model name="Synchronize"
+	 * @model name="Synchronize" literal="@"
 	 * @generated
 	 * @ordered
 	 */
@@ -161,7 +169,7 @@ public enum Operator implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CONJUNCTION
-	 * @model name="Conjunction"
+	 * @model name="Conjunction" literal="&&"
 	 * @generated
 	 * @ordered
 	 */
@@ -176,7 +184,7 @@ public enum Operator implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DISJUNCTION
-	 * @model name="Disjunction"
+	 * @model name="Disjunction" literal="||"
 	 * @generated
 	 * @ordered
 	 */
@@ -191,11 +199,26 @@ public enum Operator implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #EXCLUSIVE_OR
-	 * @model name="ExclusiveOR"
+	 * @model name="ExclusiveOR" literal="^^"
 	 * @generated
 	 * @ordered
 	 */
 	public static final int EXCLUSIVE_OR_VALUE = 6;
+
+	/**
+	 * The '<em><b>No Operator</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>No Operator</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #NO_OPERATOR
+	 * @model name="NoOperator" literal=""
+	 * @generated
+	 * @ordered
+	 */
+	public static final int NO_OPERATOR_VALUE = 7;
 
 	/**
 	 * An array of all the '<em><b>Operator</b></em>' enumerators.
@@ -212,6 +235,7 @@ public enum Operator implements Enumerator {
 			CONJUNCTION,
 			DISJUNCTION,
 			EXCLUSIVE_OR,
+			NO_OPERATOR,
 		};
 
 	/**
@@ -269,6 +293,7 @@ public enum Operator implements Enumerator {
 			case CONJUNCTION_VALUE: return CONJUNCTION;
 			case DISJUNCTION_VALUE: return DISJUNCTION;
 			case EXCLUSIVE_OR_VALUE: return EXCLUSIVE_OR;
+			case NO_OPERATOR_VALUE: return NO_OPERATOR;
 		}
 		return null;
 	}

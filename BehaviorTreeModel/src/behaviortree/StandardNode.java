@@ -221,4 +221,6 @@ public interface StandardNode extends Node {
 	 */
 	void setLabel(String value);
 
+	String getComponentName();
+
 } // StandardNode

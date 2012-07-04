@@ -982,6 +982,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		addEEnumLiteral(operatorEEnum, Operator.CONJUNCTION);
 		addEEnumLiteral(operatorEEnum, Operator.DISJUNCTION);
 		addEEnumLiteral(operatorEEnum, Operator.EXCLUSIVE_OR);
+		addEEnumLiteral(operatorEEnum, Operator.NO_OPERATOR);
 
 		initEEnum(behaviorTypeEEnum, BehaviorType.class, "BehaviorType");
 		addEEnumLiteral(behaviorTypeEEnum, BehaviorType.STATE_REALIZATION);

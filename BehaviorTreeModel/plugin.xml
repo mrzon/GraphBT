@@ -13,70 +13,29 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://defaultname/1.0"
-            class="behaviortree.BehaviorTreePackage"
+            class="behaviortree.BehaviortreePackage"
             genModel="model/DefaultName.genmodel"/>
    </extension>
    <extension
          point="org.eclipse.graphiti.ui.diagramTypes">
       <diagramType
-            name="Tes Diagram Type"
-            type="tes"
-            id="tes.tesDiagramType">
+            description="Diagram Type for GraphBT"
+            id="behaviortree.graphBT.GraphBTDiagramType"
+            name="Diagram Type for GraphBT"
+            type="graphbt">
       </diagramType>
    </extension>
    <extension
          point="org.eclipse.graphiti.ui.diagramTypeProviders">
       <diagramTypeProvider
-            name="Tes Diagram Type Provider"
             class="behaviortree.graphBT.diagram.GraphBTDiagramTypeProvider"
-            id="tes.tesDiagramTypeProvider">
+            description="This is the editor for GraphBT Tool"
+            id="behaviortree.graphBT.GraphBTDiagramTypeProvider"
+            name="GraphBT Diagram Type Provider">
          <diagramType
-               id="tes.tesDiagramType">
+               id="behaviortree.graphBT.GraphBTDiagramType">
          </diagramType>
       </diagramTypeProvider>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
-      <propertyTabs
-            contributorId="BehaviorTreeModel.propertyTabs1">
-         <propertyTab
-               category="BehaviorTreeModel.propertyTab1"
-               id="BehaviorTreeModel.propertyTab1"
-               label="label">
-         </propertyTab>
-      </propertyTabs>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views.properties.tabbed.propertySections">
-      <propertySections
-            contributorId="BehaviorTreeModel.propertySections1">
-         <propertySection
-               class="behaviortreemodel.AbstractPropertySection1"
-               id="BehaviorTreeModel.propertySection1"
-               tab="BehaviorTreeModel.propertySection1">
-         </propertySection>
-      </propertySections>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
-      <propertyContributor
-            contributorId="BehaviorTreeModel.propertyContributor1">
-         <propertyCategory></propertyCategory>
-      </propertyContributor>
-   </extension>
-   <extension
-         point="org.eclipse.ui.newWizards">
-      <category
-            id="BehaviorTreeModel.category.wizards"
-            name="New Project Wizards">
-      </category>
-      <wizard
-            category="BehaviorTreeModel.category.wizards"
-            class="behaviortree.wizard.CustomProjectNewWizard"
-            id="BehaviorTreeModel.wizard.newproject"
-            name="New Project"
-            project="true">
-      </wizard>
    </extension>
 
 </plugin>

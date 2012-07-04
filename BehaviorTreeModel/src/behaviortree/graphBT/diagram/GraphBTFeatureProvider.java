@@ -25,11 +25,12 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 
+import behaviortree.StandardNode;
 import behaviortree.graphBT.features.AddGeneralBtNodeFeature;
 import behaviortree.graphBT.features.AddGraphBtConnectionFeature;
 import behaviortree.graphBT.features.CreateGraphBtConnectionFeature;
-import behaviortree.graphBT.features.CreateGraphBtFeature;
-import behaviortree.graphBT.features.DirectEditGraphBtFeature;
+import behaviortree.graphBT.features.CreateGeneralBtNodeFeature;
+import behaviortree.graphBT.features.DirectEditGeneralNodeGraphBtFeature;
 import behaviortree.graphBT.features.LayoutGraphBtFeature;
 import behaviortree.graphBT.features.MoveGraphBtFeature;
 import behaviortree.graphBT.features.RenameGraphBtFeature;
@@ -46,7 +47,7 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 
 	@Override
 	public ICreateFeature[] getCreateFeatures() {
-		return new ICreateFeature[] {new CreateGraphBtFeature(this)};
+		return new ICreateFeature[] {new CreateGeneralBtNodeFeature(this)};
 	}
 	
 	@Override
@@ -106,8 +107,8 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	public IDirectEditingFeature getDirectEditingFeature(IDirectEditingContext context) {
 		PictogramElement pe = context.getPictogramElement();
 		Object bo = getBusinessObjectForPictogramElement(pe);
-		if (bo instanceof EClass) {
-			return new DirectEditGraphBtFeature(this);
+		if (bo instanceof StandardNode) {
+			return new DirectEditGeneralNodeGraphBtFeature(this);
 		}
 		return super.getDirectEditingFeature(context);
 	}

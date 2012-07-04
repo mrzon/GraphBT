@@ -32,16 +32,17 @@
     <eLiterals name="Alternative" value="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Operator">
-    <eLiterals name="Reference"/>
-    <eLiterals name="Reversion" value="1"/>
-    <eLiterals name="BranchKill" value="2"/>
-    <eLiterals name="Synchronize" value="3"/>
-    <eLiterals name="Conjunction" value="4"/>
-    <eLiterals name="Disjunction" value="5"/>
-    <eLiterals name="ExclusiveOR" value="6"/>
+    <eLiterals name="Reference" literal="=>"/>
+    <eLiterals name="Reversion" value="1" literal="^"/>
+    <eLiterals name="BranchKill" value="2" literal="--"/>
+    <eLiterals name="Synchronize" value="3" literal="@"/>
+    <eLiterals name="Conjunction" value="4" literal="&amp;&amp;"/>
+    <eLiterals name="Disjunction" value="5" literal="||"/>
+    <eLiterals name="ExclusiveOR" value="6" literal="^^"/>
+    <eLiterals name="NoOperator" value="7" literal=""/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="BehaviorType">
-    <eLiterals name="StateRealization"/>
+    <eLiterals name="StateRealization" literal="StateRealization"/>
     <eLiterals name="Selection" value="1"/>
     <eLiterals name="Guard" value="2"/>
     <eLiterals name="InternalInput" value="3"/>
@@ -66,10 +67,10 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="destination" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="SpecialEdgeEnum">
-    <eLiterals name="Reference"/>
-    <eLiterals name="Reversion" value="1"/>
-    <eLiterals name="BranchKill" value="2"/>
-    <eLiterals name="Synchronize" value="4"/>
+    <eLiterals name="Reference" literal="=>"/>
+    <eLiterals name="Reversion" value="1" literal="^"/>
+    <eLiterals name="BranchKill" value="2" literal="--"/>
+    <eLiterals name="Synchronize" value="4" literal="@"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EmptyNode" eSuperTypes="#//Node">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -84,12 +85,12 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TraceabilityStatus">
-    <eLiterals name="Original"/>
-    <eLiterals name="Implied" value="1"/>
-    <eLiterals name="Missing" value="2"/>
-    <eLiterals name="Updated" value="3"/>
-    <eLiterals name="Deleted" value="4"/>
-    <eLiterals name="DesignRefinement" value="5"/>
+    <eLiterals name="Original" literal=""/>
+    <eLiterals name="Implied" value="1" literal="+"/>
+    <eLiterals name="Missing" value="2" literal="-"/>
+    <eLiterals name="Updated" value="3" literal="++"/>
+    <eLiterals name="Deleted" value="4" literal="--"/>
+    <eLiterals name="DesignRefinement" value="5" literal="+-"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Component">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

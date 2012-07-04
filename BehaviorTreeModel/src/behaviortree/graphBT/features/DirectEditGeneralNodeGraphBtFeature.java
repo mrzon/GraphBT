@@ -9,9 +9,11 @@ import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
-public class DirectEditGraphBtFeature extends AbstractDirectEditingFeature {
+import behaviortree.StandardNode;
 
-	public DirectEditGraphBtFeature(IFeatureProvider fp) {
+public class DirectEditGeneralNodeGraphBtFeature extends AbstractDirectEditingFeature {
+
+	public DirectEditGeneralNodeGraphBtFeature(IFeatureProvider fp) {
 		super(fp);
 	}
 
@@ -28,7 +30,7 @@ public class DirectEditGraphBtFeature extends AbstractDirectEditingFeature {
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
 		// support direct editing, if it is a EClass, and the user clicked
 		// directly on the text and not somewhere else in the rectangle
-		if (bo instanceof EClass && ga instanceof Text) {
+		if (bo instanceof StandardNode && ga instanceof Text) {
 			// EClass eClass = (EClass) bo;
 			// additionally the flag isFrozen must be false
 			// return !eClass.isFrozen();
@@ -41,8 +43,8 @@ public class DirectEditGraphBtFeature extends AbstractDirectEditingFeature {
 	public String getInitialValue(IDirectEditingContext context) {
 		// return the current name of the EClass
 		PictogramElement pe = context.getPictogramElement();
-		EClass eClass = (EClass) getBusinessObjectForPictogramElement(pe);
-		return eClass.getName();
+		StandardNode node = (StandardNode) getBusinessObjectForPictogramElement(pe);
+		return node.getComponentName();
 	}
 
 	@Override

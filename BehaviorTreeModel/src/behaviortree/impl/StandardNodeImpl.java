@@ -498,4 +498,12 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 		return result.toString();
 	}
 
+	@Override
+	public String getComponentName() {
+		if(this.getComponent()==null)
+			return "Component";
+		else
+			return this.getComponent().getName();
+	}
+
 } //StandardNodeImpl

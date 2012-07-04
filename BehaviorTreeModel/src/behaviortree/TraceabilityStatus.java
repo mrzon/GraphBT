@@ -27,60 +27,60 @@ public enum TraceabilityStatus implements Enumerator {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #ORIGINAL_VALUE
-	 * @generated
+	 * 
 	 * @ordered
 	 */
-	ORIGINAL(0, "Original", "Original"),
+	ORIGINAL(0, "Original", ""),
 
 	/**
 	 * The '<em><b>Implied</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #IMPLIED_VALUE
-	 * @generated
+	 * 
 	 * @ordered
 	 */
-	IMPLIED(1, "Implied", "Implied"),
+	IMPLIED(1, "Implied", "+"),
 
 	/**
 	 * The '<em><b>Missing</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #MISSING_VALUE
-	 * @generated
+	 * 
 	 * @ordered
 	 */
-	MISSING(2, "Missing", "Missing"),
+	MISSING(2, "Missing", "-"),
 
 	/**
 	 * The '<em><b>Updated</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #UPDATED_VALUE
-	 * @generated
+	 * 
 	 * @ordered
 	 */
-	UPDATED(3, "Updated", "Updated"),
+	UPDATED(3, "Updated", "++"),
 
 	/**
 	 * The '<em><b>Deleted</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #DELETED_VALUE
-	 * @generated
+	 * 
 	 * @ordered
 	 */
-	DELETED(4, "Deleted", "Deleted"),
+	DELETED(4, "Deleted", "--"),
 
 	/**
 	 * The '<em><b>Design Refinement</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #DESIGN_REFINEMENT_VALUE
-	 * @generated
+	 * 
 	 * @ordered
 	 */
-	DESIGN_REFINEMENT(5, "DesignRefinement", "DesignRefinement");
+	DESIGN_REFINEMENT(5, "DesignRefinement", "+-");
 
 	/**
 	 * The '<em><b>Original</b></em>' literal value.
@@ -91,7 +91,7 @@ public enum TraceabilityStatus implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ORIGINAL
-	 * @model name="Original"
+	 * @model name="Original" literal=""
 	 * @generated
 	 * @ordered
 	 */
@@ -106,7 +106,7 @@ public enum TraceabilityStatus implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #IMPLIED
-	 * @model name="Implied"
+	 * @model name="Implied" literal="+"
 	 * @generated
 	 * @ordered
 	 */
@@ -121,7 +121,7 @@ public enum TraceabilityStatus implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MISSING
-	 * @model name="Missing"
+	 * @model name="Missing" literal="-"
 	 * @generated
 	 * @ordered
 	 */
@@ -136,7 +136,7 @@ public enum TraceabilityStatus implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #UPDATED
-	 * @model name="Updated"
+	 * @model name="Updated" literal="++"
 	 * @generated
 	 * @ordered
 	 */
@@ -151,7 +151,7 @@ public enum TraceabilityStatus implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DELETED
-	 * @model name="Deleted"
+	 * @model name="Deleted" literal="--"
 	 * @generated
 	 * @ordered
 	 */
@@ -166,7 +166,7 @@ public enum TraceabilityStatus implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DESIGN_REFINEMENT
-	 * @model name="DesignRefinement"
+	 * @model name="DesignRefinement" literal="+-"
 	 * @generated
 	 * @ordered
 	 */
