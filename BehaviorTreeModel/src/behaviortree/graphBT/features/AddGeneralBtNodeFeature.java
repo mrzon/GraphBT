@@ -84,6 +84,8 @@ IAddFeature {
         rectangle.setBackground(manageColor(E_CLASS_BACKGROUND));
         rectangle.setLineWidth(1);
         gaService.setLocationAndSize(rectangle, context.getX(), context.getY(), width, height);
+        
+        link(containerShape, node);
 
         // SHAPE FOR LINE
         {

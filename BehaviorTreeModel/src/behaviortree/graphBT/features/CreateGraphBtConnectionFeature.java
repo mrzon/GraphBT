@@ -17,7 +17,7 @@ public class CreateGraphBtConnectionFeature extends AbstractCreateConnectionFeat
 		implements ICreateConnectionFeature {
 
 	public CreateGraphBtConnectionFeature(IFeatureProvider fp) {
-		super(fp, "Connection", "Creates a new connection");
+		super(fp, "BT Connection", "Creates a new connection");
 	}
 
 	@Override
