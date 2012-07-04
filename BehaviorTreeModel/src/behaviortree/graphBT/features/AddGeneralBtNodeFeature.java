@@ -112,7 +112,6 @@ IAddFeature {
             
             //
             final IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
-            //
             directEditingInfo.setMainPictogramElement(shapeComponent);
             directEditingInfo.setPictogramElement(shapeComponent);
             directEditingInfo.setGraphicsAlgorithm(text);

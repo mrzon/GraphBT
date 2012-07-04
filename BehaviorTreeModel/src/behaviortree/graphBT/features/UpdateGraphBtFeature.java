@@ -1,6 +1,5 @@
 package behaviortree.graphBT.features;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
@@ -10,6 +9,8 @@ import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+
+import behaviortree.StandardNode;
 
 
 public class UpdateGraphBtFeature extends AbstractUpdateFeature {
@@ -22,7 +23,7 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         // return true, if linked business object is a EClass
         Object bo =
             getBusinessObjectForPictogramElement(context.getPictogramElement());
-        return (bo instanceof EClass);
+        return (bo instanceof StandardNode);
     }
  
     public IReason updateNeeded(IUpdateContext context) {
@@ -42,9 +43,9 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         // retrieve name from business model
         String businessName = null;
         Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-        if (bo instanceof EClass) {
-            EClass eClass = (EClass) bo;
-            businessName = eClass.getName();
+        if (bo instanceof StandardNode) {
+        	StandardNode node = (StandardNode) bo;
+            businessName = node.getComponentName();
         }
  
         // update needed, if names are different
@@ -63,9 +64,9 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         String businessName = null;
         PictogramElement pictogramElement = context.getPictogramElement();
         Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-        if (bo instanceof EClass) {
-            EClass eClass = (EClass) bo;
-            businessName = eClass.getName();
+        if (bo instanceof StandardNode) {
+        	StandardNode node = (StandardNode) bo;
+            businessName = node.getComponentName();
         }
  
         // Set name in pictogram model
@@ -82,4 +83,4 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
  
         return false;
     }
-} 
+}

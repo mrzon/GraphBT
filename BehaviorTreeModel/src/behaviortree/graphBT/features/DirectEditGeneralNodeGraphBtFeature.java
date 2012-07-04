@@ -5,7 +5,6 @@ import java.util.Collections;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -79,9 +78,10 @@ public class DirectEditGeneralNodeGraphBtFeature extends AbstractDirectEditingFe
 			if(!GraphBTUtil.isExist(rs,URI.createURI("bt.component."+value)))
 			{
 				Resource res = rs.createResource(URI.createURI("bt.component."+value));
-				
 				Component cp = BehaviortreeFactory.eINSTANCE.createComponent();
 				cp.setName(value);
+				
+				node.setComponent(cp);
 				
 				res.getContents().add(cp);
 				rs.getResources().add(res);
@@ -95,15 +95,6 @@ public class DirectEditGeneralNodeGraphBtFeature extends AbstractDirectEditingFe
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Resource resource = context.getPictogramElement().eResource();
-		if(resource.getEObject("bt.component") instanceof Component)
-		{
-			
-		}
-		else
-		{
-			
-		}
 		
 		// Explicitly update the shape to display the new value in the diagram
 		// Note, that this might not be necessary in future versions of Graphiti
@@ -113,6 +104,4 @@ public class DirectEditGeneralNodeGraphBtFeature extends AbstractDirectEditingFe
 		// main shape of the EClass
 		updatePictogramElement(((Shape) pe).getContainer());
 	}
-	
 }
-
