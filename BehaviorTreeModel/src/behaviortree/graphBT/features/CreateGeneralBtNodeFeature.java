@@ -30,9 +30,12 @@ ICreateFeature {
     public Object[] create(ICreateContext context) {
         
 		Resource resource = context.getTargetContainer().eResource();
-
+		
+		//add component here
+		//resource.getContents().
+		
 		// Create a new chess board and add it to an EMF resource
-		StandardNode node= BehaviortreeFactory.eINSTANCE.createStandardNode();
+		StandardNode node = BehaviortreeFactory.eINSTANCE.createStandardNode();
 		resource.getContents().add(node);
 		node.setBehavior("new behavior");
 		node.setBehaviorType(BehaviorType.STATE_REALIZATION);

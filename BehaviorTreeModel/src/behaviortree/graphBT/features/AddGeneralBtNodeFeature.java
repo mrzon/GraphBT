@@ -108,9 +108,11 @@ IAddFeature {
             text.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             gaService.setLocationAndSize(text, 40, height/2 - 20, width - 40, 20);
      
-
-            IDirectEditingInfo directEditingInfo =
-                getFeatureProvider().getDirectEditingInfo();
+            link(shapeComponent, node);
+            
+            //
+            final IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
+            //
             directEditingInfo.setMainPictogramElement(shapeComponent);
             directEditingInfo.setPictogramElement(shapeComponent);
             directEditingInfo.setGraphicsAlgorithm(text);

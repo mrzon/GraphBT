@@ -22,6 +22,7 @@ package behaviortree;
 	import java.util.ArrayList;
 	import java.util.Collection;
 	import java.util.Collections;
+	import java.util.Iterator;
 	import java.util.List;
 
 	import org.eclipse.core.resources.IContainer;
@@ -38,7 +39,8 @@ package behaviortree;
 	import org.eclipse.emf.ecore.resource.Resource;
 	import org.eclipse.emf.ecore.resource.ResourceSet;
 	import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-	import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+
 
 	public class GraphBTUtil {
 
@@ -123,6 +125,29 @@ package behaviortree;
 			resourceURI = resourceSet.getURIConverter().normalize(resourceURI);
 			return resourceURI;
 		}
+		
+		public static ResourceSet getResourceSet(final Diagram d) throws CoreException, IOException {
+			URI uri = d.eResource().getURI();
+			uri = uri.trimFragment();
+			uri = uri.trimFileExtension();
+			uri = uri.appendFileExtension("model"); //$NON-NLS-1$
+			ResourceSet rSet = d.eResource().getResourceSet();
 
+			return rSet;
+		}
+		
+		public static boolean isExist(ResourceSet rs, URI uri)
+		{
+			Iterator<Resource> it = rs.getResources().iterator();
+			while(it.hasNext()){
+				Resource res = it.next();
+				
+				if(res.getURI().equals(uri)){
+					return true;
+				}
+			}
+			
+			return false;
+		}
 	}
 
