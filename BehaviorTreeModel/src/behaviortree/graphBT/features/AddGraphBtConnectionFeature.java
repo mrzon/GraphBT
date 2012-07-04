@@ -3,6 +3,8 @@ package behaviortree.graphBT.features;
 
 
 import org.eclipse.emf.ecore.EReference;
+
+import behaviortree.Edge;
 import behaviortree.graphBT.StyleUtil;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -31,7 +33,7 @@ public class AddGraphBtConnectionFeature extends AbstractAddFeature implements
 	@Override
 	public boolean canAdd(IAddContext context) {
 		
-		if (context instanceof IAddConnectionContext && context.getNewObject() instanceof EReference) {
+		if (context instanceof IAddConnectionContext && context.getNewObject() instanceof Edge) {
 			return true;
 		}
 		return false;
@@ -50,16 +52,16 @@ public class AddGraphBtConnectionFeature extends AbstractAddFeature implements
 		Polyline polyline = gaService.createPlainPolyline(connection);
 		polyline.setForeground(manageColor(IColorConstant.BLACK));
 
-		EReference addedEReference = (EReference) context.getNewObject();
-		link(connection, addedEReference);
+		Edge addedEdge = (Edge) context.getNewObject();
+		link(connection, addedEdge);
 		
 		ConnectionDecorator textDecorator = peCreateService.createConnectionDecorator(connection, true, 0.5, true);
 		Text text = gaService.createPlainText(textDecorator);
 		text.setStyle(StyleUtil.getStyleForTextDecorator((getDiagram())));
 		gaService.setLocation(text, 10, 0);
 
-		EReference eReference = (EReference) context.getNewObject();
-		text.setValue(eReference.getName());
+		Edge edge = (Edge) context.getNewObject();
+		text.setValue(edge.getBranch().getLiteral());
 
 		ConnectionDecorator cd;
 		cd = peCreateService.createConnectionDecorator(connection, false, 1.0, true);
@@ -72,10 +74,6 @@ public class AddGraphBtConnectionFeature extends AbstractAddFeature implements
 	private Polygon createArrow(GraphicsAlgorithmContainer gaContainer) {
 		
 		Polygon polygon = Graphiti.getGaCreateService().createPlainPolygon(gaContainer, new int[] { -15, 10, 0, 0, -15, -10, -15, 10 });
-				
-//		polygon.setBackground((org.eclipse.graphiti.mm.algorithms.styles.Color) Color.BLACK);
-//		polygon.setForeground((org.eclipse.graphiti.mm.algorithms.styles.Color) Color.BLACK);
-
 		return polygon;
 	}
 }
