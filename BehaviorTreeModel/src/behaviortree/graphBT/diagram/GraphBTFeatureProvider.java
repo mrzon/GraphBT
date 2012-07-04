@@ -71,7 +71,7 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	   PictogramElement pictogramElement = context.getPictogramElement();
 	   if (pictogramElement instanceof ContainerShape) {
 	       Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-	       if (bo instanceof EClass) {
+	       if (bo instanceof StandardNode) {
 	           return new UpdateGraphBtFeature(this);
 	       }
 	   }

@@ -1,6 +1,5 @@
 package behaviortree;
 
-
 	/*******************************************************************************
 	 * <copyright>
 	 *
@@ -16,7 +15,6 @@ package behaviortree;
 	 * </copyright>
 	 *
 	 *******************************************************************************/
-
 
 	import java.io.IOException;
 	import java.util.ArrayList;
@@ -146,7 +144,6 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 					return true;
 				}
 			}
-			
 			return false;
 		}
 	}
