@@ -5,8 +5,6 @@ package behaviortree.graphBT.features;
  * kosong yang bisa dispesifikasikan menjadi Node yang lebih spesifik
  */
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IDirectEditingInfo;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -21,15 +19,12 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.services.ICreateService;
-import org.eclipse.graphiti.services.IGaLayoutService;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
-import behaviortree.impl.*;
-import behaviortree.util.*;
-import behaviortree.*;
+
+import behaviortree.StandardNode;
 
 public class AddGeneralBtNodeFeature extends AbstractAddShapeFeature implements
 IAddFeature {
@@ -47,7 +42,6 @@ IAddFeature {
     private static final IColorConstant E_CLASS_BACKGROUND =
         new ColorConstant(0, 255, 0);
  
-
  
     public boolean canAdd(IAddContext context) {
         // check if user wants to add a EClass
@@ -61,15 +55,12 @@ IAddFeature {
     }
  
     public PictogramElement add(IAddContext context) {
-		ICreateService createService = Graphiti.getCreateService();
-		IGaLayoutService layoutService = Graphiti.getGaLayoutService();
 		
-		StandardNode node = (StandardNode) context.getNewObject();
-		
-        Diagram targetDiagram = (Diagram) context.getTargetContainer();
+    	StandardNode node = (StandardNode) context.getNewObject();
+		Diagram targetDiagram = (Diagram) context.getTargetContainer();
  
-        // CONTAINER SHAPE WITH RECTANGLE
-        IPeCreateService peCreateService = Graphiti.getPeCreateService();
+		// CONTAINER SHAPE WITH RECTANGLE
+		IPeCreateService peCreateService = Graphiti.getPeCreateService();
         ContainerShape containerShape =
              peCreateService.createContainerShape(targetDiagram, true);
  
@@ -110,7 +101,6 @@ IAddFeature {
      
             link(shapeComponent, node);
             
-            //
             final IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
             directEditingInfo.setMainPictogramElement(shapeComponent);
             directEditingInfo.setPictogramElement(shapeComponent);
@@ -126,7 +116,8 @@ IAddFeature {
             textBehavior.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             gaService.setLocationAndSize(textBehavior, 40, height/2 + 10, width - 40, 20);
      
-           
+            link(shapeBehavior, node);
+            
             IDirectEditingInfo directEditingInfo =
                 getFeatureProvider().getDirectEditingInfo();
             directEditingInfo.setMainPictogramElement(shapeBehavior);

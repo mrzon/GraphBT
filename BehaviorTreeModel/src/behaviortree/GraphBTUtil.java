@@ -72,7 +72,6 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 			resource.getContents().add(obj);
 		}
 
-
 		private static List<IFile> getDiagramFiles(IContainer folder) {
 			final List<IFile> ret = new ArrayList<IFile>();
 			try {
@@ -145,6 +144,19 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 				}
 			}
 			return false;
+		}
+		
+		public static Component getComponentByURI(ResourceSet rs, URI uri)
+		{
+			Iterator<Resource> it = rs.getResources().iterator();
+			while(it.hasNext()){
+				Resource res = it.next();
+		
+				if(res.getURI().equals(uri)) {
+					return (Component)res.getContents().get(0);
+				}
+			}
+			return null;
 		}
 	}
 
