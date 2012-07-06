@@ -9,12 +9,16 @@ package behaviortree.impl;
 import behaviortree.BehaviortreePackage;
 import behaviortree.Requirements;
 
+import behaviortree.StandardNode;
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,6 +29,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <ul>
  *   <li>{@link behaviortree.impl.RequirementsImpl#getKey <em>Key</em>}</li>
  *   <li>{@link behaviortree.impl.RequirementsImpl#getRequirement <em>Requirement</em>}</li>
+ *   <li>{@link behaviortree.impl.RequirementsImpl#getTraceabilityLink <em>Traceability Link</em>}</li>
  * </ul>
  * </p>
  *
@@ -70,6 +75,16 @@ public class RequirementsImpl extends EObjectImpl implements Requirements {
 	 * @ordered
 	 */
 	protected String requirement = REQUIREMENT_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getTraceabilityLink() <em>Traceability Link</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTraceabilityLink()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<StandardNode> traceabilityLink;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -146,6 +161,17 @@ public class RequirementsImpl extends EObjectImpl implements Requirements {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<StandardNode> getTraceabilityLink() {
+		if (traceabilityLink == null) {
+			traceabilityLink = new EObjectResolvingEList<StandardNode>(StandardNode.class, this, BehaviortreePackage.REQUIREMENTS__TRACEABILITY_LINK);
+		}
+		return traceabilityLink;
+	}
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -153,6 +179,8 @@ public class RequirementsImpl extends EObjectImpl implements Requirements {
 				return getKey();
 			case BehaviortreePackage.REQUIREMENTS__REQUIREMENT:
 				return getRequirement();
+			case BehaviortreePackage.REQUIREMENTS__TRACEABILITY_LINK:
+				return getTraceabilityLink();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -162,6 +190,7 @@ public class RequirementsImpl extends EObjectImpl implements Requirements {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -170,6 +199,10 @@ public class RequirementsImpl extends EObjectImpl implements Requirements {
 				return;
 			case BehaviortreePackage.REQUIREMENTS__REQUIREMENT:
 				setRequirement((String)newValue);
+				return;
+			case BehaviortreePackage.REQUIREMENTS__TRACEABILITY_LINK:
+				getTraceabilityLink().clear();
+				getTraceabilityLink().addAll((Collection<? extends StandardNode>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -189,6 +222,9 @@ public class RequirementsImpl extends EObjectImpl implements Requirements {
 			case BehaviortreePackage.REQUIREMENTS__REQUIREMENT:
 				setRequirement(REQUIREMENT_EDEFAULT);
 				return;
+			case BehaviortreePackage.REQUIREMENTS__TRACEABILITY_LINK:
+				getTraceabilityLink().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -205,6 +241,8 @@ public class RequirementsImpl extends EObjectImpl implements Requirements {
 				return KEY_EDEFAULT == null ? key != null : !KEY_EDEFAULT.equals(key);
 			case BehaviortreePackage.REQUIREMENTS__REQUIREMENT:
 				return REQUIREMENT_EDEFAULT == null ? requirement != null : !REQUIREMENT_EDEFAULT.equals(requirement);
+			case BehaviortreePackage.REQUIREMENTS__TRACEABILITY_LINK:
+				return traceabilityLink != null && !traceabilityLink.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -143,6 +143,15 @@ public interface BehaviortreeFactory extends EFactory {
 	Requirements createRequirements();
 
 	/**
+	 * Returns a new object of class '<em>Behavior</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Behavior</em>'.
+	 * @generated
+	 */
+	Behavior createBehavior();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

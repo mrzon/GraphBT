@@ -6,6 +6,7 @@
  */
 package behaviortree;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -18,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link behaviortree.Requirements#getKey <em>Key</em>}</li>
  *   <li>{@link behaviortree.Requirements#getRequirement <em>Requirement</em>}</li>
+ *   <li>{@link behaviortree.Requirements#getTraceabilityLink <em>Traceability Link</em>}</li>
  * </ul>
  * </p>
  *
@@ -77,5 +79,21 @@ public interface Requirements extends EObject {
 	 * @generated
 	 */
 	void setRequirement(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Traceability Link</b></em>' reference list.
+	 * The list contents are of type {@link behaviortree.StandardNode}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Traceability Link</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Traceability Link</em>' reference list.
+	 * @see behaviortree.BehaviortreePackage#getRequirements_TraceabilityLink()
+	 * @model
+	 * @generated
+	 */
+	EList<StandardNode> getTraceabilityLink();
 
 } // Requirements

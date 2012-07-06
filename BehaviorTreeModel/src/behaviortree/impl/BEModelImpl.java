@@ -10,14 +10,21 @@ import behaviortree.BEModel;
 import behaviortree.BehaviorTree;
 import behaviortree.BehaviortreePackage;
 
+import behaviortree.Component;
+import behaviortree.Requirements;
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,6 +35,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <ul>
  *   <li>{@link behaviortree.impl.BEModelImpl#getDbt <em>Dbt</em>}</li>
  *   <li>{@link behaviortree.impl.BEModelImpl#getName <em>Name</em>}</li>
+ *   <li>{@link behaviortree.impl.BEModelImpl#getComponents <em>Components</em>}</li>
+ *   <li>{@link behaviortree.impl.BEModelImpl#getRequirements <em>Requirements</em>}</li>
  * </ul>
  * </p>
  *
@@ -63,6 +72,26 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getComponents() <em>Components</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComponents()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Component> components;
+
+	/**
+	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRequirements()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Requirements> requirements;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -152,11 +181,37 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Component> getComponents() {
+		if (components == null) {
+			components = new EObjectResolvingEList<Component>(Component.class, this, BehaviortreePackage.BE_MODEL__COMPONENTS);
+		}
+		return components;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Requirements> getRequirements() {
+		if (requirements == null) {
+			requirements = new EObjectContainmentEList<Requirements>(Requirements.class, this, BehaviortreePackage.BE_MODEL__REQUIREMENTS);
+		}
+		return requirements;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BehaviortreePackage.BE_MODEL__DBT:
 				return basicSetDbt(null, msgs);
+			case BehaviortreePackage.BE_MODEL__REQUIREMENTS:
+				return ((InternalEList<?>)getRequirements()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -173,6 +228,10 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return getDbt();
 			case BehaviortreePackage.BE_MODEL__NAME:
 				return getName();
+			case BehaviortreePackage.BE_MODEL__COMPONENTS:
+				return getComponents();
+			case BehaviortreePackage.BE_MODEL__REQUIREMENTS:
+				return getRequirements();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -182,6 +241,7 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -190,6 +250,14 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return;
 			case BehaviortreePackage.BE_MODEL__NAME:
 				setName((String)newValue);
+				return;
+			case BehaviortreePackage.BE_MODEL__COMPONENTS:
+				getComponents().clear();
+				getComponents().addAll((Collection<? extends Component>)newValue);
+				return;
+			case BehaviortreePackage.BE_MODEL__REQUIREMENTS:
+				getRequirements().clear();
+				getRequirements().addAll((Collection<? extends Requirements>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -209,6 +277,12 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 			case BehaviortreePackage.BE_MODEL__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case BehaviortreePackage.BE_MODEL__COMPONENTS:
+				getComponents().clear();
+				return;
+			case BehaviortreePackage.BE_MODEL__REQUIREMENTS:
+				getRequirements().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -225,6 +299,10 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return dbt != null;
 			case BehaviortreePackage.BE_MODEL__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case BehaviortreePackage.BE_MODEL__COMPONENTS:
+				return components != null && !components.isEmpty();
+			case BehaviortreePackage.BE_MODEL__REQUIREMENTS:
+				return requirements != null && !requirements.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

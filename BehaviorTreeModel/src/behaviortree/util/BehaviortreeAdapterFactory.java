@@ -124,6 +124,10 @@ public class BehaviortreeAdapterFactory extends AdapterFactoryImpl {
 				return createRequirementsAdapter();
 			}
 			@Override
+			public Adapter caseBehavior(Behavior object) {
+				return createBehaviorAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -322,6 +326,20 @@ public class BehaviortreeAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createRequirementsAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link behaviortree.Behavior <em>Behavior</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see behaviortree.Behavior
+	 * @generated
+	 */
+	public Adapter createBehaviorAdapter() {
 		return null;
 	}
 

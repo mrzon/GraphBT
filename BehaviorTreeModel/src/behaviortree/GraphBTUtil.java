@@ -37,7 +37,7 @@ package behaviortree;
 	import org.eclipse.emf.ecore.resource.Resource;
 	import org.eclipse.emf.ecore.resource.ResourceSet;
 	import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
+	import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 
 	public class GraphBTUtil {
@@ -158,5 +158,32 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 			}
 			return null;
 		}
+
+		public static Behavior getBehaviorFromComponent(Component component,
+				String value) {
+			Iterator<Behavior> it = component.getBehaviors().iterator();
+			while(it.hasNext()){
+				Behavior b = it.next();
+		
+				if(b.getBehaviorName().equals(value)) {
+					return b;
+				}
+			}
+			return null;
+		}
+		
+		public static Requirements getRequirements(ResourceSet rs,
+				String value) {
+			Iterator<Resource> it = rs.getResources().iterator();
+			while(it.hasNext()){
+				Resource res = it.next();
+		
+				if(res.getURI().equals(value)) {
+					return (Requirements) res.getContents().get(0);
+				}
+			}
+			return null;
+		}
+
 	}
 

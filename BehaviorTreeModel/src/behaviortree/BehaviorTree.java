@@ -21,7 +21,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link behaviortree.BehaviorTree#getEReference0 <em>EReference0</em>}</li>
  *   <li>{@link behaviortree.BehaviorTree#getRootNode <em>Root Node</em>}</li>
  *   <li>{@link behaviortree.BehaviorTree#getName <em>Name</em>}</li>
- *   <li>{@link behaviortree.BehaviorTree#getRequirements <em>Requirements</em>}</li>
  * </ul>
  * </p>
  *
@@ -107,21 +106,5 @@ public interface BehaviorTree extends EObject {
 	 * @generated
 	 */
 	void setName(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Requirements</b></em>' containment reference list.
-	 * The list contents are of type {@link behaviortree.Requirements}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Requirements</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Requirements</em>' containment reference list.
-	 * @see behaviortree.BehaviortreePackage#getBehaviorTree_Requirements()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<Requirements> getRequirements();
 
 } // BehaviorTree

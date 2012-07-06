@@ -7,6 +7,7 @@
 package behaviortree.impl;
 
 import behaviortree.Attribute;
+import behaviortree.Behavior;
 import behaviortree.BehaviortreePackage;
 import behaviortree.Component;
 import behaviortree.State;
@@ -35,12 +36,14 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link behaviortree.impl.ComponentImpl#getName <em>Name</em>}</li>
+ *   <li>{@link behaviortree.impl.ComponentImpl#getComponentName <em>Component Name</em>}</li>
  *   <li>{@link behaviortree.impl.ComponentImpl#getAttributes <em>Attributes</em>}</li>
  *   <li>{@link behaviortree.impl.ComponentImpl#getState <em>State</em>}</li>
  *   <li>{@link behaviortree.impl.ComponentImpl#getInitialState <em>Initial State</em>}</li>
  *   <li>{@link behaviortree.impl.ComponentImpl#getId <em>Id</em>}</li>
  *   <li>{@link behaviortree.impl.ComponentImpl#getRelatedTo <em>Related To</em>}</li>
+ *   <li>{@link behaviortree.impl.ComponentImpl#getBehaviors <em>Behaviors</em>}</li>
+ *   <li>{@link behaviortree.impl.ComponentImpl#getComponentRef <em>Component Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -48,24 +51,24 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class ComponentImpl extends EObjectImpl implements Component {
 	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * The default value of the '{@link #getComponentName() <em>Component Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getName()
+	 * @see #getComponentName()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String NAME_EDEFAULT = null;
+	protected static final String COMPONENT_NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * The cached value of the '{@link #getComponentName() <em>Component Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getName()
+	 * @see #getComponentName()
 	 * @generated
 	 * @ordered
 	 */
-	protected String name = NAME_EDEFAULT;
+	protected String componentName = COMPONENT_NAME_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' reference list.
@@ -128,6 +131,36 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	protected EList<Component> relatedTo;
 
 	/**
+	 * The cached value of the '{@link #getBehaviors() <em>Behaviors</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBehaviors()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Behavior> behaviors;
+
+	/**
+	 * The default value of the '{@link #getComponentRef() <em>Component Ref</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComponentRef()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String COMPONENT_REF_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getComponentRef() <em>Component Ref</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComponentRef()
+	 * @generated
+	 * @ordered
+	 */
+	protected String componentRef = COMPONENT_REF_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -151,8 +184,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName() {
-		return name;
+	public String getComponentName() {
+		return componentName;
 	}
 
 	/**
@@ -160,11 +193,11 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
+	public void setComponentName(String newComponentName) {
+		String oldComponentName = componentName;
+		componentName = newComponentName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.COMPONENT__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.COMPONENT__COMPONENT_NAME, oldComponentName, componentName));
 	}
 
 	/**
@@ -267,11 +300,46 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Behavior> getBehaviors() {
+		if (behaviors == null) {
+			behaviors = new EObjectContainmentEList<Behavior>(Behavior.class, this, BehaviortreePackage.COMPONENT__BEHAVIORS);
+		}
+		return behaviors;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getComponentRef() {
+		return componentRef;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setComponentRef(String newComponentRef) {
+		String oldComponentRef = componentRef;
+		componentRef = newComponentRef;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.COMPONENT__COMPONENT_REF, oldComponentRef, componentRef));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BehaviortreePackage.COMPONENT__STATE:
 				return ((InternalEList<?>)getState()).basicRemove(otherEnd, msgs);
+			case BehaviortreePackage.COMPONENT__BEHAVIORS:
+				return ((InternalEList<?>)getBehaviors()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -284,8 +352,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BehaviortreePackage.COMPONENT__NAME:
-				return getName();
+			case BehaviortreePackage.COMPONENT__COMPONENT_NAME:
+				return getComponentName();
 			case BehaviortreePackage.COMPONENT__ATTRIBUTES:
 				return getAttributes();
 			case BehaviortreePackage.COMPONENT__STATE:
@@ -297,6 +365,10 @@ public class ComponentImpl extends EObjectImpl implements Component {
 				return getId();
 			case BehaviortreePackage.COMPONENT__RELATED_TO:
 				return getRelatedTo();
+			case BehaviortreePackage.COMPONENT__BEHAVIORS:
+				return getBehaviors();
+			case BehaviortreePackage.COMPONENT__COMPONENT_REF:
+				return getComponentRef();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -310,8 +382,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BehaviortreePackage.COMPONENT__NAME:
-				setName((String)newValue);
+			case BehaviortreePackage.COMPONENT__COMPONENT_NAME:
+				setComponentName((String)newValue);
 				return;
 			case BehaviortreePackage.COMPONENT__ATTRIBUTES:
 				getAttributes().clear();
@@ -331,6 +403,13 @@ public class ComponentImpl extends EObjectImpl implements Component {
 				getRelatedTo().clear();
 				getRelatedTo().addAll((Collection<? extends Component>)newValue);
 				return;
+			case BehaviortreePackage.COMPONENT__BEHAVIORS:
+				getBehaviors().clear();
+				getBehaviors().addAll((Collection<? extends Behavior>)newValue);
+				return;
+			case BehaviortreePackage.COMPONENT__COMPONENT_REF:
+				setComponentRef((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -343,8 +422,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BehaviortreePackage.COMPONENT__NAME:
-				setName(NAME_EDEFAULT);
+			case BehaviortreePackage.COMPONENT__COMPONENT_NAME:
+				setComponentName(COMPONENT_NAME_EDEFAULT);
 				return;
 			case BehaviortreePackage.COMPONENT__ATTRIBUTES:
 				getAttributes().clear();
@@ -361,6 +440,12 @@ public class ComponentImpl extends EObjectImpl implements Component {
 			case BehaviortreePackage.COMPONENT__RELATED_TO:
 				getRelatedTo().clear();
 				return;
+			case BehaviortreePackage.COMPONENT__BEHAVIORS:
+				getBehaviors().clear();
+				return;
+			case BehaviortreePackage.COMPONENT__COMPONENT_REF:
+				setComponentRef(COMPONENT_REF_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -373,8 +458,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BehaviortreePackage.COMPONENT__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case BehaviortreePackage.COMPONENT__COMPONENT_NAME:
+				return COMPONENT_NAME_EDEFAULT == null ? componentName != null : !COMPONENT_NAME_EDEFAULT.equals(componentName);
 			case BehaviortreePackage.COMPONENT__ATTRIBUTES:
 				return attributes != null && !attributes.isEmpty();
 			case BehaviortreePackage.COMPONENT__STATE:
@@ -385,6 +470,10 @@ public class ComponentImpl extends EObjectImpl implements Component {
 				return id != ID_EDEFAULT;
 			case BehaviortreePackage.COMPONENT__RELATED_TO:
 				return relatedTo != null && !relatedTo.isEmpty();
+			case BehaviortreePackage.COMPONENT__BEHAVIORS:
+				return behaviors != null && !behaviors.isEmpty();
+			case BehaviortreePackage.COMPONENT__COMPONENT_REF:
+				return COMPONENT_REF_EDEFAULT == null ? componentRef != null : !COMPONENT_REF_EDEFAULT.equals(componentRef);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -399,10 +488,12 @@ public class ComponentImpl extends EObjectImpl implements Component {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
-		result.append(name);
+		result.append(" (componentName: ");
+		result.append(componentName);
 		result.append(", id: ");
 		result.append(id);
+		result.append(", componentRef: ");
+		result.append(componentRef);
 		result.append(')');
 		return result.toString();
 	}

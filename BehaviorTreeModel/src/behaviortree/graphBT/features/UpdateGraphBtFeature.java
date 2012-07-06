@@ -10,7 +10,12 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
+import behaviortree.Behavior;
+import behaviortree.Component;
+import behaviortree.Operator;
+import behaviortree.Requirements;
 import behaviortree.StandardNode;
+import behaviortree.TraceabilityStatus;
 
 
 public class UpdateGraphBtFeature extends AbstractUpdateFeature {
@@ -23,40 +28,55 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         // return true, if linked business object is a StandardNode
         Object bo =
             getBusinessObjectForPictogramElement(context.getPictogramElement());
-        return (bo instanceof StandardNode);
+        
+        System.out.println("check if standard node: " + (bo instanceof StandardNode));
+        
+        //this.getAllBusinessObjectsForPictogramElement(context.getPictogramElement());
+        return ((bo instanceof StandardNode));
     }
  
     public IReason updateNeeded(IUpdateContext context) {
         // retrieve name from pictogram model
         String pictogramName = null;
         PictogramElement pictogramElement = context.getPictogramElement();
+        
+        Object bo = getBusinessObjectForPictogramElement(pictogramElement);
+       	StandardNode node = (StandardNode) bo;
+        String tLink = node.getTraceabilityLink().getKey();
+        String operator = node.getOperator().getLiteral();
+        String behavior = node.getBehavior().getBehaviorName();
+        String component = node.getComponent().getComponentName();
+        String tStatus = node.getTraceabilityStatus().getLiteral();
+            
         if (pictogramElement instanceof ContainerShape) {
             ContainerShape cs = (ContainerShape) pictogramElement;
             for (Shape shape : cs.getChildren()) {
                 if (shape.getGraphicsAlgorithm() instanceof Text) {
                     Text text = (Text) shape.getGraphicsAlgorithm();
                     pictogramName = text.getValue();
+                 // update needed, if names are different
+                    boolean updateNameNeeded =
+                        ((pictogramName == null && tLink != null) ||
+                        		(pictogramName == null && tStatus != null) ||
+                        		(pictogramName == null && operator != null) ||
+                        		(pictogramName == null && behavior != null) ||
+                        		(pictogramName == null && component != null) ||
+                            (pictogramName != null && !pictogramName.equals(tLink)) ||
+                            (pictogramName != null && !pictogramName.equals(tStatus)) ||
+                            (pictogramName != null && !pictogramName.equals(behavior)) ||
+                            (pictogramName != null && !pictogramName.equals(component)) ||
+                            (pictogramName != null && !pictogramName.equals(operator))
+                        );
+                    if (updateNameNeeded) {
+                        return Reason.createTrueReason("Name is out of date");
+                    } 
                 }
             }
         }
- 
-        // retrieve name from business model
-        String businessName = null;
-        Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-        if (bo instanceof StandardNode) {
-        	StandardNode node = (StandardNode) bo;
-            businessName = node.getComponentName();
-        }
- 
-        // update needed, if names are different
-        boolean updateNameNeeded =
-            ((pictogramName == null && businessName != null) || 
-                (pictogramName != null && !pictogramName.equals(businessName)));
-        if (updateNameNeeded) {
-            return Reason.createTrueReason("Name is out of date");
-        } else {
+        
             return Reason.createFalseReason();
-        }
+        
+        // retrieve name from business model
     }
  
     public boolean update(IUpdateContext context) {
@@ -64,11 +84,13 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         String businessName = null;
         PictogramElement pictogramElement = context.getPictogramElement();
         Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-        if (bo instanceof StandardNode) {
-        	StandardNode node = (StandardNode) bo;
-            businessName = node.getComponentName();
-        }
-        
+    	StandardNode node = (StandardNode) bo;
+        String t1 = node.getTraceabilityLink().getKey();
+        String o = node.getOperator().getLiteral();
+        String b = node.getBehavior().getBehaviorName();
+        String c = node.getComponent().getComponentName();
+        String ts = node.getTraceabilityStatus().getLiteral();
+        System.out.println("in update.. value of bo "+bo);
         // Set name in pictogram model
         if (pictogramElement instanceof ContainerShape) {
             ContainerShape cs = (ContainerShape) pictogramElement;

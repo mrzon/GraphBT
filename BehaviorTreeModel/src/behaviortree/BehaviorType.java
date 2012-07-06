@@ -343,5 +343,33 @@ public enum BehaviorType implements Enumerator {
 	public String toString() {
 		return literal;
 	}
+
+	public String getOpenBracket() {
+		switch (value) {
+		case STATE_REALIZATION_VALUE: return "[";
+		case SELECTION_VALUE: return "?";
+		case GUARD_VALUE: return "???";
+		case INTERNAL_INPUT_VALUE: return ">";
+		case INTERNA_OUTPUT_VALUE: return "<";
+		case EXTERNAL_OUTPUT_VALUE: return "<<";
+		case EXTERNAL_INPUT_VALUE: return ">>";
+	}
+
+		return null;
+	}
+	
+	public String getCloseBracket()
+	{
+		switch (value) {
+		case STATE_REALIZATION_VALUE: return "]";
+		case SELECTION_VALUE: return "?";
+		case GUARD_VALUE: return "???";
+		case INTERNAL_INPUT_VALUE: return "<";
+		case INTERNA_OUTPUT_VALUE: return ">";
+		case EXTERNAL_OUTPUT_VALUE: return ">>";
+		case EXTERNAL_INPUT_VALUE: return "<<";
+	}
+		return null;
+	}
 	
 } //BehaviorType

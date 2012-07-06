@@ -15,13 +15,12 @@ package behaviortree;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link behaviortree.StandardNode#getBehavior <em>Behavior</em>}</li>
- *   <li>{@link behaviortree.StandardNode#getBehaviorType <em>Behavior Type</em>}</li>
- *   <li>{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}</li>
  *   <li>{@link behaviortree.StandardNode#getTraceabilityStatus <em>Traceability Status</em>}</li>
  *   <li>{@link behaviortree.StandardNode#getComponent <em>Component</em>}</li>
  *   <li>{@link behaviortree.StandardNode#getOperator <em>Operator</em>}</li>
  *   <li>{@link behaviortree.StandardNode#getLabel <em>Label</em>}</li>
+ *   <li>{@link behaviortree.StandardNode#getBehavior <em>Behavior</em>}</li>
+ *   <li>{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}</li>
  * </ul>
  * </p>
  *
@@ -31,85 +30,56 @@ package behaviortree;
  */
 public interface StandardNode extends Node {
 	/**
-	 * Returns the value of the '<em><b>Behavior</b></em>' attribute.
+	 * Returns the value of the '<em><b>Behavior</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Behavior</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Behavior</em>' attribute.
-	 * @see #setBehavior(String)
+	 * @return the value of the '<em>Behavior</em>' reference.
+	 * @see #setBehavior(Behavior)
 	 * @see behaviortree.BehaviortreePackage#getStandardNode_Behavior()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
-	String getBehavior();
+	Behavior getBehavior();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.StandardNode#getBehavior <em>Behavior</em>}' attribute.
+	 * Sets the value of the '{@link behaviortree.StandardNode#getBehavior <em>Behavior</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Behavior</em>' attribute.
+	 * @param value the new value of the '<em>Behavior</em>' reference.
 	 * @see #getBehavior()
 	 * @generated
 	 */
-	void setBehavior(String value);
+	void setBehavior(Behavior value);
 
 	/**
-	 * Returns the value of the '<em><b>Behavior Type</b></em>' attribute.
-	 * The literals are from the enumeration {@link behaviortree.BehaviorType}.
+	 * Returns the value of the '<em><b>Traceability Link</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Behavior Type</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Traceability Link</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Behavior Type</em>' attribute.
-	 * @see behaviortree.BehaviorType
-	 * @see #setBehaviorType(BehaviorType)
-	 * @see behaviortree.BehaviortreePackage#getStandardNode_BehaviorType()
-	 * @model
-	 * @generated
-	 */
-	BehaviorType getBehaviorType();
-
-	/**
-	 * Sets the value of the '{@link behaviortree.StandardNode#getBehaviorType <em>Behavior Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Behavior Type</em>' attribute.
-	 * @see behaviortree.BehaviorType
-	 * @see #getBehaviorType()
-	 * @generated
-	 */
-	void setBehaviorType(BehaviorType value);
-
-	/**
-	 * Returns the value of the '<em><b>Traceability Link</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Traceability Link</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Traceability Link</em>' attribute.
-	 * @see #setTraceabilityLink(String)
+	 * @return the value of the '<em>Traceability Link</em>' reference.
+	 * @see #setTraceabilityLink(Requirements)
 	 * @see behaviortree.BehaviortreePackage#getStandardNode_TraceabilityLink()
 	 * @model
 	 * @generated
 	 */
-	String getTraceabilityLink();
+	Requirements getTraceabilityLink();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}' attribute.
+	 * Sets the value of the '{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Traceability Link</em>' attribute.
+	 * @param value the new value of the '<em>Traceability Link</em>' reference.
 	 * @see #getTraceabilityLink()
 	 * @generated
 	 */
-	void setTraceabilityLink(String value);
+	void setTraceabilityLink(Requirements value);
 
 	/**
 	 * Returns the value of the '<em><b>Traceability Status</b></em>' attribute.
@@ -151,7 +121,7 @@ public interface StandardNode extends Node {
 	 * @return the value of the '<em>Component</em>' reference.
 	 * @see #setComponent(Component)
 	 * @see behaviortree.BehaviortreePackage#getStandardNode_Component()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	Component getComponent();

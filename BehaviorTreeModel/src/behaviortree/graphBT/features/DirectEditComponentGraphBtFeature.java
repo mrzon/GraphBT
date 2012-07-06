@@ -15,10 +15,14 @@ import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
+import behaviortree.Behavior;
 import behaviortree.BehaviortreeFactory;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
+import behaviortree.Operator;
+import behaviortree.Requirements;
 import behaviortree.StandardNode;
+import behaviortree.TraceabilityStatus;
 
 public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeature {
 
@@ -39,10 +43,15 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 		GraphicsAlgorithm ga = context.getGraphicsAlgorithm();
 		// support direct editing, if it is a StandardNode, and the user clicked
 		// directly on the text and not somewhere else in the rectangle
+		
+		System.out.println("bisa direct edit gak sih?");
+		
 		if (bo instanceof StandardNode && ga instanceof Text) {
+			System.out.println("bisa direct edit di true gak sih?");
 			return true;
 		}
 		// direct editing not supported in all other cases
+		System.out.println("bisa direct edit gak sih? oh gak bisa..");
 		return false;
 	}
 
@@ -65,52 +74,100 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 	}
 
 	public void setValue(String value, IDirectEditingContext context) {
-		
-		PictogramElement pe = context.getPictogramElement();
-		StandardNode node = (StandardNode) getBusinessObjectForPictogramElement(pe);
-		
+		ResourceSet rs = null;
 		try {
-			ResourceSet rs = GraphBTUtil.getResourceSet(this.getDiagram());
-			if(!GraphBTUtil.isExist(rs, URI.createURI("bt.component." + value)))
-			{
-				Resource res = rs.createResource(URI.createURI("bt.component." + value));
-				Component cp = BehaviortreeFactory.eINSTANCE.createComponent();
-				cp.setName(value);
-				
-				node.setComponent(cp);
-				
-				res.getContents().add(cp);
-				rs.getResources().add(res);
-				res.save(Collections.emptyMap());
-			}
-			else {
-				node.setComponent(GraphBTUtil.getComponentByURI(rs, URI.createURI("bt.component."+value)));
-			}
-			
-			/*
-			if(!GraphBTUtil.isExist(rs, URI.createURI("bt.component.behavior." + value)))
-			{
-				//Resource res = rs.createResource(URI.createURI("bt.component.behavior." + value));
-				//Component cp = node.getComponent();
-				
-				node.setBehavior(value);
-				node.setBehaviorType(BehaviorType.STATE_REALIZATION);
-				
-				System.out.println("check direct edit ");
-				
-				res.getContents().add(cp);
-				rs.getResources().add(res);
-				res.save(Collections.emptyMap());
-				
-			}
-			 */
-			
-		} catch (CoreException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			rs = GraphBTUtil.getResourceSet(this.getDiagram());
+		} catch (CoreException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
+		PictogramElement pe = context.getPictogramElement();
+		Object object = (Object) getBusinessObjectForPictogramElement(pe);
 		
+		StandardNode node = (StandardNode) this.getFeatureProvider().getDirectEditingInfo().getMainPictogramElement();
+
+		//if the direct-edited object is and instance of component
+		if(object instanceof Component) {
+		
+			try {
+				//TODO: add form to "add component"
+				if(!GraphBTUtil.isExist(rs, URI.createURI("bt.component." + value)))
+				{
+					Resource res = rs.createResource(URI.createURI("bt.component." + value));
+					Component cp = BehaviortreeFactory.eINSTANCE.createComponent();
+					cp.setComponentName(value);
+					node.setComponent(cp);
+					res.getContents().add(cp);
+					rs.getResources().add(res);
+					res.save(Collections.emptyMap());
+				}
+				else {
+					node.setComponent(GraphBTUtil.getComponentByURI(rs, URI.createURI("bt.component."+value)));
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		//if the direct-edited object is and instance of behavior
+		else if(object instanceof Behavior) {
+			
+			Component component = node.getComponent();
+			Behavior b = null;
+			if(!(GraphBTUtil.getBehaviorFromComponent(component, value)==null))
+			{
+				Resource res = rs.createResource(URI.createURI("bt.component.behavior." + value));
+				b = BehaviortreeFactory.eINSTANCE.createBehavior();
+				b.setBehaviorName(value);
+				component.getBehaviors().add(b);
+				System.out.println("check direct edit ");
+				res.getContents().add(b);
+				rs.getResources().add(res);
+				try {
+					res.save(Collections.emptyMap());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			else{
+				b = GraphBTUtil.getBehaviorFromComponent(component, value);
+			}
+			node.setBehavior(b);
+		}
+		//if the direct-edited object is an instance of operator
+		else if(object instanceof Operator) {
+			node.setOperator(Operator.get(value));
+		}
+		//if the direct-edited object is and instance of traceability status
+		else if(object instanceof TraceabilityStatus) {
+			node.setTraceabilityStatus(TraceabilityStatus.get(value));
+		}
+		//if the direct-edited object is and instance of traceability link
+		else if(object instanceof Requirements) {
+			//TODO: add form to "add requirements"
+			//TODO: add validasi untuk node yang ga punya traceability link"
+			node.setTraceabilityLink(GraphBTUtil.getRequirements(rs, value));
+			
+			Requirements requirements = null;
+			if(!(GraphBTUtil.getRequirements(rs, value) == null)){
+				Resource res = rs.createResource(URI.createURI("bt.requirements." + value));
+				requirements = BehaviortreeFactory.eINSTANCE.createRequirements();
+				requirements.setRequirement(value);
+				
+				res.getContents().add(requirements);
+				rs.getResources().add(res);
+				try {
+					res.save(Collections.emptyMap());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			else{
+				requirements = GraphBTUtil.getRequirements(rs, value);
+			}
+			
+			node.setTraceabilityLink(requirements);
+		}
 		// we know, that pe is the Shape of the Text, so its container is the
 		// main shape of the EClass
 		updatePictogramElement(((Shape) pe).getContainer());

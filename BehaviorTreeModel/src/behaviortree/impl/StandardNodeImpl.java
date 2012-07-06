@@ -6,10 +6,12 @@
  */
 package behaviortree.impl;
 
+import behaviortree.Behavior;
 import behaviortree.BehaviorType;
 import behaviortree.BehaviortreePackage;
 import behaviortree.Component;
 import behaviortree.Operator;
+import behaviortree.Requirements;
 import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
 
@@ -27,79 +29,18 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link behaviortree.impl.StandardNodeImpl#getBehavior <em>Behavior</em>}</li>
- *   <li>{@link behaviortree.impl.StandardNodeImpl#getBehaviorType <em>Behavior Type</em>}</li>
- *   <li>{@link behaviortree.impl.StandardNodeImpl#getTraceabilityLink <em>Traceability Link</em>}</li>
  *   <li>{@link behaviortree.impl.StandardNodeImpl#getTraceabilityStatus <em>Traceability Status</em>}</li>
  *   <li>{@link behaviortree.impl.StandardNodeImpl#getComponent <em>Component</em>}</li>
  *   <li>{@link behaviortree.impl.StandardNodeImpl#getOperator <em>Operator</em>}</li>
  *   <li>{@link behaviortree.impl.StandardNodeImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link behaviortree.impl.StandardNodeImpl#getBehavior <em>Behavior</em>}</li>
+ *   <li>{@link behaviortree.impl.StandardNodeImpl#getTraceabilityLink <em>Traceability Link</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class StandardNodeImpl extends NodeImpl implements StandardNode {
-	/**
-	 * The default value of the '{@link #getBehavior() <em>Behavior</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getBehavior()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String BEHAVIOR_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getBehavior() <em>Behavior</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getBehavior()
-	 * @generated
-	 * @ordered
-	 */
-	protected String behavior = BEHAVIOR_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getBehaviorType() <em>Behavior Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getBehaviorType()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final BehaviorType BEHAVIOR_TYPE_EDEFAULT = BehaviorType.STATE_REALIZATION;
-
-	/**
-	 * The cached value of the '{@link #getBehaviorType() <em>Behavior Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getBehaviorType()
-	 * @generated
-	 * @ordered
-	 */
-	protected BehaviorType behaviorType = BEHAVIOR_TYPE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getTraceabilityLink() <em>Traceability Link</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTraceabilityLink()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String TRACEABILITY_LINK_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getTraceabilityLink() <em>Traceability Link</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTraceabilityLink()
-	 * @generated
-	 * @ordered
-	 */
-	protected String traceabilityLink = TRACEABILITY_LINK_EDEFAULT;
-
 	/**
 	 * The default value of the '{@link #getTraceabilityStatus() <em>Traceability Status</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -171,6 +112,26 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	protected String label = LABEL_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getBehavior() <em>Behavior</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBehavior()
+	 * @generated
+	 * @ordered
+	 */
+	protected Behavior behavior;
+
+	/**
+	 * The cached value of the '{@link #getTraceabilityLink() <em>Traceability Link</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTraceabilityLink()
+	 * @generated
+	 * @ordered
+	 */
+	protected Requirements traceabilityLink;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -194,7 +155,15 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getBehavior() {
+	public Behavior getBehavior() {
+		if (behavior != null && behavior.eIsProxy()) {
+			InternalEObject oldBehavior = (InternalEObject)behavior;
+			behavior = (Behavior)eResolveProxy(oldBehavior);
+			if (behavior != oldBehavior) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BehaviortreePackage.STANDARD_NODE__BEHAVIOR, oldBehavior, behavior));
+			}
+		}
 		return behavior;
 	}
 
@@ -203,8 +172,17 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setBehavior(String newBehavior) {
-		String oldBehavior = behavior;
+	public Behavior basicGetBehavior() {
+		return behavior;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setBehavior(Behavior newBehavior) {
+		Behavior oldBehavior = behavior;
 		behavior = newBehavior;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.STANDARD_NODE__BEHAVIOR, oldBehavior, behavior));
@@ -215,28 +193,15 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public BehaviorType getBehaviorType() {
-		return behaviorType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setBehaviorType(BehaviorType newBehaviorType) {
-		BehaviorType oldBehaviorType = behaviorType;
-		behaviorType = newBehaviorType == null ? BEHAVIOR_TYPE_EDEFAULT : newBehaviorType;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.STANDARD_NODE__BEHAVIOR_TYPE, oldBehaviorType, behaviorType));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getTraceabilityLink() {
+	public Requirements getTraceabilityLink() {
+		if (traceabilityLink != null && traceabilityLink.eIsProxy()) {
+			InternalEObject oldTraceabilityLink = (InternalEObject)traceabilityLink;
+			traceabilityLink = (Requirements)eResolveProxy(oldTraceabilityLink);
+			if (traceabilityLink != oldTraceabilityLink) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK, oldTraceabilityLink, traceabilityLink));
+			}
+		}
 		return traceabilityLink;
 	}
 
@@ -245,8 +210,17 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setTraceabilityLink(String newTraceabilityLink) {
-		String oldTraceabilityLink = traceabilityLink;
+	public Requirements basicGetTraceabilityLink() {
+		return traceabilityLink;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTraceabilityLink(Requirements newTraceabilityLink) {
+		Requirements oldTraceabilityLink = traceabilityLink;
 		traceabilityLink = newTraceabilityLink;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK, oldTraceabilityLink, traceabilityLink));
@@ -361,12 +335,6 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR:
-				return getBehavior();
-			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR_TYPE:
-				return getBehaviorType();
-			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
-				return getTraceabilityLink();
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_STATUS:
 				return getTraceabilityStatus();
 			case BehaviortreePackage.STANDARD_NODE__COMPONENT:
@@ -376,6 +344,12 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 				return getOperator();
 			case BehaviortreePackage.STANDARD_NODE__LABEL:
 				return getLabel();
+			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR:
+				if (resolve) return getBehavior();
+				return basicGetBehavior();
+			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
+				if (resolve) return getTraceabilityLink();
+				return basicGetTraceabilityLink();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -388,15 +362,6 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR:
-				setBehavior((String)newValue);
-				return;
-			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR_TYPE:
-				setBehaviorType((BehaviorType)newValue);
-				return;
-			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
-				setTraceabilityLink((String)newValue);
-				return;
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_STATUS:
 				setTraceabilityStatus((TraceabilityStatus)newValue);
 				return;
@@ -408,6 +373,12 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 				return;
 			case BehaviortreePackage.STANDARD_NODE__LABEL:
 				setLabel((String)newValue);
+				return;
+			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR:
+				setBehavior((Behavior)newValue);
+				return;
+			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
+				setTraceabilityLink((Requirements)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -421,15 +392,6 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR:
-				setBehavior(BEHAVIOR_EDEFAULT);
-				return;
-			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR_TYPE:
-				setBehaviorType(BEHAVIOR_TYPE_EDEFAULT);
-				return;
-			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
-				setTraceabilityLink(TRACEABILITY_LINK_EDEFAULT);
-				return;
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_STATUS:
 				setTraceabilityStatus(TRACEABILITY_STATUS_EDEFAULT);
 				return;
@@ -441,6 +403,12 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 				return;
 			case BehaviortreePackage.STANDARD_NODE__LABEL:
 				setLabel(LABEL_EDEFAULT);
+				return;
+			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR:
+				setBehavior((Behavior)null);
+				return;
+			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
+				setTraceabilityLink((Requirements)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -454,12 +422,6 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR:
-				return BEHAVIOR_EDEFAULT == null ? behavior != null : !BEHAVIOR_EDEFAULT.equals(behavior);
-			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR_TYPE:
-				return behaviorType != BEHAVIOR_TYPE_EDEFAULT;
-			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
-				return TRACEABILITY_LINK_EDEFAULT == null ? traceabilityLink != null : !TRACEABILITY_LINK_EDEFAULT.equals(traceabilityLink);
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_STATUS:
 				return traceabilityStatus != TRACEABILITY_STATUS_EDEFAULT;
 			case BehaviortreePackage.STANDARD_NODE__COMPONENT:
@@ -468,6 +430,10 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 				return operator != OPERATOR_EDEFAULT;
 			case BehaviortreePackage.STANDARD_NODE__LABEL:
 				return LABEL_EDEFAULT == null ? label != null : !LABEL_EDEFAULT.equals(label);
+			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR:
+				return behavior != null;
+			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
+				return traceabilityLink != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -482,13 +448,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (behavior: ");
-		result.append(behavior);
-		result.append(", behaviorType: ");
-		result.append(behaviorType);
-		result.append(", traceabilityLink: ");
-		result.append(traceabilityLink);
-		result.append(", traceabilityStatus: ");
+		result.append(" (traceabilityStatus: ");
 		result.append(traceabilityStatus);
 		result.append(", operator: ");
 		result.append(operator);
@@ -503,7 +463,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 		if(this.getComponent()==null)
 			return "Component";
 		else
-			return this.getComponent().getName();
+			return this.getComponent().getComponentName();
 	}
 
 } //StandardNodeImpl

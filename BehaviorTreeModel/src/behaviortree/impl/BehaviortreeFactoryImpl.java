@@ -32,7 +32,7 @@ public class BehaviortreeFactoryImpl extends EFactoryImpl implements Behaviortre
 	 */
 	public static BehaviortreeFactory init() {
 		try {
-			BehaviortreeFactory theBehaviortreeFactory = (BehaviortreeFactory)EPackage.Registry.INSTANCE.getEFactory("http://defaultname/1.0"); 
+			BehaviortreeFactory theBehaviortreeFactory = (BehaviortreeFactory)EPackage.Registry.INSTANCE.getEFactory("http://bt/1.0"); 
 			if (theBehaviortreeFactory != null) {
 				return theBehaviortreeFactory;
 			}
@@ -74,6 +74,7 @@ public class BehaviortreeFactoryImpl extends EFactoryImpl implements Behaviortre
 			case BehaviortreePackage.STATE: return createState();
 			case BehaviortreePackage.LIBRARY: return createLibrary();
 			case BehaviortreePackage.REQUIREMENTS: return createRequirements();
+			case BehaviortreePackage.BEHAVIOR: return createBehavior();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -261,6 +262,16 @@ public class BehaviortreeFactoryImpl extends EFactoryImpl implements Behaviortre
 	public Requirements createRequirements() {
 		RequirementsImpl requirements = new RequirementsImpl();
 		return requirements;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Behavior createBehavior() {
+		BehaviorImpl behavior = new BehaviorImpl();
+		return behavior;
 	}
 
 	/**

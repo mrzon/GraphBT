@@ -37,7 +37,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link behaviortree.impl.BehaviorTreeImpl#getEReference0 <em>EReference0</em>}</li>
  *   <li>{@link behaviortree.impl.BehaviorTreeImpl#getRootNode <em>Root Node</em>}</li>
  *   <li>{@link behaviortree.impl.BehaviorTreeImpl#getName <em>Name</em>}</li>
- *   <li>{@link behaviortree.impl.BehaviorTreeImpl#getRequirements <em>Requirements</em>}</li>
  * </ul>
  * </p>
  *
@@ -83,16 +82,6 @@ public class BehaviorTreeImpl extends EObjectImpl implements BehaviorTree {
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRequirements()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Requirements> requirements;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -215,32 +204,6 @@ public class BehaviorTreeImpl extends EObjectImpl implements BehaviorTree {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Requirements> getRequirements() {
-		if (requirements == null) {
-			requirements = new EObjectContainmentEList<Requirements>(Requirements.class, this, BehaviortreePackage.BEHAVIOR_TREE__REQUIREMENTS);
-		}
-		return requirements;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case BehaviortreePackage.BEHAVIOR_TREE__REQUIREMENTS:
-				return ((InternalEList<?>)getRequirements()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -252,8 +215,6 @@ public class BehaviorTreeImpl extends EObjectImpl implements BehaviorTree {
 				return basicGetRootNode();
 			case BehaviortreePackage.BEHAVIOR_TREE__NAME:
 				return getName();
-			case BehaviortreePackage.BEHAVIOR_TREE__REQUIREMENTS:
-				return getRequirements();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -276,10 +237,6 @@ public class BehaviorTreeImpl extends EObjectImpl implements BehaviorTree {
 			case BehaviortreePackage.BEHAVIOR_TREE__NAME:
 				setName((String)newValue);
 				return;
-			case BehaviortreePackage.BEHAVIOR_TREE__REQUIREMENTS:
-				getRequirements().clear();
-				getRequirements().addAll((Collection<? extends Requirements>)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -301,9 +258,6 @@ public class BehaviorTreeImpl extends EObjectImpl implements BehaviorTree {
 			case BehaviortreePackage.BEHAVIOR_TREE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case BehaviortreePackage.BEHAVIOR_TREE__REQUIREMENTS:
-				getRequirements().clear();
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -322,8 +276,6 @@ public class BehaviorTreeImpl extends EObjectImpl implements BehaviorTree {
 				return rootNode != null;
 			case BehaviortreePackage.BEHAVIOR_TREE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BehaviortreePackage.BEHAVIOR_TREE__REQUIREMENTS:
-				return requirements != null && !requirements.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

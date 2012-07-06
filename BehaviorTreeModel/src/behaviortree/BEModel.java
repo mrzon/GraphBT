@@ -6,6 +6,7 @@
  */
 package behaviortree;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -18,6 +19,8 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link behaviortree.BEModel#getDbt <em>Dbt</em>}</li>
  *   <li>{@link behaviortree.BEModel#getName <em>Name</em>}</li>
+ *   <li>{@link behaviortree.BEModel#getComponents <em>Components</em>}</li>
+ *   <li>{@link behaviortree.BEModel#getRequirements <em>Requirements</em>}</li>
  * </ul>
  * </p>
  *
@@ -77,5 +80,37 @@ public interface BEModel extends EObject {
 	 * @generated
 	 */
 	void setName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Components</b></em>' reference list.
+	 * The list contents are of type {@link behaviortree.Component}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Components</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Components</em>' reference list.
+	 * @see behaviortree.BehaviortreePackage#getBEModel_Components()
+	 * @model
+	 * @generated
+	 */
+	EList<Component> getComponents();
+
+	/**
+	 * Returns the value of the '<em><b>Requirements</b></em>' containment reference list.
+	 * The list contents are of type {@link behaviortree.Requirements}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Requirements</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Requirements</em>' containment reference list.
+	 * @see behaviortree.BehaviortreePackage#getBEModel_Requirements()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Requirements> getRequirements();
 
 } // BEModel

@@ -57,6 +57,7 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	
 	@Override
 	public IAddFeature getAddFeature(IAddContext context) {
+		System.out.println("yeee masih masuk di addcontext");
 		if (context instanceof IAddConnectionContext /* && context.getNewObject() instanceof <DomainObject> */) {
 			return new AddGraphBtConnectionFeature(this);
 		} else if (context instanceof IAddContext /* && context.getNewObject() instanceof <DomainObject> */) {
@@ -103,10 +104,14 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	
 	@Override
 	public IDirectEditingFeature getDirectEditingFeature(IDirectEditingContext context) {
+		System.out.println("yeee masih masuk di direct T________T si echon");
 		PictogramElement pe = context.getPictogramElement();
+		//Object bo = this.getDirectEditingInfo().getMainPictogramElement();
 		Object bo = getBusinessObjectForPictogramElement(pe);
 		
+		System.out.println("yeee masih masuk di direct T________T");
 		if (bo instanceof StandardNode) {
+			System.out.println("yeee masih masuk di direct editnya feature provider!");
 			return new DirectEditComponentGraphBtFeature(this);
 		}
 		return super.getDirectEditingFeature(context);
