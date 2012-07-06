@@ -20,9 +20,9 @@ import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
 
-public class DirectEditGeneralNodeGraphBtFeature extends AbstractDirectEditingFeature {
+public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeature {
 
-	public DirectEditGeneralNodeGraphBtFeature(IFeatureProvider fp) {
+	public DirectEditComponentGraphBtFeature(IFeatureProvider fp) {
 		super(fp);
 	}
 
@@ -57,8 +57,6 @@ public class DirectEditGeneralNodeGraphBtFeature extends AbstractDirectEditingFe
 	public String checkValueValid(String value, IDirectEditingContext context) {
 		if (value.length() < 1)
 			return "Please enter any text."; //$NON-NLS-1$
-		//if (value.contains(" ")) //$NON-NLS-1$
-			//return "Spaces are not allowed in class names."; //$NON-NLS-1$
 		if (value.contains("\n")) //$NON-NLS-1$
 			return "Line breakes are not allowed in class names."; //$NON-NLS-1$
 
@@ -67,7 +65,7 @@ public class DirectEditGeneralNodeGraphBtFeature extends AbstractDirectEditingFe
 	}
 
 	public void setValue(String value, IDirectEditingContext context) {
-		// set the new name for the EClass
+		
 		PictogramElement pe = context.getPictogramElement();
 		StandardNode node = (StandardNode) getBusinessObjectForPictogramElement(pe);
 		
@@ -88,6 +86,24 @@ public class DirectEditGeneralNodeGraphBtFeature extends AbstractDirectEditingFe
 			else {
 				node.setComponent(GraphBTUtil.getComponentByURI(rs, URI.createURI("bt.component."+value)));
 			}
+			
+			/*
+			if(!GraphBTUtil.isExist(rs, URI.createURI("bt.component.behavior." + value)))
+			{
+				//Resource res = rs.createResource(URI.createURI("bt.component.behavior." + value));
+				//Component cp = node.getComponent();
+				
+				node.setBehavior(value);
+				node.setBehaviorType(BehaviorType.STATE_REALIZATION);
+				
+				System.out.println("check direct edit ");
+				
+				res.getContents().add(cp);
+				rs.getResources().add(res);
+				res.save(Collections.emptyMap());
+				
+			}
+			 */
 			
 		} catch (CoreException e) {
 			e.printStackTrace();

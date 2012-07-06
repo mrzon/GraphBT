@@ -20,10 +20,7 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
     }
  
     public boolean canUpdate(IUpdateContext context) {
-        // return true, if linked business object is a EClass
-    	
-    	System.out.println("check whether canupdate is invoked or not");
-    	
+        // return true, if linked business object is a StandardNode
         Object bo =
             getBusinessObjectForPictogramElement(context.getPictogramElement());
         return (bo instanceof StandardNode);
@@ -58,7 +55,6 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         if (updateNameNeeded) {
             return Reason.createTrueReason("Name is out of date");
         } else {
-        	System.out.println("hokben reason");
             return Reason.createFalseReason();
         }
     }
@@ -71,14 +67,8 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         if (bo instanceof StandardNode) {
         	StandardNode node = (StandardNode) bo;
             businessName = node.getComponentName();
-            System.out.println("hokben " + businessName);
-        }
-        else{
-        	System.out.println("kfc ");
         }
         
-        
- 
         // Set name in pictogram model
         if (pictogramElement instanceof ContainerShape) {
             ContainerShape cs = (ContainerShape) pictogramElement;

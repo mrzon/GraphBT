@@ -30,7 +30,7 @@ import behaviortree.graphBT.features.AddGeneralBtNodeFeature;
 import behaviortree.graphBT.features.AddGraphBtConnectionFeature;
 import behaviortree.graphBT.features.CreateGraphBtConnectionFeature;
 import behaviortree.graphBT.features.CreateGeneralBtNodeFeature;
-import behaviortree.graphBT.features.DirectEditGeneralNodeGraphBtFeature;
+import behaviortree.graphBT.features.DirectEditComponentGraphBtFeature;
 import behaviortree.graphBT.features.LayoutGraphBtFeature;
 import behaviortree.graphBT.features.MoveGraphBtFeature;
 import behaviortree.graphBT.features.RenameGraphBtFeature;
@@ -57,7 +57,6 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	
 	@Override
 	public IAddFeature getAddFeature(IAddContext context) {
-		// TODO: check for right domain object instances below
 		if (context instanceof IAddConnectionContext /* && context.getNewObject() instanceof <DomainObject> */) {
 			return new AddGraphBtConnectionFeature(this);
 		} else if (context instanceof IAddContext /* && context.getNewObject() instanceof <DomainObject> */) {
@@ -90,7 +89,6 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	
 	@Override
 	public ILayoutFeature getLayoutFeature(ILayoutContext context) {
-		// TODO: check for right domain object instances below
 		if (context.getPictogramElement() instanceof ContainerShape /* && getBusinessObjectForPictogramElement(context.getPictogramElement()) instanceof <DomainObject> */) {
 			return  new LayoutGraphBtFeature(this);
 		}
@@ -107,23 +105,21 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	public IDirectEditingFeature getDirectEditingFeature(IDirectEditingContext context) {
 		PictogramElement pe = context.getPictogramElement();
 		Object bo = getBusinessObjectForPictogramElement(pe);
+		
 		if (bo instanceof StandardNode) {
-			return new DirectEditGeneralNodeGraphBtFeature(this);
+			return new DirectEditComponentGraphBtFeature(this);
 		}
 		return super.getDirectEditingFeature(context);
 	}
 	
-	
-	
 	@Override
 	public IResizeShapeFeature getResizeShapeFeature(
 	        IResizeShapeContext context) {
-	    Shape shape = context.getShape();
-	    Object bo = getBusinessObjectForPictogramElement(shape);
-	    if (bo instanceof EClass) {
-	        return new ResizeGraphBtFeature(this);
-	    }
-	    return super.getResizeShapeFeature(context);
-	 }
-
+		Shape shape = context.getShape();
+		Object bo = getBusinessObjectForPictogramElement(shape);
+		if (bo instanceof EClass) {
+	    	return new ResizeGraphBtFeature(this);
+		}
+		return super.getResizeShapeFeature(context);
+	}
 }
