@@ -16,7 +16,6 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import behaviortree.BehaviorType;
-import behaviortree.BehaviortreeFactory;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;

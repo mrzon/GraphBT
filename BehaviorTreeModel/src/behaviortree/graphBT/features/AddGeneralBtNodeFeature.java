@@ -101,7 +101,7 @@ IAddFeature {
             gaService.setLocationAndSize(text, 40, height/2 - 20, width - 40, 20);
      
             //link(shapeComponent, node);
-            link(shapeComponent, node.getComponent());
+            link(shapeComponent, node);
             
             final IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
             directEditingInfo.setMainPictogramElement(shapeComponent);

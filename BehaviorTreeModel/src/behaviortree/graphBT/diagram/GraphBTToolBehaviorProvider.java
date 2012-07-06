@@ -17,16 +17,10 @@ package behaviortree.graphBT.diagram;
 *
 *******************************************************************************/
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
-
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.tb.BorderDecorator;
 import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
 import org.eclipse.graphiti.tb.IDecorator;
-import org.eclipse.graphiti.util.IColorConstant;
 
 public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 
