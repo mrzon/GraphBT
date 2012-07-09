@@ -81,7 +81,7 @@ IAddFeature {
         // SHAPE FOR LINE
         {
             // create shape for line
-            Shape shape = peCreateService.createShape(containerShape, false);
+        	Shape shape = peCreateService.createShape(containerShape, false);
  
             // create and set graphics algorithm
             Polyline polyline =
@@ -102,8 +102,8 @@ IAddFeature {
      
             //
             //link(shapeComponent, node.getComponent());
-            link(shapeComponent, node);
-            //link(shapeComponent, node.getComponent());
+            //link(shapeComponent, node);
+            link(shapeComponent, node.getComponent());
             final IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
             directEditingInfo.setMainPictogramElement(containerShape);
             directEditingInfo.setPictogramElement(shapeComponent);
@@ -120,8 +120,8 @@ IAddFeature {
             textBehavior.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             gaService.setLocationAndSize(textBehavior, 40, height/2 + 10, width - 40, 20);
             
-            link(shapeBehavior, node);
-            //link(shapeBehavior, node.getBehavior());
+            //link(shapeBehavior, node);
+            link(shapeBehavior, node.getBehavior());
             
             IDirectEditingInfo directEditingInfo =
                 getFeatureProvider().getDirectEditingInfo();
@@ -179,7 +179,7 @@ IAddFeature {
             gaService.setLocationAndSize(textOperator, 140, 5, 30, 20);
             
             //link(shapeOperator, node.getOperator());
-           
+            
             IDirectEditingInfo directEditingInfo =
                 getFeatureProvider().getDirectEditingInfo();
             

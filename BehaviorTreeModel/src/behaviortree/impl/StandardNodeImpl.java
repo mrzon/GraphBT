@@ -441,14 +441,18 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * 
 	 */
 	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (traceabilityStatus: ");
+		result.append("Component");
+		result.append(component);
+		result.append(", behavior:");
+		result.append(behavior);
+		result.append(", (traceabilityStatus: ");
 		result.append(traceabilityStatus);
 		result.append(", operator: ");
 		result.append(operator);

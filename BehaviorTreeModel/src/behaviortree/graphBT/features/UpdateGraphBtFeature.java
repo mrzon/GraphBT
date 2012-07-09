@@ -1,5 +1,6 @@
 package behaviortree.graphBT.features;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
@@ -26,13 +27,15 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
  
     public boolean canUpdate(IUpdateContext context) {
         // return true, if linked business object is a StandardNode
-        Object bo =
-            getBusinessObjectForPictogramElement(context.getPictogramElement());
+    	PictogramElement pictogramElement = context.getPictogramElement();
+    	Object bo = getBusinessObjectForPictogramElement(pictogramElement);
+        Object oSN = getBusinessObjectForPictogramElement(((Shape)context.getPictogramElement()).getContainer());
+       	StandardNode node = (StandardNode) oSN;
         
-        System.out.println("check if standard node: " + (bo instanceof StandardNode));
+        System.out.println("in update check if standard node: " + (bo instanceof StandardNode));
         
         //this.getAllBusinessObjectsForPictogramElement(context.getPictogramElement());
-        return ((bo instanceof StandardNode));
+        return ((bo instanceof StandardNode)||(bo instanceof Component)||(bo instanceof Behavior));
     }
  
     public IReason updateNeeded(IUpdateContext context) {
@@ -41,41 +44,28 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         PictogramElement pictogramElement = context.getPictogramElement();
         
         Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-       	StandardNode node = (StandardNode) bo;
-        String tLink = node.getTraceabilityLink().getKey();
-        String operator = node.getOperator().getLiteral();
-        String behavior = node.getBehavior().getBehaviorName();
-        String component = node.getComponent().getComponentName();
-        String tStatus = node.getTraceabilityStatus().getLiteral();
-            
-        if (pictogramElement instanceof ContainerShape) {
-            ContainerShape cs = (ContainerShape) pictogramElement;
-            for (Shape shape : cs.getChildren()) {
-                if (shape.getGraphicsAlgorithm() instanceof Text) {
-                    Text text = (Text) shape.getGraphicsAlgorithm();
-                    pictogramName = text.getValue();
-                 // update needed, if names are different
-                    boolean updateNameNeeded =
-                        ((pictogramName == null && tLink != null) ||
-                        		(pictogramName == null && tStatus != null) ||
-                        		(pictogramName == null && operator != null) ||
-                        		(pictogramName == null && behavior != null) ||
-                        		(pictogramName == null && component != null) ||
-                            (pictogramName != null && !pictogramName.equals(tLink)) ||
-                            (pictogramName != null && !pictogramName.equals(tStatus)) ||
-                            (pictogramName != null && !pictogramName.equals(behavior)) ||
-                            (pictogramName != null && !pictogramName.equals(component)) ||
-                            (pictogramName != null && !pictogramName.equals(operator))
-                        );
-                    if (updateNameNeeded) {
-                        return Reason.createTrueReason("Name is out of date");
-                    } 
-                }
-            }
-        }
+        Object oSN = getBusinessObjectForPictogramElement(((Shape)context.getPictogramElement()).getContainer());
+       	StandardNode node = (StandardNode) oSN;
+
+        String businessName = null;
+		if (bo instanceof Component) {
+			businessName = node.getComponent().getComponentName();
+		}
+		else if (bo instanceof Behavior) {
+			businessName = node.getBehavior().getBehaviorName();
+		}
+		
+
+		// update needed, if names are different
+		boolean updateNameNeeded = ((pictogramName == null && businessName != null) || (pictogramName != null && !pictogramName
+				.equals(businessName)));
+		if (updateNameNeeded) {
+			return Reason.createTrueReason("Name is out of date"); //$NON-NLS-1$
+		} else {
+			return Reason.createFalseReason();
+		}
         
-            return Reason.createFalseReason();
-        
+         
         // retrieve name from business model
     }
  
@@ -83,26 +73,30 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         // retrieve name from business model
         String businessName = null;
         PictogramElement pictogramElement = context.getPictogramElement();
+        
         Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-    	StandardNode node = (StandardNode) bo;
-        String t1 = node.getTraceabilityLink().getKey();
-        String o = node.getOperator().getLiteral();
-        String b = node.getBehavior().getBehaviorName();
-        String c = node.getComponent().getComponentName();
-        String ts = node.getTraceabilityStatus().getLiteral();
+        Object oSN = getBusinessObjectForPictogramElement(((Shape)context.getPictogramElement()).getContainer());
+       	StandardNode node = (StandardNode) oSN;
         System.out.println("in update.. value of bo "+bo);
         // Set name in pictogram model
-        if (pictogramElement instanceof ContainerShape) {
-            ContainerShape cs = (ContainerShape) pictogramElement;
-            for (Shape shape : cs.getChildren()) {
+        if (bo instanceof Component) {
+        	businessName = node.getComponent().getComponentName();
+            Shape shape = (Shape) pictogramElement;
                 if (shape.getGraphicsAlgorithm() instanceof Text) {
                     Text text = (Text) shape.getGraphicsAlgorithm();
                     text.setValue(businessName);
                     return true;
-                }
-            }
+             }
         }
- 
+        if (bo instanceof Behavior) {
+        	businessName = node.getBehavior().getBehaviorName();
+            Shape shape = (Shape) pictogramElement;
+                if (shape.getGraphicsAlgorithm() instanceof Text) {
+                    Text text = (Text) shape.getGraphicsAlgorithm();
+                    text.setValue(businessName);
+                    return true;
+             }
+        }
         return false;
     }
 }

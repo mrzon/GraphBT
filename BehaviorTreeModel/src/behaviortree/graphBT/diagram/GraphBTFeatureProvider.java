@@ -25,7 +25,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 
-import behaviortree.StandardNode;
+import behaviortree.*;
 import behaviortree.graphBT.features.AddGeneralBtNodeFeature;
 import behaviortree.graphBT.features.AddGraphBtConnectionFeature;
 import behaviortree.graphBT.features.CreateGraphBtConnectionFeature;
@@ -68,13 +68,21 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	
 	@Override
 	public IUpdateFeature getUpdateFeature(IUpdateContext context) {
-	   PictogramElement pictogramElement = context.getPictogramElement();
-	   if (pictogramElement instanceof ContainerShape) {
-	       Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-	       if (bo instanceof StandardNode) {
-	           return new UpdateGraphBtFeature(this);
-	       }
-	   }
+	    PictogramElement pictogramElement = context.getPictogramElement();
+	    Object bo = getBusinessObjectForPictogramElement(pictogramElement);
+	    System.out.println("yeee masih masuk di direct editnya feature provider!");
+	    if (bo instanceof StandardNode) {
+			System.out.println("objeknya ternyata standar node");
+			return new UpdateGraphBtFeature(this);
+		}
+	    if (bo instanceof Component) {
+			System.out.println("objeknya ternyata component");
+			return new UpdateGraphBtFeature(this);
+		}
+	    if (bo instanceof Behavior) {
+			System.out.println("objeknya ternyata behavior");
+			return new UpdateGraphBtFeature(this);
+		}
 	   return super.getUpdateFeature(context);
 	 } 
 	
@@ -106,8 +114,8 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	public IDirectEditingFeature getDirectEditingFeature(IDirectEditingContext context) {
 		System.out.println("yeee masih masuk di direct T________T si echon");
 		PictogramElement pe = context.getPictogramElement();
-		//Object bo = this.getDirectEditingInfo().getMainPictogramElement();
-		Object bo = getBusinessObjectForPictogramElement(pe);
+		PictogramElement pel = this.getDirectEditingInfo().getMainPictogramElement();
+		Object bo = getBusinessObjectForPictogramElement(pel);
 		
 		System.out.println("yeee masih masuk di direct T________T");
 		if (bo instanceof StandardNode) {

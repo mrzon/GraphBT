@@ -44,12 +44,25 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 		// support direct editing, if it is a StandardNode, and the user clicked
 		// directly on the text and not somewhere else in the rectangle
 		
-		System.out.println("bisa direct edit gak sih?");
+		System.out.println("bisa direct edit gak sih? bo instanceof StandardNode kah?" + (bo instanceof StandardNode));
 		
 		if (bo instanceof StandardNode && ga instanceof Text) {
 			System.out.println("bisa direct edit di true gak sih?");
 			return true;
 		}
+		if (bo instanceof Component && ga instanceof Text) {
+			System.out.println("bisa.. ternyata dia komponen sir");
+			return true;
+		}
+		if (bo instanceof Behavior && ga instanceof Text) {
+			System.out.println("bisa.. ternyata dia behavior sir");
+			return true;
+		}
+		if (bo instanceof Requirements && ga instanceof Text) {
+			System.out.println("bisa.. ternyata dia behavior sir");
+			return true;
+		}
+		
 		// direct editing not supported in all other cases
 		System.out.println("bisa direct edit gak sih? oh gak bisa..");
 		return false;
@@ -58,8 +71,36 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 	public String getInitialValue(IDirectEditingContext context) {
 		// return the current name of the StandardNode
 		PictogramElement pe = context.getPictogramElement();
-		StandardNode node = (StandardNode) getBusinessObjectForPictogramElement(pe);
-		return node.getComponentName();
+		Object ob = getBusinessObjectForPictogramElement(pe);
+		
+		PictogramElement pel = this.getFeatureProvider().getDirectEditingInfo().getMainPictogramElement();//
+		StandardNode node = (StandardNode) getBusinessObjectForPictogramElement(pel);
+        System.out.println("Current condition of standard node: "+node);
+		
+		if(ob instanceof Component) {
+			return node.getComponentName();
+		}
+		//if the direct-edited object is and instance of behavior
+		else if(ob instanceof Behavior) {
+			return node.getBehavior().getBehaviorName();
+		}
+		//if the direct-edited object is an instance of operator
+		/*else if(object instanceof Operator) {
+			System.out.println("object instanceof operator");
+			node.setOperator(Operator.get(value));
+		}
+		//if the direct-edited object is and instance of traceability status
+		else if(object instanceof TraceabilityStatus) {
+			System.out.println("object instanceof traceability status");
+			node.setTraceabilityStatus(TraceabilityStatus.get(value));
+		}*/
+		//if the direct-edited object is and instance of traceability link
+		else if(ob instanceof Requirements) {
+			//TODO: add form to "add requirements"
+			//TODO: add validasi untuk node yang ga punya traceability link"
+			return ((Requirements) ob).getKey();
+		}
+		return "Default Value";
 	}
 
 	@Override
@@ -83,13 +124,17 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 			e1.printStackTrace();
 		}
 		PictogramElement pe = context.getPictogramElement();
-		Object object = (Object) getBusinessObjectForPictogramElement(pe);
 		
-		StandardNode node = (StandardNode) this.getFeatureProvider().getDirectEditingInfo().getMainPictogramElement();
-
+		Object object = (Object) getBusinessObjectForPictogramElement(pe);
+		PictogramElement pel = this.getFeatureProvider().getDirectEditingInfo().getMainPictogramElement();//
+		StandardNode node = (StandardNode) getBusinessObjectForPictogramElement(pel);
+        
+		//StandardNode node = (StandardNode) this.getFeatureProvider().getDirectEditingInfo().getMainPictogramElement();
+		System.out.println("In set Value "+node.getComponent().getComponentName());
+		
 		//if the direct-edited object is and instance of component
 		if(object instanceof Component) {
-		
+			System.out.println("object instanceof component");
 			try {
 				//TODO: add form to "add component"
 				if(!GraphBTUtil.isExist(rs, URI.createURI("bt.component." + value)))
@@ -101,8 +146,10 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 					res.getContents().add(cp);
 					rs.getResources().add(res);
 					res.save(Collections.emptyMap());
+					System.out.println("Artinya gw bikin komponen baru, namanya "+value);
 				}
 				else {
+					System.out.println("Ternyata, komponen dengan nama "+value+" Sudah ada broh");
 					node.setComponent(GraphBTUtil.getComponentByURI(rs, URI.createURI("bt.component."+value)));
 				}
 			} catch (IOException e) {
@@ -111,10 +158,10 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 		}
 		//if the direct-edited object is and instance of behavior
 		else if(object instanceof Behavior) {
-			
+			System.out.println("object instanceof behavior");
 			Component component = node.getComponent();
 			Behavior b = null;
-			if(!(GraphBTUtil.getBehaviorFromComponent(component, value)==null))
+			if((GraphBTUtil.getBehaviorFromComponent(component, value)==null))
 			{
 				Resource res = rs.createResource(URI.createURI("bt.component.behavior." + value));
 				b = BehaviortreeFactory.eINSTANCE.createBehavior();
@@ -128,24 +175,29 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				System.out.println("Artinya gw bikin behavior baru, namanya "+value);
 			}
 			else{
+				System.out.println("Ternyata, behavior dengan nama "+value+" Sudah ada broh");
 				b = GraphBTUtil.getBehaviorFromComponent(component, value);
 			}
 			node.setBehavior(b);
 		}
 		//if the direct-edited object is an instance of operator
 		else if(object instanceof Operator) {
+			System.out.println("object instanceof operator");
 			node.setOperator(Operator.get(value));
 		}
 		//if the direct-edited object is and instance of traceability status
 		else if(object instanceof TraceabilityStatus) {
+			System.out.println("object instanceof traceability status");
 			node.setTraceabilityStatus(TraceabilityStatus.get(value));
 		}
 		//if the direct-edited object is and instance of traceability link
 		else if(object instanceof Requirements) {
 			//TODO: add form to "add requirements"
 			//TODO: add validasi untuk node yang ga punya traceability link"
+			System.out.println("object instanceof requirements");
 			node.setTraceabilityLink(GraphBTUtil.getRequirements(rs, value));
 			
 			Requirements requirements = null;
@@ -168,8 +220,9 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 			
 			node.setTraceabilityLink(requirements);
 		}
+		System.out.println(node);
 		// we know, that pe is the Shape of the Text, so its container is the
 		// main shape of the EClass
-		updatePictogramElement(((Shape) pe).getContainer());
+		updatePictogramElement(((Shape) pe));
 	}
 }
