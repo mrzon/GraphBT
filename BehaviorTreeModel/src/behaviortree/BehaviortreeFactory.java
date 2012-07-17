@@ -134,13 +134,13 @@ public interface BehaviortreeFactory extends EFactory {
 	Library createLibrary();
 
 	/**
-	 * Returns a new object of class '<em>Requirements</em>'.
+	 * Returns a new object of class '<em>Requirement</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Requirements</em>'.
+	 * @return a new object of class '<em>Requirement</em>'.
 	 * @generated
 	 */
-	Requirements createRequirements();
+	Requirement createRequirement();
 
 	/**
 	 * Returns a new object of class '<em>Behavior</em>'.
@@ -150,6 +150,24 @@ public interface BehaviortreeFactory extends EFactory {
 	 * @generated
 	 */
 	Behavior createBehavior();
+
+	/**
+	 * Returns a new object of class '<em>Component List</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Component List</em>'.
+	 * @generated
+	 */
+	ComponentList createComponentList();
+
+	/**
+	 * Returns a new object of class '<em>Requirement List</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Requirement List</em>'.
+	 * @generated
+	 */
+	RequirementList createRequirementList();
 
 	/**
 	 * Returns the package supported by this factory.

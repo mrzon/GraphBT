@@ -89,22 +89,31 @@ public interface BehaviortreePackage extends EPackage {
 	int BE_MODEL__NAME = 1;
 
 	/**
-	 * The feature id for the '<em><b>Components</b></em>' reference list.
+	 * The feature id for the '<em><b>EReference0</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BE_MODEL__COMPONENTS = 2;
+	int BE_MODEL__EREFERENCE0 = 2;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Component List</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BE_MODEL__REQUIREMENTS = 3;
+	int BE_MODEL__COMPONENT_LIST = 3;
+
+	/**
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BE_MODEL__REQUIREMENTS = 4;
 
 	/**
 	 * The number of structural features of the '<em>BE Model</em>' class.
@@ -113,7 +122,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BE_MODEL_FEATURE_COUNT = 4;
+	int BE_MODEL_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.impl.BehaviorTreeImpl <em>Behavior Tree</em>}' class.
@@ -703,14 +712,14 @@ public interface BehaviortreePackage extends EPackage {
 	int LIBRARY_FEATURE_COUNT = 3;
 
 	/**
-	 * The meta object id for the '{@link behaviortree.impl.RequirementsImpl <em>Requirements</em>}' class.
+	 * The meta object id for the '{@link behaviortree.impl.RequirementImpl <em>Requirement</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see behaviortree.impl.RequirementsImpl
-	 * @see behaviortree.impl.BehaviortreePackageImpl#getRequirements()
+	 * @see behaviortree.impl.RequirementImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getRequirement()
 	 * @generated
 	 */
-	int REQUIREMENTS = 12;
+	int REQUIREMENT = 12;
 
 	/**
 	 * The feature id for the '<em><b>Key</b></em>' attribute.
@@ -719,7 +728,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENTS__KEY = 0;
+	int REQUIREMENT__KEY = 0;
 
 	/**
 	 * The feature id for the '<em><b>Requirement</b></em>' attribute.
@@ -728,7 +737,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENTS__REQUIREMENT = 1;
+	int REQUIREMENT__REQUIREMENT = 1;
 
 	/**
 	 * The feature id for the '<em><b>Traceability Link</b></em>' reference list.
@@ -737,16 +746,16 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENTS__TRACEABILITY_LINK = 2;
+	int REQUIREMENT__TRACEABILITY_LINK = 2;
 
 	/**
-	 * The number of structural features of the '<em>Requirements</em>' class.
+	 * The number of structural features of the '<em>Requirement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENTS_FEATURE_COUNT = 3;
+	int REQUIREMENT_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.impl.BehaviorImpl <em>Behavior</em>}' class.
@@ -795,6 +804,62 @@ public interface BehaviortreePackage extends EPackage {
 	int BEHAVIOR_FEATURE_COUNT = 3;
 
 	/**
+	 * The meta object id for the '{@link behaviortree.impl.ComponentListImpl <em>Component List</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see behaviortree.impl.ComponentListImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getComponentList()
+	 * @generated
+	 */
+	int COMPONENT_LIST = 14;
+
+	/**
+	 * The feature id for the '<em><b>Components</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_LIST__COMPONENTS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Component List</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_LIST_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link behaviortree.impl.RequirementListImpl <em>Requirement List</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see behaviortree.impl.RequirementListImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getRequirementList()
+	 * @generated
+	 */
+	int REQUIREMENT_LIST = 15;
+
+	/**
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_LIST__REQUIREMENTS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Requirement List</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_LIST_FEATURE_COUNT = 1;
+
+	/**
 	 * The meta object id for the '{@link behaviortree.Composition <em>Composition</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -802,7 +867,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getComposition()
 	 * @generated
 	 */
-	int COMPOSITION = 14;
+	int COMPOSITION = 16;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.Branch <em>Branch</em>}' enum.
@@ -812,7 +877,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getBranch()
 	 * @generated
 	 */
-	int BRANCH = 15;
+	int BRANCH = 17;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.Operator <em>Operator</em>}' enum.
@@ -822,7 +887,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 16;
+	int OPERATOR = 18;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.BehaviorType <em>Behavior Type</em>}' enum.
@@ -832,7 +897,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getBehaviorType()
 	 * @generated
 	 */
-	int BEHAVIOR_TYPE = 17;
+	int BEHAVIOR_TYPE = 19;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.EventType <em>Event Type</em>}' enum.
@@ -842,7 +907,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getEventType()
 	 * @generated
 	 */
-	int EVENT_TYPE = 18;
+	int EVENT_TYPE = 20;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.SpecialEdgeEnum <em>Special Edge Enum</em>}' enum.
@@ -852,7 +917,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getSpecialEdgeEnum()
 	 * @generated
 	 */
-	int SPECIAL_EDGE_ENUM = 19;
+	int SPECIAL_EDGE_ENUM = 21;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.TraceabilityStatus <em>Traceability Status</em>}' enum.
@@ -862,7 +927,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getTraceabilityStatus()
 	 * @generated
 	 */
-	int TRACEABILITY_STATUS = 20;
+	int TRACEABILITY_STATUS = 22;
 
 
 	/**
@@ -898,21 +963,32 @@ public interface BehaviortreePackage extends EPackage {
 	EAttribute getBEModel_Name();
 
 	/**
-	 * Returns the meta object for the reference list '{@link behaviortree.BEModel#getComponents <em>Components</em>}'.
+	 * Returns the meta object for the reference '{@link behaviortree.BEModel#getEReference0 <em>EReference0</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Components</em>'.
-	 * @see behaviortree.BEModel#getComponents()
+	 * @return the meta object for the reference '<em>EReference0</em>'.
+	 * @see behaviortree.BEModel#getEReference0()
 	 * @see #getBEModel()
 	 * @generated
 	 */
-	EReference getBEModel_Components();
+	EReference getBEModel_EReference0();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link behaviortree.BEModel#getRequirements <em>Requirements</em>}'.
+	 * Returns the meta object for the containment reference '{@link behaviortree.BEModel#getComponentList <em>Component List</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Requirements</em>'.
+	 * @return the meta object for the containment reference '<em>Component List</em>'.
+	 * @see behaviortree.BEModel#getComponentList()
+	 * @see #getBEModel()
+	 * @generated
+	 */
+	EReference getBEModel_ComponentList();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link behaviortree.BEModel#getRequirements <em>Requirements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Requirements</em>'.
 	 * @see behaviortree.BEModel#getRequirements()
 	 * @see #getBEModel()
 	 * @generated
@@ -1404,47 +1480,47 @@ public interface BehaviortreePackage extends EPackage {
 	EReference getLibrary_Import();
 
 	/**
-	 * Returns the meta object for class '{@link behaviortree.Requirements <em>Requirements</em>}'.
+	 * Returns the meta object for class '{@link behaviortree.Requirement <em>Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Requirements</em>'.
-	 * @see behaviortree.Requirements
+	 * @return the meta object for class '<em>Requirement</em>'.
+	 * @see behaviortree.Requirement
 	 * @generated
 	 */
-	EClass getRequirements();
+	EClass getRequirement();
 
 	/**
-	 * Returns the meta object for the attribute '{@link behaviortree.Requirements#getKey <em>Key</em>}'.
+	 * Returns the meta object for the attribute '{@link behaviortree.Requirement#getKey <em>Key</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Key</em>'.
-	 * @see behaviortree.Requirements#getKey()
-	 * @see #getRequirements()
+	 * @see behaviortree.Requirement#getKey()
+	 * @see #getRequirement()
 	 * @generated
 	 */
-	EAttribute getRequirements_Key();
+	EAttribute getRequirement_Key();
 
 	/**
-	 * Returns the meta object for the attribute '{@link behaviortree.Requirements#getRequirement <em>Requirement</em>}'.
+	 * Returns the meta object for the attribute '{@link behaviortree.Requirement#getRequirement <em>Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Requirement</em>'.
-	 * @see behaviortree.Requirements#getRequirement()
-	 * @see #getRequirements()
+	 * @see behaviortree.Requirement#getRequirement()
+	 * @see #getRequirement()
 	 * @generated
 	 */
-	EAttribute getRequirements_Requirement();
+	EAttribute getRequirement_Requirement();
 
 	/**
-	 * Returns the meta object for the reference list '{@link behaviortree.Requirements#getTraceabilityLink <em>Traceability Link</em>}'.
+	 * Returns the meta object for the reference list '{@link behaviortree.Requirement#getTraceabilityLink <em>Traceability Link</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Traceability Link</em>'.
-	 * @see behaviortree.Requirements#getTraceabilityLink()
-	 * @see #getRequirements()
+	 * @see behaviortree.Requirement#getTraceabilityLink()
+	 * @see #getRequirement()
 	 * @generated
 	 */
-	EReference getRequirements_TraceabilityLink();
+	EReference getRequirement_TraceabilityLink();
 
 	/**
 	 * Returns the meta object for class '{@link behaviortree.Behavior <em>Behavior</em>}'.
@@ -1488,6 +1564,48 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getBehavior_BehaviorRef();
+
+	/**
+	 * Returns the meta object for class '{@link behaviortree.ComponentList <em>Component List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Component List</em>'.
+	 * @see behaviortree.ComponentList
+	 * @generated
+	 */
+	EClass getComponentList();
+
+	/**
+	 * Returns the meta object for the reference list '{@link behaviortree.ComponentList#getComponents <em>Components</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Components</em>'.
+	 * @see behaviortree.ComponentList#getComponents()
+	 * @see #getComponentList()
+	 * @generated
+	 */
+	EReference getComponentList_Components();
+
+	/**
+	 * Returns the meta object for class '{@link behaviortree.RequirementList <em>Requirement List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Requirement List</em>'.
+	 * @see behaviortree.RequirementList
+	 * @generated
+	 */
+	EClass getRequirementList();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link behaviortree.RequirementList#getRequirements <em>Requirements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Requirements</em>'.
+	 * @see behaviortree.RequirementList#getRequirements()
+	 * @see #getRequirementList()
+	 * @generated
+	 */
+	EReference getRequirementList_Requirements();
 
 	/**
 	 * Returns the meta object for enum '{@link behaviortree.Composition <em>Composition</em>}'.
@@ -1608,15 +1726,23 @@ public interface BehaviortreePackage extends EPackage {
 		EAttribute BE_MODEL__NAME = eINSTANCE.getBEModel_Name();
 
 		/**
-		 * The meta object literal for the '<em><b>Components</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>EReference0</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference BE_MODEL__COMPONENTS = eINSTANCE.getBEModel_Components();
+		EReference BE_MODEL__EREFERENCE0 = eINSTANCE.getBEModel_EReference0();
 
 		/**
-		 * The meta object literal for the '<em><b>Requirements</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Component List</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BE_MODEL__COMPONENT_LIST = eINSTANCE.getBEModel_ComponentList();
+
+		/**
+		 * The meta object literal for the '<em><b>Requirements</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -2006,14 +2132,14 @@ public interface BehaviortreePackage extends EPackage {
 		EReference LIBRARY__IMPORT = eINSTANCE.getLibrary_Import();
 
 		/**
-		 * The meta object literal for the '{@link behaviortree.impl.RequirementsImpl <em>Requirements</em>}' class.
+		 * The meta object literal for the '{@link behaviortree.impl.RequirementImpl <em>Requirement</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see behaviortree.impl.RequirementsImpl
-		 * @see behaviortree.impl.BehaviortreePackageImpl#getRequirements()
+		 * @see behaviortree.impl.RequirementImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getRequirement()
 		 * @generated
 		 */
-		EClass REQUIREMENTS = eINSTANCE.getRequirements();
+		EClass REQUIREMENT = eINSTANCE.getRequirement();
 
 		/**
 		 * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
@@ -2021,7 +2147,7 @@ public interface BehaviortreePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute REQUIREMENTS__KEY = eINSTANCE.getRequirements_Key();
+		EAttribute REQUIREMENT__KEY = eINSTANCE.getRequirement_Key();
 
 		/**
 		 * The meta object literal for the '<em><b>Requirement</b></em>' attribute feature.
@@ -2029,7 +2155,7 @@ public interface BehaviortreePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute REQUIREMENTS__REQUIREMENT = eINSTANCE.getRequirements_Requirement();
+		EAttribute REQUIREMENT__REQUIREMENT = eINSTANCE.getRequirement_Requirement();
 
 		/**
 		 * The meta object literal for the '<em><b>Traceability Link</b></em>' reference list feature.
@@ -2037,7 +2163,7 @@ public interface BehaviortreePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference REQUIREMENTS__TRACEABILITY_LINK = eINSTANCE.getRequirements_TraceabilityLink();
+		EReference REQUIREMENT__TRACEABILITY_LINK = eINSTANCE.getRequirement_TraceabilityLink();
 
 		/**
 		 * The meta object literal for the '{@link behaviortree.impl.BehaviorImpl <em>Behavior</em>}' class.
@@ -2072,6 +2198,42 @@ public interface BehaviortreePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute BEHAVIOR__BEHAVIOR_REF = eINSTANCE.getBehavior_BehaviorRef();
+
+		/**
+		 * The meta object literal for the '{@link behaviortree.impl.ComponentListImpl <em>Component List</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see behaviortree.impl.ComponentListImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getComponentList()
+		 * @generated
+		 */
+		EClass COMPONENT_LIST = eINSTANCE.getComponentList();
+
+		/**
+		 * The meta object literal for the '<em><b>Components</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT_LIST__COMPONENTS = eINSTANCE.getComponentList_Components();
+
+		/**
+		 * The meta object literal for the '{@link behaviortree.impl.RequirementListImpl <em>Requirement List</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see behaviortree.impl.RequirementListImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getRequirementList()
+		 * @generated
+		 */
+		EClass REQUIREMENT_LIST = eINSTANCE.getRequirementList();
+
+		/**
+		 * The meta object literal for the '<em><b>Requirements</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REQUIREMENT_LIST__REQUIREMENTS = eINSTANCE.getRequirementList_Requirements();
 
 		/**
 		 * The meta object literal for the '{@link behaviortree.Composition <em>Composition</em>}' enum.

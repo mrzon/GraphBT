@@ -263,9 +263,13 @@ public class BehaviorImpl extends EObjectImpl implements Behavior {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(this.getBehaviorType().getOpenBracket());
+		result.append(" (behaviorType: ");
+		result.append(behaviorType);
+		result.append(", behaviorName: ");
 		result.append(behaviorName);
-		result.append(this.getBehaviorType().getCloseBracket());
+		result.append(", behaviorRef: ");
+		result.append(behaviorRef);
+		result.append(')');
 		return result.toString();
 	}
 

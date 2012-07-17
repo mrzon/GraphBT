@@ -120,12 +120,20 @@ public class BehaviortreeAdapterFactory extends AdapterFactoryImpl {
 				return createLibraryAdapter();
 			}
 			@Override
-			public Adapter caseRequirements(Requirements object) {
-				return createRequirementsAdapter();
+			public Adapter caseRequirement(Requirement object) {
+				return createRequirementAdapter();
 			}
 			@Override
 			public Adapter caseBehavior(Behavior object) {
 				return createBehaviorAdapter();
+			}
+			@Override
+			public Adapter caseComponentList(ComponentList object) {
+				return createComponentListAdapter();
+			}
+			@Override
+			public Adapter caseRequirementList(RequirementList object) {
+				return createRequirementListAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -316,16 +324,16 @@ public class BehaviortreeAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link behaviortree.Requirements <em>Requirements</em>}'.
+	 * Creates a new adapter for an object of class '{@link behaviortree.Requirement <em>Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see behaviortree.Requirements
+	 * @see behaviortree.Requirement
 	 * @generated
 	 */
-	public Adapter createRequirementsAdapter() {
+	public Adapter createRequirementAdapter() {
 		return null;
 	}
 
@@ -340,6 +348,34 @@ public class BehaviortreeAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createBehaviorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link behaviortree.ComponentList <em>Component List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see behaviortree.ComponentList
+	 * @generated
+	 */
+	public Adapter createComponentListAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link behaviortree.RequirementList <em>Requirement List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see behaviortree.RequirementList
+	 * @generated
+	 */
+	public Adapter createRequirementListAdapter() {
 		return null;
 	}
 

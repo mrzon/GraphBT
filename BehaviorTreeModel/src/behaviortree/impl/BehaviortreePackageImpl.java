@@ -6,29 +6,7 @@
  */
 package behaviortree.impl;
 
-import behaviortree.Attribute;
-import behaviortree.BEModel;
-import behaviortree.Behavior;
-import behaviortree.BehaviorTree;
-import behaviortree.BehaviorType;
-import behaviortree.BehaviortreeFactory;
-import behaviortree.BehaviortreePackage;
-import behaviortree.Branch;
-import behaviortree.CTEdge;
-import behaviortree.Component;
-import behaviortree.Composition;
-import behaviortree.Edge;
-import behaviortree.EmptyNode;
-import behaviortree.EventType;
-import behaviortree.Library;
-import behaviortree.Node;
-import behaviortree.Operator;
-import behaviortree.Requirements;
-import behaviortree.SpecialEdge;
-import behaviortree.SpecialEdgeEnum;
-import behaviortree.StandardNode;
-import behaviortree.State;
-import behaviortree.TraceabilityStatus;
+import behaviortree.*;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -134,7 +112,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass requirementsEClass = null;
+	private EClass requirementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -142,6 +120,20 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * @generated
 	 */
 	private EClass behaviorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass componentListEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass requirementListEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -285,7 +277,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getBEModel_Components() {
+	public EReference getBEModel_EReference0() {
 		return (EReference)beModelEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -294,8 +286,17 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getBEModel_Requirements() {
+	public EReference getBEModel_ComponentList() {
 		return (EReference)beModelEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBEModel_Requirements() {
+		return (EReference)beModelEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -708,8 +709,8 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRequirements() {
-		return requirementsEClass;
+	public EClass getRequirement() {
+		return requirementEClass;
 	}
 
 	/**
@@ -717,8 +718,8 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRequirements_Key() {
-		return (EAttribute)requirementsEClass.getEStructuralFeatures().get(0);
+	public EAttribute getRequirement_Key() {
+		return (EAttribute)requirementEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -726,8 +727,8 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRequirements_Requirement() {
-		return (EAttribute)requirementsEClass.getEStructuralFeatures().get(1);
+	public EAttribute getRequirement_Requirement() {
+		return (EAttribute)requirementEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -735,8 +736,8 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRequirements_TraceabilityLink() {
-		return (EReference)requirementsEClass.getEStructuralFeatures().get(2);
+	public EReference getRequirement_TraceabilityLink() {
+		return (EReference)requirementEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -773,6 +774,42 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 */
 	public EAttribute getBehavior_BehaviorRef() {
 		return (EAttribute)behaviorEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getComponentList() {
+		return componentListEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComponentList_Components() {
+		return (EReference)componentListEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getRequirementList() {
+		return requirementListEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRequirementList_Requirements() {
+		return (EReference)requirementListEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -869,7 +906,8 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		beModelEClass = createEClass(BE_MODEL);
 		createEReference(beModelEClass, BE_MODEL__DBT);
 		createEAttribute(beModelEClass, BE_MODEL__NAME);
-		createEReference(beModelEClass, BE_MODEL__COMPONENTS);
+		createEReference(beModelEClass, BE_MODEL__EREFERENCE0);
+		createEReference(beModelEClass, BE_MODEL__COMPONENT_LIST);
 		createEReference(beModelEClass, BE_MODEL__REQUIREMENTS);
 
 		behaviorTreeEClass = createEClass(BEHAVIOR_TREE);
@@ -928,15 +966,21 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		createEAttribute(libraryEClass, LIBRARY__TEXT);
 		createEReference(libraryEClass, LIBRARY__IMPORT);
 
-		requirementsEClass = createEClass(REQUIREMENTS);
-		createEAttribute(requirementsEClass, REQUIREMENTS__KEY);
-		createEAttribute(requirementsEClass, REQUIREMENTS__REQUIREMENT);
-		createEReference(requirementsEClass, REQUIREMENTS__TRACEABILITY_LINK);
+		requirementEClass = createEClass(REQUIREMENT);
+		createEAttribute(requirementEClass, REQUIREMENT__KEY);
+		createEAttribute(requirementEClass, REQUIREMENT__REQUIREMENT);
+		createEReference(requirementEClass, REQUIREMENT__TRACEABILITY_LINK);
 
 		behaviorEClass = createEClass(BEHAVIOR);
 		createEAttribute(behaviorEClass, BEHAVIOR__BEHAVIOR_TYPE);
 		createEAttribute(behaviorEClass, BEHAVIOR__BEHAVIOR_NAME);
 		createEAttribute(behaviorEClass, BEHAVIOR__BEHAVIOR_REF);
+
+		componentListEClass = createEClass(COMPONENT_LIST);
+		createEReference(componentListEClass, COMPONENT_LIST__COMPONENTS);
+
+		requirementListEClass = createEClass(REQUIREMENT_LIST);
+		createEReference(requirementListEClass, REQUIREMENT_LIST__REQUIREMENTS);
 
 		// Create enums
 		compositionEEnum = createEEnum(COMPOSITION);
@@ -983,8 +1027,9 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		initEClass(beModelEClass, BEModel.class, "BEModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBEModel_Dbt(), this.getBehaviorTree(), null, "dbt", null, 1, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBEModel_Name(), ecorePackage.getEString(), "name", null, 0, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getBEModel_Components(), this.getComponent(), null, "components", null, 0, -1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getBEModel_Requirements(), this.getRequirements(), null, "requirements", null, 0, -1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBEModel_EReference0(), this.getBEModel(), null, "EReference0", null, 0, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBEModel_ComponentList(), this.getComponentList(), null, "componentList", null, 1, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBEModel_Requirements(), this.getRequirementList(), null, "requirements", null, 1, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(behaviorTreeEClass, BehaviorTree.class, "BehaviorTree", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBehaviorTree_EReference0(), this.getNode(), null, "EReference0", null, 0, 1, BehaviorTree.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1015,7 +1060,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		initEAttribute(getStandardNode_Operator(), this.getOperator(), "operator", null, 0, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStandardNode_Label(), ecorePackage.getEString(), "label", null, 0, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStandardNode_Behavior(), this.getBehavior(), null, "behavior", null, 1, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getStandardNode_TraceabilityLink(), this.getRequirements(), null, "traceabilityLink", null, 0, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStandardNode_TraceabilityLink(), this.getRequirement(), null, "traceabilityLink", null, 0, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(componentEClass, Component.class, "Component", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getComponent_ComponentName(), ecorePackage.getEString(), "componentName", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1042,15 +1087,21 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		initEAttribute(getLibrary_Text(), ecorePackage.getEString(), "text", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLibrary_Import(), this.getStandardNode(), null, "import", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(requirementsEClass, Requirements.class, "Requirements", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getRequirements_Key(), ecorePackage.getEString(), "Key", null, 0, 1, Requirements.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRequirements_Requirement(), ecorePackage.getEString(), "Requirement", null, 0, 1, Requirements.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRequirements_TraceabilityLink(), this.getStandardNode(), null, "traceabilityLink", null, 0, -1, Requirements.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(requirementEClass, Requirement.class, "Requirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRequirement_Key(), ecorePackage.getEString(), "Key", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRequirement_Requirement(), ecorePackage.getEString(), "Requirement", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRequirement_TraceabilityLink(), this.getStandardNode(), null, "traceabilityLink", null, 0, -1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(behaviorEClass, Behavior.class, "Behavior", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBehavior_BehaviorType(), this.getBehaviorType(), "behaviorType", null, 0, 1, Behavior.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBehavior_BehaviorName(), ecorePackage.getEString(), "behaviorName", null, 0, 1, Behavior.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBehavior_BehaviorRef(), ecorePackage.getEString(), "behaviorRef", null, 0, 1, Behavior.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(componentListEClass, ComponentList.class, "ComponentList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getComponentList_Components(), this.getComponent(), null, "components", null, 0, -1, ComponentList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(requirementListEClass, RequirementList.class, "RequirementList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRequirementList_Requirements(), this.getRequirement(), null, "requirements", null, 0, -1, RequirementList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(compositionEEnum, Composition.class, "Composition");

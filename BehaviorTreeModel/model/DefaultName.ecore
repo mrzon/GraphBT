@@ -7,10 +7,11 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="dbt" lowerBound="1" eType="#//BehaviorTree"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
-        eType="#//Component"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
-        eType="#//Requirements" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" eType="#//BEModel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="componentList" lowerBound="1"
+        eType="#//ComponentList" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" lowerBound="1"
+        eType="#//RequirementList" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BehaviorTree">
     <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" eType="#//Node"/>
@@ -85,7 +86,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="behavior" lowerBound="1"
         eType="#//Behavior"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="traceabilityLink" eType="#//Requirements"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="traceabilityLink" eType="#//Requirement"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TraceabilityStatus">
     <eLiterals name="Original" literal=""/>
@@ -124,7 +125,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="import" upperBound="-1"
         eType="#//StandardNode" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Requirements">
+  <eClassifiers xsi:type="ecore:EClass" name="Requirement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="Key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="Requirement" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="traceabilityLink" upperBound="-1"
@@ -134,6 +135,14 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="behaviorType" eType="#//BehaviorType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="behaviorName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="behaviorRef" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//Component"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RequirementList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
+        eType="#//Requirement" containment="true"/>
   </eClassifiers>
   <eSubpackages name="behaviortree" nsURI="defaultname" nsPrefix="be.behaviortree.model"/>
 </ecore:EPackage>

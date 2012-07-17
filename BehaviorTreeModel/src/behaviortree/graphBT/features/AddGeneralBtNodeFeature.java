@@ -93,8 +93,8 @@ IAddFeature {
         // SHAPE WITH TEXT FOR COMPONENT
         {  	
         	Shape shapeComponent = peCreateService.createShape(containerShape, false);
-        	
-            Text text = gaService.createText(shapeComponent, node.getComponentName());
+        	String str = node.getComponent()==null?"Default component":node.getComponent().getComponentName();
+            Text text = gaService.createText(shapeComponent, str);
             text.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER); 
             text.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
@@ -113,8 +113,8 @@ IAddFeature {
         // SHAPE WITH TEXT FOR BEHAVIOR
         {
         	Shape shapeBehavior = peCreateService.createShape(containerShape, true);
-        	
-            Text textBehavior = gaService.createText(shapeBehavior, node.getBehavior().toString());
+        	String str = node.getBehavior()==null?"Default behavior":node.getBehavior().toString();
+            Text textBehavior = gaService.createText(shapeBehavior, str);
             textBehavior.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             textBehavior.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
             textBehavior.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
@@ -133,8 +133,8 @@ IAddFeature {
         // SHAPE WITH TEXT FOR TRACEABILITY LINK
         {  	
         	Shape shapeTraceabilityLink = peCreateService.createShape(containerShape, true);
-        	 
-        	Text textTraceabilityLink = gaService.createText(shapeTraceabilityLink, node.getTraceabilityLink().getKey());
+        	String str = node.getTraceabilityLink()==null?"":node.getTraceabilityLink().getKey(); 
+        	Text textTraceabilityLink = gaService.createText(shapeTraceabilityLink, str);
             textTraceabilityLink.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             textTraceabilityLink.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
             textTraceabilityLink.setFont(gaService.manageDefaultFont(getDiagram(), false, false));

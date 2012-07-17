@@ -11,10 +11,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
-import behaviortree.Behavior;
-import behaviortree.Component;
-import behaviortree.Operator;
-import behaviortree.Requirements;
+import behaviortree.*;
 import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
 
@@ -29,13 +26,13 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         // return true, if linked business object is a StandardNode
     	PictogramElement pictogramElement = context.getPictogramElement();
     	Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-        Object oSN = getBusinessObjectForPictogramElement(((Shape)context.getPictogramElement()).getContainer());
-       	StandardNode node = (StandardNode) oSN;
+        //Object oSN = getBusinessObjectForPictogramElement(((Shape)context.getPictogramElement()).getContainer());
+       	
         
         System.out.println("in update check if standard node: " + (bo instanceof StandardNode));
         
         //this.getAllBusinessObjectsForPictogramElement(context.getPictogramElement());
-        return ((bo instanceof StandardNode)||(bo instanceof Component)||(bo instanceof Behavior));
+        return ((bo instanceof Component)||(bo instanceof Behavior));
     }
  
     public IReason updateNeeded(IUpdateContext context) {
@@ -46,15 +43,25 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         Object bo = getBusinessObjectForPictogramElement(pictogramElement);
         Object oSN = getBusinessObjectForPictogramElement(((Shape)context.getPictogramElement()).getContainer());
        	StandardNode node = (StandardNode) oSN;
-
+       	
         String businessName = null;
 		if (bo instanceof Component) {
 			businessName = node.getComponent().getComponentName();
 		}
 		else if (bo instanceof Behavior) {
-			businessName = node.getBehavior().getBehaviorName();
+			if(node.getBehavior()!=null)
+			{
+				businessName = node.getBehavior().getBehaviorName();
+			}
+			else
+			{
+				businessName = null;
+			}
 		}
-		
+		if(((Shape)pictogramElement).getGraphicsAlgorithm() instanceof Text)
+		{
+			pictogramName = ((Text)((Shape)pictogramElement).getGraphicsAlgorithm()).getValue();
+		}
 
 		// update needed, if names are different
 		boolean updateNameNeeded = ((pictogramName == null && businessName != null) || (pictogramName != null && !pictogramName

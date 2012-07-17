@@ -19,7 +19,8 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link behaviortree.BEModel#getDbt <em>Dbt</em>}</li>
  *   <li>{@link behaviortree.BEModel#getName <em>Name</em>}</li>
- *   <li>{@link behaviortree.BEModel#getComponents <em>Components</em>}</li>
+ *   <li>{@link behaviortree.BEModel#getEReference0 <em>EReference0</em>}</li>
+ *   <li>{@link behaviortree.BEModel#getComponentList <em>Component List</em>}</li>
  *   <li>{@link behaviortree.BEModel#getRequirements <em>Requirements</em>}</li>
  * </ul>
  * </p>
@@ -82,35 +83,81 @@ public interface BEModel extends EObject {
 	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Components</b></em>' reference list.
-	 * The list contents are of type {@link behaviortree.Component}.
+	 * Returns the value of the '<em><b>EReference0</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Components</em>' reference list isn't clear,
+	 * If the meaning of the '<em>EReference0</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Components</em>' reference list.
-	 * @see behaviortree.BehaviortreePackage#getBEModel_Components()
+	 * @return the value of the '<em>EReference0</em>' reference.
+	 * @see #setEReference0(BEModel)
+	 * @see behaviortree.BehaviortreePackage#getBEModel_EReference0()
 	 * @model
 	 * @generated
 	 */
-	EList<Component> getComponents();
+	BEModel getEReference0();
 
 	/**
-	 * Returns the value of the '<em><b>Requirements</b></em>' containment reference list.
-	 * The list contents are of type {@link behaviortree.Requirements}.
+	 * Sets the value of the '{@link behaviortree.BEModel#getEReference0 <em>EReference0</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>EReference0</em>' reference.
+	 * @see #getEReference0()
+	 * @generated
+	 */
+	void setEReference0(BEModel value);
+
+	/**
+	 * Returns the value of the '<em><b>Component List</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Component List</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Component List</em>' containment reference.
+	 * @see #setComponentList(ComponentList)
+	 * @see behaviortree.BehaviortreePackage#getBEModel_ComponentList()
+	 * @model containment="true" required="true"
+	 * @generated
+	 */
+	ComponentList getComponentList();
+
+	/**
+	 * Sets the value of the '{@link behaviortree.BEModel#getComponentList <em>Component List</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Component List</em>' containment reference.
+	 * @see #getComponentList()
+	 * @generated
+	 */
+	void setComponentList(ComponentList value);
+
+	/**
+	 * Returns the value of the '<em><b>Requirements</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Requirements</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Requirements</em>' containment reference list.
+	 * @return the value of the '<em>Requirements</em>' containment reference.
+	 * @see #setRequirements(RequirementList)
 	 * @see behaviortree.BehaviortreePackage#getBEModel_Requirements()
-	 * @model containment="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	EList<Requirements> getRequirements();
+	RequirementList getRequirements();
+
+	/**
+	 * Sets the value of the '{@link behaviortree.BEModel#getRequirements <em>Requirements</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Requirements</em>' containment reference.
+	 * @see #getRequirements()
+	 * @generated
+	 */
+	void setRequirements(RequirementList value);
 
 } // BEModel

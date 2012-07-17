@@ -64,12 +64,12 @@ public interface StandardNode extends Node {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Traceability Link</em>' reference.
-	 * @see #setTraceabilityLink(Requirements)
+	 * @see #setTraceabilityLink(Requirement)
 	 * @see behaviortree.BehaviortreePackage#getStandardNode_TraceabilityLink()
 	 * @model
 	 * @generated
 	 */
-	Requirements getTraceabilityLink();
+	Requirement getTraceabilityLink();
 
 	/**
 	 * Sets the value of the '{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}' reference.
@@ -79,7 +79,7 @@ public interface StandardNode extends Node {
 	 * @see #getTraceabilityLink()
 	 * @generated
 	 */
-	void setTraceabilityLink(Requirements value);
+	void setTraceabilityLink(Requirement value);
 
 	/**
 	 * Returns the value of the '<em><b>Traceability Status</b></em>' attribute.

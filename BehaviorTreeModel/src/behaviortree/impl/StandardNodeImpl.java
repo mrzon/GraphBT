@@ -6,14 +6,7 @@
  */
 package behaviortree.impl;
 
-import behaviortree.Behavior;
-import behaviortree.BehaviorType;
-import behaviortree.BehaviortreePackage;
-import behaviortree.Component;
-import behaviortree.Operator;
-import behaviortree.Requirements;
-import behaviortree.StandardNode;
-import behaviortree.TraceabilityStatus;
+import behaviortree.*;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -129,7 +122,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * @generated
 	 * @ordered
 	 */
-	protected Requirements traceabilityLink;
+	protected Requirement traceabilityLink;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -193,10 +186,10 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Requirements getTraceabilityLink() {
+	public Requirement getTraceabilityLink() {
 		if (traceabilityLink != null && traceabilityLink.eIsProxy()) {
 			InternalEObject oldTraceabilityLink = (InternalEObject)traceabilityLink;
-			traceabilityLink = (Requirements)eResolveProxy(oldTraceabilityLink);
+			traceabilityLink = (Requirement)eResolveProxy(oldTraceabilityLink);
 			if (traceabilityLink != oldTraceabilityLink) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK, oldTraceabilityLink, traceabilityLink));
@@ -210,7 +203,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Requirements basicGetTraceabilityLink() {
+	public Requirement basicGetTraceabilityLink() {
 		return traceabilityLink;
 	}
 
@@ -219,8 +212,8 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setTraceabilityLink(Requirements newTraceabilityLink) {
-		Requirements oldTraceabilityLink = traceabilityLink;
+	public void setTraceabilityLink(Requirement newTraceabilityLink) {
+		Requirement oldTraceabilityLink = traceabilityLink;
 		traceabilityLink = newTraceabilityLink;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK, oldTraceabilityLink, traceabilityLink));
@@ -378,7 +371,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 				setBehavior((Behavior)newValue);
 				return;
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
-				setTraceabilityLink((Requirements)newValue);
+				setTraceabilityLink((Requirement)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -408,7 +401,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 				setBehavior((Behavior)null);
 				return;
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
-				setTraceabilityLink((Requirements)null);
+				setTraceabilityLink((Requirement)null);
 				return;
 		}
 		super.eUnset(featureID);

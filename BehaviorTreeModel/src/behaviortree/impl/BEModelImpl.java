@@ -6,12 +6,7 @@
  */
 package behaviortree.impl;
 
-import behaviortree.BEModel;
-import behaviortree.BehaviorTree;
-import behaviortree.BehaviortreePackage;
-
-import behaviortree.Component;
-import behaviortree.Requirements;
+import behaviortree.*;
 import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -35,7 +30,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link behaviortree.impl.BEModelImpl#getDbt <em>Dbt</em>}</li>
  *   <li>{@link behaviortree.impl.BEModelImpl#getName <em>Name</em>}</li>
- *   <li>{@link behaviortree.impl.BEModelImpl#getComponents <em>Components</em>}</li>
+ *   <li>{@link behaviortree.impl.BEModelImpl#getEReference0 <em>EReference0</em>}</li>
+ *   <li>{@link behaviortree.impl.BEModelImpl#getComponentList <em>Component List</em>}</li>
  *   <li>{@link behaviortree.impl.BEModelImpl#getRequirements <em>Requirements</em>}</li>
  * </ul>
  * </p>
@@ -74,24 +70,34 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getComponents() <em>Components</em>}' reference list.
+	 * The cached value of the '{@link #getEReference0() <em>EReference0</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getComponents()
+	 * @see #getEReference0()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Component> components;
+	protected BEModel eReference0;
 
 	/**
-	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' containment reference list.
+	 * The cached value of the '{@link #getComponentList() <em>Component List</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComponentList()
+	 * @generated
+	 * @ordered
+	 */
+	protected ComponentList componentList;
+
+	/**
+	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getRequirements()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Requirements> requirements;
+	protected RequirementList requirements;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -181,11 +187,16 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Component> getComponents() {
-		if (components == null) {
-			components = new EObjectResolvingEList<Component>(Component.class, this, BehaviortreePackage.BE_MODEL__COMPONENTS);
+	public BEModel getEReference0() {
+		if (eReference0 != null && eReference0.eIsProxy()) {
+			InternalEObject oldEReference0 = (InternalEObject)eReference0;
+			eReference0 = (BEModel)eResolveProxy(oldEReference0);
+			if (eReference0 != oldEReference0) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BehaviortreePackage.BE_MODEL__EREFERENCE0, oldEReference0, eReference0));
+			}
 		}
-		return components;
+		return eReference0;
 	}
 
 	/**
@@ -193,11 +204,106 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Requirements> getRequirements() {
-		if (requirements == null) {
-			requirements = new EObjectContainmentEList<Requirements>(Requirements.class, this, BehaviortreePackage.BE_MODEL__REQUIREMENTS);
+	public BEModel basicGetEReference0() {
+		return eReference0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEReference0(BEModel newEReference0) {
+		BEModel oldEReference0 = eReference0;
+		eReference0 = newEReference0;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.BE_MODEL__EREFERENCE0, oldEReference0, eReference0));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ComponentList getComponentList() {
+		return componentList;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetComponentList(ComponentList newComponentList, NotificationChain msgs) {
+		ComponentList oldComponentList = componentList;
+		componentList = newComponentList;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BehaviortreePackage.BE_MODEL__COMPONENT_LIST, oldComponentList, newComponentList);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setComponentList(ComponentList newComponentList) {
+		if (newComponentList != componentList) {
+			NotificationChain msgs = null;
+			if (componentList != null)
+				msgs = ((InternalEObject)componentList).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BehaviortreePackage.BE_MODEL__COMPONENT_LIST, null, msgs);
+			if (newComponentList != null)
+				msgs = ((InternalEObject)newComponentList).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BehaviortreePackage.BE_MODEL__COMPONENT_LIST, null, msgs);
+			msgs = basicSetComponentList(newComponentList, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.BE_MODEL__COMPONENT_LIST, newComponentList, newComponentList));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RequirementList getRequirements() {
 		return requirements;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetRequirements(RequirementList newRequirements, NotificationChain msgs) {
+		RequirementList oldRequirements = requirements;
+		requirements = newRequirements;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BehaviortreePackage.BE_MODEL__REQUIREMENTS, oldRequirements, newRequirements);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRequirements(RequirementList newRequirements) {
+		if (newRequirements != requirements) {
+			NotificationChain msgs = null;
+			if (requirements != null)
+				msgs = ((InternalEObject)requirements).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BehaviortreePackage.BE_MODEL__REQUIREMENTS, null, msgs);
+			if (newRequirements != null)
+				msgs = ((InternalEObject)newRequirements).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BehaviortreePackage.BE_MODEL__REQUIREMENTS, null, msgs);
+			msgs = basicSetRequirements(newRequirements, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.BE_MODEL__REQUIREMENTS, newRequirements, newRequirements));
 	}
 
 	/**
@@ -210,8 +316,10 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 		switch (featureID) {
 			case BehaviortreePackage.BE_MODEL__DBT:
 				return basicSetDbt(null, msgs);
+			case BehaviortreePackage.BE_MODEL__COMPONENT_LIST:
+				return basicSetComponentList(null, msgs);
 			case BehaviortreePackage.BE_MODEL__REQUIREMENTS:
-				return ((InternalEList<?>)getRequirements()).basicRemove(otherEnd, msgs);
+				return basicSetRequirements(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -228,8 +336,11 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return getDbt();
 			case BehaviortreePackage.BE_MODEL__NAME:
 				return getName();
-			case BehaviortreePackage.BE_MODEL__COMPONENTS:
-				return getComponents();
+			case BehaviortreePackage.BE_MODEL__EREFERENCE0:
+				if (resolve) return getEReference0();
+				return basicGetEReference0();
+			case BehaviortreePackage.BE_MODEL__COMPONENT_LIST:
+				return getComponentList();
 			case BehaviortreePackage.BE_MODEL__REQUIREMENTS:
 				return getRequirements();
 		}
@@ -251,13 +362,14 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 			case BehaviortreePackage.BE_MODEL__NAME:
 				setName((String)newValue);
 				return;
-			case BehaviortreePackage.BE_MODEL__COMPONENTS:
-				getComponents().clear();
-				getComponents().addAll((Collection<? extends Component>)newValue);
+			case BehaviortreePackage.BE_MODEL__EREFERENCE0:
+				setEReference0((BEModel)newValue);
+				return;
+			case BehaviortreePackage.BE_MODEL__COMPONENT_LIST:
+				setComponentList((ComponentList)newValue);
 				return;
 			case BehaviortreePackage.BE_MODEL__REQUIREMENTS:
-				getRequirements().clear();
-				getRequirements().addAll((Collection<? extends Requirements>)newValue);
+				setRequirements((RequirementList)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -277,11 +389,14 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 			case BehaviortreePackage.BE_MODEL__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case BehaviortreePackage.BE_MODEL__COMPONENTS:
-				getComponents().clear();
+			case BehaviortreePackage.BE_MODEL__EREFERENCE0:
+				setEReference0((BEModel)null);
+				return;
+			case BehaviortreePackage.BE_MODEL__COMPONENT_LIST:
+				setComponentList((ComponentList)null);
 				return;
 			case BehaviortreePackage.BE_MODEL__REQUIREMENTS:
-				getRequirements().clear();
+				setRequirements((RequirementList)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -299,10 +414,12 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return dbt != null;
 			case BehaviortreePackage.BE_MODEL__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BehaviortreePackage.BE_MODEL__COMPONENTS:
-				return components != null && !components.isEmpty();
+			case BehaviortreePackage.BE_MODEL__EREFERENCE0:
+				return eReference0 != null;
+			case BehaviortreePackage.BE_MODEL__COMPONENT_LIST:
+				return componentList != null;
 			case BehaviortreePackage.BE_MODEL__REQUIREMENTS:
-				return requirements != null && !requirements.isEmpty();
+				return requirements != null;
 		}
 		return super.eIsSet(featureID);
 	}

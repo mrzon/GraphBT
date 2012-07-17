@@ -73,8 +73,10 @@ public class BehaviortreeFactoryImpl extends EFactoryImpl implements Behaviortre
 			case BehaviortreePackage.CT_EDGE: return createCTEdge();
 			case BehaviortreePackage.STATE: return createState();
 			case BehaviortreePackage.LIBRARY: return createLibrary();
-			case BehaviortreePackage.REQUIREMENTS: return createRequirements();
+			case BehaviortreePackage.REQUIREMENT: return createRequirement();
 			case BehaviortreePackage.BEHAVIOR: return createBehavior();
+			case BehaviortreePackage.COMPONENT_LIST: return createComponentList();
+			case BehaviortreePackage.REQUIREMENT_LIST: return createRequirementList();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -259,9 +261,9 @@ public class BehaviortreeFactoryImpl extends EFactoryImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Requirements createRequirements() {
-		RequirementsImpl requirements = new RequirementsImpl();
-		return requirements;
+	public Requirement createRequirement() {
+		RequirementImpl requirement = new RequirementImpl();
+		return requirement;
 	}
 
 	/**
@@ -272,6 +274,26 @@ public class BehaviortreeFactoryImpl extends EFactoryImpl implements Behaviortre
 	public Behavior createBehavior() {
 		BehaviorImpl behavior = new BehaviorImpl();
 		return behavior;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ComponentList createComponentList() {
+		ComponentListImpl componentList = new ComponentListImpl();
+		return componentList;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RequirementList createRequirementList() {
+		RequirementListImpl requirementList = new RequirementListImpl();
+		return requirementList;
 	}
 
 	/**

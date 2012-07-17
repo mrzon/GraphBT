@@ -144,15 +144,27 @@ public class BehaviortreeSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case BehaviortreePackage.REQUIREMENTS: {
-				Requirements requirements = (Requirements)theEObject;
-				T result = caseRequirements(requirements);
+			case BehaviortreePackage.REQUIREMENT: {
+				Requirement requirement = (Requirement)theEObject;
+				T result = caseRequirement(requirement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case BehaviortreePackage.BEHAVIOR: {
 				Behavior behavior = (Behavior)theEObject;
 				T result = caseBehavior(behavior);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BehaviortreePackage.COMPONENT_LIST: {
+				ComponentList componentList = (ComponentList)theEObject;
+				T result = caseComponentList(componentList);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BehaviortreePackage.REQUIREMENT_LIST: {
+				RequirementList requirementList = (RequirementList)theEObject;
+				T result = caseRequirementList(requirementList);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -341,17 +353,17 @@ public class BehaviortreeSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Requirements</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Requirement</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Requirements</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Requirement</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseRequirements(Requirements object) {
+	public T caseRequirement(Requirement object) {
 		return null;
 	}
 
@@ -367,6 +379,36 @@ public class BehaviortreeSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseBehavior(Behavior object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Component List</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Component List</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseComponentList(ComponentList object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Requirement List</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Requirement List</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRequirementList(RequirementList object) {
 		return null;
 	}
 
