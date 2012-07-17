@@ -6,15 +6,38 @@
  */
 package behaviortree.impl;
 
-import behaviortree.*;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+
+import behaviortree.Attribute;
+import behaviortree.BEModel;
+import behaviortree.Behavior;
+import behaviortree.BehaviorTree;
+import behaviortree.BehaviorType;
+import behaviortree.BehaviortreeFactory;
+import behaviortree.BehaviortreePackage;
+import behaviortree.Branch;
+import behaviortree.CTEdge;
+import behaviortree.Component;
+import behaviortree.ComponentList;
+import behaviortree.Composition;
+import behaviortree.Edge;
+import behaviortree.EmptyNode;
+import behaviortree.EventType;
+import behaviortree.Library;
+import behaviortree.Node;
+import behaviortree.Operator;
+import behaviortree.Requirement;
+import behaviortree.RequirementList;
+import behaviortree.SpecialEdge;
+import behaviortree.SpecialEdgeEnum;
+import behaviortree.StandardNode;
+import behaviortree.State;
+import behaviortree.TraceabilityStatus;
 
 /**
  * <!-- begin-user-doc -->
