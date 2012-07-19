@@ -15,8 +15,13 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.PlatformUI;
 
 import behaviortree.*;
+import behaviortree.graphBT.wizards.CreateStandardNodeGraphBTWizard;
 
 
 public class CreateGeneralBtNodeFeature extends AbstractCreateFeature  implements
@@ -56,7 +61,11 @@ ICreateFeature {
     public Object[] create(ICreateContext context) {
         
 		Resource resource = getDiagram().eResource();
-		ResourceSet rs = resource.getResourceSet();
+//		ResourceSet rs = resource.getResourceSet();
+		String wizardCarrier[] = new String[2];
+		
+		invokeCreateStandardNodeWizard(wizardCarrier);
+		
 		// Create a new node and add it to an EMF resource
 		StandardNode node = BehaviortreeFactory.eINSTANCE.createStandardNode();
 		resource.getContents().add(node);
@@ -89,14 +98,27 @@ ICreateFeature {
 		node.setOperator(Operator.NO_OPERATOR);
 		
 		Component c = BehaviortreeFactory.eINSTANCE.createComponent();
-	    c.setComponentName("DefaultComponent");
+//	    c.setComponentName("DefaultComponent");
+		if(wizardCarrier[0].equals("")){
+			c.setComponentName("DefaultComponent");
+		}
+		else{
+			c.setComponentName(wizardCarrier[0]);
+		}
+		
 	    c.setComponentRef("De");
 	    node.setComponent(c);
 	    
 	    Behavior b = BehaviortreeFactory.eINSTANCE.createBehavior();
 	    c.getBehaviors().add(b);
 	    
-	    b.setBehaviorName("DefaultBehavior");
+//	    b.setBehaviorName("DefaultBehavior");
+	    if(wizardCarrier[1].equals("")){
+			b.setBehaviorName("DefaultBehavior");
+		}
+		else{
+			b.setBehaviorName(wizardCarrier[1]);
+		}
 	    b.setBehaviorRef("be");
 	    node.setBehavior(b);
 	    
@@ -146,10 +168,26 @@ ICreateFeature {
 			e.printStackTrace();
 		}
 		
+//		invokeCreateStandardNodeWizard(node);
 		//getFeatureProvider().getDirectEditingInfo().setActive(true);
 
 		// Delegate to the add feature
 		addGraphicalRepresentation(context, node);
 		return new Object[] { node };
-     } 
+     }
+    
+    public void invokeCreateStandardNodeWizard(String wizardCarrier[]){
+    	WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+                getActiveWorkbenchWindow().getShell(),
+    		new CreateStandardNodeGraphBTWizard(wizardCarrier));
+    		
+		if (wizardDialog.open() == Window.OK) {
+			System.out.println("Ok pressed");
+		} else {
+			System.out.println("Cancel pressed");
+		}
+		
+//		IWizard w = 
+		//wizardDialog.getCurrentPage().getWizard().getDialogSettings().get(getDescription());
+    }
 }
