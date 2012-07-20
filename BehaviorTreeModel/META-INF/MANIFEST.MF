@@ -18,4 +18,5 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.7.0,4.0.0)",
  org.eclipse.emf.ecore.xmi;bundle-version="2.7.0"
 Bundle-Version: 0.9.0.v20120413-1409
 Import-Package: org.eclipse.graphiti.examples.common,
- org.eclipse.ui.forms.widgets
+ org.eclipse.ui.forms.widgets,
+ org.eclipse.ui.views.properties.tabbed

@@ -37,5 +37,29 @@
          </diagramType>
       </diagramTypeProvider>
    </extension>
-
+<extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+          <propertyContributor contributorId="graphbt.PropertyContributor">
+              <propertyCategory category="Graphiti">
+              </propertyCategory>
+          </propertyContributor>
+      </extension>
+      <extension
+          point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+          <propertyTabs contributorId="graphbt.PropertyContributor">
+              <propertyTab label="Main" category="Graphiti"
+                  id="graphiti.main.tab">
+              </propertyTab>
+          </propertyTabs>
+      </extension>   
+      <extension
+          point="org.eclipse.ui.views.properties.tabbed.propertySections">
+          <propertySections contributorId="graphbt.PropertyContributor">
+              <propertySection
+                    tab="graphiti.main.tab"
+                    class="behaviortree.graphBT.property.BehaviorTreePropertySection"
+                    filter="behaviortree.graphBT.property.BehaviorTreeFilter"
+                    id="graphiti.main.tab.emfclass">
+              </propertySection>
+          </propertySections>
+      </extension>
 </plugin>
