@@ -25,7 +25,6 @@ public class BehaviorTreePropertySection extends GFPropertySection
 	implements ITabbedPropertyConstants {
 	private Text componentText;
 	private Text behaviorText;
-	
 
     @Override
     public void createControls(Composite parent, 
@@ -40,13 +39,13 @@ public class BehaviorTreePropertySection extends GFPropertySection
 
         componentText = factory.createText(composite, "");
         behaviorText = factory.createText(composite, "");
-        
-        componentText.addModifyListener(modifyListener());
+        componentText.addModifyListener(modifyListenerComponent());
         
         componentData = new FormData();
         componentData.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
         componentData.right = new FormAttachment(100, 0);
         componentData.top = new FormAttachment(0, VSPACE);
+        componentData.bottom = new FormAttachment(behaviorText, VSPACE);
         componentText.setLayoutData(componentData);
 
         CLabel valueLabel = factory.createCLabel(composite, "Component:");
@@ -60,15 +59,15 @@ public class BehaviorTreePropertySection extends GFPropertySection
         behaviorData = new FormData();
         behaviorData.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
         behaviorData.right = new FormAttachment(100, 0);
-        behaviorData.top = new FormAttachment(0, VSPACE);
+        behaviorData.top = new FormAttachment(componentText, VSPACE);
         behaviorText.setLayoutData(behaviorData);
 
         CLabel valueLabel2 = factory.createCLabel(composite, "Behavior:");
         behaviorData = new FormData();
         behaviorData.left = new FormAttachment(0, 0);
-        behaviorData.right = new FormAttachment(componentText, -HSPACE);
+        behaviorData.right = new FormAttachment(behaviorText, -HSPACE);
         behaviorData.top = new FormAttachment(componentText, 0, SWT.CENTER);
-        valueLabel.setLayoutData(behaviorData);
+        valueLabel2.setLayoutData(behaviorData);
 
     }
 
@@ -83,11 +82,12 @@ public class BehaviorTreePropertySection extends GFPropertySection
             if (bo == null)
                 return;
             
-            componentText.addModifyListener(modifyListener());
+            componentText.addModifyListener(modifyListenerComponent());
+            behaviorText.addModifyListener(modifyListenerBehavior());
         }
     }
     
-    private ModifyListener modifyListener() {
+    private ModifyListener modifyListenerComponent() {
     	return new ModifyListener(){
 	    	@Override
 	    	public void modifyText(ModifyEvent e) {
@@ -126,16 +126,80 @@ public class BehaviorTreePropertySection extends GFPropertySection
 	    						System.out.println("StandardNode...");
 	    						node.getComponent().setComponentName(typedValue);
 	    					}
-	    					if(bo instanceof Component)
+//	    					if(bo instanceof Component)
+//	    					{
+//	    						Component eClass = (Component) bo;
+//	    						System.out.println("Component...");
+//	    					}
+//	    					if(bo instanceof Behavior)
+//	    					{
+//	    						Behavior eClass = (Behavior) bo;
+//	    						System.out.println("behavior...");
+//	    					}
+	    				}
+	    			}
+	    			
+	    			@Override
+	    			public boolean canExecute(IContext context) {
+	    				return true;
+	    			}
+	    		};
+	    		CustomContext context = new CustomContext();
+	    		execute(feature, context);
+	    	}
+	    };
+    }
+    
+    private ModifyListener modifyListenerBehavior() {
+    	return new ModifyListener(){
+	    	@Override
+	    	public void modifyText(ModifyEvent e) {
+	    		String value = behaviorText.getText();
+	    		if (value == null) {
+	    			value = "";
+	    		}
+	    		PictogramElement pe = getSelectedPictogramElement();
+	    		System.out.println("Ini objeknya punya tipenya apa eaaa");
+	    		if (pe != null) {
+	    			Object bo = Graphiti.getLinkService().
+	    					getBusinessObjectForLinkedPictogramElement(pe);
+	    			if (bo == null)
+	    				return;
+	    			String name = ((StandardNode) bo).getBehavior().toString();
+	    			System.out.println("Behavior: " + name);
+	    			if (value.equals(name))
+	    				return;
+	    		}
+	    		final String typedValue = value;
+	    		IFeature feature = new AbstractFeature(
+	    				getDiagramTypeProvider().getFeatureProvider()) {
+	    			@Override
+	    			public void execute(IContext context) {
+	    				PictogramElement pe = getSelectedPictogramElement();
+	    				if (pe != null) {
+	    					Object bo = Graphiti.getLinkService().
+	    							getBusinessObjectForLinkedPictogramElement(pe);
+	    					
+	    					if (bo == null)
+	    						return;
+	    					
+	    					if(bo instanceof StandardNode)
 	    					{
-	    						Component eClass = (Component) bo;
-	    						System.out.println("Component...");
+	    						StandardNode node = (StandardNode) bo;
+	    						System.out.println("StandardNode...");
+	    						node.getBehavior().setBehaviorName(typedValue);
+	    						//setBehaviorName(typedValue);
 	    					}
-	    					if(bo instanceof Behavior)
-	    					{
-	    						Behavior eClass = (Behavior) bo;
-	    						System.out.println("behavior...");
-	    					}
+//	    					if(bo instanceof Component)
+//	    					{
+//	    						Component eClass = (Component) bo;
+//	    						System.out.println("Component...");
+//	    					}
+//	    					if(bo instanceof Behavior)
+//	    					{
+//	    						Behavior eClass = (Behavior) bo;
+//	    						System.out.println("behavior...");
+//	    					}
 	    				}
 	    			}
 	    			

@@ -115,6 +115,19 @@ public class GraphBTUtil {
 		uri = uri.trimFragment();
 		uri = uri.trimFileExtension();
 		uri = uri.appendFileExtension("model");
+		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+		IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
+		if (file == null || !file.exists()) {
+			Resource createResource = d.eResource().getResourceSet().createResource(uri);
+			try {
+				createResource.save(Collections.emptyMap());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			createResource.setTrackingModification(true);
+		}
+		
 		Iterator<EObject> obj = d.eResource().getResourceSet().getResource(uri,true).getContents().iterator();
 		while(obj.hasNext())
 		{

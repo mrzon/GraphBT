@@ -64,7 +64,14 @@ ICreateFeature {
 //		ResourceSet rs = resource.getResourceSet();
 		String wizardCarrier[] = new String[2];
 		
-		invokeCreateStandardNodeWizard(wizardCarrier);
+		//invokeCreateStandardNodeWizard(wizardCarrier);
+		WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+                getActiveWorkbenchWindow().getShell(),
+    		new CreateStandardNodeGraphBTWizard(wizardCarrier, getDiagram()));
+    		
+		if (wizardDialog.open() != Window.OK) {
+			return null;
+		} 
 		
 		// Create a new node and add it to an EMF resource
 		StandardNode node = BehaviortreeFactory.eINSTANCE.createStandardNode();
@@ -174,20 +181,5 @@ ICreateFeature {
 		// Delegate to the add feature
 		addGraphicalRepresentation(context, node);
 		return new Object[] { node };
-     }
-    
-    public void invokeCreateStandardNodeWizard(String wizardCarrier[]){
-    	WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
-                getActiveWorkbenchWindow().getShell(),
-    		new CreateStandardNodeGraphBTWizard(wizardCarrier));
-    		
-		if (wizardDialog.open() == Window.OK) {
-			System.out.println("Ok pressed");
-		} else {
-			System.out.println("Cancel pressed");
-		}
-		
-//		IWizard w = 
-		//wizardDialog.getCurrentPage().getWizard().getDialogSettings().get(getDescription());
-    }
+     }    
 }

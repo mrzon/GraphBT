@@ -51,7 +51,7 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
 		else if (bo instanceof Behavior) {
 			if(node.getBehavior()!=null)
 			{
-				businessName = node.getBehavior().getBehaviorName();
+				businessName = node.getBehavior().toString();
 			}
 			else
 			{
