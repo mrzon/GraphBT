@@ -75,12 +75,12 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
         System.out.println("Current condition of standard node: "+node);
 		
 		if(ob instanceof Component) {
-			String str = node.getComponent()==null?"":node.getComponent().getComponentName();
+			String str = node.getComponentRef()==null?"":((Component)ob).getComponentName();
 			return str;
 		}
 		//if the direct-edited object is and instance of behavior
 		else if(ob instanceof Behavior) {
-			String str = node.getBehavior()==null?"":node.getBehavior().getBehaviorName();
+			String str = node.getBehaviorRef()==null?"":((Behavior)ob).getBehaviorName();
 			return str;
 		}
 		//if the direct-edited object is an instance of operator
@@ -123,19 +123,20 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 		StandardNode node = (StandardNode) getBusinessObjectForPictogramElement(pel);
         
 		//StandardNode node = (StandardNode) this.getFeatureProvider().getDirectEditingInfo().getMainPictogramElement();
-		System.out.println("In set Value "+node.getComponent().getComponentName());
+		//System.out.println("In set Value "+node.getComponent().getComponentName());
 		
 		//if the direct-edited object is and instance of component
 		if(object instanceof Component) {
-			System.out.println("object instanceof component");
+			//System.out.println("object instanceof component");
 			//TODO: add form to "add component"
 			if(GraphBTUtil.getComponent(getModel(), value)==null)
 			{
 				Component cp = BehaviortreeFactory.eINSTANCE.createComponent();
 				cp.setComponentName(value);
-				node.setComponent(cp);
+				cp.setComponentRef(value);
+				node.setComponentRef(cp.getComponentRef());
 				getModel().getComponentList().getComponents().add(cp);
-				try {
+				/*try {
 					GraphBTUtil.saveToModelFile(cp, getDiagram());
 				} catch (CoreException e) {
 					// TODO Auto-generated catch block
@@ -143,22 +144,23 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}*/
 				System.out.println("Artinya gw bikin komponen baru, namanya "+value);
 				MessageDialog.openInformation(null, "Info", "Component \""+value+"\" is created");
 			}
 			else {
 				System.out.println("Ternyata, komponen dengan nama "+value+" Sudah ada broh");
-				node.setComponent(GraphBTUtil.getComponent(this.getModel(),value));
-				Behavior beh = node.getComponent().getBehaviors().size()>0?node.getComponent().getBehaviors().get(0):null;
-				node.setBehavior(beh);
+				Component cp = GraphBTUtil.getComponent(this.getModel(),value);
+				node.setComponentRef(cp.getComponentRef());
+				Behavior beh = cp.getBehaviors().size()>0?cp.getBehaviors().get(0):null;
+				node.setBehaviorRef(beh.getBehaviorRef());
 			}
 			//TODO kasih peringatan untuk perubahan nama
 		}
 		//if the direct-edited object is and instance of behavior
 		else if(object instanceof Behavior) {
 			System.out.println("object instanceof behavior");
-			Component component = node.getComponent();
+			Component component = GraphBTUtil.getComponent(getModel(), node.getComponentRef());
 			if(component==null)
 			{
 				MessageDialog.openError(null, "Error set behavior name", "You must set the correct component name before adding behavior name");
@@ -181,7 +183,7 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 				System.out.println("Ternyata, behavior dengan nama "+value+" Sudah ada broh");
 				b = GraphBTUtil.getBehaviorFromComponent(component, value);
 			}
-			node.setBehavior(b);
+			node.setBehaviorRef(b.getBehaviorRef());
 		}
 		//if the direct-edited object is an instance of operator
 		else if(object instanceof Operator) {

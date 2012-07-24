@@ -24,6 +24,9 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
+import behaviortree.Behavior;
+import behaviortree.Component;
+import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
 
 public class AddGeneralBtNodeFeature extends AbstractAddShapeFeature implements
@@ -89,11 +92,12 @@ IAddFeature {
             polyline.setForeground(manageColor(E_CLASS_FOREGROUND));
             polyline.setLineWidth(1);
         }
-        
+        Component cp = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram()),node.getComponentRef());
+    	
         // SHAPE WITH TEXT FOR COMPONENT
         {  	
         	Shape shapeComponent = peCreateService.createShape(containerShape, false);
-        	String str = node.getComponent()==null?"Default component":node.getComponent().getComponentName();
+        	String str = node.getComponentRef()==null?"Default component":cp.getComponentName();
             Text text = gaService.createText(shapeComponent, str);
             text.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER); 
@@ -103,7 +107,7 @@ IAddFeature {
             //
             //link(shapeComponent, node.getComponent());
             //link(shapeComponent, node);
-            link(shapeComponent, node.getComponent());
+            link(shapeComponent, cp);
             final IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
             directEditingInfo.setMainPictogramElement(containerShape);
             directEditingInfo.setPictogramElement(shapeComponent);
@@ -112,16 +116,17 @@ IAddFeature {
         
         // SHAPE WITH TEXT FOR BEHAVIOR
         {
+        	Behavior b = GraphBTUtil.getBehaviorFromComponentByRef(cp, node.getBehaviorRef());
         	Shape shapeBehavior = peCreateService.createShape(containerShape, true);
-        	String str = node.getBehavior()==null?"Default behavior":node.getBehavior().toString();
-            Text textBehavior = gaService.createText(shapeBehavior, str);
+        	String str = b==null?"Default behavior":b.toString();
+            Text textBehavior = gaService.createText(shapeBehavior, b.toString());
             textBehavior.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             textBehavior.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
             textBehavior.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             gaService.setLocationAndSize(textBehavior, 40, height/2 + 10, width - 40, 20);
             
             //link(shapeBehavior, node);
-            link(shapeBehavior, node.getBehavior());
+            link(shapeBehavior, b);
             
             IDirectEditingInfo directEditingInfo =
                 getFeatureProvider().getDirectEditingInfo();
@@ -176,6 +181,7 @@ IAddFeature {
             textOperator.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             textOperator.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER); 
             textOperator.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
+            
             gaService.setLocationAndSize(textOperator, 140, 5, 30, 20);
             
             //link(shapeOperator, node.getOperator());

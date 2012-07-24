@@ -6,6 +6,9 @@
  */
 package behaviortree.impl;
 
+import behaviortree.BehaviorTree;
+import behaviortree.BehaviortreePackage;
+import behaviortree.Node;
 import behaviortree.*;
 import java.util.Collection;
 

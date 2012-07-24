@@ -9,6 +9,18 @@
 -->
 
 <plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="behaviortree.editor.MultiPageEditor"
+            contributorClass="behaviortree.editor.MultiPageEditorContributor"
+            default="true"
+            extensions="btdiagram"
+            icon="icons/sample.gif"
+            id="behaviortree.editor.MultiPageEditor"
+            name="BT Diagram">
+      </editor>
+   </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package

@@ -6,6 +6,11 @@
  */
 package behaviortree.impl;
 
+import behaviortree.BEModel;
+import behaviortree.BehaviorTree;
+import behaviortree.BehaviortreePackage;
+import behaviortree.ComponentList;
+import behaviortree.RequirementList;
 import behaviortree.*;
 import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
@@ -30,7 +35,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link behaviortree.impl.BEModelImpl#getDbt <em>Dbt</em>}</li>
  *   <li>{@link behaviortree.impl.BEModelImpl#getName <em>Name</em>}</li>
- *   <li>{@link behaviortree.impl.BEModelImpl#getEReference0 <em>EReference0</em>}</li>
  *   <li>{@link behaviortree.impl.BEModelImpl#getComponentList <em>Component List</em>}</li>
  *   <li>{@link behaviortree.impl.BEModelImpl#getRequirements <em>Requirements</em>}</li>
  * </ul>
@@ -68,16 +72,6 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getEReference0() <em>EReference0</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEReference0()
-	 * @generated
-	 * @ordered
-	 */
-	protected BEModel eReference0;
 
 	/**
 	 * The cached value of the '{@link #getComponentList() <em>Component List</em>}' containment reference.
@@ -180,44 +174,6 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.BE_MODEL__NAME, oldName, name));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public BEModel getEReference0() {
-		if (eReference0 != null && eReference0.eIsProxy()) {
-			InternalEObject oldEReference0 = (InternalEObject)eReference0;
-			eReference0 = (BEModel)eResolveProxy(oldEReference0);
-			if (eReference0 != oldEReference0) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BehaviortreePackage.BE_MODEL__EREFERENCE0, oldEReference0, eReference0));
-			}
-		}
-		return eReference0;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public BEModel basicGetEReference0() {
-		return eReference0;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setEReference0(BEModel newEReference0) {
-		BEModel oldEReference0 = eReference0;
-		eReference0 = newEReference0;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.BE_MODEL__EREFERENCE0, oldEReference0, eReference0));
 	}
 
 	/**
@@ -336,9 +292,6 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return getDbt();
 			case BehaviortreePackage.BE_MODEL__NAME:
 				return getName();
-			case BehaviortreePackage.BE_MODEL__EREFERENCE0:
-				if (resolve) return getEReference0();
-				return basicGetEReference0();
 			case BehaviortreePackage.BE_MODEL__COMPONENT_LIST:
 				return getComponentList();
 			case BehaviortreePackage.BE_MODEL__REQUIREMENTS:
@@ -361,9 +314,6 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return;
 			case BehaviortreePackage.BE_MODEL__NAME:
 				setName((String)newValue);
-				return;
-			case BehaviortreePackage.BE_MODEL__EREFERENCE0:
-				setEReference0((BEModel)newValue);
 				return;
 			case BehaviortreePackage.BE_MODEL__COMPONENT_LIST:
 				setComponentList((ComponentList)newValue);
@@ -389,9 +339,6 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 			case BehaviortreePackage.BE_MODEL__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case BehaviortreePackage.BE_MODEL__EREFERENCE0:
-				setEReference0((BEModel)null);
-				return;
 			case BehaviortreePackage.BE_MODEL__COMPONENT_LIST:
 				setComponentList((ComponentList)null);
 				return;
@@ -414,8 +361,6 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return dbt != null;
 			case BehaviortreePackage.BE_MODEL__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case BehaviortreePackage.BE_MODEL__EREFERENCE0:
-				return eReference0 != null;
 			case BehaviortreePackage.BE_MODEL__COMPONENT_LIST:
 				return componentList != null;
 			case BehaviortreePackage.BE_MODEL__REQUIREMENTS:

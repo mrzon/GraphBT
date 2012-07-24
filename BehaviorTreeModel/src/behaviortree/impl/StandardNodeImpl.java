@@ -23,11 +23,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link behaviortree.impl.StandardNodeImpl#getTraceabilityStatus <em>Traceability Status</em>}</li>
- *   <li>{@link behaviortree.impl.StandardNodeImpl#getComponent <em>Component</em>}</li>
  *   <li>{@link behaviortree.impl.StandardNodeImpl#getOperator <em>Operator</em>}</li>
  *   <li>{@link behaviortree.impl.StandardNodeImpl#getLabel <em>Label</em>}</li>
- *   <li>{@link behaviortree.impl.StandardNodeImpl#getBehavior <em>Behavior</em>}</li>
  *   <li>{@link behaviortree.impl.StandardNodeImpl#getTraceabilityLink <em>Traceability Link</em>}</li>
+ *   <li>{@link behaviortree.impl.StandardNodeImpl#getComponentRef <em>Component Ref</em>}</li>
+ *   <li>{@link behaviortree.impl.StandardNodeImpl#getBehaviorRef <em>Behavior Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -53,16 +53,6 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * @ordered
 	 */
 	protected TraceabilityStatus traceabilityStatus = TRACEABILITY_STATUS_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getComponent() <em>Component</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getComponent()
-	 * @generated
-	 * @ordered
-	 */
-	protected Component component;
 
 	/**
 	 * The default value of the '{@link #getOperator() <em>Operator</em>}' attribute.
@@ -105,16 +95,6 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	protected String label = LABEL_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getBehavior() <em>Behavior</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getBehavior()
-	 * @generated
-	 * @ordered
-	 */
-	protected Behavior behavior;
-
-	/**
 	 * The cached value of the '{@link #getTraceabilityLink() <em>Traceability Link</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -123,6 +103,46 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * @ordered
 	 */
 	protected Requirement traceabilityLink;
+
+	/**
+	 * The default value of the '{@link #getComponentRef() <em>Component Ref</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComponentRef()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String COMPONENT_REF_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getComponentRef() <em>Component Ref</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComponentRef()
+	 * @generated
+	 * @ordered
+	 */
+	protected String componentRef = COMPONENT_REF_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getBehaviorRef() <em>Behavior Ref</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBehaviorRef()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String BEHAVIOR_REF_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getBehaviorRef() <em>Behavior Ref</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBehaviorRef()
+	 * @generated
+	 * @ordered
+	 */
+	protected String behaviorRef = BEHAVIOR_REF_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -141,44 +161,6 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	@Override
 	protected EClass eStaticClass() {
 		return BehaviortreePackage.Literals.STANDARD_NODE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Behavior getBehavior() {
-		if (behavior != null && behavior.eIsProxy()) {
-			InternalEObject oldBehavior = (InternalEObject)behavior;
-			behavior = (Behavior)eResolveProxy(oldBehavior);
-			if (behavior != oldBehavior) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BehaviortreePackage.STANDARD_NODE__BEHAVIOR, oldBehavior, behavior));
-			}
-		}
-		return behavior;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Behavior basicGetBehavior() {
-		return behavior;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setBehavior(Behavior newBehavior) {
-		Behavior oldBehavior = behavior;
-		behavior = newBehavior;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.STANDARD_NODE__BEHAVIOR, oldBehavior, behavior));
 	}
 
 	/**
@@ -224,6 +206,48 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getComponentRef() {
+		return componentRef;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setComponentRef(String newComponentRef) {
+		String oldComponentRef = componentRef;
+		componentRef = newComponentRef;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.STANDARD_NODE__COMPONENT_REF, oldComponentRef, componentRef));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getBehaviorRef() {
+		return behaviorRef;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setBehaviorRef(String newBehaviorRef) {
+		String oldBehaviorRef = behaviorRef;
+		behaviorRef = newBehaviorRef;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.STANDARD_NODE__BEHAVIOR_REF, oldBehaviorRef, behaviorRef));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public TraceabilityStatus getTraceabilityStatus() {
 		return traceabilityStatus;
 	}
@@ -238,44 +262,6 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 		traceabilityStatus = newTraceabilityStatus == null ? TRACEABILITY_STATUS_EDEFAULT : newTraceabilityStatus;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.STANDARD_NODE__TRACEABILITY_STATUS, oldTraceabilityStatus, traceabilityStatus));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Component getComponent() {
-		if (component != null && component.eIsProxy()) {
-			InternalEObject oldComponent = (InternalEObject)component;
-			component = (Component)eResolveProxy(oldComponent);
-			if (component != oldComponent) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BehaviortreePackage.STANDARD_NODE__COMPONENT, oldComponent, component));
-			}
-		}
-		return component;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Component basicGetComponent() {
-		return component;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setComponent(Component newComponent) {
-		Component oldComponent = component;
-		component = newComponent;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.STANDARD_NODE__COMPONENT, oldComponent, component));
 	}
 
 	/**
@@ -330,19 +316,17 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 		switch (featureID) {
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_STATUS:
 				return getTraceabilityStatus();
-			case BehaviortreePackage.STANDARD_NODE__COMPONENT:
-				if (resolve) return getComponent();
-				return basicGetComponent();
 			case BehaviortreePackage.STANDARD_NODE__OPERATOR:
 				return getOperator();
 			case BehaviortreePackage.STANDARD_NODE__LABEL:
 				return getLabel();
-			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR:
-				if (resolve) return getBehavior();
-				return basicGetBehavior();
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
 				if (resolve) return getTraceabilityLink();
 				return basicGetTraceabilityLink();
+			case BehaviortreePackage.STANDARD_NODE__COMPONENT_REF:
+				return getComponentRef();
+			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR_REF:
+				return getBehaviorRef();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -358,20 +342,20 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_STATUS:
 				setTraceabilityStatus((TraceabilityStatus)newValue);
 				return;
-			case BehaviortreePackage.STANDARD_NODE__COMPONENT:
-				setComponent((Component)newValue);
-				return;
 			case BehaviortreePackage.STANDARD_NODE__OPERATOR:
 				setOperator((Operator)newValue);
 				return;
 			case BehaviortreePackage.STANDARD_NODE__LABEL:
 				setLabel((String)newValue);
 				return;
-			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR:
-				setBehavior((Behavior)newValue);
-				return;
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
 				setTraceabilityLink((Requirement)newValue);
+				return;
+			case BehaviortreePackage.STANDARD_NODE__COMPONENT_REF:
+				setComponentRef((String)newValue);
+				return;
+			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR_REF:
+				setBehaviorRef((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -388,20 +372,20 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_STATUS:
 				setTraceabilityStatus(TRACEABILITY_STATUS_EDEFAULT);
 				return;
-			case BehaviortreePackage.STANDARD_NODE__COMPONENT:
-				setComponent((Component)null);
-				return;
 			case BehaviortreePackage.STANDARD_NODE__OPERATOR:
 				setOperator(OPERATOR_EDEFAULT);
 				return;
 			case BehaviortreePackage.STANDARD_NODE__LABEL:
 				setLabel(LABEL_EDEFAULT);
 				return;
-			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR:
-				setBehavior((Behavior)null);
-				return;
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
 				setTraceabilityLink((Requirement)null);
+				return;
+			case BehaviortreePackage.STANDARD_NODE__COMPONENT_REF:
+				setComponentRef(COMPONENT_REF_EDEFAULT);
+				return;
+			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR_REF:
+				setBehaviorRef(BEHAVIOR_REF_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -417,16 +401,16 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 		switch (featureID) {
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_STATUS:
 				return traceabilityStatus != TRACEABILITY_STATUS_EDEFAULT;
-			case BehaviortreePackage.STANDARD_NODE__COMPONENT:
-				return component != null;
 			case BehaviortreePackage.STANDARD_NODE__OPERATOR:
 				return operator != OPERATOR_EDEFAULT;
 			case BehaviortreePackage.STANDARD_NODE__LABEL:
 				return LABEL_EDEFAULT == null ? label != null : !LABEL_EDEFAULT.equals(label);
-			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR:
-				return behavior != null;
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
 				return traceabilityLink != null;
+			case BehaviortreePackage.STANDARD_NODE__COMPONENT_REF:
+				return COMPONENT_REF_EDEFAULT == null ? componentRef != null : !COMPONENT_REF_EDEFAULT.equals(componentRef);
+			case BehaviortreePackage.STANDARD_NODE__BEHAVIOR_REF:
+				return BEHAVIOR_REF_EDEFAULT == null ? behaviorRef != null : !BEHAVIOR_REF_EDEFAULT.equals(behaviorRef);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -442,9 +426,9 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append("Component");
-		result.append(component);
+		result.append(componentRef);
 		result.append(", behavior:");
-		result.append(behavior);
+		result.append(behaviorRef);
 		result.append(", (traceabilityStatus: ");
 		result.append(traceabilityStatus);
 		result.append(", operator: ");
@@ -454,13 +438,4 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 		result.append(')');
 		return result.toString();
 	}
-
-	@Override
-	public String getComponentName() {
-		if(this.getComponent()==null)
-			return "Component";
-		else
-			return this.getComponent().getComponentName();
-	}
-
 } //StandardNodeImpl

@@ -56,7 +56,6 @@
     <genClasses ecoreClass="DefaultName.ecore#//BEModel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/dbt"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//BEModel/name"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/EReference0"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/componentList"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/requirements"/>
     </genClasses>
@@ -85,11 +84,11 @@
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//StandardNode">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/traceabilityStatus"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//StandardNode/component"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/operator"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/label"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference DefaultName.ecore#//StandardNode/behavior"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//StandardNode/traceabilityLink"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/componentRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/behaviorRef"/>
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//Component">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Component/componentName"/>

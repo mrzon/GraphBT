@@ -2,6 +2,7 @@ package behaviortree.graphBT.features;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -62,12 +63,12 @@ ICreateFeature {
         
 		Resource resource = getDiagram().eResource();
 //		ResourceSet rs = resource.getResourceSet();
-		String wizardCarrier[] = new String[2];
+		HashMap <Integer,String> map = new HashMap <Integer,String>(); 
 		
 		//invokeCreateStandardNodeWizard(wizardCarrier);
 		WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
                 getActiveWorkbenchWindow().getShell(),
-    		new CreateStandardNodeGraphBTWizard(wizardCarrier, getDiagram()));
+    		new CreateStandardNodeGraphBTWizard(map, getDiagram()));
     		
 		if (wizardDialog.open() != Window.OK) {
 			return null;
@@ -104,36 +105,34 @@ ICreateFeature {
 		//set the operator as no operator
 		node.setOperator(Operator.NO_OPERATOR);
 		
-		Component c = BehaviortreeFactory.eINSTANCE.createComponent();
+		Component c=null;
 //	    c.setComponentName("DefaultComponent");
-		if(wizardCarrier[0].equals("")){
+		if(map.get(StandardNode.STANDARDNODE_COMPONENT)==null ||(map.get(StandardNode.STANDARDNODE_COMPONENT)!=null&&map.get(StandardNode.STANDARDNODE_COMPONENT).equals(""))){
+			c = BehaviortreeFactory.eINSTANCE.createComponent();
 			c.setComponentName("DefaultComponent");
 		}
 		else{
-			c.setComponentName(wizardCarrier[0]);
+			c=GraphBTUtil.getComponent(beModel, map.get(StandardNode.STANDARDNODE_COMPONENT));
 		}
 		
-	    c.setComponentRef("De");
-	    node.setComponent(c);
+	    node.setComponentRef(c.getComponentRef());
 	    
-	    Behavior b = BehaviortreeFactory.eINSTANCE.createBehavior();
-	    c.getBehaviors().add(b);
-	    
-//	    b.setBehaviorName("DefaultBehavior");
-	    if(wizardCarrier[1].equals("")){
+	    Behavior b = null;
+	    if(map.get(StandardNode.STANDARDNODE_BEHAVIOR).equals("")){
+			b = BehaviortreeFactory.eINSTANCE.createBehavior();
 			b.setBehaviorName("DefaultBehavior");
 		}
 		else{
-			b.setBehaviorName(wizardCarrier[1]);
+			b=GraphBTUtil.getBehaviorFromComponent(c, map.get(StandardNode.STANDARDNODE_BEHAVIOR));
 		}
-	    b.setBehaviorRef("be");
-	    node.setBehavior(b);
+		
+	    node.setBehaviorRef(b.getBehaviorRef());
 	    
 	    Requirement r = BehaviortreeFactory.eINSTANCE.createRequirement();
 		r.setKey("");
 		node.setTraceabilityLink(r);
 		//set the traceability status as original
-		node.setTraceabilityStatus(TraceabilityStatus.ORIGINAL);
+		node.setTraceabilityStatus(TraceabilityStatus.getByName(map.get(StandardNode.STANDARDNODE_TRACEABILITYSTATUS)));
 		
 		//node.setBehaviorType(BehaviorType.STATE_REALIZATION);
 		
@@ -165,9 +164,9 @@ ICreateFeature {
 		}
 		try {	
 			try {
-				GraphBTUtil.saveToModelFile(beModel, getDiagram());
+				//GraphBTUtil.saveToModelFile(beModel, getDiagram());
 				GraphBTUtil.saveToModelFile(node, getDiagram());
-				GraphBTUtil.saveToModelFile(c, getDiagram());
+				//GraphBTUtil.saveToModelFile(c, getDiagram());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -180,6 +179,7 @@ ICreateFeature {
 
 		// Delegate to the add feature
 		addGraphicalRepresentation(context, node);
+		
 		return new Object[] { node };
      }    
 }

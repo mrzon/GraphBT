@@ -1,6 +1,11 @@
 package behaviortree.graphBT.wizards;
 
+import java.util.HashMap;
+
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -14,25 +19,30 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
+import behaviortree.Behavior;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.Operator;
+import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
+import behaviortree.graphBT.wizards.createbehavior.CreateBehaviorGraphBTWizard;
+import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard;
 
 
 public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 	
 	private Composite container;
-	private String stringCarrier[];
+	private HashMap<Integer, String> map;
 	private Diagram d;
 
 	
-	public CreateStandardNodeFirstPageGraphBTWizard(String stringCarrier[], Diagram d) {
+	public CreateStandardNodeFirstPageGraphBTWizard(HashMap<Integer, String> map, Diagram d) {
 		super("Create Standard Node Wizard");
 		setTitle("Create Standard Node Wizard");
 		setDescription("Fill in the Behavior Tree node elements below.");
-		this.stringCarrier = stringCarrier;
+		this.map = map;
 		this.d=d;
 	}
 
@@ -56,12 +66,7 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 		    operatorCombo.add(op.getName());
 	    }
 	    
-	    operatorCombo.addSelectionListener(new SelectionAdapter() {
-		    public void widgetSelected(SelectionEvent e) {
-			     
-		     }
-	     });
-	    
+	
 	    Label traceabilityStatusLabel = new Label(container, SWT.NULL);
 	    traceabilityStatusLabel.setText("Traceability Status Name");
 		
@@ -75,84 +80,106 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 	    Label componentComboLabel = new Label(container, SWT.NULL);
 	    componentComboLabel.setText("Component Name");
 		
-	    Combo componentCombo= new Combo(container, SWT.BORDER | SWT.READ_ONLY);
+	    final Combo componentCombo= new Combo(container, SWT.BORDER | SWT.READ_ONLY);
 	    componentCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	    
 	    for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()){
 	    	componentCombo.add(component.getComponentName());
 	    }
 	    
-	    final Label componentButtonLabel = new Label(container, SWT.NULL);
-	    componentButtonLabel.setText("Add Component");
-	    
-	    Button componentButton = new Button(container, SWT.NULL);
-	    componentButton.setText("Add New Component");
-
-
-	    final Label componentLabel = new Label(container, SWT.NULL);
-		componentLabel.setText("Component Name");
-		componentLabel.setVisible(false);
+	    Label behaviorComboLabel = new Label(container, SWT.NULL);
+	    behaviorComboLabel.setText("Behavior Name");
 		
-		final Text componentNameText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		componentNameText.setVisible(false);
-		
-		final Label behaviorLabel = new Label(container, SWT.NULL);
-		behaviorLabel.setText("Behavior Name");
-		behaviorLabel.setVisible(false);
-		
-		final Text behaviorText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		behaviorText.setVisible(false);
-		
-	    componentButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-				if(componentLabel.isVisible())
-				{
-					componentLabel.setVisible(false);
-					componentNameText.setVisible(false);
-					behaviorLabel.setVisible(false);
-					behaviorText.setVisible(false);
-				}
-				else
-				{
-					componentLabel.setVisible(true);
-					componentNameText.setVisible(true);
-					behaviorLabel.setVisible(true);
-					behaviorText.setVisible(true);
-				}
-			}
-		});
-
-		
-		componentNameText.setText("");
-		
-		componentNameText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				Text t= (Text) e.widget;
-				stringCarrier[0] = t.getText();
-			}
-	    });
-		
-		behaviorText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				Text t= (Text) e.widget;
-				stringCarrier[1] = t.getText();
-			}
-	    });
-
-	    traceabilityStatusCombo.addSelectionListener(new SelectionAdapter() {
-		    public void widgetSelected(SelectionEvent e) {
-			     
-		     }
-	     });
+	    final Combo behaviorCombo= new Combo(container, SWT.BORDER | SWT.READ_ONLY);
+	    componentCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	    componentCombo.addSelectionListener(new SelectionAdapter() {
 		    public void widgetSelected(SelectionEvent e) {
-			     
+		    	Combo combo = (Combo)e.widget;
+		    	String selected = combo.getItem(combo.getSelectionIndex());
+		    	map.put(StandardNode.STANDARDNODE_COMPONENT, selected );
+		    	behaviorCombo.removeAll();
+		    	Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), selected);
+		    	if(c!=null)
+		    	for(Behavior behavior: c.getBehaviors()){
+			    	behaviorCombo.add(behavior.toString());
+			    }
+		     }
+	     });
+	    behaviorCombo.addSelectionListener(new SelectionAdapter() {
+		    public void widgetSelected(SelectionEvent e) {
+		    	Combo combo = (Combo)e.widget;
+		    	String selected = combo.getItem(combo.getSelectionIndex());
+		    	
+		    	map.put(StandardNode.STANDARDNODE_BEHAVIOR, selected);
+		     }
+	     });
+	     
+	    Button componentButton = new Button(container, SWT.NULL);
+	    componentButton.setText("Add New Component");
+	    Button behaviorButton = new Button(container, SWT.NULL);
+	    behaviorButton.setText("Add New Behavior");
+
+	    componentButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				HashMap <Integer,String> map = new HashMap<Integer, String>();
+				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+		                getActiveWorkbenchWindow().getShell(),
+		    		new CreateComponentGraphBTWizard(map, d));
+				if(wizardDialog.open() != Window.OK)
+				{
+					return;
+				}
+				componentCombo.removeAll();
+			    for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()){
+			    	componentCombo.add(component.getComponentName());
+			    }
+			}
+			
+		});
+	    
+	    behaviorButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				String str = map.get(StandardNode.STANDARDNODE_COMPONENT);
+				if(str == null || str.equals(""))
+				{
+					MessageDialog.openError(null, "Error Create Behavior", "Select existing component before adding behavior!"+map.get(StandardNode.STANDARDNODE_COMPONENT));
+					return;
+				}
+				Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), map.get(StandardNode.STANDARDNODE_COMPONENT));
+				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+		                getActiveWorkbenchWindow().getShell(),
+		    		new CreateBehaviorGraphBTWizard(c));
+				if(wizardDialog.open() != Window.OK)
+				{
+					return;
+				}
+				behaviorCombo.removeAll();
+				for(Behavior behavior: c.getBehaviors()){
+			    	behaviorCombo.add(behavior.toString());
+			    }
+			}
+			
+		});
+		
+	    operatorCombo.addSelectionListener(new SelectionAdapter() {
+		    public void widgetSelected(SelectionEvent e) {
+		    	Combo combo = (Combo)e.widget;
+		    	String selected = combo.getItem(combo.getSelectionIndex());
+		    	
+		    	map.put(StandardNode.STANDARDNODE_OPERATOR, selected);
+		     }
+	    });
+	    
+	    traceabilityStatusCombo.addSelectionListener(new SelectionAdapter() {
+		    public void widgetSelected(SelectionEvent e) {
+		    	Combo combo = (Combo)e.widget;
+		    	String selected = combo.getItem(combo.getSelectionIndex());
+		    	map.put(StandardNode.STANDARDNODE_TRACEABILITYSTATUS, selected );
+		    	
 		     }
 	     });
 
-		System.out.println("stringCarrier[0] " + stringCarrier[0]);
-		System.out.println("stringCarrier[0].getText() " + componentNameText.getText());
-		// Required to avoid an error in the system
+		//System.out.println("stringCarrier[0] " + stringCarrier[0]);
 		setControl(container);
 	}
 }

@@ -202,4 +202,7 @@ public interface Component extends EObject {
 	 */
 	void setComponentRef(String value);
 
+	static final int COMPONENT_NAME = 0x12;
+	static final int COMPONENT_REF = 0x13;
+	static final int COMPONENT_DESC = 0x14;
 } // Component

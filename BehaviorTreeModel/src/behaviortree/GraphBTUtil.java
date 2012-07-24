@@ -17,6 +17,7 @@ package behaviortree;
  *******************************************************************************/
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +43,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 
 
 public class GraphBTUtil {
@@ -70,7 +73,9 @@ public class GraphBTUtil {
 	}
 	
 	public static BEModel getBEModel(final Diagram d)
-	{/*
+	{
+		
+		/*
 		  getBEFactory();
 
 	      // Register the XMI Resource factory for the.enterprise extension
@@ -110,7 +115,7 @@ public class GraphBTUtil {
 		return beModel;*/
 		// get model elements from the resource
 		//return resource.getContents().size() != 0?(BEModel)resource.getContents().get(0):null; // get(0) might be dangerous. why?
-		
+	
 		URI uri = d.eResource().getURI();
 		uri = uri.trimFragment();
 		uri = uri.trimFileExtension();
@@ -118,6 +123,7 @@ public class GraphBTUtil {
 		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
 		if (file == null || !file.exists()) {
+			System.out.println("Ga nemu modelnya");
 			Resource createResource = d.eResource().getResourceSet().createResource(uri);
 			try {
 				createResource.save(Collections.emptyMap());
@@ -137,11 +143,13 @@ public class GraphBTUtil {
 				return (BEModel)ob;
 			}
 		}
+		System.out.println("BE Model belum dibuat kyaa kyaa kyaa");
 		BEModel beModel = GraphBTUtil.getBEFactory().createBEModel();
 		beModel.setName("BTPackage");
 		beModel.setComponentList(GraphBTUtil.getBEFactory().createComponentList());
 		beModel.setDbt(GraphBTUtil.getBEFactory().createBehaviorTree());
 		beModel.setRequirements(GraphBTUtil.getBEFactory().createRequirementList());
+		//d.eResource().getContents().add(beModel);
 		try {
 			saveToModelFile(beModel,d);
 		} catch (CoreException e) {
@@ -195,7 +203,7 @@ public class GraphBTUtil {
 					ret.addAll(getDiagramFiles((IContainer) resource));
 				} else if (resource instanceof IFile) {
 					final IFile file = (IFile) resource;
-					if (file.getName().endsWith(".diagram")) { //$NON-NLS-1$
+					if (file.getName().endsWith(".btdiagram")) { //$NON-NLS-1$
 						ret.add(file);
 					}
 				}
@@ -206,7 +214,7 @@ public class GraphBTUtil {
 		return ret;
 	}
 
-	private static Diagram getDiagramFromFile(IFile file, ResourceSet resourceSet) {
+	public static Diagram getDiagramFromFile(IFile file, ResourceSet resourceSet) {
 		// Get the URI of the model file.
 		final URI resourceURI = getFileURI(file, resourceSet);
 
@@ -240,6 +248,7 @@ public class GraphBTUtil {
 	public static ResourceSet getResourceSet(final Diagram d) throws CoreException, IOException {
 
 		ResourceSet rSet = d.eResource().getResourceSet();
+		
 		return rSet;
 	}
 	
@@ -280,14 +289,47 @@ public class GraphBTUtil {
 		}
 		return null;
 	}
-
+	public static Component getComponentByRef(BEModel model, String ref)
+	{
+		Iterator<Component> it = model.getComponentList().getComponents().iterator();
+		while(it.hasNext()){
+			Component c = it.next();
+	
+			if(c.getComponentRef().equals(ref)/*||c.getComponentName().equals(ref)*/) {
+				return c;
+			}
+		}
+		return null;
+	}
+	public static boolean createNewComponent(BEModel model, Component com)
+	{
+		if(getComponent(model, com.getComponentName())!=null)
+		{
+			model.getComponentList().getComponents().add(com);
+			return true;
+		}
+		return false;
+	}
 	public static Behavior getBehaviorFromComponent(Component component,
 			String ref) {
 		Iterator<Behavior> it = component.getBehaviors().iterator();
 		while(it.hasNext()){
 			Behavior b = it.next();
 	
-			if(b.getBehaviorName().equals(ref)) {
+			if(b.toString().equals(ref)) {
+				return b;
+			}
+		}
+		return null;
+	}
+	
+	public static Behavior getBehaviorFromComponentByRef(Component component,
+			String ref) {
+		Iterator<Behavior> it = component.getBehaviors().iterator();
+		while(it.hasNext()){
+			Behavior b = it.next();
+	
+			if(b.getBehaviorRef().equals(ref)) {
 				return b;
 			}
 		}

@@ -16,11 +16,11 @@ package behaviortree;
  * The following features are supported:
  * <ul>
  *   <li>{@link behaviortree.StandardNode#getTraceabilityStatus <em>Traceability Status</em>}</li>
- *   <li>{@link behaviortree.StandardNode#getComponent <em>Component</em>}</li>
  *   <li>{@link behaviortree.StandardNode#getOperator <em>Operator</em>}</li>
  *   <li>{@link behaviortree.StandardNode#getLabel <em>Label</em>}</li>
- *   <li>{@link behaviortree.StandardNode#getBehavior <em>Behavior</em>}</li>
  *   <li>{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}</li>
+ *   <li>{@link behaviortree.StandardNode#getComponentRef <em>Component Ref</em>}</li>
+ *   <li>{@link behaviortree.StandardNode#getBehaviorRef <em>Behavior Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -29,32 +29,6 @@ package behaviortree;
  * @generated
  */
 public interface StandardNode extends Node {
-	/**
-	 * Returns the value of the '<em><b>Behavior</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Behavior</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Behavior</em>' reference.
-	 * @see #setBehavior(Behavior)
-	 * @see behaviortree.BehaviortreePackage#getStandardNode_Behavior()
-	 * @model required="true"
-	 * @generated
-	 */
-	Behavior getBehavior();
-
-	/**
-	 * Sets the value of the '{@link behaviortree.StandardNode#getBehavior <em>Behavior</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Behavior</em>' reference.
-	 * @see #getBehavior()
-	 * @generated
-	 */
-	void setBehavior(Behavior value);
-
 	/**
 	 * Returns the value of the '<em><b>Traceability Link</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -80,6 +54,58 @@ public interface StandardNode extends Node {
 	 * @generated
 	 */
 	void setTraceabilityLink(Requirement value);
+
+	/**
+	 * Returns the value of the '<em><b>Component Ref</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Component Ref</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Component Ref</em>' attribute.
+	 * @see #setComponentRef(String)
+	 * @see behaviortree.BehaviortreePackage#getStandardNode_ComponentRef()
+	 * @model required="true"
+	 * @generated
+	 */
+	String getComponentRef();
+
+	/**
+	 * Sets the value of the '{@link behaviortree.StandardNode#getComponentRef <em>Component Ref</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Component Ref</em>' attribute.
+	 * @see #getComponentRef()
+	 * @generated
+	 */
+	void setComponentRef(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Behavior Ref</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Behavior Ref</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Behavior Ref</em>' attribute.
+	 * @see #setBehaviorRef(String)
+	 * @see behaviortree.BehaviortreePackage#getStandardNode_BehaviorRef()
+	 * @model required="true"
+	 * @generated
+	 */
+	String getBehaviorRef();
+
+	/**
+	 * Sets the value of the '{@link behaviortree.StandardNode#getBehaviorRef <em>Behavior Ref</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Behavior Ref</em>' attribute.
+	 * @see #getBehaviorRef()
+	 * @generated
+	 */
+	void setBehaviorRef(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Traceability Status</b></em>' attribute.
@@ -109,32 +135,6 @@ public interface StandardNode extends Node {
 	 * @generated
 	 */
 	void setTraceabilityStatus(TraceabilityStatus value);
-
-	/**
-	 * Returns the value of the '<em><b>Component</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Component</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Component</em>' reference.
-	 * @see #setComponent(Component)
-	 * @see behaviortree.BehaviortreePackage#getStandardNode_Component()
-	 * @model required="true"
-	 * @generated
-	 */
-	Component getComponent();
-
-	/**
-	 * Sets the value of the '{@link behaviortree.StandardNode#getComponent <em>Component</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Component</em>' reference.
-	 * @see #getComponent()
-	 * @generated
-	 */
-	void setComponent(Component value);
 
 	/**
 	 * Returns the value of the '<em><b>Operator</b></em>' attribute.
@@ -191,6 +191,12 @@ public interface StandardNode extends Node {
 	 */
 	void setLabel(String value);
 
-	String getComponentName();
-
+	
+	static final int STANDARDNODE_COMPONENT = 0x16;
+	static final int STANDARDNODE_BEHAVIOR = 0x17;
+	static final int STANDARDNODE_TRACEABILITYLINK = 0x18;
+	static final int STANDARDNODE_TRACEABILITYSTATUS = 0x15;
+	static final int STANDARDNODE_OPERATOR = 0x16;
+	
+	
 } // StandardNode

@@ -19,7 +19,6 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link behaviortree.BEModel#getDbt <em>Dbt</em>}</li>
  *   <li>{@link behaviortree.BEModel#getName <em>Name</em>}</li>
- *   <li>{@link behaviortree.BEModel#getEReference0 <em>EReference0</em>}</li>
  *   <li>{@link behaviortree.BEModel#getComponentList <em>Component List</em>}</li>
  *   <li>{@link behaviortree.BEModel#getRequirements <em>Requirements</em>}</li>
  * </ul>
@@ -81,32 +80,6 @@ public interface BEModel extends EObject {
 	 * @generated
 	 */
 	void setName(String value);
-
-	/**
-	 * Returns the value of the '<em><b>EReference0</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>EReference0</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>EReference0</em>' reference.
-	 * @see #setEReference0(BEModel)
-	 * @see behaviortree.BehaviortreePackage#getBEModel_EReference0()
-	 * @model
-	 * @generated
-	 */
-	BEModel getEReference0();
-
-	/**
-	 * Sets the value of the '{@link behaviortree.BEModel#getEReference0 <em>EReference0</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>EReference0</em>' reference.
-	 * @see #getEReference0()
-	 * @generated
-	 */
-	void setEReference0(BEModel value);
 
 	/**
 	 * Returns the value of the '<em><b>Component List</b></em>' containment reference.

@@ -89,22 +89,13 @@ public interface BehaviortreePackage extends EPackage {
 	int BE_MODEL__NAME = 1;
 
 	/**
-	 * The feature id for the '<em><b>EReference0</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BE_MODEL__EREFERENCE0 = 2;
-
-	/**
 	 * The feature id for the '<em><b>Component List</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BE_MODEL__COMPONENT_LIST = 3;
+	int BE_MODEL__COMPONENT_LIST = 2;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' containment reference.
@@ -113,7 +104,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BE_MODEL__REQUIREMENTS = 4;
+	int BE_MODEL__REQUIREMENTS = 3;
 
 	/**
 	 * The number of structural features of the '<em>BE Model</em>' class.
@@ -122,7 +113,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BE_MODEL_FEATURE_COUNT = 5;
+	int BE_MODEL_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.impl.BehaviorTreeImpl <em>Behavior Tree</em>}' class.
@@ -428,22 +419,13 @@ public interface BehaviortreePackage extends EPackage {
 	int STANDARD_NODE__TRACEABILITY_STATUS = NODE_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Component</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STANDARD_NODE__COMPONENT = NODE_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>Operator</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STANDARD_NODE__OPERATOR = NODE_FEATURE_COUNT + 2;
+	int STANDARD_NODE__OPERATOR = NODE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Label</b></em>' attribute.
@@ -452,16 +434,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STANDARD_NODE__LABEL = NODE_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Behavior</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STANDARD_NODE__BEHAVIOR = NODE_FEATURE_COUNT + 4;
+	int STANDARD_NODE__LABEL = NODE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Traceability Link</b></em>' reference.
@@ -470,7 +443,25 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STANDARD_NODE__TRACEABILITY_LINK = NODE_FEATURE_COUNT + 5;
+	int STANDARD_NODE__TRACEABILITY_LINK = NODE_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Component Ref</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STANDARD_NODE__COMPONENT_REF = NODE_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Behavior Ref</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STANDARD_NODE__BEHAVIOR_REF = NODE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Standard Node</em>' class.
@@ -963,17 +954,6 @@ public interface BehaviortreePackage extends EPackage {
 	EAttribute getBEModel_Name();
 
 	/**
-	 * Returns the meta object for the reference '{@link behaviortree.BEModel#getEReference0 <em>EReference0</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>EReference0</em>'.
-	 * @see behaviortree.BEModel#getEReference0()
-	 * @see #getBEModel()
-	 * @generated
-	 */
-	EReference getBEModel_EReference0();
-
-	/**
 	 * Returns the meta object for the containment reference '{@link behaviortree.BEModel#getComponentList <em>Component List</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1199,17 +1179,6 @@ public interface BehaviortreePackage extends EPackage {
 	EClass getStandardNode();
 
 	/**
-	 * Returns the meta object for the reference '{@link behaviortree.StandardNode#getBehavior <em>Behavior</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Behavior</em>'.
-	 * @see behaviortree.StandardNode#getBehavior()
-	 * @see #getStandardNode()
-	 * @generated
-	 */
-	EReference getStandardNode_Behavior();
-
-	/**
 	 * Returns the meta object for the reference '{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1221,6 +1190,28 @@ public interface BehaviortreePackage extends EPackage {
 	EReference getStandardNode_TraceabilityLink();
 
 	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.StandardNode#getComponentRef <em>Component Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Component Ref</em>'.
+	 * @see behaviortree.StandardNode#getComponentRef()
+	 * @see #getStandardNode()
+	 * @generated
+	 */
+	EAttribute getStandardNode_ComponentRef();
+
+	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.StandardNode#getBehaviorRef <em>Behavior Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Behavior Ref</em>'.
+	 * @see behaviortree.StandardNode#getBehaviorRef()
+	 * @see #getStandardNode()
+	 * @generated
+	 */
+	EAttribute getStandardNode_BehaviorRef();
+
+	/**
 	 * Returns the meta object for the attribute '{@link behaviortree.StandardNode#getTraceabilityStatus <em>Traceability Status</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1230,17 +1221,6 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getStandardNode_TraceabilityStatus();
-
-	/**
-	 * Returns the meta object for the reference '{@link behaviortree.StandardNode#getComponent <em>Component</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Component</em>'.
-	 * @see behaviortree.StandardNode#getComponent()
-	 * @see #getStandardNode()
-	 * @generated
-	 */
-	EReference getStandardNode_Component();
 
 	/**
 	 * Returns the meta object for the attribute '{@link behaviortree.StandardNode#getOperator <em>Operator</em>}'.
@@ -1726,14 +1706,6 @@ public interface BehaviortreePackage extends EPackage {
 		EAttribute BE_MODEL__NAME = eINSTANCE.getBEModel_Name();
 
 		/**
-		 * The meta object literal for the '<em><b>EReference0</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference BE_MODEL__EREFERENCE0 = eINSTANCE.getBEModel_EReference0();
-
-		/**
 		 * The meta object literal for the '<em><b>Component List</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1914,14 +1886,6 @@ public interface BehaviortreePackage extends EPackage {
 		EClass STANDARD_NODE = eINSTANCE.getStandardNode();
 
 		/**
-		 * The meta object literal for the '<em><b>Behavior</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference STANDARD_NODE__BEHAVIOR = eINSTANCE.getStandardNode_Behavior();
-
-		/**
 		 * The meta object literal for the '<em><b>Traceability Link</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1930,20 +1894,28 @@ public interface BehaviortreePackage extends EPackage {
 		EReference STANDARD_NODE__TRACEABILITY_LINK = eINSTANCE.getStandardNode_TraceabilityLink();
 
 		/**
+		 * The meta object literal for the '<em><b>Component Ref</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STANDARD_NODE__COMPONENT_REF = eINSTANCE.getStandardNode_ComponentRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Behavior Ref</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STANDARD_NODE__BEHAVIOR_REF = eINSTANCE.getStandardNode_BehaviorRef();
+
+		/**
 		 * The meta object literal for the '<em><b>Traceability Status</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute STANDARD_NODE__TRACEABILITY_STATUS = eINSTANCE.getStandardNode_TraceabilityStatus();
-
-		/**
-		 * The meta object literal for the '<em><b>Component</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference STANDARD_NODE__COMPONENT = eINSTANCE.getStandardNode_Component();
 
 		/**
 		 * The meta object literal for the '<em><b>Operator</b></em>' attribute feature.

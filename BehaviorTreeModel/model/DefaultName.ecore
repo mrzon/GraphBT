@@ -7,10 +7,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="dbt" lowerBound="1" eType="#//BehaviorTree"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" eType="#//BEModel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="componentList" lowerBound="1"
         eType="#//ComponentList" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requirementList" lowerBound="1"
         eType="#//RequirementList" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BehaviorTree">
@@ -80,13 +79,13 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StandardNode" eSuperTypes="#//Node">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="traceabilityStatus" eType="#//TraceabilityStatus"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="component" lowerBound="1"
-        eType="#//Component"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="#//Operator"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="behavior" lowerBound="1"
-        eType="#//Behavior"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="traceabilityLink" eType="#//Requirement"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="componentRef" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="behaviorRef" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TraceabilityStatus">
     <eLiterals name="Original" literal=""/>

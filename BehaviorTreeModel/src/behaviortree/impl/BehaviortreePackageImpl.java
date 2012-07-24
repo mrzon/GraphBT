@@ -300,7 +300,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getBEModel_EReference0() {
+	public EReference getBEModel_ComponentList() {
 		return (EReference)beModelEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -309,17 +309,8 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getBEModel_ComponentList() {
-		return (EReference)beModelEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getBEModel_Requirements() {
-		return (EReference)beModelEClass.getEStructuralFeatures().get(4);
+		return (EReference)beModelEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -498,8 +489,8 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getStandardNode_Behavior() {
-		return (EReference)standardNodeEClass.getEStructuralFeatures().get(4);
+	public EReference getStandardNode_TraceabilityLink() {
+		return (EReference)standardNodeEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -507,8 +498,17 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getStandardNode_TraceabilityLink() {
-		return (EReference)standardNodeEClass.getEStructuralFeatures().get(5);
+	public EAttribute getStandardNode_ComponentRef() {
+		return (EAttribute)standardNodeEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStandardNode_BehaviorRef() {
+		return (EAttribute)standardNodeEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -525,17 +525,8 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getStandardNode_Component() {
-		return (EReference)standardNodeEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getStandardNode_Operator() {
-		return (EAttribute)standardNodeEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)standardNodeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -544,7 +535,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * @generated
 	 */
 	public EAttribute getStandardNode_Label() {
-		return (EAttribute)standardNodeEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)standardNodeEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -929,7 +920,6 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		beModelEClass = createEClass(BE_MODEL);
 		createEReference(beModelEClass, BE_MODEL__DBT);
 		createEAttribute(beModelEClass, BE_MODEL__NAME);
-		createEReference(beModelEClass, BE_MODEL__EREFERENCE0);
 		createEReference(beModelEClass, BE_MODEL__COMPONENT_LIST);
 		createEReference(beModelEClass, BE_MODEL__REQUIREMENTS);
 
@@ -958,11 +948,11 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 
 		standardNodeEClass = createEClass(STANDARD_NODE);
 		createEAttribute(standardNodeEClass, STANDARD_NODE__TRACEABILITY_STATUS);
-		createEReference(standardNodeEClass, STANDARD_NODE__COMPONENT);
 		createEAttribute(standardNodeEClass, STANDARD_NODE__OPERATOR);
 		createEAttribute(standardNodeEClass, STANDARD_NODE__LABEL);
-		createEReference(standardNodeEClass, STANDARD_NODE__BEHAVIOR);
 		createEReference(standardNodeEClass, STANDARD_NODE__TRACEABILITY_LINK);
+		createEAttribute(standardNodeEClass, STANDARD_NODE__COMPONENT_REF);
+		createEAttribute(standardNodeEClass, STANDARD_NODE__BEHAVIOR_REF);
 
 		componentEClass = createEClass(COMPONENT);
 		createEAttribute(componentEClass, COMPONENT__COMPONENT_NAME);
@@ -1050,7 +1040,6 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		initEClass(beModelEClass, BEModel.class, "BEModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBEModel_Dbt(), this.getBehaviorTree(), null, "dbt", null, 1, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBEModel_Name(), ecorePackage.getEString(), "name", null, 0, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getBEModel_EReference0(), this.getBEModel(), null, "EReference0", null, 0, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBEModel_ComponentList(), this.getComponentList(), null, "componentList", null, 1, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBEModel_Requirements(), this.getRequirementList(), null, "requirements", null, 1, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1079,11 +1068,11 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 
 		initEClass(standardNodeEClass, StandardNode.class, "StandardNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStandardNode_TraceabilityStatus(), this.getTraceabilityStatus(), "traceabilityStatus", null, 0, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getStandardNode_Component(), this.getComponent(), null, "component", null, 1, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStandardNode_Operator(), this.getOperator(), "operator", null, 0, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStandardNode_Label(), ecorePackage.getEString(), "label", null, 0, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getStandardNode_Behavior(), this.getBehavior(), null, "behavior", null, 1, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStandardNode_TraceabilityLink(), this.getRequirement(), null, "traceabilityLink", null, 0, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStandardNode_ComponentRef(), ecorePackage.getEString(), "componentRef", null, 1, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStandardNode_BehaviorRef(), ecorePackage.getEString(), "behaviorRef", null, 1, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(componentEClass, Component.class, "Component", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getComponent_ComponentName(), ecorePackage.getEString(), "componentName", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

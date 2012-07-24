@@ -256,16 +256,16 @@ public class BehaviorImpl extends EObjectImpl implements Behavior {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * 
 	 */
 	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer();
-		result.append(this.getBehaviorType().getOpenBracket());
+		result.append(behaviorType.getOpenBracket());
 		result.append(behaviorName);
-		result.append(this.getBehaviorType().getCloseBracket());
+		result.append(behaviorType.getCloseBracket());
 		return result.toString();
 	}
 

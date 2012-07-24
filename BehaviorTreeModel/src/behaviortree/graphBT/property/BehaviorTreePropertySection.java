@@ -102,7 +102,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
 	    					getBusinessObjectForLinkedPictogramElement(pe);
 	    			if (bo == null)
 	    				return;
-	    			String name = ((StandardNode) bo).getComponent().getComponentName();
+	    			String name = ((StandardNode) bo).getComponentRef();
 	    			System.out.println("Component: " + name);
 	    			if (value.equals(name))
 	    				return;
@@ -124,7 +124,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
 	    					{
 	    						StandardNode node = (StandardNode) bo;
 	    						System.out.println("StandardNode...");
-	    						node.getComponent().setComponentName(typedValue);
+	    						//node.getComponent().setComponentName(typedValue);
 	    					}
 //	    					if(bo instanceof Component)
 //	    					{
@@ -165,7 +165,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
 	    					getBusinessObjectForLinkedPictogramElement(pe);
 	    			if (bo == null)
 	    				return;
-	    			String name = ((StandardNode) bo).getBehavior().toString();
+	    			String name = ((StandardNode) bo).getBehaviorRef().toString();
 	    			System.out.println("Behavior: " + name);
 	    			if (value.equals(name))
 	    				return;
@@ -187,7 +187,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
 	    					{
 	    						StandardNode node = (StandardNode) bo;
 	    						System.out.println("StandardNode...");
-	    						node.getBehavior().setBehaviorName(typedValue);
+	    						//node.getBehavior().setBehaviorName(typedValue);
 	    						//setBehaviorName(typedValue);
 	    					}
 //	    					if(bo instanceof Component)

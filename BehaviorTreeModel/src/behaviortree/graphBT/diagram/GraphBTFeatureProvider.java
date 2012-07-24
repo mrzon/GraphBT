@@ -43,6 +43,7 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 
 	public GraphBTFeatureProvider(IDiagramTypeProvider dtp) {
 		super(dtp);
+		
 	}
 
 	@Override
@@ -63,6 +64,7 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 		} else if (context instanceof IAddContext /* && context.getNewObject() instanceof <DomainObject> */) {
 			return new AddGeneralBtNodeFeature(this);
 		}
+		
 		return super.getAddFeature(context);
 	}
 	

@@ -52,8 +52,10 @@ public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 		// Check if the business object of the given pictogram element (the
 		// square) is one of the allowed squares (see CreateChessMoveFeature)
 		// for a move in progress
+		
 		return super.getDecorators(pe);
 	}
+	
 	
 	@Override
 	public IPaletteCompartmentEntry[] getPalette() {
