@@ -108,31 +108,30 @@ IAddFeature {
             //link(shapeComponent, node.getComponent());
             //link(shapeComponent, node);
             link(shapeComponent, cp);
-            final IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
-            directEditingInfo.setMainPictogramElement(containerShape);
-            directEditingInfo.setPictogramElement(shapeComponent);
-            directEditingInfo.setGraphicsAlgorithm(text);
+//            final IDirectEditingInfo directEditingInfo = getFeatureProvider().getDirectEditingInfo();
+//            directEditingInfo.setMainPictogramElement(containerShape);
+//            directEditingInfo.setPictogramElement(shapeComponent);
+//            directEditingInfo.setGraphicsAlgorithm(text);
         }
         
         // SHAPE WITH TEXT FOR BEHAVIOR
         {
         	Behavior b = GraphBTUtil.getBehaviorFromComponentByRef(cp, node.getBehaviorRef());
         	Shape shapeBehavior = peCreateService.createShape(containerShape, true);
-        	String str = b==null?"Default behavior":b.toString();
+//        	String str = b==null?"Default behavior":b.toString();
             Text textBehavior = gaService.createText(shapeBehavior, b.toString());
             textBehavior.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             textBehavior.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
             textBehavior.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             gaService.setLocationAndSize(textBehavior, 40, height/2 + 10, width - 40, 20);
             
-            //link(shapeBehavior, node);
             link(shapeBehavior, b);
-            
-            IDirectEditingInfo directEditingInfo =
-                getFeatureProvider().getDirectEditingInfo();
-            directEditingInfo.setMainPictogramElement(containerShape);
-            directEditingInfo.setPictogramElement(shapeBehavior);
-            directEditingInfo.setGraphicsAlgorithm(textBehavior);
+//            
+//            IDirectEditingInfo directEditingInfo =
+//                getFeatureProvider().getDirectEditingInfo();
+//            directEditingInfo.setMainPictogramElement(containerShape);
+//            directEditingInfo.setPictogramElement(shapeBehavior);
+//            directEditingInfo.setGraphicsAlgorithm(textBehavior);
         }
         
         // SHAPE WITH TEXT FOR TRACEABILITY LINK
@@ -147,11 +146,11 @@ IAddFeature {
      
             link(shapeTraceabilityLink, node.getTraceabilityLink());
             
-            IDirectEditingInfo directEditingInfo =
-                getFeatureProvider().getDirectEditingInfo();
-            directEditingInfo.setMainPictogramElement(containerShape);
-            directEditingInfo.setPictogramElement(shapeTraceabilityLink);
-            directEditingInfo.setGraphicsAlgorithm(textTraceabilityLink);
+//            IDirectEditingInfo directEditingInfo =
+//                getFeatureProvider().getDirectEditingInfo();
+//            directEditingInfo.setMainPictogramElement(containerShape);
+//            directEditingInfo.setPictogramElement(shapeTraceabilityLink);
+//            directEditingInfo.setGraphicsAlgorithm(textTraceabilityLink);
         }
         
         // SHAPE WITH TEXT FOR TRACEABILITY STATUS
@@ -166,11 +165,11 @@ IAddFeature {
             
             //link(shapeTraceabilityStatus, node.getTraceabilityStatus());
          
-            IDirectEditingInfo directEditingInfo =
-                getFeatureProvider().getDirectEditingInfo();
-            directEditingInfo.setMainPictogramElement(containerShape);
-            directEditingInfo.setPictogramElement(shapeTraceabilityStatus);
-            directEditingInfo.setGraphicsAlgorithm(textTraceabilityStatus);
+//            IDirectEditingInfo directEditingInfo =
+//                getFeatureProvider().getDirectEditingInfo();
+//            directEditingInfo.setMainPictogramElement(containerShape);
+//            directEditingInfo.setPictogramElement(shapeTraceabilityStatus);
+//            directEditingInfo.setGraphicsAlgorithm(textTraceabilityStatus);
         }
         
         // SHAPE WITH TEXT FOR OPERATOR
@@ -186,12 +185,12 @@ IAddFeature {
             
             //link(shapeOperator, node.getOperator());
             
-            IDirectEditingInfo directEditingInfo =
-                getFeatureProvider().getDirectEditingInfo();
-            
-            directEditingInfo.setMainPictogramElement(containerShape);
-            directEditingInfo.setPictogramElement(shapeOperator);
-            directEditingInfo.setGraphicsAlgorithm(textOperator);
+//            IDirectEditingInfo directEditingInfo =
+//                getFeatureProvider().getDirectEditingInfo();
+//            
+//            directEditingInfo.setMainPictogramElement(containerShape);
+//            directEditingInfo.setPictogramElement(shapeOperator);
+//            directEditingInfo.setGraphicsAlgorithm(textOperator);
         }
         
         peCreateService.createChopboxAnchor(containerShape);

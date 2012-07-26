@@ -1,19 +1,19 @@
 package behaviortree.graphBT.features;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.AbstractUpdateFeature;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.Text;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.jface.text.Assert;
 
-import behaviortree.*;
+import behaviortree.Behavior;
+import behaviortree.Component;
+import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
-import behaviortree.TraceabilityStatus;
 
 
 public class UpdateGraphBtFeature extends AbstractUpdateFeature {
@@ -33,6 +33,7 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         
         //this.getAllBusinessObjectsForPictogramElement(context.getPictogramElement());
         return ((bo instanceof Component)||(bo instanceof Behavior));
+//        return bo instanceof StandardNode;
     }
  
     public IReason updateNeeded(IUpdateContext context) {
@@ -44,22 +45,23 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         Object oSN = getBusinessObjectForPictogramElement(((Shape)context.getPictogramElement()).getContainer());
        	StandardNode node = (StandardNode) oSN;
        	
+       	System.out.println("This is updateNeeded method");
         String businessName = null;
 		if (bo instanceof Component) {
 			Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram()), node.getComponentRef());
 			if(c != null)
 			{
 				businessName = c.getComponentName();
+				System.out.println("This is updateNeeded method bo instanceof component: " + businessName);
 			}
-			
 		}
 		else if (bo instanceof Behavior) {
-			if(node.getBehaviorRef()!=null)
-			{
-				businessName = GraphBTUtil.getBehaviorFromComponentByRef(GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram()), node.getComponentRef()), node.getBehaviorRef()).toString();
+			if(node.getBehaviorRef()!=null) {
+				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram()), node.getComponentRef());
+				businessName = GraphBTUtil.getBehaviorFromComponentByRef(c, node.getBehaviorRef()).toString();
+				
 			}
-			else
-			{
+			else {
 				businessName = null;
 			}
 		}
@@ -72,12 +74,11 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
 		boolean updateNameNeeded = ((pictogramName == null && businessName != null) || (pictogramName != null && !pictogramName
 				.equals(businessName)));
 		if (updateNameNeeded) {
+			System.out.println("Update is needed!");
 			return Reason.createTrueReason("Name is out of date"); //$NON-NLS-1$
 		} else {
 			return Reason.createFalseReason();
 		}
-        
-         
         // retrieve name from business model
     }
  

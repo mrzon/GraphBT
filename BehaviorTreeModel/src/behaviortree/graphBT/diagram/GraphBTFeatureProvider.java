@@ -72,7 +72,7 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	public IUpdateFeature getUpdateFeature(IUpdateContext context) {
 	    PictogramElement pictogramElement = context.getPictogramElement();
 	    Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-	    System.out.println("yeee masih masuk di direct editnya feature provider!");
+	    System.out.println("yeee masih masuk di update feature provider!");
 	    if (bo instanceof StandardNode) {
 			System.out.println("objeknya ternyata standar node");
 			return new UpdateGraphBtFeature(this);
@@ -112,21 +112,21 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 		return new ICustomFeature[] { new RenameGraphBtFeature(this) };
 	}
 	
-	@Override
-	public IDirectEditingFeature getDirectEditingFeature(IDirectEditingContext context) {
-		System.out.println("yeee masih masuk di direct T________T si echon");
-		PictogramElement pe = context.getPictogramElement();
-		PictogramElement pel = this.getDirectEditingInfo().getMainPictogramElement();
-		Object bo = getBusinessObjectForPictogramElement(pel);
-		
-		System.out.println("yeee masih masuk di direct T________T");
-		if (bo instanceof StandardNode) {
-			System.out.println("yeee masih masuk di direct editnya feature provider!");
-			return new DirectEditComponentGraphBtFeature(this);
-		}
-		return super.getDirectEditingFeature(context);
-	}
-	
+//	@Override
+//	public IDirectEditingFeature getDirectEditingFeature(IDirectEditingContext context) {
+//		System.out.println("yeee masih masuk di direct T________T si echon");
+//		PictogramElement pe = context.getPictogramElement();
+//		PictogramElement pel = this.getDirectEditingInfo().getMainPictogramElement();
+//		Object bo = getBusinessObjectForPictogramElement(pel);
+//		
+//		System.out.println("yeee masih masuk di direct T________T");
+//		if (bo instanceof StandardNode) {
+//			System.out.println("yeee masih masuk di direct editnya feature provider!");
+//			return new DirectEditComponentGraphBtFeature(this);
+//		}
+//		return super.getDirectEditingFeature(context);
+//	}
+//	
 	@Override
 	public IResizeShapeFeature getResizeShapeFeature(
 	        IResizeShapeContext context) {

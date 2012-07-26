@@ -155,7 +155,7 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		}
 	}
 	
-	public DiagramEditor getDiagram()
+	public DiagramEditor getDiagramEditor()
 	{
 		return editor;
 	}

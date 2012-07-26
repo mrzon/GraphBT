@@ -34,6 +34,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
@@ -42,7 +43,13 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.ui.editor.DiagramEditor;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
@@ -191,7 +198,23 @@ public class GraphBTUtil {
 			createResource.setTrackingModification(true);
 		}
 		final Resource resource = rSet.getResource(uri, true);
+		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+        DiagramEditor ds;
+        if(page.getActiveEditor() instanceof DiagramEditor)
+        {
+        	 ds = (DiagramEditor)page.getActiveEditor();	
+        }
+        else
+        {
+        	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+        }
+        Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+			protected void doExecute() {
 		resource.getContents().add(obj);
+		    }
+		};
+		TransactionalEditingDomain f = ds.getEditingDomain();
+		f.getCommandStack().execute(cmd);
 	}
 
 	private static List<IFile> getDiagramFiles(IContainer folder) {
