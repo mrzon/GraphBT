@@ -42,6 +42,7 @@ import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.graphBT.wizards.CreateStandardNodeGraphBTWizard;
 import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard;
+import behaviortree.graphBT.wizards.managecomponents.ManageComponentsGraphBTWizard;
 
 /**
  * Manages the installation/deinstallation of global actions for multi-page editors.
@@ -51,6 +52,7 @@ import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard
 public class MultiPageEditorContributor extends MultiPageEditorActionBarContributor {
 	private IEditorPart activeEditorPart;
 	private Action addNewComponent;
+	private Action manageComponents;
 	/**
 	 * Creates a multi-page contributor.
 	 */
@@ -127,8 +129,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
 					HashMap <Integer,String> map = new HashMap<Integer, String>();
 					//String ketemu="";
-					if(d!=null)
-					{
+					
 						WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 				                getActiveWorkbenchWindow().getShell(),
 				    		new CreateComponentGraphBTWizard(map, d));
@@ -138,10 +139,28 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						}
 						BEModel be = GraphBTUtil.getBEModel(d);
 						
+						System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
+						Component c = GraphBTUtil.getBEFactory().createComponent();
+						//if(map.get(Component.COMPONENT_NAME)!=null||map.get(Component.COMPONENT_NAME)!="")
+						c.setComponentName(map.get(Component.COMPONENT_NAME));
+						c.setComponentRef(map.get(Component.COMPONENT_REF));
+						
+						/*if(!c.getComponentName().equals("")&&c.getComponentName()!=null)
+						try {
+							GraphBTUtil.saveToModelFile(c, d);
+						} catch (CoreException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}*/
+						be.getComponentList().getComponents().add(c);
+						
 						
 						System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
 						
-					}
+					
 					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
 			}
@@ -151,6 +170,43 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		addNewComponent.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
 
+		
+		manageComponents = new Action(){
+			public void run() {
+				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
+				if(activeEditorPart instanceof DiagramEditor)
+				{
+					System.out.println("Diagramnya kebuka euy");
+					DiagramEditor de = (DiagramEditor)activeEditorPart;
+					// Get the currently selected file from the editor
+					Diagram d = de.getDiagramTypeProvider().getDiagram();
+					HashMap <Integer,String> map = new HashMap<Integer, String>();
+					//String ketemu="";
+					if(d!=null)
+					{
+						WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+				                getActiveWorkbenchWindow().getShell(),
+				    		new ManageComponentsGraphBTWizard(map, d));
+						if(wizardDialog.open() != Window.OK)
+						{
+							return;
+						}
+						BEModel be = GraphBTUtil.getBEModel(d);
+						
+						
+						//System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
+						
+					}
+					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
+				}
+			}
+		};
+		manageComponents.setText("Manage Components");
+		manageComponents.setToolTipText("Manage components of the model");
+		manageComponents.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
+				getImageDescriptor(IDE.SharedImages.IMG_OBJ_PROJECT));
+		
+		
 //		IEditorDescriptor eDesc = PlatformUI.getWorkbench().getActiveWorkbenchWindow().//findEditor("behaviortree.editor.MultiPageEditor");
 //		if(eDesc != null)
 //		{
@@ -161,9 +217,12 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		IMenuManager menu = new MenuManager("Editor &Menu");
 		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);
 		menu.add(addNewComponent);
+		menu.add(manageComponents);
+		
 	}
 	public void contributeToToolBar(IToolBarManager manager) {
 		manager.add(new Separator());
 		manager.add(addNewComponent);
+		manager.add(manageComponents);
 	}
 }
