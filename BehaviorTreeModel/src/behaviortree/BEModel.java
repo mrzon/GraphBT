@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link behaviortree.BEModel#getDbt <em>Dbt</em>}</li>
  *   <li>{@link behaviortree.BEModel#getName <em>Name</em>}</li>
  *   <li>{@link behaviortree.BEModel#getComponentList <em>Component List</em>}</li>
- *   <li>{@link behaviortree.BEModel#getRequirements <em>Requirements</em>}</li>
+ *   <li>{@link behaviortree.BEModel#getRequirementList <em>Requirement List</em>}</li>
  * </ul>
  * </p>
  *
@@ -108,29 +108,29 @@ public interface BEModel extends EObject {
 	void setComponentList(ComponentList value);
 
 	/**
-	 * Returns the value of the '<em><b>Requirements</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Requirement List</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Requirements</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Requirement List</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Requirements</em>' containment reference.
-	 * @see #setRequirements(RequirementList)
-	 * @see behaviortree.BehaviortreePackage#getBEModel_Requirements()
+	 * @return the value of the '<em>Requirement List</em>' containment reference.
+	 * @see #setRequirementList(RequirementList)
+	 * @see behaviortree.BehaviortreePackage#getBEModel_RequirementList()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	RequirementList getRequirements();
+	RequirementList getRequirementList();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.BEModel#getRequirements <em>Requirements</em>}' containment reference.
+	 * Sets the value of the '{@link behaviortree.BEModel#getRequirementList <em>Requirement List</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Requirements</em>' containment reference.
-	 * @see #getRequirements()
+	 * @param value the new value of the '<em>Requirement List</em>' containment reference.
+	 * @see #getRequirementList()
 	 * @generated
 	 */
-	void setRequirements(RequirementList value);
+	void setRequirementList(RequirementList value);
 
 } // BEModel

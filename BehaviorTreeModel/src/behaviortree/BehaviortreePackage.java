@@ -98,13 +98,13 @@ public interface BehaviortreePackage extends EPackage {
 	int BE_MODEL__COMPONENT_LIST = 2;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' containment reference.
+	 * The feature id for the '<em><b>Requirement List</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BE_MODEL__REQUIREMENTS = 3;
+	int BE_MODEL__REQUIREMENT_LIST = 3;
 
 	/**
 	 * The number of structural features of the '<em>BE Model</em>' class.
@@ -965,15 +965,15 @@ public interface BehaviortreePackage extends EPackage {
 	EReference getBEModel_ComponentList();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link behaviortree.BEModel#getRequirements <em>Requirements</em>}'.
+	 * Returns the meta object for the containment reference '{@link behaviortree.BEModel#getRequirementList <em>Requirement List</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Requirements</em>'.
-	 * @see behaviortree.BEModel#getRequirements()
+	 * @return the meta object for the containment reference '<em>Requirement List</em>'.
+	 * @see behaviortree.BEModel#getRequirementList()
 	 * @see #getBEModel()
 	 * @generated
 	 */
-	EReference getBEModel_Requirements();
+	EReference getBEModel_RequirementList();
 
 	/**
 	 * Returns the meta object for class '{@link behaviortree.BehaviorTree <em>Behavior Tree</em>}'.
@@ -1714,12 +1714,12 @@ public interface BehaviortreePackage extends EPackage {
 		EReference BE_MODEL__COMPONENT_LIST = eINSTANCE.getBEModel_ComponentList();
 
 		/**
-		 * The meta object literal for the '<em><b>Requirements</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Requirement List</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference BE_MODEL__REQUIREMENTS = eINSTANCE.getBEModel_Requirements();
+		EReference BE_MODEL__REQUIREMENT_LIST = eINSTANCE.getBEModel_RequirementList();
 
 		/**
 		 * The meta object literal for the '{@link behaviortree.impl.BehaviorTreeImpl <em>Behavior Tree</em>}' class.

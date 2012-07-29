@@ -148,7 +148,7 @@ public class GraphBTUtil {
 		beModel.setName("BTPackage");
 		beModel.setComponentList(GraphBTUtil.getBEFactory().createComponentList());
 		beModel.setDbt(GraphBTUtil.getBEFactory().createBehaviorTree());
-		beModel.setRequirements(GraphBTUtil.getBEFactory().createRequirementList());
+		beModel.setRequirementList(GraphBTUtil.getBEFactory().createRequirementList());
 		//d.eResource().getContents().add(beModel);
 		try {
 			saveToModelFile(beModel,d);
@@ -211,6 +211,7 @@ public class GraphBTUtil {
 		} catch (final CoreException e) {
 			e.printStackTrace();
 		}
+		
 		return ret;
 	}
 
@@ -234,6 +235,7 @@ public class GraphBTUtil {
 		} catch (final WrappedException e) {
 			e.printStackTrace();
 		}
+		
 
 		return null;
 	}
@@ -338,7 +340,7 @@ public class GraphBTUtil {
 	
 	public static Requirement getRequirement(BEModel model,
 			String key) {
-		Iterator<Requirement> it = model.getRequirements().getRequirements().iterator();
+		Iterator<Requirement> it = model.getRequirementList().getRequirements().iterator();
 		while(it.hasNext()){
 			Requirement res = it.next();
 	
@@ -347,5 +349,25 @@ public class GraphBTUtil {
 			}
 		}
 		return null;
+	}
+	
+	public static List<StandardNode> getRoots(ResourceSet rs)
+	{
+		List<StandardNode> l=new ArrayList<StandardNode>();
+		Iterator<Resource> it = rs.getResources().iterator();
+		while(it.hasNext()){
+			Resource res = it.next();
+			Iterator<EObject> i = res.getContents().iterator();
+			while(i.hasNext())
+			{
+				Object e = i.next();
+				if(e instanceof StandardNode)
+				{
+					l.add((StandardNode)i.next());
+				}
+			}
+		}
+		
+		return l;
 	}
 }

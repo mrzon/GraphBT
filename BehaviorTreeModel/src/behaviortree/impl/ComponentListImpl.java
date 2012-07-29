@@ -11,6 +11,7 @@ import behaviortree.Component;
 import behaviortree.ComponentList;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -134,5 +135,19 @@ public class ComponentListImpl extends EObjectImpl implements ComponentList {
 		}
 		return super.eIsSet(featureID);
 	}
+	
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer();
+		Iterator<Component> i = components.iterator();
+		while(i.hasNext())
+		{
+			result.append(i.next().toString());
+		}
+		return result.toString();
+	}
+
 
 } //ComponentListImpl

@@ -205,7 +205,7 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 			if(!(GraphBTUtil.getRequirement(getModel(), value) == null)){
 				requirements = BehaviortreeFactory.eINSTANCE.createRequirement();
 				requirements.setRequirement(value);
-				getModel().getRequirements().getRequirements().add(requirements);
+				getModel().getRequirementList().getRequirements().add(requirements);
 			}
 			else{
 				requirements = GraphBTUtil.getRequirement(getModel(), value);

@@ -29,6 +29,7 @@ import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
 import behaviortree.graphBT.wizards.createbehavior.CreateBehaviorGraphBTWizard;
 import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard;
+import behaviortree.graphBT.wizards.managecomponents.ManageComponentsGraphBTWizard;
 
 
 public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
@@ -118,7 +119,22 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 	    componentButton.setText("Add New Component");
 	    Button behaviorButton = new Button(container, SWT.NULL);
 	    behaviorButton.setText("Add New Behavior");
+	    Button manageComponentsButton = new Button(container, SWT.NULL);
+	    manageComponentsButton.setText("Manage Components");
 
+	    manageComponentsButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				HashMap <Integer,String> map = new HashMap<Integer, String>();
+				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+		                getActiveWorkbenchWindow().getShell(),
+		    		new ManageComponentsGraphBTWizard(map, d));
+				if(wizardDialog.open() != Window.OK)
+				{
+					return;
+				}
+			}
+		});
+	    
 	    componentButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				HashMap <Integer,String> map = new HashMap<Integer, String>();

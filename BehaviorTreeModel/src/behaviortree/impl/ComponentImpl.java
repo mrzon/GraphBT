@@ -8,11 +8,13 @@ package behaviortree.impl;
 
 import behaviortree.Attribute;
 import behaviortree.Behavior;
+import behaviortree.BehaviorType;
 import behaviortree.BehaviortreePackage;
 import behaviortree.Component;
 import behaviortree.State;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -481,20 +483,34 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * 
 	 */
 	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (componentName: ");
-		result.append(componentName);
-		result.append(", id: ");
-		result.append(id);
-		result.append(", componentRef: ");
-		result.append(componentRef);
-		result.append(')');
+		StringBuffer result = new StringBuffer();
+		result.append("#C "+componentRef+" "+componentName+"\n");
+		Iterator<Behavior> i = behaviors.iterator();
+		int j=0;
+		while(i.hasNext())
+		{
+			Behavior b = i.next();
+			String t = "";
+			j++;
+			switch(b.getBehaviorType().getValue())
+			{
+				case BehaviorType.STATE_REALIZATION_VALUE: t="#S"; break;
+				case BehaviorType.SELECTION_VALUE:  t="#L"; break;
+				case BehaviorType.GUARD_VALUE: t="#G"; break;
+				case BehaviorType.INTERNAL_INPUT_VALUE:  t="#II"; break;
+				case BehaviorType.INTERNA_OUTPUT_VALUE:  t="#IO"; break;
+				case BehaviorType.EXTERNAL_OUTPUT_VALUE: t="#EO"; break;
+				case BehaviorType.EXTERNAL_INPUT_VALUE:  t="#EI"; break;
+			}
+			result.append(t+" "+b.getBehaviorRef()+" "+b.getBehaviorName()+"\n");
+		}
+		result.append("\n");
 		return result.toString();
 	}
 

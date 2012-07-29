@@ -57,7 +57,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/dbt"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//BEModel/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/componentList"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/requirements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/requirementList"/>
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//BehaviorTree">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BehaviorTree/EReference0"/>
