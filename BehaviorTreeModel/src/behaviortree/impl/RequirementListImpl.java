@@ -7,10 +7,12 @@
 package behaviortree.impl;
 
 import behaviortree.BehaviortreePackage;
+import behaviortree.Component;
 import behaviortree.Requirement;
 import behaviortree.RequirementList;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -151,6 +153,24 @@ public class RequirementListImpl extends EObjectImpl implements RequirementList 
 				return requirements != null && !requirements.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+	
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer("#RT");
+		Iterator<Requirement> i = requirements.iterator();
+		int j=1;
+		while(i.hasNext())
+		{
+			
+			result.append(" R"+j+" R"+j);
+			j++;
+			i.next();
+		}
+		result.append("\n");
+		return result.toString();
 	}
 
 } //RequirementListImpl

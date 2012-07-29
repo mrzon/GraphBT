@@ -151,13 +151,13 @@ ICreateFeature {
 			System.out.println("inisialisasi component list");
 			beModel.setComponentList(GraphBTUtil.getBEFactory().createComponentList());
 		}
-		if(beModel.getRequirements()==null)
+		if(beModel.getRequirementList()==null)
 		{
 			System.out.println("inisialisasi requirement list");
-			beModel.setRequirements(GraphBTUtil.getBEFactory().createRequirementList());
+			beModel.setRequirementList(GraphBTUtil.getBEFactory().createRequirementList());
 		}
 		beModel.getComponentList().getComponents().add(c);
-		beModel.getRequirements().getRequirements().add(r);
+		beModel.getRequirementList().getRequirements().add(r);
 		if(beModel.getDbt()== null)
 		{
 			initiateBT(node);

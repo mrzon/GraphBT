@@ -6,6 +6,11 @@
  */
 package behaviortree.impl;
 
+import behaviortree.BehaviortreePackage;
+import behaviortree.Operator;
+import behaviortree.Requirement;
+import behaviortree.StandardNode;
+import behaviortree.TraceabilityStatus;
 import behaviortree.*;
 
 import org.eclipse.emf.common.notify.Notification;

@@ -1,14 +1,23 @@
 package behaviortree.editor;
 
 
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
+import org.be.textbe.bt.textbt.presentation.TextbtEditor;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.widgets.Display;
@@ -25,11 +34,14 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 
+import behaviortree.GraphBTUtil;
+
 public class MultiPageEditor extends FormEditor implements IResourceChangeListener {
 
 	/** The text editor used in page 0. */
 	private DiagramEditor editor;
 	private TextEditor editor2;
+	private TextbtEditor editor3;
 
 	/**
 	 * Creates a multi-page editor example.
@@ -70,6 +82,20 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 			ErrorDialog.openError(getSite().getShell(), "Error creating nested text editor", null, e.getStatus());
 		}
 	}
+	/**
+	 * Creates page 1 of the multi-page editor,
+	 * which allows you to change the font used in page 2.
+	 */
+	void createPage2() {
+
+		try {
+			editor3 = new TextbtEditor();
+			int index = addPage(editor3, getEditorInput());
+			setPageText(index, editor3.getTitle());
+		} catch (PartInitException e) {
+			ErrorDialog.openError(getSite().getShell(), "Error creating nested text editor", null, e.getStatus());
+		}
+	}
 
 	/**
 	 * Creates the pages of the multi-page editor.
@@ -77,6 +103,7 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	protected void addPages() {
 		createPage0();
 		createPage1();
+		createPage2();
 	}
 	/**
 	 * The <code>MultiPageEditorPart</code> implementation of this 
@@ -153,11 +180,12 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 				}            
 			});
 		}
+		
 	}
 	
 	public DiagramEditor getDiagramEditor()
 	{
-		return editor;
+		return editor;	
 	}
 
 }

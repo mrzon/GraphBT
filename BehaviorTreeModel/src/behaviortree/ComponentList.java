@@ -38,7 +38,7 @@ public interface ComponentList extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Components</em>' reference list.
 	 * @see behaviortree.BehaviortreePackage#getComponentList_Components()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	EList<Component> getComponents();
