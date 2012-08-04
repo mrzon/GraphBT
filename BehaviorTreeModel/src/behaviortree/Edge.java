@@ -6,6 +6,7 @@
  */
 package behaviortree;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -28,30 +29,20 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Edge extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Child Node</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Child Node</b></em>' containment reference list.
+	 * The list contents are of type {@link behaviortree.Node}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Child Node</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Child Node</em>' containment reference.
-	 * @see #setChildNode(Node)
+	 * @return the value of the '<em>Child Node</em>' containment reference list.
 	 * @see behaviortree.BehaviortreePackage#getEdge_ChildNode()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	Node getChildNode();
-
-	/**
-	 * Sets the value of the '{@link behaviortree.Edge#getChildNode <em>Child Node</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Child Node</em>' containment reference.
-	 * @see #getChildNode()
-	 * @generated
-	 */
-	void setChildNode(Node value);
+	EList<Node> getChildNode();
 
 	/**
 	 * Returns the value of the '<em><b>Branch</b></em>' attribute.

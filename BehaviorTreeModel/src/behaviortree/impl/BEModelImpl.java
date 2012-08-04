@@ -381,7 +381,7 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 		StringBuffer result = new StringBuffer();
 		result.append(this.requirementList.toString());
 		result.append(this.componentList.toString());
-		result.append(this.dbt.toString());
+		
 		return result.toString();
 	}
 

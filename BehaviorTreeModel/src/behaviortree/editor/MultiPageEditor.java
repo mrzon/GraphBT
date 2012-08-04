@@ -2,8 +2,11 @@ package behaviortree.editor;
 
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 
 import org.be.textbe.bt.textbt.presentation.TextbtEditor;
 import org.eclipse.core.resources.IFile;
@@ -17,6 +20,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -60,6 +67,47 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 			editor = new DiagramEditor();
 			int index = addPage(editor, getEditorInput());
 			setPageText(index, editor.getTitle());
+			/*ResourceSet rs = new ResourceSetImpl();
+			Diagram d =editor.getDiagramTypeProvider().getDiagram(); 
+			IWorkbenchPart workbenchPart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart(); 
+			IFile fileRaw = (IFile) workbenchPart.getSite().getPage().getActiveEditor().getEditorInput().getAdapter(IFile.class);
+			if (fileRaw == null)
+				try {
+					throw new FileNotFoundException();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			String path = fileRaw.getRawLocation().toOSString();
+			System.out.println("path: " + path);
+			
+			URI uri = URI.createFileURI(path); //$NON-NLS-1$
+			uri = uri.trimFragment();
+			uri = uri.trimFileExtension();
+			uri = uri.appendFileExtension("model"); //$NON-NLS-1$
+			System.out.println("urinya: "+uri.toFileString());
+			final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+			//IWorkspace df = ResourcesPlugin.getPlugin().getStateLocation();
+			/*IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
+			fileRaw = new IFile(uri.toFileString());
+			if (!fileRaw.isAccessible()) {
+				Resource createResource = rs.createResource(uri);
+				try {
+					createResource.save(Collections.emptyMap());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				createResource.setTrackingModification(true);
+			}
+			Resource res = rs.getResource(uri, true);
+			try {
+				res.load(Collections.EMPTY_MAP);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			d.eContents().addAll(res.getContents());*/
 		} catch (PartInitException e) {
 			ErrorDialog.openError(
 				getSite().getShell(),

@@ -52,7 +52,6 @@ ICreateFeature {
 		}
     }*/
     
-
     public void initiateBT(Node node)
     {
     	beModel.setDbt(GraphBTUtil.getBEFactory().createBehaviorTree());

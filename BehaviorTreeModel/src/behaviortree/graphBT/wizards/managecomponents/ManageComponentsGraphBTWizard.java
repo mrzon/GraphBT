@@ -41,25 +41,6 @@ public class ManageComponentsGraphBTWizard extends Wizard {
 		//System.out.println(one.getText1());
 		//System.out.println(two.getText1());
 		
-		BEModel be = GraphBTUtil.getBEModel(d);
-		
-		System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
-		Component c = GraphBTUtil.getBEFactory().createComponent();
-		//if(map.get(Component.COMPONENT_NAME)!=null||map.get(Component.COMPONENT_NAME)!="")
-		c.setComponentName(map.get(Component.COMPONENT_NAME));
-		c.setComponentRef(map.get(Component.COMPONENT_REF));
-		
-		//if(!c.getComponentName().equals("")&&c.getComponentName()!=null)
-		try {
-			GraphBTUtil.saveToModelFile(c, d);
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		be.getComponentList().getComponents().add(c);
 		
 		return true;
 		

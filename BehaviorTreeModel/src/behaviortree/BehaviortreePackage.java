@@ -190,7 +190,7 @@ public interface BehaviortreePackage extends EPackage {
 	int NODE__ID = 1;
 
 	/**
-	 * The feature id for the '<em><b>Edge</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Edge</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -227,7 +227,7 @@ public interface BehaviortreePackage extends EPackage {
 	int EDGE = 3;
 
 	/**
-	 * The feature id for the '<em><b>Child Node</b></em>' containment reference.
+	 * The feature id for the '<em><b>Child Node</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -328,7 +328,7 @@ public interface BehaviortreePackage extends EPackage {
 	int EMPTY_NODE__ID = NODE__ID;
 
 	/**
-	 * The feature id for the '<em><b>Edge</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Edge</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -392,7 +392,7 @@ public interface BehaviortreePackage extends EPackage {
 	int STANDARD_NODE__ID = NODE__ID;
 
 	/**
-	 * The feature id for the '<em><b>Edge</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Edge</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1051,10 +1051,10 @@ public interface BehaviortreePackage extends EPackage {
 	EAttribute getNode_Id();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link behaviortree.Node#getEdge <em>Edge</em>}'.
+	 * Returns the meta object for the containment reference '{@link behaviortree.Node#getEdge <em>Edge</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Edge</em>'.
+	 * @return the meta object for the containment reference '<em>Edge</em>'.
 	 * @see behaviortree.Node#getEdge()
 	 * @see #getNode()
 	 * @generated
@@ -1083,10 +1083,10 @@ public interface BehaviortreePackage extends EPackage {
 	EClass getEdge();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link behaviortree.Edge#getChildNode <em>Child Node</em>}'.
+	 * Returns the meta object for the containment reference list '{@link behaviortree.Edge#getChildNode <em>Child Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Child Node</em>'.
+	 * @return the meta object for the containment reference list '<em>Child Node</em>'.
 	 * @see behaviortree.Edge#getChildNode()
 	 * @see #getEdge()
 	 * @generated
@@ -1782,7 +1782,7 @@ public interface BehaviortreePackage extends EPackage {
 		EAttribute NODE__ID = eINSTANCE.getNode_Id();
 
 		/**
-		 * The meta object literal for the '<em><b>Edge</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Edge</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1808,7 +1808,7 @@ public interface BehaviortreePackage extends EPackage {
 		EClass EDGE = eINSTANCE.getEdge();
 
 		/**
-		 * The meta object literal for the '<em><b>Child Node</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Child Node</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

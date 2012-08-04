@@ -83,20 +83,30 @@ public interface Node extends EObject {
 	void setId(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Edge</b></em>' containment reference list.
-	 * The list contents are of type {@link behaviortree.Edge}.
+	 * Returns the value of the '<em><b>Edge</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Edge</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Edge</em>' containment reference list.
+	 * @return the value of the '<em>Edge</em>' containment reference.
+	 * @see #setEdge(Edge)
 	 * @see behaviortree.BehaviortreePackage#getNode_Edge()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<Edge> getEdge();
+	Edge getEdge();
+
+	/**
+	 * Sets the value of the '{@link behaviortree.Node#getEdge <em>Edge</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Edge</em>' containment reference.
+	 * @see #getEdge()
+	 * @generated
+	 */
+	void setEdge(Edge value);
 
 	/**
 	 * Returns the value of the '<em><b>Special E</b></em>' reference.

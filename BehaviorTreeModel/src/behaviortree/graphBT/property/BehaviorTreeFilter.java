@@ -15,6 +15,8 @@ public class BehaviorTreeFilter extends AbstractPropertySectionFilter {
         EObject eObject =
             Graphiti.getLinkService()
             .getBusinessObjectForLinkedPictogramElement(pe);
+        if(!(pe instanceof Shape))
+        	return false;
         EObject eObj =
                 Graphiti.getLinkService()
                 .getBusinessObjectForLinkedPictogramElement(((Shape)pe).getContainer());

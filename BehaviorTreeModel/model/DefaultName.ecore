@@ -13,7 +13,6 @@
         eType="#//RequirementList" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BehaviorTree">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" eType="#//Node"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rootNode" lowerBound="1"
         eType="#//Node"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -21,8 +20,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Node">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="edge" upperBound="-1" eType="#//Edge"
-        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="edge" eType="#//Edge" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="specialE" eType="#//SpecialEdge"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Composition">
@@ -60,7 +58,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge">
     <eStructuralFeatures xsi:type="ecore:EReference" name="childNode" lowerBound="1"
-        eType="#//Node" containment="true"/>
+        upperBound="-1" eType="#//Node" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="branch" eType="#//Branch"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="composition" eType="#//Composition"/>
   </eClassifiers>

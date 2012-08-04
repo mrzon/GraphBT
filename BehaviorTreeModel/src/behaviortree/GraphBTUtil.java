@@ -190,6 +190,7 @@ public class GraphBTUtil {
 		uri = uri.trimFileExtension();
 		uri = uri.appendFileExtension("model"); //$NON-NLS-1$
 		ResourceSet rSet = d.eResource().getResourceSet();
+		System.out.println(uri.toFileString());
 		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
 		if (file == null || !file.exists()) {
@@ -386,7 +387,7 @@ public class GraphBTUtil {
 				Object e = i.next();
 				if(e instanceof StandardNode)
 				{
-					l.add((StandardNode)i.next());
+					l.add((StandardNode)e);
 				}
 			}
 		}

@@ -4,8 +4,14 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 
 import behaviortree.BEModel;
 import behaviortree.Behavior;
@@ -47,11 +53,28 @@ public class CreateBehaviorGraphBTWizard extends Wizard {
 		{
 			return false;
 		}
-		Behavior b = GraphBTUtil.getBEFactory().createBehavior();
+		final Behavior b = GraphBTUtil.getBEFactory().createBehavior();
 		b.setBehaviorName(map.get(Behavior.BEHAVIOR_NAME));
 		b.setBehaviorRef(map.get(Behavior.BEHAVIOR_REF));
 		b.setBehaviorType(BehaviorType.getByName(map.get(Behavior.BEHAVIOR_TYPE)));
-		c.getBehaviors().add(b);
+		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+        DiagramEditor ds;
+        if(page.getActiveEditor() instanceof DiagramEditor)
+        {
+        	 ds = (DiagramEditor)page.getActiveEditor();	
+        }
+        else
+        {
+        	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+        }
+        Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+			protected void doExecute() {
+				c.getBehaviors().add(b);
+		    }
+		};
+		TransactionalEditingDomain f = ds.getEditingDomain();
+		f.getCommandStack().execute(cmd);
+		
 		
 		return true;
 		

@@ -11,6 +11,8 @@ import behaviortree.Operator;
 import behaviortree.Requirement;
 import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
+import java.util.Iterator;
+
 import behaviortree.*;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -429,18 +431,70 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append("Component");
-		result.append(componentRef);
-		result.append(", behavior:");
-		result.append(behaviorRef);
-		result.append(", (traceabilityStatus: ");
-		result.append(traceabilityStatus);
-		result.append(", operator: ");
-		result.append(operator);
-		result.append(", label: ");
-		result.append(label);
-		result.append(')');
+		StringBuffer result = new StringBuffer();
+		result.append("#T");
+		result.append(toString(this));
 		return result.toString();
+	}
+	
+	public String toString(Node r)
+	{
+		if(r ==null)
+			return "";
+
+		if(!(r instanceof StandardNode))
+		 return "";
+		StandardNode root = (StandardNode)r;
+		String str = "";
+		if(root.getTraceabilityLink() != null)
+		{
+			str+=root.getTraceabilityLink().getKey()+" ";	
+		}
+		if(root.getTraceabilityStatus().getValue() != TraceabilityStatus.ORIGINAL_VALUE)
+		{
+			str+=root.getTraceabilityStatus().getLiteral()+" ";
+		}
+		str+=root.getComponentRef()+" ";
+		str+=root.getBehaviorRef();
+		if(root.getOperator().getValue()!=Operator.NO_OPERATOR_VALUE)
+		{
+			str+=" "+root.getOperator().getLiteral();
+		}
+		
+		if(root.getEdge()==null)
+			return str;
+		
+		Edge e = root.getEdge();
+		if(e.getChildNode().size()>1)
+		{
+			if(e.getBranch().getValue()==Branch.ALTERNATIVE_VALUE)
+			{
+				str += "#A{\n";
+			}
+			else
+			{
+				str += "#P{\n";
+			}
+			Iterator<Node> i = e.getChildNode().iterator();
+			while(i.hasNext())
+			{
+				str+=toString(i.next())+"\n";
+			}
+			str+="}\n";
+			return str;
+		}
+		else if(e.getChildNode().size()>0)
+		{
+			if(e.getComposition().getValue() ==Composition.ATOMIC_VALUE)
+			{
+				str += ";;"; 
+			}
+			else
+			{
+				str+= ";";
+			}
+			return str+toString(e.getChildNode().get(0));
+		}
+		return null;
 	}
 } //StandardNodeImpl

@@ -43,6 +43,10 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         
         Object bo = getBusinessObjectForPictogramElement(pictogramElement);
         Object oSN = getBusinessObjectForPictogramElement(((Shape)context.getPictogramElement()).getContainer());
+        if(!(oSN instanceof StandardNode))
+        {
+        	return Reason.createFalseReason();
+        }
        	StandardNode node = (StandardNode) oSN;
        	
        	System.out.println("This is updateNeeded method");

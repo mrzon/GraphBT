@@ -9,6 +9,7 @@ import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 
 import behaviortree.BehaviortreeFactory;
+import behaviortree.Composition;
 import behaviortree.Edge;
 import behaviortree.StandardNode;
 
@@ -73,11 +74,14 @@ public class CreateGraphBtConnectionFeature extends AbstractCreateConnectionFeat
     
     
     private Edge createEdge(StandardNode source, StandardNode target) {
-        Edge edge = BehaviortreeFactory.eINSTANCE.createEdge();
-        
-        edge.setChildNode(target);
-        source.getEdge().add(edge);
-        
+        Edge edge = source.getEdge();
+        if(edge == null)
+        {
+        	edge = BehaviortreeFactory.eINSTANCE.createEdge();
+        	edge.setComposition(Composition.SEQUENTIAL);
+        	source.setEdge(edge);
+        }
+        edge.getChildNode().add(target);
         return edge;
    }
 }

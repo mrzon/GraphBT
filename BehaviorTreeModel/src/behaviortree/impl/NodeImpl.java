@@ -85,14 +85,14 @@ public class NodeImpl extends EObjectImpl implements Node {
 	protected String id = ID_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getEdge() <em>Edge</em>}' containment reference list.
+	 * The cached value of the '{@link #getEdge() <em>Edge</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getEdge()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Edge> edge;
+	protected Edge edge;
 
 	/**
 	 * The cached value of the '{@link #getSpecialE() <em>Special E</em>}' reference.
@@ -170,11 +170,42 @@ public class NodeImpl extends EObjectImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Edge> getEdge() {
-		if (edge == null) {
-			edge = new EObjectContainmentEList<Edge>(Edge.class, this, BehaviortreePackage.NODE__EDGE);
-		}
+	public Edge getEdge() {
 		return edge;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetEdge(Edge newEdge, NotificationChain msgs) {
+		Edge oldEdge = edge;
+		edge = newEdge;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BehaviortreePackage.NODE__EDGE, oldEdge, newEdge);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEdge(Edge newEdge) {
+		if (newEdge != edge) {
+			NotificationChain msgs = null;
+			if (edge != null)
+				msgs = ((InternalEObject)edge).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BehaviortreePackage.NODE__EDGE, null, msgs);
+			if (newEdge != null)
+				msgs = ((InternalEObject)newEdge).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BehaviortreePackage.NODE__EDGE, null, msgs);
+			msgs = basicSetEdge(newEdge, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.NODE__EDGE, newEdge, newEdge));
 	}
 
 	/**
@@ -224,7 +255,7 @@ public class NodeImpl extends EObjectImpl implements Node {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BehaviortreePackage.NODE__EDGE:
-				return ((InternalEList<?>)getEdge()).basicRemove(otherEnd, msgs);
+				return basicSetEdge(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -266,8 +297,7 @@ public class NodeImpl extends EObjectImpl implements Node {
 				setId((String)newValue);
 				return;
 			case BehaviortreePackage.NODE__EDGE:
-				getEdge().clear();
-				getEdge().addAll((Collection<? extends Edge>)newValue);
+				setEdge((Edge)newValue);
 				return;
 			case BehaviortreePackage.NODE__SPECIAL_E:
 				setSpecialE((SpecialEdge)newValue);
@@ -291,7 +321,7 @@ public class NodeImpl extends EObjectImpl implements Node {
 				setId(ID_EDEFAULT);
 				return;
 			case BehaviortreePackage.NODE__EDGE:
-				getEdge().clear();
+				setEdge((Edge)null);
 				return;
 			case BehaviortreePackage.NODE__SPECIAL_E:
 				setSpecialE((SpecialEdge)null);
@@ -313,7 +343,7 @@ public class NodeImpl extends EObjectImpl implements Node {
 			case BehaviortreePackage.NODE__ID:
 				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
 			case BehaviortreePackage.NODE__EDGE:
-				return edge != null && !edge.isEmpty();
+				return edge != null;
 			case BehaviortreePackage.NODE__SPECIAL_E:
 				return specialE != null;
 		}

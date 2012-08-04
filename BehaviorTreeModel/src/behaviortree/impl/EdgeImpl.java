@@ -12,14 +12,18 @@ import behaviortree.Composition;
 import behaviortree.Edge;
 import behaviortree.Node;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -38,14 +42,14 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  */
 public class EdgeImpl extends EObjectImpl implements Edge {
 	/**
-	 * The cached value of the '{@link #getChildNode() <em>Child Node</em>}' containment reference.
+	 * The cached value of the '{@link #getChildNode() <em>Child Node</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getChildNode()
 	 * @generated
 	 * @ordered
 	 */
-	protected Node childNode;
+	protected EList<Node> childNode;
 
 	/**
 	 * The default value of the '{@link #getBranch() <em>Branch</em>}' attribute.
@@ -111,42 +115,11 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Node getChildNode() {
+	public EList<Node> getChildNode() {
+		if (childNode == null) {
+			childNode = new EObjectContainmentEList<Node>(Node.class, this, BehaviortreePackage.EDGE__CHILD_NODE);
+		}
 		return childNode;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetChildNode(Node newChildNode, NotificationChain msgs) {
-		Node oldChildNode = childNode;
-		childNode = newChildNode;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BehaviortreePackage.EDGE__CHILD_NODE, oldChildNode, newChildNode);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setChildNode(Node newChildNode) {
-		if (newChildNode != childNode) {
-			NotificationChain msgs = null;
-			if (childNode != null)
-				msgs = ((InternalEObject)childNode).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BehaviortreePackage.EDGE__CHILD_NODE, null, msgs);
-			if (newChildNode != null)
-				msgs = ((InternalEObject)newChildNode).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BehaviortreePackage.EDGE__CHILD_NODE, null, msgs);
-			msgs = basicSetChildNode(newChildNode, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.EDGE__CHILD_NODE, newChildNode, newChildNode));
 	}
 
 	/**
@@ -200,7 +173,7 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case BehaviortreePackage.EDGE__CHILD_NODE:
-				return basicSetChildNode(null, msgs);
+				return ((InternalEList<?>)getChildNode()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -228,11 +201,13 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BehaviortreePackage.EDGE__CHILD_NODE:
-				setChildNode((Node)newValue);
+				getChildNode().clear();
+				getChildNode().addAll((Collection<? extends Node>)newValue);
 				return;
 			case BehaviortreePackage.EDGE__BRANCH:
 				setBranch((Branch)newValue);
@@ -253,7 +228,7 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case BehaviortreePackage.EDGE__CHILD_NODE:
-				setChildNode((Node)null);
+				getChildNode().clear();
 				return;
 			case BehaviortreePackage.EDGE__BRANCH:
 				setBranch(BRANCH_EDEFAULT);
@@ -274,7 +249,7 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BehaviortreePackage.EDGE__CHILD_NODE:
-				return childNode != null;
+				return childNode != null && !childNode.isEmpty();
 			case BehaviortreePackage.EDGE__BRANCH:
 				return branch != BRANCH_EDEFAULT;
 			case BehaviortreePackage.EDGE__COMPOSITION:

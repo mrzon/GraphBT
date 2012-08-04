@@ -99,7 +99,6 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	 */
 	protected AttributeImpl() {
 		super();
-		
 	}
 
 	/**

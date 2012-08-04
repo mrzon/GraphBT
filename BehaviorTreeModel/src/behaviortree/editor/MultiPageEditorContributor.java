@@ -12,6 +12,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.text.html.HTMLDocument.Iterator;
 
@@ -56,6 +57,7 @@ import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import behaviortree.BEModel;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
+import behaviortree.StandardNode;
 import behaviortree.graphBT.wizards.CreateStandardNodeGraphBTWizard;
 import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard;
 import behaviortree.graphBT.wizards.managecomponents.ManageComponentsGraphBTWizard;
@@ -195,18 +197,22 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		
 		
 		generateBTCode = new Action() {
-			
 				public void run(){
 					if(activeEditorPart instanceof DiagramEditor)
 					{
 					Diagram d = ((DiagramEditor)activeEditorPart).getDiagramTypeProvider().getDiagram();
 					String content = GraphBTUtil.getBEModel(d).toString();
-					
 					URI uri = d.eResource().getURI();
 					uri = uri.trimFragment();
 					uri = uri.trimFileExtension();
 					uri = uri.appendFileExtension("bt");
+					List<StandardNode> ln = GraphBTUtil.getRoots(d.eResource().getResourceSet());
+					for(int i=0; i < ln.size(); i++)
+					{
+						content+="\n"+ln.get(i).toString();
+					}
 					final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+					
 					IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
 					{
 						Path path = new Path(uri.toPlatformString(true));
@@ -214,9 +220,13 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						InputStream in = new ByteArrayInputStream(content.getBytes());
 						try {
 							if (file == null || !file.exists()) 
+							{
 								ifile.create(in,false,null);
+							}	
 							else
+							{
 								ifile.setContents(in, false, false, null);
+							}	
 						} catch (CoreException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -230,9 +240,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		generateBTCode.setToolTipText("Generate the corresponding BT Code of the BE model");
 		generateBTCode.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
-
-		
-		
 		manageComponents = new Action(){
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
