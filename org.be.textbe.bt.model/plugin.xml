@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://org.be.textbe/textbt"
+            class="org.be.textbe.bt.textbt.TextbtPackage"
+            genModel="metamodel/textbt.genmodel"/>
+   </extension>
+
+</plugin>

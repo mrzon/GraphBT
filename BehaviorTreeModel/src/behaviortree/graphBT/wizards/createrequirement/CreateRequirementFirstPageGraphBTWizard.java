@@ -31,9 +31,9 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 
 	
 	public CreateRequirementFirstPageGraphBTWizard(HashMap<Integer,String> map, Diagram d) {
-		super("Create Component Wizard");
-		setTitle("Create Component Wizard");
-		setDescription("Fill in the Behavior Tree node elements below.");
+		super("Create Requirement Wizard");
+		setTitle("Create Requirement Wizard");
+		setDescription("Fill in the requirement below.");
 		this.map = map;
 		this.d=d;
 	}
@@ -45,23 +45,29 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 		container.setLayout(layout);
 		layout.numColumns = 2;
 
-	    final Label componentLabel = new Label(container, SWT.NULL);
-		componentLabel.setText("Component Name");
+	    final Label requirementLabel = new Label(container, SWT.NULL);
+	    requirementLabel.setText("Requirement Name");
 		
-		final Text componentNameText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		
+		final Text requirementNameText = new Text(container, SWT.BORDER | SWT.SINGLE);		
 		
 		final Label componentRefLabel = new Label(container, SWT.NULL);
-		componentRefLabel.setText("Component Ref");
+		componentRefLabel.setText("Requirement Ref");
 		//componentRefLabel.setVisible(false);
 		
-		final Text componentRefText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		final Text requirementRefText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		//componentRefText.setVisible(false);
 		
+		final Label requirementDescLabel = new Label(container, SWT.NULL);
+		requirementDescLabel.setText("Requirement Description");
 		
-		componentNameText.setText("");
+		final Text requirementDescText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		//componentRefText.setVisible(false);
 		
-		componentNameText.addModifyListener(new ModifyListener() {
+		requirementNameText.setText("");
+		requirementRefText.setText("");
+		requirementDescText.setText("");
+	/*	
+		requirementNameText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				Text t= (Text) e.widget;
 				map.put(Component.COMPONENT_NAME, t.getText());
@@ -74,10 +80,10 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 				map.put(Component.COMPONENT_REF, t.getText());
 			}
 	    });
-
+*/
 
 		//System.out.println("stringCarrier[0] " + stringCarrier[0]);
-		System.out.println("stringCarrier[0].getText() " + componentNameText.getText());
+		//System.out.println("stringCarrier[0].getText() " + componentNameText.getText());
 		// Required to avoid an error in the system
 		setControl(container);
 	}

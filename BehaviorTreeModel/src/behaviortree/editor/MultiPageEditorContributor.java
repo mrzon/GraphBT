@@ -60,7 +60,9 @@ import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
 import behaviortree.graphBT.wizards.CreateStandardNodeGraphBTWizard;
 import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard;
+import behaviortree.graphBT.wizards.createrequirement.CreateRequirementGraphBTWizard;
 import behaviortree.graphBT.wizards.managecomponents.ManageComponentsGraphBTWizard;
+import behaviortree.graphBT.wizards.managerequirements.ManageRequirementsGraphBTWizard;
 
 /**
  * Manages the installation/deinstallation of global actions for multi-page editors.
@@ -73,6 +75,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	private Action generateBTCode;
 
 	private Action manageComponents;
+	private Action manageRequirements;
 	/**
 	 * Creates a multi-page contributor.
 	 */
@@ -274,6 +277,40 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		manageComponents.setToolTipText("Manage components of the model");
 		manageComponents.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 				getImageDescriptor(IDE.SharedImages.IMG_OBJ_PROJECT));
+		manageRequirements = new Action(){
+			public void run() {
+				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
+				if(activeEditorPart instanceof DiagramEditor)
+				{
+					System.out.println("Diagramnya kebuka euy");
+					DiagramEditor de = (DiagramEditor)activeEditorPart;
+					// Get the currently selected file from the editor
+					Diagram d = de.getDiagramTypeProvider().getDiagram();
+					HashMap <Integer,String> map = new HashMap<Integer, String>();
+					//String ketemu="";
+					if(d!=null)
+					{
+						WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+				                getActiveWorkbenchWindow().getShell(),
+				    		new ManageRequirementsGraphBTWizard(map, d));
+						if(wizardDialog.open() != Window.OK)
+						{
+							return;
+						}
+						BEModel be = GraphBTUtil.getBEModel(d);
+						
+						
+						//System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
+						
+					}
+					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
+				}
+			}
+		};
+		manageRequirements.setText("Manage Requirements");
+		manageRequirements.setToolTipText("Manage Requirements of the model");
+		manageRequirements.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
+				getImageDescriptor(IDE.SharedImages.IMG_OBJ_PROJECT));
 		
 		
 //		IEditorDescriptor eDesc = PlatformUI.getWorkbench().getActiveWorkbenchWindow().//findEditor("behaviortree.editor.MultiPageEditor");
@@ -288,6 +325,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		menu.add(addNewComponent);
 		menu.add(generateBTCode);
 		menu.add(manageComponents);
+		menu.add(manageRequirements);
 		
 	}
 	public void contributeToToolBar(IToolBarManager manager) {
@@ -295,5 +333,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		manager.add(addNewComponent);
 		manager.add(generateBTCode);
 		manager.add(manageComponents);
+		manager.add(manageRequirements);
 	}
 }

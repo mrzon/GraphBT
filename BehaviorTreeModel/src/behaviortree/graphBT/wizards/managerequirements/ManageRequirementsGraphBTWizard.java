@@ -1,4 +1,4 @@
-package behaviortree.graphBT.wizards.createrequirement;
+package behaviortree.graphBT.wizards.managerequirements;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,14 +12,14 @@ import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
 
-public class CreateRequirementGraphBTWizard extends Wizard {
+public class ManageRequirementsGraphBTWizard extends Wizard {
 
-	protected CreateRequirementFirstPageGraphBTWizard one;
+	protected ManageRequirementsFirstPageGraphBTWizard one;
 	protected HashMap<Integer,String> map;
 	protected Diagram d;
 	//protected CreateStandardNodeSecondPageGraphBTWizard two;
 
-	public CreateRequirementGraphBTWizard(HashMap<Integer,String> map, Diagram d) {
+	public ManageRequirementsGraphBTWizard(HashMap<Integer,String> map, Diagram d) {
 		super();
 		setNeedsProgressMonitor(true);
 		this.map = map;
@@ -29,7 +29,7 @@ public class CreateRequirementGraphBTWizard extends Wizard {
 	@Override
 	public void addPages() {
 		//one = new CreateStandardNodeFirstPageGraphBTWizard(node);
-		one = new CreateRequirementFirstPageGraphBTWizard(map,d);
+		one = new ManageRequirementsFirstPageGraphBTWizard(map,d);
 		//two = new CreateStandardNodeSecondPageGraphBTWizard();
 		addPage(one);
 		//addPage(two);
@@ -40,7 +40,7 @@ public class CreateRequirementGraphBTWizard extends Wizard {
 		// Print the result to the console
 		//System.out.println(one.getText1());
 		//System.out.println(two.getText1());
-	/*	
+		
 		BEModel be = GraphBTUtil.getBEModel(d);
 		
 		System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
@@ -63,8 +63,8 @@ public class CreateRequirementGraphBTWizard extends Wizard {
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}*/
+		}
 		return true;
-
+		
 	}
 }
