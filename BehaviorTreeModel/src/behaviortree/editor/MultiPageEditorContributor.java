@@ -17,7 +17,7 @@ import java.util.List;
 
 import javax.swing.text.html.HTMLDocument.Iterator;
 
-import org.be.textbe.bt.textbt.presentation.TextbtEditor;
+//import org.be.textbe.bt.textbt.presentation.TextbtEditor;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -71,6 +71,7 @@ import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard
 import behaviortree.graphBT.wizards.createrequirement.CreateRequirementGraphBTWizard;
 import behaviortree.graphBT.wizards.managecomponents.ManageComponentsGraphBTWizard;
 import behaviortree.graphBT.wizards.managerequirements.ManageRequirementsGraphBTWizard;
+import behaviortree.graphBT.wizards.verifymodel.VerifyModelGraphBTWizard;
 
 /**
  * Manages the installation/deinstallation of global actions for multi-page editors.
@@ -83,6 +84,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	private Action addNewComponent;
 	private Action manageComponents;
 	private Action manageRequirements;
+	
+	private Action verifyModel;
 	/**
 	 * Creates a multi-page contributor.
 	 */
@@ -109,10 +112,10 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		if (activeEditorPart == part)
 			return;
 
-		if(activeEditorPart instanceof DiagramEditor && part instanceof TextbtEditor)
+		/*if(activeEditorPart instanceof DiagramEditor && part instanceof TextbtEditor)
 		{
 			
-		}
+		}*/
 		activeEditorPart = part;
 		
 		IActionBars actionBars = getActionBars();
@@ -394,6 +397,37 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		manageRequirements.setToolTipText("Manage Requirements of The Model");
 		manageRequirements.setImageDescriptor(imd);
 		
+		verifyModel = new Action() {
+			public void run() {
+				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
+				if(activeEditorPart instanceof DiagramEditor)
+				{
+					DiagramEditor de = (DiagramEditor)activeEditorPart;
+					// Get the currently selected file from the editor
+					Diagram d = de.getDiagramTypeProvider().getDiagram();
+					HashMap <Integer,String> map = new HashMap<Integer, String>();
+					if(d!=null)
+					{
+						WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+				                getActiveWorkbenchWindow().getShell(),
+				    		new VerifyModelGraphBTWizard(map, d));
+						if(wizardDialog.open() != Window.OK)
+						{
+							return;
+						}
+						BEModel be = GraphBTUtil.getBEModel(d);
+						
+					}
+					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
+				}
+			}
+		};
+		
+		verifyModel.setText("Verify Model");
+		verifyModel.setToolTipText("Verify model");
+		verifyModel.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
+				getImageDescriptor(IDE.SharedImages.IMG_OPEN_MARKER));
+		
 		
 //		IEditorDescriptor eDesc = PlatformUI.getWorkbench().getActiveWorkbenchWindow().//findEditor("behaviortree.editor.MultiPageEditor");
 //		if(eDesc != null)
@@ -409,6 +443,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		menu.add(addNewComponent);
 		menu.add(manageComponents);
 		menu.add(manageRequirements);
+		menu.add(verifyModel);
 		
 	}
 	public void contributeToToolBar(IToolBarManager manager) {
@@ -417,5 +452,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		manager.add(addNewComponent);
 		manager.add(manageComponents);
 		manager.add(manageRequirements);
+		manager.add(verifyModel);
 	}
 }
