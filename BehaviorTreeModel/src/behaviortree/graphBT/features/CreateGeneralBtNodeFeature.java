@@ -101,17 +101,14 @@ ICreateFeature {
 		}
 		*/
 		BEModel beModel = GraphBTUtil.getBEModel(getDiagram());
-		//set the operator as no operator
-		node.setOperator(Operator.NO_OPERATOR);
 		
-		Component c=null;
-//	    c.setComponentName("DefaultComponent");
+		Component c = null;
 		if(map.get(StandardNode.STANDARDNODE_COMPONENT)==null ||(map.get(StandardNode.STANDARDNODE_COMPONENT)!=null&&map.get(StandardNode.STANDARDNODE_COMPONENT).equals(""))){
 			c = BehaviortreeFactory.eINSTANCE.createComponent();
 			c.setComponentName("DefaultComponent");
 		}
 		else{
-			c=GraphBTUtil.getComponent(beModel, map.get(StandardNode.STANDARDNODE_COMPONENT));
+			c = GraphBTUtil.getComponent(beModel, map.get(StandardNode.STANDARDNODE_COMPONENT));
 		}
 		
 	    node.setComponentRef(c.getComponentRef());
@@ -129,46 +126,36 @@ ICreateFeature {
 	    
 	    Requirement r = null;
 	    if(!map.get(StandardNode.STANDARDNODE_TRACEABILITYLINK).equals("")){
-			b=GraphBTUtil.getBehaviorFromComponent(c, map.get(StandardNode.STANDARDNODE_TRACEABILITYLINK));
-		}
-	
+	    	r = GraphBTUtil.getRequirement(beModel, map.get(StandardNode.STANDARDNODE_TRACEABILITYLINK));
+	    }
 		node.setTraceabilityLink(r);
-		//set the traceability status as original
+
 		node.setTraceabilityStatus(TraceabilityStatus.getByName(map.get(StandardNode.STANDARDNODE_TRACEABILITYSTATUS)));
+		node.setOperator(Operator.getByName(map.get(StandardNode.STANDARDNODE_OPERATOR)));
 		
-		//node.setBehaviorType(BehaviorType.STATE_REALIZATION);
-		
-		if(beModel != null)
-		{
+		if(beModel != null) {
 			System.out.println("Be model ternyata ga null :p");		
 		}
-		else
-		{
+		else {
 			beModel = GraphBTUtil.getBEFactory().createBEModel();
 			beModel.setName("Model");
 			resource.getContents().add(beModel);
 		}
-		if(beModel.getComponentList()==null)
-		{
+		
+		if(beModel.getComponentList()==null) {
 			System.out.println("inisialisasi component list");
 			beModel.setComponentList(GraphBTUtil.getBEFactory().createComponentList());
 		}
-		if(beModel.getRequirementList()==null)
-		{
+		if(beModel.getRequirementList()==null) {
 			System.out.println("inisialisasi requirement list");
 			beModel.setRequirementList(GraphBTUtil.getBEFactory().createRequirementList());
 		}
-		//beModel.getComponentList().getComponents().add(c);
-		//beModel.getRequirementList().getRequirements().add(r);
-		if(beModel.getDbt()== null)
-		{
+		if(beModel.getDbt()== null) {
 			initiateBT(node);
 		}
 		try {	
 			try {
-				//GraphBTUtil.saveToModelFile(beModel, getDiagram());
 				GraphBTUtil.saveToModelFile(node, getDiagram());
-				//GraphBTUtil.saveToModelFile(c, getDiagram());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -176,9 +163,6 @@ ICreateFeature {
 			e.printStackTrace();
 		}
 		
-//		invokeCreateStandardNodeWizard(node);
-		//getFeatureProvider().getDirectEditingInfo().setActive(true);
-
 		// Delegate to the add feature
 		addGraphicalRepresentation(context, node);
 		

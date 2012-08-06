@@ -25,6 +25,7 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
 	@Override
 	public boolean canStartConnection(ICreateConnectionContext context) {
 		if (getStandardNode(context.getSourceAnchor()) != null) {
+			System.out.println("can start connection.");
             return true;
         }
         return false;
@@ -34,6 +35,7 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
 	public boolean canCreate(ICreateConnectionContext context) {
 		StandardNode source = getStandardNode(context.getSourceAnchor());
 		StandardNode target = getStandardNode(context.getTargetAnchor());
+		System.out.println("can start create connection.");
         if (source != null && target != null && source != target) {
             return true;
         }
