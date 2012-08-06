@@ -25,21 +25,24 @@ import behaviortree.Behavior;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.Operator;
+import behaviortree.Requirement;
 import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
 import behaviortree.graphBT.wizards.createbehavior.CreateBehaviorGraphBTWizard;
 import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard;
 import behaviortree.graphBT.wizards.managecomponents.ManageComponentsGraphBTWizard;
+import behaviortree.graphBT.wizards.managerequirements.ManageRequirementsGraphBTWizard;
 
 
 public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 	
 	private Composite container;
+	private Composite container2;
 	private HashMap<Integer, String> map;
 	private Diagram d;
 	Combo componentCombo;
 	Combo behaviorCombo;
-
+	Combo traceabilityLinkCombo;
 	
 	public CreateStandardNodeFirstPageGraphBTWizard(HashMap<Integer, String> map, Diagram d) {
 		super("Create Standard Node Wizard");
@@ -51,6 +54,11 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 
 	@Override
 	public void createControl(Composite parent) {
+//		container2 = new Composite(parent, SWT.NULL);
+//		GridLayout layout2 = new GridLayout();
+//		container.setLayout(layout2);
+//		layout2.numColumns = 3;
+		
 		
 		container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
@@ -59,6 +67,7 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 		
 		Combo operatorCombo;
 		Combo traceabilityStatusCombo;
+		
 			
 		Label operatorLabel = new Label(container, SWT.NULL);
 		operatorLabel.setText("Operator Name");
@@ -70,6 +79,15 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 		    operatorCombo.add(op.getName());
 	    }
 	    
+	    Label traceabilityLinkLabel = new Label(container, SWT.NULL);
+	    traceabilityLinkLabel.setText("Traceability Link Name");
+		
+	    traceabilityLinkCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
+	    traceabilityLinkCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+	    for(Requirement ts : GraphBTUtil.getBEModel(d).getRequirementList().getRequirements()) {
+	    	traceabilityLinkCombo.add(ts.getKey());
+	    }
 	
 	    Label traceabilityStatusLabel = new Label(container, SWT.NULL);
 	    traceabilityStatusLabel.setText("Traceability Status Name");
@@ -95,8 +113,9 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 	    behaviorComboLabel.setText("Behavior Name");
 		
 		behaviorCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
-	    componentCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-	    componentCombo.addSelectionListener(new SelectionAdapter() {
+		behaviorCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	    
+		componentCombo.addSelectionListener(new SelectionAdapter() {
 		    public void widgetSelected(SelectionEvent e) {
 		    	Combo combo = (Combo)e.widget;
 		    	String selected = combo.getItem(combo.getSelectionIndex());
@@ -111,6 +130,7 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 		    	changeDialog();
 		     }
 	     });
+		
 	    behaviorCombo.addSelectionListener(new SelectionAdapter() {
 		    public void widgetSelected(SelectionEvent e) {
 		    	Combo combo = (Combo)e.widget;
@@ -121,13 +141,50 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 		     }
 		    
 	     });
-	     
+	    
+	    traceabilityLinkCombo.addSelectionListener(new SelectionAdapter() {
+		    public void widgetSelected(SelectionEvent e) {
+//		    	Combo combo = (Combo)e.widget;
+//		    	String selected = combo.getItem(combo.getSelectionIndex());
+//		    	map.put(StandardNode.STANDARDNODE_COMPONENT, selected );
+//		    	behaviorCombo.removeAll();
+//		    	Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), selected);
+//		    	if(c!=null)
+//		    	for(Behavior behavior: c.getBehaviors()){
+//			    	behaviorCombo.add(behavior.toString());
+//			    }
+//		    	
+//		    	changeDialog();
+		    	Combo combo = (Combo)e.widget;
+		    	String selected = combo.getItem(combo.getSelectionIndex());
+		    	map.put(StandardNode.STANDARDNODE_TRACEABILITYLINK, selected);
+		    	changeDialog();
+		     }
+	     });
+
+	    Label fillerLabel1 = new Label(container, SWT.NULL);
+	    fillerLabel1.setText(" ");
+	    
 	    Button componentButton = new Button(container, SWT.NULL);
 	    componentButton.setText("Add New Component");
+	    
+	    Label fillerLabel2 = new Label(container, SWT.NULL);
+	    fillerLabel2.setText(" ");
+	    
 	    Button behaviorButton = new Button(container, SWT.NULL);
 	    behaviorButton.setText("Add New Behavior");
+	    
+	    Label fillerLabel3 = new Label(container, SWT.NULL);
+	    fillerLabel3.setText(" ");
+	    
 	    Button manageComponentsButton = new Button(container, SWT.NULL);
 	    manageComponentsButton.setText("Manage Components");
+	    
+	    Label fillerLabel4 = new Label(container, SWT.NULL);
+	    fillerLabel4.setText(" ");
+	    
+	    Button requirementButton = new Button(container, SWT.NULL);
+	    requirementButton.setText("Add Requirement");
 
 	    manageComponentsButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
@@ -139,6 +196,24 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 				{
 					return;
 				}
+			}
+		});
+	    
+	    requirementButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				HashMap <Integer,String> map = new HashMap<Integer, String>();
+				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+		                getActiveWorkbenchWindow().getShell(),
+		    		new ManageRequirementsGraphBTWizard(map, d));
+				if(wizardDialog.open() != Window.OK)
+				{
+					return;
+				}
+				traceabilityLinkCombo.removeAll();
+				for(Requirement r : GraphBTUtil.getBEModel(d).getRequirementList().getRequirements()){
+					traceabilityLinkCombo.add(r.getKey());
+			    }
+				
 			}
 		});
 	    
@@ -200,7 +275,6 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 		    	Combo combo = (Combo)e.widget;
 		    	String selected = combo.getItem(combo.getSelectionIndex());
 		    	map.put(StandardNode.STANDARDNODE_TRACEABILITYSTATUS, selected );
-		    	
 		     }
 	     });
 	    //tesComplete();
@@ -220,7 +294,8 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
     		changeDialog("Component is empty!");
        	}else if(behaviorCombo.getSelectionIndex()==-1){
        		changeDialog("Behavior is empty!");
-    		
+    	}else if(traceabilityLinkCombo.getSelectionIndex()==-1){
+       		changeDialog("Requitement is empty!");
     	}else{
     		changeDialog(null);
     	}

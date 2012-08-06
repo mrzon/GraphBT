@@ -127,8 +127,11 @@ ICreateFeature {
 		
 	    node.setBehaviorRef(b.getBehaviorRef());
 	    
-	    Requirement r = BehaviortreeFactory.eINSTANCE.createRequirement();
-		r.setKey("");
+	    Requirement r = null;
+	    if(!map.get(StandardNode.STANDARDNODE_TRACEABILITYLINK).equals("")){
+			b=GraphBTUtil.getBehaviorFromComponent(c, map.get(StandardNode.STANDARDNODE_TRACEABILITYLINK));
+		}
+	
 		node.setTraceabilityLink(r);
 		//set the traceability status as original
 		node.setTraceabilityStatus(TraceabilityStatus.getByName(map.get(StandardNode.STANDARDNODE_TRACEABILITYSTATUS)));
@@ -155,8 +158,8 @@ ICreateFeature {
 			System.out.println("inisialisasi requirement list");
 			beModel.setRequirementList(GraphBTUtil.getBEFactory().createRequirementList());
 		}
-		beModel.getComponentList().getComponents().add(c);
-		beModel.getRequirementList().getRequirements().add(r);
+		//beModel.getComponentList().getComponents().add(c);
+		//beModel.getRequirementList().getRequirements().add(r);
 		if(beModel.getDbt()== null)
 		{
 			initiateBT(node);

@@ -145,7 +145,7 @@ IAddFeature {
             textTraceabilityLink.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             gaService.setLocationAndSize(textTraceabilityLink, 0, height/2 - 20, 40, 20);
      
-            link(shapeTraceabilityLink, node.getTraceabilityLink());
+            link(shapeTraceabilityLink, GraphBTUtil.getRequirement(GraphBTUtil.getBEModel(getDiagram()),node.getTraceabilityLink().getKey()));
             
 //            IDirectEditingInfo directEditingInfo =
 //                getFeatureProvider().getDirectEditingInfo();
