@@ -60,9 +60,18 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 		GridLayout layout = new GridLayout();
 		container.setLayout(layout);
 		layout.numColumns = 2;
-
+		GridData gridData;
+		
 		final List listRequirements = new List(container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
-		listRequirements.setBounds(0, 0, 220, 220);
+		gridData =
+			      new GridData(
+			        GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
+			    gridData.horizontalSpan = 2;
+			    gridData.verticalSpan = 2;
+			    gridData.minimumHeight = 200;
+			    gridData.grabExcessVerticalSpace = true;
+
+			    listRequirements.setLayoutData(gridData);
 		
 		listRequirements.removeAll();
 		
@@ -82,6 +91,7 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 						getActiveWorkbenchWindow().getShell(),
 						new CreateRequirementGraphBTWizard(map, d));
+			
 				if(wizardDialog.open() != Window.OK)
 				{
 					return;
@@ -105,7 +115,20 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 		editRequirementDescLabel.setText("Requirement Description");
 		editRequirementDescLabel.setVisible(false);
 		
-		final Text editRequirementDescText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		
+		final Text editRequirementDescText = new Text(container, SWT.WRAP
+		          | SWT.MULTI
+		          | SWT.BORDER
+		          | SWT.H_SCROLL
+		          | SWT.V_SCROLL);
+		gridData =
+			      new GridData(
+			        GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
+			    gridData.horizontalSpan = 3;
+			    gridData.grabExcessVerticalSpace = true;
+
+			    editRequirementDescText.setLayoutData(gridData);
+			    
 		editRequirementDescText.setVisible(false);
 
 		final Button saveRequirementButton = new Button(container, SWT.NULL);

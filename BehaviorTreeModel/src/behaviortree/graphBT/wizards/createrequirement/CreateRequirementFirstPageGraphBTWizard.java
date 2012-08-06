@@ -1,7 +1,12 @@
 package behaviortree.graphBT.wizards.createrequirement;
 
+
 import java.util.HashMap;
 
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -16,6 +21,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
@@ -29,10 +35,13 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 	private Composite container;
 	private HashMap<Integer,String> map;
 	private Diagram d;
-
+	private Text requirementNameText;
+	private Text requirementRefText;
+	private Text requirementDescText;
 	
 	public CreateRequirementFirstPageGraphBTWizard(HashMap<Integer,String> map, Diagram d) {
-		super("Create Requirement Wizard");
+		
+		super("Create Requirement Wizard");		
 		setTitle("Create Requirement Wizard");
 		setDescription("Fill in the requirement below.");
 		this.map = map;
@@ -47,19 +56,45 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 		layout.numColumns = 2;
 
 	    final Label requirementLabel = new Label(container, SWT.NULL);
-	    requirementLabel.setText("Requirement Name");
+	    requirementLabel.setText("Requirement Name:");
 		
-		final Text requirementNameText = new Text(container, SWT.BORDER | SWT.SINGLE);		
+	    requirementNameText = new Text(container, SWT.BORDER | SWT.SINGLE);		
+		requirementNameText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				dialogChanged();
+			}
+		});
 		
 		final Label componentRefLabel = new Label(container, SWT.NULL);
-		componentRefLabel.setText("Requirement Ref");
+		componentRefLabel.setText("Requirement Ref:");
 
-		final Text requirementRefText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		requirementRefText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		requirementRefText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				dialogChanged();
+			}
+		});
 		
 		final Label requirementDescLabel = new Label(container, SWT.NULL);
-		requirementDescLabel.setText("Requirement Description");
-		
-		final Text requirementDescText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		requirementDescLabel.setText("Requirement Description:");
+			    
+		requirementDescText = new Text(container, SWT.WRAP
+		          | SWT.MULTI
+		          | SWT.BORDER
+		          | SWT.H_SCROLL
+		          | SWT.V_SCROLL);
+		GridData gridData =
+			      new GridData(
+			        GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
+			    gridData.horizontalSpan = 3;
+			    gridData.grabExcessVerticalSpace = true;
+
+			    requirementDescText.setLayoutData(gridData);
+		requirementDescText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				dialogChanged();
+			}
+		});
 		
 		requirementNameText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
@@ -87,5 +122,71 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 		//System.out.println("stringCarrier[0].getText() " + componentNameText.getText());
 		// Required to avoid an error in the system
 		setControl(container);
+	}
+	
+	private void dialogChanged() {
+	
+		if (requirementNameText.getText().length() == 0) {
+			updateStatus("Requirement name must be specified");
+			return;
+		}
+		
+		if (requirementRefText.getText().length() == 0) {
+			updateStatus("Requirement key must be specified");
+			return;
+		}
+		
+		if (GraphBTUtil.getRequirement(GraphBTUtil.getBEModel(d), requirementRefText.getText()) != null) {
+			updateStatus("Requirement key already exist");
+			return;
+		}
+
+		if (!(requirementRefText.getText().matches("R[0-9]+"))) {
+			updateStatus("Format of requirement key should be 'R' followed by number (e.g.: R1)");
+			return;
+		}
+		
+		if (requirementDescText.getText().length() == 0) {
+			updateStatus("Requirement description must be specified");
+			return;
+		}
+		
+	
+/*		if (getContainerName().length() == 0) {
+			updateStatus("File container must be specified");
+			return;
+		}
+		if (container == null
+				|| (container.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
+			updateStatus("File container must exist");
+			return;
+		}
+		if (!container.isAccessible()) {
+			updateStatus("Project must be writable");
+			return;
+		}
+		if (fileName.length() == 0) {
+			updateStatus("File name must be specified");
+			return;
+		}
+		if (fileName.replace('\\', '/').indexOf('/', 1) > 0) {
+			updateStatus("File name must be valid");
+			return;
+		}
+		int dotLoc = fileName.lastIndexOf('.');
+		if (dotLoc != -1) {
+			String ext = fileName.substring(dotLoc + 1);
+			if (ext.equalsIgnoreCase("mpe") == false) {
+				updateStatus("File extension must be \"mpe\"");
+				return;
+			}
+		}
+		updateStatus(null);*/
+		updateStatus(null);
+	}
+	
+	private void updateStatus(String message) {
+		setErrorMessage(message);
+		setPageComplete(message == null);
 	}
 }

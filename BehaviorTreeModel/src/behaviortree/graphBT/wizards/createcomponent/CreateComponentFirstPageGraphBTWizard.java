@@ -14,7 +14,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import behaviortree.Component;
@@ -28,10 +30,13 @@ public class CreateComponentFirstPageGraphBTWizard extends WizardPage {
 	private Composite container;
 	private HashMap<Integer,String> map;
 	private Diagram d;
+	private Text componentNameText;
+	private Text componentRefText;
 
-	
+	  
 	public CreateComponentFirstPageGraphBTWizard(HashMap<Integer,String> map, Diagram d) {
 		super("Create Component Wizard");
+		;
 		setTitle("Create Component Wizard");
 		setDescription("Fill in the Behavior Tree node elements below.");
 		this.map = map;
@@ -48,13 +53,23 @@ public class CreateComponentFirstPageGraphBTWizard extends WizardPage {
 	    final Label componentLabel = new Label(container, SWT.NULL);
 		componentLabel.setText("Component Name");
 		
-		final Text componentNameText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		componentNameText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		componentNameText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				dialogChanged();
+			}
+		});
+		
 		final Label componentRefLabel = new Label(container, SWT.NULL);
 		componentRefLabel.setText("Component Ref");
 		//componentRefLabel.setVisible(false);
 		
-		final Text componentRefText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		//componentRefText.setVisible(false);
+		componentRefText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		componentRefText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				dialogChanged();
+			}
+		});
 		
 		
 		componentNameText.setText("");
@@ -78,5 +93,35 @@ public class CreateComponentFirstPageGraphBTWizard extends WizardPage {
 		System.out.println("stringCarrier[0].getText() " + componentNameText.getText());
 		// Required to avoid an error in the system
 		setControl(container);
+	}
+	
+	private void dialogChanged() {
+		
+		if (componentNameText.getText().length() == 0) {
+			updateStatus("Component name must be specified");
+			return;
+		}
+		
+		if (componentRefText.getText().length() == 0) {
+			updateStatus("Component reference must be specified");
+			return;
+		}
+		
+		if (GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefText.getText()) != null) {
+			updateStatus("Component reference is already exist");
+			return;
+		}
+
+		if (!(componentRefText.getText().matches("C[a-zA-Z0-9]+"))) {
+			updateStatus("Format of component should be start with 'C'");
+			return;
+		}			
+
+		updateStatus(null);
+	}
+	
+	private void updateStatus(String message) {
+		setErrorMessage(message);
+		setPageComplete(message == null);
 	}
 }
