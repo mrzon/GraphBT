@@ -15,10 +15,15 @@ public class BehaviorTreeFilter extends AbstractPropertySectionFilter {
         EObject eObject =
             Graphiti.getLinkService()
             .getBusinessObjectForLinkedPictogramElement(pe);
-        EObject eObj =
-                Graphiti.getLinkService()
-                .getBusinessObjectForLinkedPictogramElement(((Shape)pe).getContainer());
-            
+        
+        EObject eObj = null;
+        if(pe instanceof Shape){
+	        eObj = Graphiti.getLinkService()
+	                .getBusinessObjectForLinkedPictogramElement(((Shape)pe).getContainer());
+        }
+        else {
+        	return false;
+        }
         
         System.out.println("Ane masuk filter nyakkk");
         boolean isTrue = false;

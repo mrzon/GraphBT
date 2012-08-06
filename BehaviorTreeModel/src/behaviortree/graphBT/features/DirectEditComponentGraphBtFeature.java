@@ -1,14 +1,5 @@
 package behaviortree.graphBT.features;
 
-import java.io.IOException;
-import java.util.Collections;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.impl.AbstractDirectEditingFeature;
@@ -18,7 +9,15 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.jface.dialogs.MessageDialog;
 
-import behaviortree.*;
+import behaviortree.BEModel;
+import behaviortree.Behavior;
+import behaviortree.BehaviortreeFactory;
+import behaviortree.Component;
+import behaviortree.GraphBTUtil;
+import behaviortree.Operator;
+import behaviortree.Requirement;
+import behaviortree.StandardNode;
+import behaviortree.TraceabilityStatus;
 
 public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeature {
 

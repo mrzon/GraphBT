@@ -7,17 +7,19 @@ import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
 import behaviortree.BehaviortreeFactory;
+import behaviortree.Composition;
 import behaviortree.Edge;
 import behaviortree.StandardNode;
 
 
-public class CreateGraphBtConnectionFeature extends AbstractCreateConnectionFeature
+public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConnectionFeature
 		implements ICreateConnectionFeature {
 
-	public CreateGraphBtConnectionFeature(IFeatureProvider fp) {
-		super(fp, "BT Edge", "Creates a new edge between nodes");
+	public CreateSequentialConnectionGraphBtFeature(IFeatureProvider fp) {
+		super(fp, "Sequential", "Creates a new sequential edge between nodes");
 	}
 
 	@Override
@@ -45,7 +47,8 @@ public class CreateGraphBtConnectionFeature extends AbstractCreateConnectionFeat
         // get EClasses which should be connected
         StandardNode source = getStandardNode(context.getSourceAnchor());
         StandardNode target = getStandardNode(context.getTargetAnchor());
-
+        
+        
         if (source != null && target != null) {
             // create new business object
             Edge edge = createEdge(source, target);
@@ -56,7 +59,7 @@ public class CreateGraphBtConnectionFeature extends AbstractCreateConnectionFeat
             addContext.setNewObject(edge);
             newConnection = (Connection) getFeatureProvider().addIfPossible(addContext);
         }
-
+        
         return newConnection;
 	}
 	
@@ -76,6 +79,8 @@ public class CreateGraphBtConnectionFeature extends AbstractCreateConnectionFeat
         Edge edge = BehaviortreeFactory.eINSTANCE.createEdge();
         
         edge.setChildNode(target);
+        
+        edge.setComposition(Composition.SEQUENTIAL);
         source.getEdge().add(edge);
         
         return edge;
