@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 
-import org.be.textbe.bt.textbt.presentation.TextbtEditor;
+//import org.be.textbe.bt.textbt.presentation.TextbtEditor;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -48,7 +48,7 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	/** The text editor used in page 0. */
 	private DiagramEditor editor;
 	private TextEditor editor2;
-	private TextbtEditor editor3;
+	//private TextbtEditor editor3;
 
 	/**
 	 * Creates a multi-page editor example.
@@ -136,13 +136,13 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	 */
 	void createPage2() {
 
-		try {
+		/*try {
 			editor3 = new TextbtEditor();
 			int index = addPage(editor3, getEditorInput());
 			setPageText(index, editor3.getTitle());
 		} catch (PartInitException e) {
 			ErrorDialog.openError(getSite().getShell(), "Error creating nested text editor", null, e.getStatus());
-		}
+		}*/
 	}
 
 	/**

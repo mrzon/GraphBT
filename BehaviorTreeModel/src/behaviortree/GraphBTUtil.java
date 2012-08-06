@@ -394,4 +394,9 @@ public class GraphBTUtil {
 		
 		return l;
 	}
+	
+	public List getFormulaList()
+	{
+		return null;
+	}
 }
