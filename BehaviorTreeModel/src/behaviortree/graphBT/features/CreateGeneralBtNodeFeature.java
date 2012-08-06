@@ -1,27 +1,29 @@
 package behaviortree.graphBT.features;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.jface.window.Window;
-import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
 
-import behaviortree.*;
+import behaviortree.BEModel;
+import behaviortree.Behavior;
+import behaviortree.BehaviortreeFactory;
+import behaviortree.Component;
+import behaviortree.GraphBTUtil;
+import behaviortree.Node;
+import behaviortree.Operator;
+import behaviortree.Requirement;
+import behaviortree.StandardNode;
+import behaviortree.TraceabilityStatus;
 import behaviortree.graphBT.wizards.CreateStandardNodeGraphBTWizard;
 
 
@@ -95,12 +97,14 @@ ICreateFeature {
 				createResource.save(Collections.emptyMap());
 				createResource.setTrackingModification(true);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		*/
 		BEModel beModel = GraphBTUtil.getBEModel(getDiagram());
+		
+		node.setTraceabilityStatus(TraceabilityStatus.getByName(map.get(StandardNode.STANDARDNODE_TRACEABILITYSTATUS)));
+		node.setOperator(Operator.getByName(map.get(StandardNode.STANDARDNODE_OPERATOR)));
 		
 		Component c = null;
 		if(map.get(StandardNode.STANDARDNODE_COMPONENT)==null ||(map.get(StandardNode.STANDARDNODE_COMPONENT)!=null&&map.get(StandardNode.STANDARDNODE_COMPONENT).equals(""))){
@@ -130,9 +134,6 @@ ICreateFeature {
 	    }
 		node.setTraceabilityLink(r);
 
-		node.setTraceabilityStatus(TraceabilityStatus.getByName(map.get(StandardNode.STANDARDNODE_TRACEABILITYSTATUS)));
-		node.setOperator(Operator.getByName(map.get(StandardNode.STANDARDNODE_OPERATOR)));
-		
 		if(beModel != null) {
 			System.out.println("Be model ternyata ga null :p");		
 		}

@@ -8,8 +8,6 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -18,7 +16,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 import behaviortree.Behavior;
@@ -53,11 +50,6 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 
 	@Override
 	public void createControl(Composite parent) {
-//		container2 = new Composite(parent, SWT.NULL);
-//		GridLayout layout2 = new GridLayout();
-//		container.setLayout(layout2);
-//		layout2.numColumns = 3;
-		
 		
 		container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
@@ -113,6 +105,25 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 		
 		behaviorCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
 		behaviorCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		operatorCombo.addSelectionListener(new SelectionAdapter() {
+		    public void widgetSelected(SelectionEvent e) {
+		    	Combo combo = (Combo)e.widget;
+		    	String selected = combo.getItem(combo.getSelectionIndex());
+		    	
+		    	map.put(StandardNode.STANDARDNODE_OPERATOR, selected);
+		    	changeDialog();
+		     }
+	    });
+	    
+	    traceabilityStatusCombo.addSelectionListener(new SelectionAdapter() {
+		    public void widgetSelected(SelectionEvent e) {
+		    	Combo combo = (Combo)e.widget;
+		    	String selected = combo.getItem(combo.getSelectionIndex());
+		    	map.put(StandardNode.STANDARDNODE_TRACEABILITYSTATUS, selected);
+		    	changeDialog();
+		     }
+	     });
 	    
 		componentCombo.addSelectionListener(new SelectionAdapter() {
 		    public void widgetSelected(SelectionEvent e) {
@@ -121,11 +132,10 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 		    	map.put(StandardNode.STANDARDNODE_COMPONENT, selected );
 		    	behaviorCombo.removeAll();
 		    	Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), selected);
-		    	if(c!=null)
+		    	if(c != null)
 		    	for(Behavior behavior: c.getBehaviors()){
 			    	behaviorCombo.add(behavior.toString());
 			    }
-		    	
 		    	changeDialog();
 		     }
 	     });
@@ -143,17 +153,6 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 	    
 	    traceabilityLinkCombo.addSelectionListener(new SelectionAdapter() {
 		    public void widgetSelected(SelectionEvent e) {
-//		    	Combo combo = (Combo)e.widget;
-//		    	String selected = combo.getItem(combo.getSelectionIndex());
-//		    	map.put(StandardNode.STANDARDNODE_COMPONENT, selected );
-//		    	behaviorCombo.removeAll();
-//		    	Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), selected);
-//		    	if(c!=null)
-//		    	for(Behavior behavior: c.getBehaviors()){
-//			    	behaviorCombo.add(behavior.toString());
-//			    }
-//		    	
-//		    	changeDialog();
 		    	Combo combo = (Combo)e.widget;
 		    	String selected = combo.getItem(combo.getSelectionIndex());
 		    	map.put(StandardNode.STANDARDNODE_TRACEABILITYLINK, selected);
@@ -260,23 +259,6 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 			
 		});
 		
-	    operatorCombo.addSelectionListener(new SelectionAdapter() {
-		    public void widgetSelected(SelectionEvent e) {
-		    	Combo combo = (Combo)e.widget;
-		    	String selected = combo.getItem(combo.getSelectionIndex());
-		    	
-		    	map.put(StandardNode.STANDARDNODE_OPERATOR, selected);
-		     }
-	    });
-	    
-	    traceabilityStatusCombo.addSelectionListener(new SelectionAdapter() {
-		    public void widgetSelected(SelectionEvent e) {
-		    	Combo combo = (Combo)e.widget;
-		    	String selected = combo.getItem(combo.getSelectionIndex());
-		    	map.put(StandardNode.STANDARDNODE_TRACEABILITYSTATUS, selected);
-		     }
-	     });
-
 	    changeDialog();
 		setControl(container);
 	}

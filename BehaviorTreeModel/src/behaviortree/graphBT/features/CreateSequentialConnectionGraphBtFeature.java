@@ -60,6 +60,14 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
                 new AddConnectionContext(context.getSourceAnchor(), context.getTargetAnchor());
             addContext.setNewObject(edge);
             newConnection = (Connection) getFeatureProvider().addIfPossible(addContext);
+            
+            PictogramElement pes = context.getSourcePictogramElement();
+            PictogramElement pet = context.getTargetPictogramElement();
+            
+            pet.getGraphicsAlgorithm().setX(pes.getGraphicsAlgorithm().getX());
+            pet.getGraphicsAlgorithm().setY(
+            		pes.getGraphicsAlgorithm().getY() + 
+            		pes.getGraphicsAlgorithm().getHeight() + 45);
         }
         
         return newConnection;

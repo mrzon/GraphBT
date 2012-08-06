@@ -99,7 +99,7 @@ public class CreateAtomicConnectionGraphBtFeature
         if(edge == null)
         {
         	edge = BehaviortreeFactory.eINSTANCE.createEdge();
-        	edge.setComposition(Composition.SEQUENTIAL);
+        	edge.setComposition(Composition.ATOMIC);
         	source.setEdge(edge);
         }
         edge.getChildNode().add(target);

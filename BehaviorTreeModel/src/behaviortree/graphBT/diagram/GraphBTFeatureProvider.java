@@ -38,7 +38,7 @@ import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
 import behaviortree.graphBT.features.AddAtomicConnectionGraphBtFeature;
 import behaviortree.graphBT.features.AddGeneralBtNodeFeature;
-import behaviortree.graphBT.features.AddGraphBtConnectionFeature;
+import behaviortree.graphBT.features.AddSequentialConnectionGraphBtFeature;
 import behaviortree.graphBT.features.CopyNodeGraphBtFeature;
 import behaviortree.graphBT.features.CreateAtomicConnectionGraphBtFeature;
 import behaviortree.graphBT.features.CreateGeneralBtNodeFeature;
@@ -79,7 +79,7 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 			}
 			else {
 				System.out.println("di add sequential connection context");
-				return new AddGraphBtConnectionFeature(this);
+				return new AddSequentialConnectionGraphBtFeature(this);
 			}
 		} else if (context instanceof IAddContext /* && context.getNewObject() instanceof <DomainObject> */) {
 			return new AddGeneralBtNodeFeature(this);

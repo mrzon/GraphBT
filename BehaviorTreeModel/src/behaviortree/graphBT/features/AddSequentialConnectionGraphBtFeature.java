@@ -1,9 +1,5 @@
 package behaviortree.graphBT.features;
 
-import behaviortree.Edge;
-import behaviortree.graphBT.StyleUtil;
-
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
@@ -12,7 +8,6 @@ import org.eclipse.graphiti.features.impl.AbstractAddFeature;
 import org.eclipse.graphiti.mm.GraphicsAlgorithmContainer;
 import org.eclipse.graphiti.mm.algorithms.Polygon;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
-import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -21,10 +16,12 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.IColorConstant;
 
-public class AddGraphBtConnectionFeature extends AbstractAddFeature implements
+import behaviortree.Edge;
+
+public class AddSequentialConnectionGraphBtFeature extends AbstractAddFeature implements
 		IAddFeature {
 
-	public AddGraphBtConnectionFeature(IFeatureProvider fp) {
+	public AddSequentialConnectionGraphBtFeature(IFeatureProvider fp) {
 		super(fp);
 	}
 
@@ -62,16 +59,16 @@ public class AddGraphBtConnectionFeature extends AbstractAddFeature implements
 //		Edge edge = (Edge) context.getNewObject();
 //		text.setValue(edge.getBranch().getLiteral());
 
-//		ConnectionDecorator cd;
-//		cd = peCreateService.createConnectionDecorator(connection, false, 1.0, true);
-//		createArrow(cd);
+		ConnectionDecorator cd;
+		cd = peCreateService.createConnectionDecorator(connection, false, 1.0, true);
+		createArrow(cd);
 		
 		return connection;
 	}
 	
-//	private Polygon createArrow(GraphicsAlgorithmContainer gaContainer) {
-//		
-//		Polygon polygon = Graphiti.getGaCreateService().createPlainPolygon(gaContainer, new int[] { -15, 10, 0, 0, -15, -10, -15, 10 });
-//		return polygon;
-//	}
+	private Polygon createArrow(GraphicsAlgorithmContainer gaContainer) {
+		
+		Polygon polygon = Graphiti.getGaCreateService().createPlainPolygon(gaContainer, new int[] { -15, 10, 0, 0, -15, -10, -15, 10 });
+		return polygon;
+	}
 }

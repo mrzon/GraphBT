@@ -47,6 +47,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
 	implements ITabbedPropertyConstants {
 	private CCombo componentCombo;
 	private CCombo behaviorCombo;
+	private CCombo requirementCombo;
 	private CCombo operatorCombo;
 	private CCombo statusCombo;
 
@@ -60,6 +61,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
 
         FormData componentData;
         FormData behaviorData;
+        FormData requirementData;
         FormData operatorData;
         FormData statusData;
         IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
@@ -74,19 +76,12 @@ public class BehaviorTreePropertySection extends GFPropertySection
         }
         
         final Diagram d = ds.getDiagramTypeProvider().getDiagram();
-        //Graphiti.getGaService()
         
         componentCombo = factory.createCCombo(composite);
         behaviorCombo = factory.createCCombo(composite);
+        requirementCombo = factory.createCCombo(composite);
         operatorCombo = factory.createCCombo(composite);
         statusCombo = factory.createCCombo(composite);
-        
-//        behaviorCombo.addModifyListener(modifyListenerBehavior());
-//        componentCombo.addModifyListener(modifyListenerComponent());
-        
-//        for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()){
-//	    	componentCombo.add(component.getComponentName());
-//	    }
         
         refresh();        
         for(TraceabilityStatus ts : TraceabilityStatus.VALUES) {
@@ -97,17 +92,13 @@ public class BehaviorTreePropertySection extends GFPropertySection
         	operatorCombo.add(ts.getName());
 	    }
         
-//        behaviorCombo.addModifyListener(modifyListenerBehavior());
-//        componentCombo.addModifyListener(modifyListenerComponent());
-
         componentData = new FormData();
         componentData.left = new FormAttachment(0, STANDARD_LABEL_WIDTH*2);
         componentData.right = new FormAttachment(100, 0);
         componentData.top = new FormAttachment(0, VSPACE);
-        //componentData.bottom = new FormAttachment(behaviorText, VSPACE);
         componentCombo.setLayoutData(componentData);
 
-        CLabel valueLabel2 = factory.createCLabel(composite, "Component Name:");
+        CLabel valueLabel2 = factory.createCLabel(composite, "Component Name");
         componentData = new FormData();
         componentData.left = new FormAttachment(0, 0);
         componentData.right = new FormAttachment(componentCombo, -HSPACE);
@@ -120,20 +111,33 @@ public class BehaviorTreePropertySection extends GFPropertySection
         behaviorData.top = new FormAttachment(componentCombo, VSPACE);
         behaviorCombo.setLayoutData(behaviorData);
         
-        CLabel valueLabel3 = factory.createCLabel(composite, "Behavior Name:");
+        CLabel valueLabel3 = factory.createCLabel(composite, "Behavior Name");
         behaviorData = new FormData();
         behaviorData.left = new FormAttachment(0, 0);
         behaviorData.right = new FormAttachment(behaviorCombo, -HSPACE);
         behaviorData.top = new FormAttachment(behaviorCombo, 0, SWT.CENTER);
         valueLabel3.setLayoutData(behaviorData);
         
+        requirementData = new FormData();
+        requirementData.left = new FormAttachment(0, STANDARD_LABEL_WIDTH * 2);
+        requirementData.right = new FormAttachment(100, 0);
+        requirementData.top = new FormAttachment(behaviorCombo, VSPACE);
+        requirementCombo.setLayoutData(requirementData);
+        
+        CLabel valueLabelReq = factory.createCLabel(composite, "Traceability Link");
+        requirementData = new FormData();
+        requirementData.left = new FormAttachment(0, 0);
+        requirementData.right = new FormAttachment(requirementCombo, -HSPACE);
+        requirementData.top = new FormAttachment(requirementCombo, 0, SWT.CENTER);
+        valueLabelReq.setLayoutData(requirementData);
+        
         operatorData = new FormData();
         operatorData.left = new FormAttachment(0, STANDARD_LABEL_WIDTH * 2);
         operatorData.right = new FormAttachment(100, 0);
-        operatorData.top = new FormAttachment(behaviorCombo, VSPACE);
+        operatorData.top = new FormAttachment(requirementCombo, VSPACE);
         operatorCombo.setLayoutData(operatorData);
         
-        CLabel valueLabel4 = factory.createCLabel(composite, "Operator Name:");
+        CLabel valueLabel4 = factory.createCLabel(composite, "Operator Name");
         operatorData = new FormData();
         operatorData.left = new FormAttachment(0, 0);
         operatorData.right = new FormAttachment(operatorCombo, -HSPACE);
@@ -146,7 +150,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
         statusData.top = new FormAttachment(operatorCombo, VSPACE);
         statusCombo.setLayoutData(statusData);
         
-        CLabel valueLabel5 = factory.createCLabel(composite, "Traceability Status Name");
+        CLabel valueLabel5 = factory.createCLabel(composite, "Traceability Status");
         statusData = new FormData();
         statusData.left = new FormAttachment(0, 0);
         statusData.right = new FormAttachment(statusCombo, -HSPACE);
@@ -165,12 +169,10 @@ public class BehaviorTreePropertySection extends GFPropertySection
 		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         DiagramEditor ds;
         
-        if(page.getActiveEditor() instanceof DiagramEditor)
-        {
+        if(page.getActiveEditor() instanceof DiagramEditor) {
         	 ds = (DiagramEditor)page.getActiveEditor();	
         }
-        else
-        {
+        else {
         	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
         }
 
@@ -190,36 +192,27 @@ public class BehaviorTreePropertySection extends GFPropertySection
             if (bo == null)
                 return;
             
-            if(!(bo instanceof StandardNode)){
+            if(!(bo instanceof StandardNode)) {
             	return;
             }
             
-            final StandardNode node = (StandardNode)bo;
+            final StandardNode node = (StandardNode) bo;
             IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
             final DiagramEditor ds;
             
-            if(page.getActiveEditor() instanceof DiagramEditor)
-            {
+            if(page.getActiveEditor() instanceof DiagramEditor) {
             	 ds = (DiagramEditor)page.getActiveEditor();	
             }
-            else
-            {
+            else {
             	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
             }
             
             final Diagram d = ds.getDiagramTypeProvider().getDiagram();
             componentCombo.removeAll();
-            for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()){
+            for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()) {
     	    	componentCombo.add(component.getComponentName());
     	    }
 
-//            componentCombo.setText(GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), 
-//            		node.getComponentRef()).getComponentName());
-//            behaviorCombo.setText(GraphBTUtil.getBehaviorFromComponent(
-//            		GraphBTUtil.getComponent(
-//            				GraphBTUtil.getBEModel(d), node.getComponentRef()), 
-//            				node.getBehaviorRef()).getBehaviorName());
-            
             componentCombo.addSelectionListener(new SelectionAdapter() {
     		    public void widgetSelected(SelectionEvent e) {
     		    	CCombo combo = (CCombo)e.widget;
@@ -297,9 +290,8 @@ public class BehaviorTreePropertySection extends GFPropertySection
     	    		
     		     }
     	     });
- /*           
-            behaviorCombo.addModifyListener(modifyListenerBehavior());
-            componentCombo.addModifyListener(modifyListenerComponent());*/
         }
+        
+        
     }
 }
