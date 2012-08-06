@@ -127,19 +127,20 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	}
 	
 	@Override
-	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
-		return new ICustomFeature[] { new RenameGraphBtFeature(this) };
-	}
-	
-	@Override
 	public ICopyFeature getCopyFeature(ICopyContext context) {
 		System.out.println("getCopyFeature() is invoked");
+		
 		return  new CopyNodeGraphBtFeature(this);
 	}
 	
 	@Override
 	public IPasteFeature getPasteFeature(IPasteContext context) {
 		return  new PasteNodeGraphBtFeature(this);
+	}
+	
+	@Override
+	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
+		return new ICustomFeature[] { new RenameGraphBtFeature(this) };
 	}
 	
 	@Override
