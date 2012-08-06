@@ -1,14 +1,11 @@
 package behaviortree.graphBT.features;
 
-import behaviortree.Edge;
-import behaviortree.graphBT.StyleUtil;
-
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddFeature;
+import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
 import org.eclipse.graphiti.mm.GraphicsAlgorithmContainer;
 import org.eclipse.graphiti.mm.algorithms.Polygon;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
@@ -21,10 +18,13 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.IColorConstant;
 
-public class AddGraphBtConnectionFeature extends AbstractAddFeature implements
+import behaviortree.Edge;
+import behaviortree.graphBT.StyleUtil;
+
+public class AddAtomicConnectionGraphBtFeature extends AbstractAddFeature implements
 		IAddFeature {
 
-	public AddGraphBtConnectionFeature(IFeatureProvider fp) {
+	public AddAtomicConnectionGraphBtFeature(IFeatureProvider fp) {
 		super(fp);
 	}
 
@@ -48,9 +48,17 @@ public class AddGraphBtConnectionFeature extends AbstractAddFeature implements
 		connection.setStart(addConContext.getSourceAnchor());
 		connection.setEnd(addConContext.getTargetAnchor());
 
-		Polyline polyline = gaService.createPlainPolyline(connection);
-		polyline.setForeground(manageColor(IColorConstant.BLACK));
+//		connection.getEnd().getGraphicsAlgorithm().
+//			setX(connection.getStart().getGraphicsAlgorithm().getX());
+//		connection.getEnd().getGraphicsAlgorithm().
+//		setY(connection.getStart().getGraphicsAlgorithm().getY() +
+//				connection.getStart().getGraphicsAlgorithm().getHeight());
 		
+		Polyline polyline = gaService.createPlainPolyline(connection);
+		
+		gaService.setLocation(polyline, addConContext.getX(), addConContext.getY());
+		polyline.setForeground(manageColor(IColorConstant.BLACK));
+
 		Edge addedEdge = (Edge) context.getNewObject();
 		link(connection, addedEdge);
 		
@@ -59,19 +67,6 @@ public class AddGraphBtConnectionFeature extends AbstractAddFeature implements
 //		text.setStyle(StyleUtil.getStyleForTextDecorator((getDiagram())));
 //		gaService.setLocation(text, 10, 0);
 
-//		Edge edge = (Edge) context.getNewObject();
-//		text.setValue(edge.getBranch().getLiteral());
-
-//		ConnectionDecorator cd;
-//		cd = peCreateService.createConnectionDecorator(connection, false, 1.0, true);
-//		createArrow(cd);
-		
 		return connection;
 	}
-	
-//	private Polygon createArrow(GraphicsAlgorithmContainer gaContainer) {
-//		
-//		Polygon polygon = Graphiti.getGaCreateService().createPlainPolygon(gaContainer, new int[] { -15, 10, 0, 0, -15, -10, -15, 10 });
-//		return polygon;
-//	}
 }

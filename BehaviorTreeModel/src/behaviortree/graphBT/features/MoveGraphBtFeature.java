@@ -6,6 +6,10 @@ import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
+import behaviortree.Behavior;
+import behaviortree.Component;
+import behaviortree.Requirement;
+
 
 public class MoveGraphBtFeature extends DefaultMoveShapeFeature {
 	 
@@ -22,11 +26,10 @@ public class MoveGraphBtFeature extends DefaultMoveShapeFeature {
             // don't allow move if the class name has the length of 1
             Shape shape = context.getShape();
             Object bo = getBusinessObjectForPictogramElement(shape);
-            if (bo instanceof EClass) {
-                EClass c = (EClass) bo;
-                if (c.getName() != null && c.getName().length() == 1) {
-                    canMove = false;
-                }
+            if (bo instanceof Component ||
+            		bo instanceof Behavior ||
+            		bo instanceof Requirement) {
+                canMove = false;
             }
         }
         return canMove;

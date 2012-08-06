@@ -14,6 +14,7 @@ import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
+import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -194,6 +195,25 @@ IAddFeature {
         }
         
         peCreateService.createChopboxAnchor(containerShape);
+        
+     // create an additional box relative anchor at middle-right
+//        final BoxRelativeAnchor boxAnchor =
+//             peCreateService.createBoxRelativeAnchor(containerShape);
+//
+//        boxAnchor.setRelativeWidth(1.0);
+//        boxAnchor.setRelativeHeight(0.5);
+//
+//        // anchor references visible rectangle instead of invisible rectangle
+//        boxAnchor.setReferencedGraphicsAlgorithm(rectangle);
+//
+//        // assign a graphics algorithm for the box relative anchor
+//        Rectangle rectangleBox = gaService.createRectangle(boxAnchor);
+//        rectangleBox.setFilled(true);
+//
+//        // anchor is located on the right border of the visible rectangle
+//        // and touches the border of the invisible rectangle
+//        int w = 6;
+//        gaService.setLocationAndSize(rectangleBox, -2 * w, -w, 2 * w, 2 * w);
         layoutPictogramElement(containerShape);
                
         return containerShape;
