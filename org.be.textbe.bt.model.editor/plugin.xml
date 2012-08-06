@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.be.textbe.bt.textbt.presentation.TextbtModelWizardID"
+            name="%_UI_TextbtModelWizard_label"
+            class="org.be.textbe.bt.textbt.presentation.TextbtModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/TextbtModelFile.gif">
+         <description>%_UI_TextbtModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.be.textbe.bt.textbt.presentation.TextbtEditorID"
+            name="%_UI_TextbtEditor_label"
+            icon="icons/full/obj16/TextbtModelFile.gif"
+            extensions="textbt"
+            class="org.be.textbe.bt.textbt.presentation.TextbtEditor"
+            contributorClass="org.be.textbe.bt.textbt.presentation.TextbtActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

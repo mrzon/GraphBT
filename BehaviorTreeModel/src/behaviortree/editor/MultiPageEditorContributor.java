@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,10 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -38,8 +42,11 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorDescriptor;
@@ -53,6 +60,7 @@ import org.eclipse.ui.ide.IDEActionFactory;
 import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
+import org.osgi.framework.Bundle;
 
 import behaviortree.BEModel;
 import behaviortree.Component;
@@ -71,9 +79,8 @@ import behaviortree.graphBT.wizards.managerequirements.ManageRequirementsGraphBT
  */
 public class MultiPageEditorContributor extends MultiPageEditorActionBarContributor {
 	private IEditorPart activeEditorPart;
-	private Action addNewComponent;
 	private Action generateBTCode;
-
+	private Action addNewComponent;
 	private Action manageComponents;
 	private Action manageRequirements;
 	/**
@@ -144,7 +151,66 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void createActions() {
+		generateBTCode = new Action() {
+			public void run(){
+				if(activeEditorPart instanceof DiagramEditor)
+				{
+				Diagram d = ((DiagramEditor)activeEditorPart).getDiagramTypeProvider().getDiagram();
+				String content = GraphBTUtil.getBEModel(d).toString();
+				URI uri = d.eResource().getURI();
+				uri = uri.trimFragment();
+				uri = uri.trimFileExtension();
+				uri = uri.appendFileExtension("bt");
+				List<StandardNode> ln = GraphBTUtil.getRoots(d.eResource().getResourceSet());
+				for(int i=0; i < ln.size(); i++)
+				{
+					content+="\n"+ln.get(i).toString();
+				}
+				final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+				
+				IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
+				{
+					Path path = new Path(uri.toPlatformString(true));
+					IFile ifile = workspaceRoot.getFile(path);
+					InputStream in = new ByteArrayInputStream(content.getBytes());
+					try {
+						if (file == null || !file.exists()) 
+						{
+							ifile.create(in,false,null);
+						}	
+						else
+						{
+							ifile.setContents(in, false, false, null);
+						}	
+					} catch (CoreException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}}
+		// Get the currently selected file from the editor
+	};	
+	
+	Bundle bundleGenerateCode = Platform.getBundle("BehaviorTreeModel");
+	IPath pathGenerateCode = new Path("icons/generateCode.gif");
+	
+	URL fileURLGenerateCode = FileLocator.find(bundleGenerateCode , pathGenerateCode , null);
+	System.out.println("wooo "+fileURLGenerateCode.getPath());
+	try {
+		fileURLGenerateCode = FileLocator.resolve(fileURLGenerateCode );
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	ImageData imGenerateCode = new ImageData(fileURLGenerateCode.getPath());
+	ImageDescriptor imdGenerateCode = ImageDescriptor.createFromImageData(imGenerateCode );
+
+	generateBTCode.setText("Generate BT Code");
+	generateBTCode.setToolTipText("Generate the corresponding BT Code of the BE model");
+	generateBTCode.setImageDescriptor(imdGenerateCode);
+	
 		addNewComponent = new Action() {
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
@@ -192,57 +258,28 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				}
 			}
 		};
+		
+		Bundle bundleAddComponent = Platform.getBundle("BehaviorTreeModel");
+		IPath pathAddComponent = new Path("icons/newComponent.gif");
+		
+		URL fileURLAddComponent = FileLocator.find(bundleAddComponent, pathAddComponent, null);
+		System.out.println("wooo "+fileURLAddComponent.getPath());
+		try {
+			fileURLAddComponent = FileLocator.resolve(fileURLAddComponent);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ImageData imAddComponent = new ImageData(fileURLAddComponent.getPath());
+		ImageDescriptor imdAddComponent = ImageDescriptor.createFromImageData(imAddComponent);
+
 		addNewComponent.setText("Add new Component");
 		addNewComponent.setToolTipText("Add new component to the model");
-		addNewComponent.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
+		addNewComponent.setImageDescriptor(imdAddComponent);
 
 		
 		
-		generateBTCode = new Action() {
-				public void run(){
-					if(activeEditorPart instanceof DiagramEditor)
-					{
-					Diagram d = ((DiagramEditor)activeEditorPart).getDiagramTypeProvider().getDiagram();
-					String content = GraphBTUtil.getBEModel(d).toString();
-					URI uri = d.eResource().getURI();
-					uri = uri.trimFragment();
-					uri = uri.trimFileExtension();
-					uri = uri.appendFileExtension("bt");
-					List<StandardNode> ln = GraphBTUtil.getRoots(d.eResource().getResourceSet());
-					for(int i=0; i < ln.size(); i++)
-					{
-						content+="\n"+ln.get(i).toString();
-					}
-					final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-					
-					IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
-					{
-						Path path = new Path(uri.toPlatformString(true));
-						IFile ifile = workspaceRoot.getFile(path);
-						InputStream in = new ByteArrayInputStream(content.getBytes());
-						try {
-							if (file == null || !file.exists()) 
-							{
-								ifile.create(in,false,null);
-							}	
-							else
-							{
-								ifile.setContents(in, false, false, null);
-							}	
-						} catch (CoreException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}}
-			// Get the currently selected file from the editor
-		};	
 		
-		generateBTCode.setText("Generate BT Code");
-		generateBTCode.setToolTipText("Generate the corresponding BT Code of the BE model");
-		generateBTCode.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
 		manageComponents = new Action(){
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
@@ -273,10 +310,33 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				}
 			}
 		};
+		
+		//final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+		//IResource file = workspaceRoot.findMember("icons/requirement.gif",true);
+		//IPath ip = workspaceRoot.getWorkspace().;
+		//System.out.println("Filenya "+ip.toOSString());
+		
+		//URL pluginInternalURL = getDefault().getBundle().getEntry("icons/requirement.gif"); 
+		
+		Bundle bundleComponent = Platform.getBundle("BehaviorTreeModel");
+		IPath pathComponent = new Path("icons/component.gif");
+		
+		URL fileURLComponent = FileLocator.find(bundleComponent, pathComponent, null);
+		System.out.println("wooo "+fileURLComponent.getPath());
+		try {
+			fileURLComponent = FileLocator.resolve(fileURLComponent);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ImageData imComponent = new ImageData(fileURLComponent.getPath());
+		ImageDescriptor imdComponent = ImageDescriptor.createFromImageData(imComponent);
+
 		manageComponents.setText("Manage Components");
 		manageComponents.setToolTipText("Manage components of the model");
-		manageComponents.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(IDE.SharedImages.IMG_OBJ_PROJECT));
+		manageComponents.setImageDescriptor(imdComponent);
+		
+		
 		manageRequirements = new Action(){
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
@@ -307,10 +367,32 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				}
 			}
 		};
+		
+		
+		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+		//IResource file = workspaceRoot.findMember("icons/requirement.gif",true);
+		//IPath ip = workspaceRoot.getWorkspace().;
+		//System.out.println("Filenya "+ip.toOSString());
+		
+		//URL pluginInternalURL = getDefault().getBundle().getEntry("icons/requirement.gif"); 
+		
+		Bundle bundle = Platform.getBundle("BehaviorTreeModel");
+		IPath path = new Path("icons/requirement.gif");
+		
+		URL fileURL = FileLocator.find(bundle, path, null);
+		System.out.println("wooo "+fileURL.getPath());
+		try {
+			fileURL = FileLocator.resolve(fileURL);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ImageData im = new ImageData(fileURL.getPath());
+		ImageDescriptor imd = ImageDescriptor.createFromImageData(im);
+		//System.out.println("Filenya "+ip.toString());
 		manageRequirements.setText("Manage Requirements");
-		manageRequirements.setToolTipText("Manage Requirements of the model");
-		manageRequirements.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(IDE.SharedImages.IMG_OBJ_PROJECT));
+		manageRequirements.setToolTipText("Manage Requirements of The Model");
+		manageRequirements.setImageDescriptor(imd);
 		
 		
 //		IEditorDescriptor eDesc = PlatformUI.getWorkbench().getActiveWorkbenchWindow().//findEditor("behaviortree.editor.MultiPageEditor");
@@ -322,16 +404,17 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	public void contributeToMenu(IMenuManager manager) {
 		IMenuManager menu = new MenuManager("Editor &Menu");
 		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);
-		menu.add(addNewComponent);
+		
 		menu.add(generateBTCode);
+		menu.add(addNewComponent);
 		menu.add(manageComponents);
 		menu.add(manageRequirements);
 		
 	}
 	public void contributeToToolBar(IToolBarManager manager) {
 		manager.add(new Separator());
-		manager.add(addNewComponent);
 		manager.add(generateBTCode);
+		manager.add(addNewComponent);
 		manager.add(manageComponents);
 		manager.add(manageRequirements);
 	}
