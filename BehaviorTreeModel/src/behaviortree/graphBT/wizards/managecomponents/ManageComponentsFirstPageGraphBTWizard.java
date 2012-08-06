@@ -2,7 +2,10 @@ package behaviortree.graphBT.wizards.managecomponents;
 
 import java.util.HashMap;
 
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -21,12 +24,16 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.List;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
+import behaviortree.BEModel;
 import behaviortree.Behavior;
+import behaviortree.BehaviorType;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.Operator;
+import behaviortree.Requirement;
 import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
 import behaviortree.graphBT.wizards.createbehavior.CreateBehaviorGraphBTWizard;
@@ -39,6 +46,8 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 	private Composite container2;
 	private HashMap<Integer,String> map;
 	private Diagram d;
+	private String componentRefTemp;
+	private String behaviorRefTemp;
 
 
 	public ManageComponentsFirstPageGraphBTWizard(HashMap<Integer,String> map, Diagram d) {
@@ -76,16 +85,15 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		behaviourLabel.setText("List of Behaviours:");
 
 		final List listComponents = new List(container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
-		listComponents.setBounds(20, 20, 220, 100);
-
+		//listComponents.setBounds(100, 100, 400, 300);
+		listComponents.setSize(500, 500);
+		
 		for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()){
 			listComponents.add(component.getComponentName());
 		}
 
 		final List listBehaviours = new List(container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
-		listBehaviours.setBounds(20, 20, 220, 100);
-
-		
+		//listBehaviours.setBounds(100, 100, 220, 100);
 
 		componentButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
@@ -129,8 +137,6 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 
 		});
 
-		
-
 		final Label editComponentLabel = new Label(container, SWT.NULL);
 		editComponentLabel.setText("Component Name");
 		editComponentLabel.setVisible(false);
@@ -144,12 +150,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		final Button saveComponentButton = new Button(container, SWT.NULL);
 		saveComponentButton.setText("Save");
 		saveComponentButton.setVisible(false);
-		
-		/*	container2 = new Composite(parent, SWT.NULL);		
 
-			GridLayout layout2 = new GridLayout();
-			container2.setLayout(layout2);
-			layout2.numColumns = 2;*/
 		listComponents.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 
@@ -162,58 +163,181 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 						listBehaviours.add(behavior.toString());
 					}
 				editcomponentNameText.setText(c.getComponentName());
-				componentRefText.setText(c.getComponentRef());
-
+				componentRefTemp = c.getComponentRef();
+				System.out.println("test awal= " + componentRefTemp);
 			}
 		});
+
 		saveComponentButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 
-				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefText.getText());
+				IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				final DiagramEditor ds;
+				if(page.getActiveEditor() instanceof DiagramEditor)
+				{
+					ds = (DiagramEditor)page.getActiveEditor();	
+				}
+				else
+				{
+					ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+				}
+				d = ds.getDiagramTypeProvider().getDiagram();
+				final BEModel be = GraphBTUtil.getBEModel(d);
+				final Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
 
 
-				c.setComponentName(editcomponentNameText.getText());
-				
+				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+					protected void doExecute() {
+						c.setComponentName(editcomponentNameText.getText());
+
+					}
+				};
+				ds.getEditingDomain().getCommandStack().execute(cmd);
+
+
+				editComponentLabel.setVisible(false);
 				editcomponentNameText.setVisible(false);
 				saveComponentButton.setVisible(false);
-								
+
 
 				listComponents.removeAll();
+				listBehaviours.removeAll();
 				for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()){
 					listComponents.add(component.getComponentName());
 				}
+
 			}
 		});
-		
+
 		editComponentButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 
-				Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), map.get(StandardNode.STANDARDNODE_COMPONENT));
+				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
 
 
 				editcomponentNameText.setText(c.getComponentName());
 				componentRefText.setText(c.getComponentRef());
 
+				editComponentLabel.setVisible(true);
 				editcomponentNameText.setVisible(true);
 				saveComponentButton.setVisible(true);
-				/*editcomponentNameText.addModifyListener(new ModifyListener() {
-						public void modifyText(ModifyEvent e) {
-							Text t= (Text) e.widget;
-							map.put(Component.COMPONENT_NAME, t.getText());
-						}
-				    });
+			}
 
-					editcomponentNameText.addModifyListener(new ModifyListener() {
-						public void modifyText(ModifyEvent e) {
-							Text t= (Text) e.widget;
-							map.put(Component.COMPONENT_REF, t.getText());
-						}
-				    });*/
+		});
 
+		final Label editBehaviorLabel = new Label(container, SWT.NULL);
+		editBehaviorLabel.setText("Behavior Name");
+		editBehaviorLabel.setVisible(false);
+
+		final Text editBehaviorNameText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		editBehaviorNameText.setVisible(false);		
+
+		final Label typeLabel = new Label(container, SWT.NULL);
+		typeLabel.setText("Behavior Type");
+		typeLabel.setVisible(false);
+
+		final Combo typeCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
+		typeCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		typeCombo.setVisible(false);
+		
+		for(BehaviorType t : BehaviorType.VALUES) {
+			typeCombo.add(t.getName());
+		}
+		typeCombo.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo = (Combo)e.widget;
+				String selected = combo.getItem(combo.getSelectionIndex());
+
+				map.put(Behavior.BEHAVIOR_TYPE, selected);
+			}
+		});
+
+		final Button saveBehaviorButton = new Button(container, SWT.NULL);
+		saveBehaviorButton.setText("Save");
+		saveBehaviorButton.setVisible(false);
+
+		final Text behaviorRefText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		behaviorRefText.setVisible(false);
+
+		listBehaviours.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+
+				String selected = listBehaviours.getItem(listBehaviours.getSelectionIndex());
+				//map.put(StandardNode.STANDARDNODE_COMPONENT, selected );
+
+				System.out.println("komponen = " + componentRefTemp);
+				
+				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
+				Behavior b = GraphBTUtil.getBehaviorFromComponent(c, selected);
+
+				//editcomponentNameText.setText(c.getComponentName());
+				behaviorRefTemp = b.getBehaviorRef();
+				//System.out.println("komponen = " + componentRefTemp);
+			}
+		});
+
+		saveBehaviorButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+
+				IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				final DiagramEditor ds;
+				if(page.getActiveEditor() instanceof DiagramEditor)
+				{
+					ds = (DiagramEditor)page.getActiveEditor();	
+				}
+				else
+				{
+					ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+				}
+				d = ds.getDiagramTypeProvider().getDiagram();
+				final BEModel be = GraphBTUtil.getBEModel(d);
+				final Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
+				final Behavior b = GraphBTUtil.getBehaviorFromComponentByRef(c, behaviorRefTemp);
+
+				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+					protected void doExecute() {
+						b.setBehaviorName(editBehaviorNameText.getText());
+						b.setBehaviorType(BehaviorType.getByName(typeCombo.getItem(typeCombo.getSelectionIndex())));
+					}
+				};
+				ds.getEditingDomain().getCommandStack().execute(cmd);
+
+				typeLabel.setVisible(false);
+				typeCombo.setVisible(false);
+				editBehaviorLabel.setVisible(false);
+				editBehaviorNameText.setVisible(false);
+				saveBehaviorButton.setVisible(false);
+
+
+				listBehaviours.removeAll();
+				for(Behavior behavior: c.getBehaviors()){
+					listBehaviours.add(behavior.toString());
+				}
+			}
+		});
+
+		editBehaviorButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+
+				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
+				
+				Behavior b = GraphBTUtil.getBehaviorFromComponentByRef(c, behaviorRefTemp);				
+				System.out.println("behavior temp: " + behaviorRefTemp);
+				System.out.println("Component temp: " + componentRefTemp);
+				
+				editBehaviorNameText.setText(b.getBehaviorName());
+				typeCombo.setText(b.getBehaviorType().getName());
+
+				typeLabel.setVisible(true);
+				typeCombo.setVisible(true);
+				editBehaviorLabel.setVisible(true);
+				editBehaviorNameText.setVisible(true);
+				saveBehaviorButton.setVisible(true);
 				
 			}
 
 		});
+
 		setControl(container);
 	}
 }

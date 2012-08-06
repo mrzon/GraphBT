@@ -126,22 +126,13 @@ public interface BehaviortreePackage extends EPackage {
 	int BEHAVIOR_TREE = 1;
 
 	/**
-	 * The feature id for the '<em><b>EReference0</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BEHAVIOR_TREE__EREFERENCE0 = 0;
-
-	/**
 	 * The feature id for the '<em><b>Root Node</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BEHAVIOR_TREE__ROOT_NODE = 1;
+	int BEHAVIOR_TREE__ROOT_NODE = 0;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -150,7 +141,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BEHAVIOR_TREE__NAME = 2;
+	int BEHAVIOR_TREE__NAME = 1;
 
 	/**
 	 * The number of structural features of the '<em>Behavior Tree</em>' class.
@@ -159,7 +150,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BEHAVIOR_TREE_FEATURE_COUNT = 3;
+	int BEHAVIOR_TREE_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.impl.NodeImpl <em>Node</em>}' class.
@@ -740,13 +731,22 @@ public interface BehaviortreePackage extends EPackage {
 	int REQUIREMENT__TRACEABILITY_LINK = 2;
 
 	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT__DESCRIPTION = 3;
+
+	/**
 	 * The number of structural features of the '<em>Requirement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_FEATURE_COUNT = 3;
+	int REQUIREMENT_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.impl.BehaviorImpl <em>Behavior</em>}' class.
@@ -984,17 +984,6 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getBehaviorTree();
-
-	/**
-	 * Returns the meta object for the reference '{@link behaviortree.BehaviorTree#getEReference0 <em>EReference0</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>EReference0</em>'.
-	 * @see behaviortree.BehaviorTree#getEReference0()
-	 * @see #getBehaviorTree()
-	 * @generated
-	 */
-	EReference getBehaviorTree_EReference0();
 
 	/**
 	 * Returns the meta object for the reference '{@link behaviortree.BehaviorTree#getRootNode <em>Root Node</em>}'.
@@ -1503,6 +1492,17 @@ public interface BehaviortreePackage extends EPackage {
 	EReference getRequirement_TraceabilityLink();
 
 	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.Requirement#getDescription <em>Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see behaviortree.Requirement#getDescription()
+	 * @see #getRequirement()
+	 * @generated
+	 */
+	EAttribute getRequirement_Description();
+
+	/**
 	 * Returns the meta object for class '{@link behaviortree.Behavior <em>Behavior</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1730,14 +1730,6 @@ public interface BehaviortreePackage extends EPackage {
 		 * @generated
 		 */
 		EClass BEHAVIOR_TREE = eINSTANCE.getBehaviorTree();
-
-		/**
-		 * The meta object literal for the '<em><b>EReference0</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference BEHAVIOR_TREE__EREFERENCE0 = eINSTANCE.getBehaviorTree_EReference0();
 
 		/**
 		 * The meta object literal for the '<em><b>Root Node</b></em>' reference feature.
@@ -2136,6 +2128,14 @@ public interface BehaviortreePackage extends EPackage {
 		 * @generated
 		 */
 		EReference REQUIREMENT__TRACEABILITY_LINK = eINSTANCE.getRequirement_TraceabilityLink();
+
+		/**
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUIREMENT__DESCRIPTION = eINSTANCE.getRequirement_Description();
 
 		/**
 		 * The meta object literal for the '{@link behaviortree.impl.BehaviorImpl <em>Behavior</em>}' class.

@@ -488,6 +488,10 @@
         <element xmi:type="ecore:EAttribute" href="DefaultName.ecore#//Requirement/Requirement"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_0RdbkbuMEeGLjK2GWAe1Cw"/>
       </children>
+      <children xmi:type="notation:Node" xmi:id="_h8D_kd-REeGntIl6CWhJwA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="DefaultName.ecore#//Requirement/Description"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_h8EmoN-REeGntIl6CWhJwA"/>
+      </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_ra7xsbuKEeGLjK2GWAe1Cw"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_ra7xsruKEeGLjK2GWAe1Cw"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_ra7xs7uKEeGLjK2GWAe1Cw"/>

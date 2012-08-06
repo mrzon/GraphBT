@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link behaviortree.Requirement#getKey <em>Key</em>}</li>
  *   <li>{@link behaviortree.Requirement#getRequirement <em>Requirement</em>}</li>
  *   <li>{@link behaviortree.Requirement#getTraceabilityLink <em>Traceability Link</em>}</li>
+ *   <li>{@link behaviortree.Requirement#getDescription <em>Description</em>}</li>
  * </ul>
  * </p>
  *
@@ -29,6 +30,10 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface Requirement extends EObject {
+	Integer REQUIREMENT_NAME = 0x44;
+	Integer REQUIREMENT_KEY = 0x45;
+	Integer REQUIREMENT_DESC = 0x46;
+
 	/**
 	 * Returns the value of the '<em><b>Key</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -96,5 +101,33 @@ public interface Requirement extends EObject {
 	 * @generated
 	 */
 	EList<StandardNode> getTraceabilityLink();
+
+	/**
+	 * Returns the value of the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Description</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Description</em>' attribute.
+	 * @see #setDescription(String)
+	 * @see behaviortree.BehaviortreePackage#getRequirement_Description()
+	 * @model
+	 * @generated
+	 */
+	String getDescription();
+
+	/**
+	 * Sets the value of the '{@link behaviortree.Requirement#getDescription <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Description</em>' attribute.
+	 * @see #getDescription()
+	 * @generated
+	 */
+	void setDescription(String value);
+
+	//void setRequirementDesc(String string);
 
 } // Requirement

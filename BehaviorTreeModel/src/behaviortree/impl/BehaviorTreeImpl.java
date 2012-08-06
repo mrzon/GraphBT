@@ -33,7 +33,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link behaviortree.impl.BehaviorTreeImpl#getEReference0 <em>EReference0</em>}</li>
  *   <li>{@link behaviortree.impl.BehaviorTreeImpl#getRootNode <em>Root Node</em>}</li>
  *   <li>{@link behaviortree.impl.BehaviorTreeImpl#getName <em>Name</em>}</li>
  * </ul>
@@ -42,16 +41,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * @generated
  */
 public class BehaviorTreeImpl extends EObjectImpl implements BehaviorTree {
-	/**
-	 * The cached value of the '{@link #getEReference0() <em>EReference0</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEReference0()
-	 * @generated
-	 * @ordered
-	 */
-	protected Node eReference0;
-
 	/**
 	 * The cached value of the '{@link #getRootNode() <em>Root Node</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -99,44 +88,6 @@ public class BehaviorTreeImpl extends EObjectImpl implements BehaviorTree {
 	@Override
 	protected EClass eStaticClass() {
 		return BehaviortreePackage.Literals.BEHAVIOR_TREE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Node getEReference0() {
-		if (eReference0 != null && eReference0.eIsProxy()) {
-			InternalEObject oldEReference0 = (InternalEObject)eReference0;
-			eReference0 = (Node)eResolveProxy(oldEReference0);
-			if (eReference0 != oldEReference0) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BehaviortreePackage.BEHAVIOR_TREE__EREFERENCE0, oldEReference0, eReference0));
-			}
-		}
-		return eReference0;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Node basicGetEReference0() {
-		return eReference0;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setEReference0(Node newEReference0) {
-		Node oldEReference0 = eReference0;
-		eReference0 = newEReference0;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.BEHAVIOR_TREE__EREFERENCE0, oldEReference0, eReference0));
 	}
 
 	/**
@@ -206,9 +157,6 @@ public class BehaviorTreeImpl extends EObjectImpl implements BehaviorTree {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case BehaviortreePackage.BEHAVIOR_TREE__EREFERENCE0:
-				if (resolve) return getEReference0();
-				return basicGetEReference0();
 			case BehaviortreePackage.BEHAVIOR_TREE__ROOT_NODE:
 				if (resolve) return getRootNode();
 				return basicGetRootNode();
@@ -227,9 +175,6 @@ public class BehaviorTreeImpl extends EObjectImpl implements BehaviorTree {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case BehaviortreePackage.BEHAVIOR_TREE__EREFERENCE0:
-				setEReference0((Node)newValue);
-				return;
 			case BehaviortreePackage.BEHAVIOR_TREE__ROOT_NODE:
 				setRootNode((Node)newValue);
 				return;
@@ -248,9 +193,6 @@ public class BehaviorTreeImpl extends EObjectImpl implements BehaviorTree {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case BehaviortreePackage.BEHAVIOR_TREE__EREFERENCE0:
-				setEReference0((Node)null);
-				return;
 			case BehaviortreePackage.BEHAVIOR_TREE__ROOT_NODE:
 				setRootNode((Node)null);
 				return;
@@ -269,8 +211,6 @@ public class BehaviorTreeImpl extends EObjectImpl implements BehaviorTree {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case BehaviortreePackage.BEHAVIOR_TREE__EREFERENCE0:
-				return eReference0 != null;
 			case BehaviortreePackage.BEHAVIOR_TREE__ROOT_NODE:
 				return rootNode != null;
 			case BehaviortreePackage.BEHAVIOR_TREE__NAME:

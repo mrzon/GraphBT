@@ -18,7 +18,6 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link behaviortree.BehaviorTree#getEReference0 <em>EReference0</em>}</li>
  *   <li>{@link behaviortree.BehaviorTree#getRootNode <em>Root Node</em>}</li>
  *   <li>{@link behaviortree.BehaviorTree#getName <em>Name</em>}</li>
  * </ul>
@@ -29,32 +28,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface BehaviorTree extends EObject {
-	/**
-	 * Returns the value of the '<em><b>EReference0</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>EReference0</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>EReference0</em>' reference.
-	 * @see #setEReference0(Node)
-	 * @see behaviortree.BehaviortreePackage#getBehaviorTree_EReference0()
-	 * @model
-	 * @generated
-	 */
-	Node getEReference0();
-
-	/**
-	 * Sets the value of the '{@link behaviortree.BehaviorTree#getEReference0 <em>EReference0</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>EReference0</em>' reference.
-	 * @see #getEReference0()
-	 * @generated
-	 */
-	void setEReference0(Node value);
-
 	/**
 	 * Returns the value of the '<em><b>Root Node</b></em>' reference.
 	 * <!-- begin-user-doc -->

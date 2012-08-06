@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Text;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.Operator;
+import behaviortree.Requirement;
 import behaviortree.TraceabilityStatus;
 
 
@@ -52,35 +53,35 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 		
 		final Label componentRefLabel = new Label(container, SWT.NULL);
 		componentRefLabel.setText("Requirement Ref");
-		//componentRefLabel.setVisible(false);
-		
+
 		final Text requirementRefText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		//componentRefText.setVisible(false);
 		
 		final Label requirementDescLabel = new Label(container, SWT.NULL);
 		requirementDescLabel.setText("Requirement Description");
 		
 		final Text requirementDescText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		//componentRefText.setVisible(false);
 		
-		requirementNameText.setText("");
-		requirementRefText.setText("");
-		requirementDescText.setText("");
-	/*	
 		requirementNameText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				Text t= (Text) e.widget;
-				map.put(Component.COMPONENT_NAME, t.getText());
+				map.put(Requirement.REQUIREMENT_NAME, t.getText());
 			}
 	    });
 		
-		componentRefText.addModifyListener(new ModifyListener() {
+		requirementRefText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				Text t= (Text) e.widget;
-				map.put(Component.COMPONENT_REF, t.getText());
+				map.put(Requirement.REQUIREMENT_KEY, t.getText());
 			}
 	    });
-*/
+		
+
+		requirementDescText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				Text t= (Text) e.widget;
+				map.put(Requirement.REQUIREMENT_DESC, t.getText());
+			}
+	    });
 
 		//System.out.println("stringCarrier[0] " + stringCarrier[0]);
 		//System.out.println("stringCarrier[0].getText() " + componentNameText.getText());

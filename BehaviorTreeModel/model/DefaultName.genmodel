@@ -60,7 +60,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/requirementList"/>
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//BehaviorTree">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BehaviorTree/EReference0"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BehaviorTree/rootNode"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//BehaviorTree/name"/>
     </genClasses>
@@ -118,6 +117,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Requirement/Key"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Requirement/Requirement"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Requirement/traceabilityLink"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Requirement/Description"/>
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//Behavior">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Behavior/behaviorType"/>

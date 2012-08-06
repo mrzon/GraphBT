@@ -4,12 +4,19 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 
 import behaviortree.BEModel;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
+import behaviortree.Requirement;
 import behaviortree.StandardNode;
 
 public class CreateRequirementGraphBTWizard extends Wizard {
@@ -37,34 +44,40 @@ public class CreateRequirementGraphBTWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		// Print the result to the console
-		//System.out.println(one.getText1());
-		//System.out.println(two.getText1());
-	/*	
-		BEModel be = GraphBTUtil.getBEModel(d);
 		
-		System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
-		Component c = GraphBTUtil.getBEFactory().createComponent();
+		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+        final DiagramEditor ds;
+        if(page.getActiveEditor() instanceof DiagramEditor)
+        {
+        	 ds = (DiagramEditor)page.getActiveEditor();	
+        }
+        else
+        {
+        	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+        }
+        d = ds.getDiagramTypeProvider().getDiagram();
+		final BEModel be = GraphBTUtil.getBEModel(d);
+		
+		final Requirement r = GraphBTUtil.getBEFactory().createRequirement();
 		//if(map.get(Component.COMPONENT_NAME)!=null||map.get(Component.COMPONENT_NAME)!="")
-		c.setComponentName(map.get(Component.COMPONENT_NAME));
-		c.setComponentRef(map.get(Component.COMPONENT_REF));
+		r.setRequirement(map.get(Requirement.REQUIREMENT_NAME));
+		r.setDescription(map.get(Requirement.REQUIREMENT_DESC));		
+		r.setKey(map.get(Requirement.REQUIREMENT_KEY));	
 		
-		//if(!c.getComponentName().equals("")&&c.getComponentName()!=null)
-			//GraphBTUtil.createNewComponent(be, c);
-		be.getComponentList().getComponents().add(c);
-		//d.eResource().getContents().add(c);
-		try {
-			//GraphBTUtil.saveToModelFile(be, d);
-			GraphBTUtil.saveToModelFile(c, d);
+		final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+			protected void doExecute() {
+				//System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
+				
+				//if(!c.getComponentName().equals("")&&c.getComponentName()!=null)
 			
-		} catch (CoreException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
+					be.getRequirementList().getRequirements().add(r);
+						//String name = GraphBTUtil.getBehaviorFromComponentByRef(c, node.getBehaviorRef()).toString();
+		    }
+		};
+		ds.getEditingDomain().getCommandStack().execute(cmd);
 		return true;
+		
+	
 
 	}
 }
