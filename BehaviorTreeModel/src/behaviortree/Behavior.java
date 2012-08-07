@@ -107,8 +107,8 @@ public interface Behavior extends EObject {
 	 * @generated
 	 */
 	void setBehaviorRef(String value);
-	static final int BEHAVIOR_NAME = 0x11;
-	static final int BEHAVIOR_REF = 0x10;
-	static final int BEHAVIOR_DESC = 0x0F;
-	static final int BEHAVIOR_TYPE = 0x0E;
+	static final int NAME_VALUE = 0x11;
+	static final int REF_VALUE = 0x10;
+	static final int DESC_VALUE = 0x0F;
+	static final int TYPE_VALUE = 0x0E;
 } // Behavior

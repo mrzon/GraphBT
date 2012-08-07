@@ -61,7 +61,7 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 		    	Combo combo = (Combo)e.widget;
 		    	String selected = combo.getItem(combo.getSelectionIndex());
 		    	
-		    	map.put(Behavior.BEHAVIOR_TYPE, selected);
+		    	map.put(Behavior.TYPE_VALUE, selected);
 		     }
 	    });
 	    final Label behaviorLabel = new Label(container, SWT.NULL);
@@ -83,7 +83,7 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 		behaviorNameText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				Text t= (Text) e.widget;
-				map.put(Behavior.BEHAVIOR_NAME, t.getText());
+				map.put(Behavior.NAME_VALUE, t.getText());
 				
 			}
 			
@@ -92,7 +92,7 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 		behaviorRefText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				Text t= (Text) e.widget;
-				map.put(Behavior.BEHAVIOR_REF, t.getText());
+				map.put(Behavior.REF_VALUE, t.getText());
 			}
 	    });
 

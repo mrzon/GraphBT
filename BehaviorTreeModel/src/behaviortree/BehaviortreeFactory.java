@@ -170,6 +170,24 @@ public interface BehaviortreeFactory extends EFactory {
 	RequirementList createRequirementList();
 
 	/**
+	 * Returns a new object of class '<em>Formula List</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Formula List</em>'.
+	 * @generated
+	 */
+	FormulaList createFormulaList();
+
+	/**
+	 * Returns a new object of class '<em>Formula</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Formula</em>'.
+	 * @generated
+	 */
+	Formula createFormula();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

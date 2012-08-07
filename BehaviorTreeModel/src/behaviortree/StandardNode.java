@@ -18,9 +18,9 @@ package behaviortree;
  *   <li>{@link behaviortree.StandardNode#getTraceabilityStatus <em>Traceability Status</em>}</li>
  *   <li>{@link behaviortree.StandardNode#getOperator <em>Operator</em>}</li>
  *   <li>{@link behaviortree.StandardNode#getLabel <em>Label</em>}</li>
- *   <li>{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}</li>
  *   <li>{@link behaviortree.StandardNode#getComponentRef <em>Component Ref</em>}</li>
  *   <li>{@link behaviortree.StandardNode#getBehaviorRef <em>Behavior Ref</em>}</li>
+ *   <li>{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}</li>
  * </ul>
  * </p>
  *
@@ -30,30 +30,30 @@ package behaviortree;
  */
 public interface StandardNode extends Node {
 	/**
-	 * Returns the value of the '<em><b>Traceability Link</b></em>' reference.
+	 * Returns the value of the '<em><b>Traceability Link</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Traceability Link</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Traceability Link</em>' reference.
-	 * @see #setTraceabilityLink(Requirement)
+	 * @return the value of the '<em>Traceability Link</em>' attribute.
+	 * @see #setTraceabilityLink(String)
 	 * @see behaviortree.BehaviortreePackage#getStandardNode_TraceabilityLink()
 	 * @model
 	 * @generated
 	 */
-	Requirement getTraceabilityLink();
+	String getTraceabilityLink();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}' reference.
+	 * Sets the value of the '{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Traceability Link</em>' reference.
+	 * @param value the new value of the '<em>Traceability Link</em>' attribute.
 	 * @see #getTraceabilityLink()
 	 * @generated
 	 */
-	void setTraceabilityLink(Requirement value);
+	void setTraceabilityLink(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Component Ref</b></em>' attribute.
@@ -192,11 +192,11 @@ public interface StandardNode extends Node {
 	void setLabel(String value);
 
 	
-	static final int STANDARDNODE_COMPONENT = 0x16;
-	static final int STANDARDNODE_BEHAVIOR = 0x17;
-	static final int STANDARDNODE_TRACEABILITYLINK = 0x18;
-	static final int STANDARDNODE_TRACEABILITYSTATUS = 0x15;
-	static final int STANDARDNODE_OPERATOR = 0x16;
+	static final int COMPONENT_VALUE = 0x16;
+	static final int BEHAVIOR_VALUE = 0x17;
+	static final int TRACEABILITYLINK_VALUE = 0x18;
+	static final int TRACEABILITYSTATUS_VALUE = 0x15;
+	static final int OPERATOR_VALUE = 0x19;
 	
 	
 } // StandardNode

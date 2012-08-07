@@ -96,7 +96,7 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 		else if(ob instanceof Requirement) {
 			//TODO: add form to "add requirements"
 			//TODO: add validasi untuk node yang ga punya traceability link"
-			String str = node.getTraceabilityLink()==null?"":node.getTraceabilityLink().getKey();
+			String str = node.getTraceabilityLink()==null?"":node.getTraceabilityLink();
 			return str;
 		}
 		return "Default Value";
@@ -209,7 +209,7 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 			else{
 				requirements = GraphBTUtil.getRequirement(getModel(), value);
 			}
-			node.setTraceabilityLink(requirements);
+			node.setTraceabilityLink(requirements.getKey());
 		}
 		System.out.println(node);
 		// we know, that pe is the Shape of the Text, so its container is the

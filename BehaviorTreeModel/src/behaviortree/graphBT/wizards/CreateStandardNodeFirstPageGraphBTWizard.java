@@ -111,7 +111,7 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 		    	Combo combo = (Combo)e.widget;
 		    	String selected = combo.getItem(combo.getSelectionIndex());
 		    	
-		    	map.put(StandardNode.STANDARDNODE_OPERATOR, selected);
+		    	map.put(StandardNode.OPERATOR_VALUE, selected);
 		    	changeDialog();
 		     }
 	    });
@@ -120,7 +120,7 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 		    public void widgetSelected(SelectionEvent e) {
 		    	Combo combo = (Combo)e.widget;
 		    	String selected = combo.getItem(combo.getSelectionIndex());
-		    	map.put(StandardNode.STANDARDNODE_TRACEABILITYSTATUS, selected);
+		    	map.put(StandardNode.TRACEABILITYSTATUS_VALUE, selected);
 		    	changeDialog();
 		     }
 	     });
@@ -129,7 +129,7 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 		    public void widgetSelected(SelectionEvent e) {
 		    	Combo combo = (Combo)e.widget;
 		    	String selected = combo.getItem(combo.getSelectionIndex());
-		    	map.put(StandardNode.STANDARDNODE_COMPONENT, selected );
+		    	map.put(StandardNode.COMPONENT_VALUE, selected );
 		    	behaviorCombo.removeAll();
 		    	Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), selected);
 		    	if(c != null)
@@ -145,7 +145,7 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 		    	Combo combo = (Combo)e.widget;
 		    	String selected = combo.getItem(combo.getSelectionIndex());
 		    	
-		    	map.put(StandardNode.STANDARDNODE_BEHAVIOR, selected);
+		    	map.put(StandardNode.BEHAVIOR_VALUE, selected);
 		    	changeDialog();
 		     }
 		    
@@ -155,7 +155,7 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 		    public void widgetSelected(SelectionEvent e) {
 		    	Combo combo = (Combo)e.widget;
 		    	String selected = combo.getItem(combo.getSelectionIndex());
-		    	map.put(StandardNode.STANDARDNODE_TRACEABILITYLINK, selected);
+		    	map.put(StandardNode.TRACEABILITYLINK_VALUE, selected);
 		    	changeDialog();
 		     }
 	     });
@@ -194,6 +194,10 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 				{
 					return;
 				}
+				componentCombo.removeAll();
+				for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()){
+			    	componentCombo.add(component.getComponentName());
+			    }
 			}
 		});
 	    
@@ -236,13 +240,13 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 	    
 	    behaviorButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				String str = map.get(StandardNode.STANDARDNODE_COMPONENT);
+				String str = map.get(StandardNode.COMPONENT_VALUE);
 				if(str == null || str.equals(""))
 				{
-					MessageDialog.openError(null, "Error Create Behavior", "Select existing component before adding behavior!"+map.get(StandardNode.STANDARDNODE_COMPONENT));
+					MessageDialog.openError(null, "Error Create Behavior", "Select existing component before adding behavior!"+map.get(StandardNode.COMPONENT_VALUE));
 					return;
 				}
-				Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), map.get(StandardNode.STANDARDNODE_COMPONENT));
+				Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), map.get(StandardNode.COMPONENT_VALUE));
 				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 		                getActiveWorkbenchWindow().getShell(),
 		    		new CreateBehaviorGraphBTWizard(c));
@@ -258,8 +262,11 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 			}
 			
 		});
-		
-	    changeDialog();
+	    map.put(StandardNode.OPERATOR_VALUE, Operator.NO_OPERATOR.getName());
+	    map.put(StandardNode.TRACEABILITYSTATUS_VALUE, TraceabilityStatus.ORIGINAL.getName());
+	    map.put(StandardNode.TRACEABILITYLINK_VALUE, "DEFAULT");
+	    setPageComplete(false);
+	    //changeDialog();
 		setControl(container);
 	}
 	private void changeDialog()
@@ -271,9 +278,9 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
     		changeDialog("Component is empty!");
        	}else if(behaviorCombo.getSelectionIndex()==-1){
        		changeDialog("Behavior is empty!");
-    	}else if(traceabilityLinkCombo.getSelectionIndex()==-1){
+    	}/*else if(traceabilityLinkCombo.getSelectionIndex()==-1){
        		changeDialog("Requitement is empty!");
-    	}else{
+    	}else*/{
     		changeDialog(null);
     	}
 

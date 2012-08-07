@@ -107,13 +107,22 @@ public interface BehaviortreePackage extends EPackage {
 	int BE_MODEL__REQUIREMENT_LIST = 3;
 
 	/**
+	 * The feature id for the '<em><b>Formula List</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BE_MODEL__FORMULA_LIST = 4;
+
+	/**
 	 * The number of structural features of the '<em>BE Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BE_MODEL_FEATURE_COUNT = 4;
+	int BE_MODEL_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.impl.BehaviorTreeImpl <em>Behavior Tree</em>}' class.
@@ -428,22 +437,13 @@ public interface BehaviortreePackage extends EPackage {
 	int STANDARD_NODE__LABEL = NODE_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Traceability Link</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STANDARD_NODE__TRACEABILITY_LINK = NODE_FEATURE_COUNT + 3;
-
-	/**
 	 * The feature id for the '<em><b>Component Ref</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STANDARD_NODE__COMPONENT_REF = NODE_FEATURE_COUNT + 4;
+	int STANDARD_NODE__COMPONENT_REF = NODE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Behavior Ref</b></em>' attribute.
@@ -452,7 +452,16 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STANDARD_NODE__BEHAVIOR_REF = NODE_FEATURE_COUNT + 5;
+	int STANDARD_NODE__BEHAVIOR_REF = NODE_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Traceability Link</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STANDARD_NODE__TRACEABILITY_LINK = NODE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Standard Node</em>' class.
@@ -851,6 +860,62 @@ public interface BehaviortreePackage extends EPackage {
 	int REQUIREMENT_LIST_FEATURE_COUNT = 1;
 
 	/**
+	 * The meta object id for the '{@link behaviortree.impl.FormulaListImpl <em>Formula List</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see behaviortree.impl.FormulaListImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getFormulaList()
+	 * @generated
+	 */
+	int FORMULA_LIST = 16;
+
+	/**
+	 * The feature id for the '<em><b>Formula</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FORMULA_LIST__FORMULA = 0;
+
+	/**
+	 * The number of structural features of the '<em>Formula List</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FORMULA_LIST_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link behaviortree.impl.FormulaImpl <em>Formula</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see behaviortree.impl.FormulaImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getFormula()
+	 * @generated
+	 */
+	int FORMULA = 17;
+
+	/**
+	 * The feature id for the '<em><b>Formula Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FORMULA__FORMULA_NAME = 0;
+
+	/**
+	 * The number of structural features of the '<em>Formula</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FORMULA_FEATURE_COUNT = 1;
+
+	/**
 	 * The meta object id for the '{@link behaviortree.Composition <em>Composition</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -858,7 +923,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getComposition()
 	 * @generated
 	 */
-	int COMPOSITION = 16;
+	int COMPOSITION = 18;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.Branch <em>Branch</em>}' enum.
@@ -868,7 +933,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getBranch()
 	 * @generated
 	 */
-	int BRANCH = 17;
+	int BRANCH = 19;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.Operator <em>Operator</em>}' enum.
@@ -878,7 +943,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 18;
+	int OPERATOR = 20;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.BehaviorType <em>Behavior Type</em>}' enum.
@@ -888,7 +953,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getBehaviorType()
 	 * @generated
 	 */
-	int BEHAVIOR_TYPE = 19;
+	int BEHAVIOR_TYPE = 21;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.EventType <em>Event Type</em>}' enum.
@@ -898,7 +963,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getEventType()
 	 * @generated
 	 */
-	int EVENT_TYPE = 20;
+	int EVENT_TYPE = 22;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.SpecialEdgeEnum <em>Special Edge Enum</em>}' enum.
@@ -908,7 +973,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getSpecialEdgeEnum()
 	 * @generated
 	 */
-	int SPECIAL_EDGE_ENUM = 21;
+	int SPECIAL_EDGE_ENUM = 23;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.TraceabilityStatus <em>Traceability Status</em>}' enum.
@@ -918,7 +983,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getTraceabilityStatus()
 	 * @generated
 	 */
-	int TRACEABILITY_STATUS = 22;
+	int TRACEABILITY_STATUS = 24;
 
 
 	/**
@@ -974,6 +1039,17 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getBEModel_RequirementList();
+
+	/**
+	 * Returns the meta object for the reference '{@link behaviortree.BEModel#getFormulaList <em>Formula List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Formula List</em>'.
+	 * @see behaviortree.BEModel#getFormulaList()
+	 * @see #getBEModel()
+	 * @generated
+	 */
+	EReference getBEModel_FormulaList();
 
 	/**
 	 * Returns the meta object for class '{@link behaviortree.BehaviorTree <em>Behavior Tree</em>}'.
@@ -1168,15 +1244,15 @@ public interface BehaviortreePackage extends EPackage {
 	EClass getStandardNode();
 
 	/**
-	 * Returns the meta object for the reference '{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}'.
+	 * Returns the meta object for the attribute '{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Traceability Link</em>'.
+	 * @return the meta object for the attribute '<em>Traceability Link</em>'.
 	 * @see behaviortree.StandardNode#getTraceabilityLink()
 	 * @see #getStandardNode()
 	 * @generated
 	 */
-	EReference getStandardNode_TraceabilityLink();
+	EAttribute getStandardNode_TraceabilityLink();
 
 	/**
 	 * Returns the meta object for the attribute '{@link behaviortree.StandardNode#getComponentRef <em>Component Ref</em>}'.
@@ -1588,6 +1664,48 @@ public interface BehaviortreePackage extends EPackage {
 	EReference getRequirementList_Requirements();
 
 	/**
+	 * Returns the meta object for class '{@link behaviortree.FormulaList <em>Formula List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Formula List</em>'.
+	 * @see behaviortree.FormulaList
+	 * @generated
+	 */
+	EClass getFormulaList();
+
+	/**
+	 * Returns the meta object for the reference list '{@link behaviortree.FormulaList#getFormula <em>Formula</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Formula</em>'.
+	 * @see behaviortree.FormulaList#getFormula()
+	 * @see #getFormulaList()
+	 * @generated
+	 */
+	EReference getFormulaList_Formula();
+
+	/**
+	 * Returns the meta object for class '{@link behaviortree.Formula <em>Formula</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Formula</em>'.
+	 * @see behaviortree.Formula
+	 * @generated
+	 */
+	EClass getFormula();
+
+	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.Formula#getFormulaName <em>Formula Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Formula Name</em>'.
+	 * @see behaviortree.Formula#getFormulaName()
+	 * @see #getFormula()
+	 * @generated
+	 */
+	EAttribute getFormula_FormulaName();
+
+	/**
 	 * Returns the meta object for enum '{@link behaviortree.Composition <em>Composition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1720,6 +1838,14 @@ public interface BehaviortreePackage extends EPackage {
 		 * @generated
 		 */
 		EReference BE_MODEL__REQUIREMENT_LIST = eINSTANCE.getBEModel_RequirementList();
+
+		/**
+		 * The meta object literal for the '<em><b>Formula List</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BE_MODEL__FORMULA_LIST = eINSTANCE.getBEModel_FormulaList();
 
 		/**
 		 * The meta object literal for the '{@link behaviortree.impl.BehaviorTreeImpl <em>Behavior Tree</em>}' class.
@@ -1878,12 +2004,12 @@ public interface BehaviortreePackage extends EPackage {
 		EClass STANDARD_NODE = eINSTANCE.getStandardNode();
 
 		/**
-		 * The meta object literal for the '<em><b>Traceability Link</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Traceability Link</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference STANDARD_NODE__TRACEABILITY_LINK = eINSTANCE.getStandardNode_TraceabilityLink();
+		EAttribute STANDARD_NODE__TRACEABILITY_LINK = eINSTANCE.getStandardNode_TraceabilityLink();
 
 		/**
 		 * The meta object literal for the '<em><b>Component Ref</b></em>' attribute feature.
@@ -2206,6 +2332,42 @@ public interface BehaviortreePackage extends EPackage {
 		 * @generated
 		 */
 		EReference REQUIREMENT_LIST__REQUIREMENTS = eINSTANCE.getRequirementList_Requirements();
+
+		/**
+		 * The meta object literal for the '{@link behaviortree.impl.FormulaListImpl <em>Formula List</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see behaviortree.impl.FormulaListImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getFormulaList()
+		 * @generated
+		 */
+		EClass FORMULA_LIST = eINSTANCE.getFormulaList();
+
+		/**
+		 * The meta object literal for the '<em><b>Formula</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FORMULA_LIST__FORMULA = eINSTANCE.getFormulaList_Formula();
+
+		/**
+		 * The meta object literal for the '{@link behaviortree.impl.FormulaImpl <em>Formula</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see behaviortree.impl.FormulaImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getFormula()
+		 * @generated
+		 */
+		EClass FORMULA = eINSTANCE.getFormula();
+
+		/**
+		 * The meta object literal for the '<em><b>Formula Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FORMULA__FORMULA_NAME = eINSTANCE.getFormula_FormulaName();
 
 		/**
 		 * The meta object literal for the '{@link behaviortree.Composition <em>Composition</em>}' enum.

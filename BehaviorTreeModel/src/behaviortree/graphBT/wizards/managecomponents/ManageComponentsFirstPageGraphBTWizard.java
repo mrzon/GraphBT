@@ -115,13 +115,13 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 
 		behaviorButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				String str = map.get(StandardNode.STANDARDNODE_COMPONENT);
+				String str = map.get(StandardNode.COMPONENT_VALUE);
 				if(str == null || str.equals(""))
 				{
-					MessageDialog.openError(null, "Error Create Behavior", "Select existing component before adding behavior!"+map.get(StandardNode.STANDARDNODE_COMPONENT));
+					MessageDialog.openError(null, "Error Create Behavior", "Select existing component before adding behavior!"+map.get(StandardNode.COMPONENT_VALUE));
 					return;
 				}
-				Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), map.get(StandardNode.STANDARDNODE_COMPONENT));
+				Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), map.get(StandardNode.COMPONENT_VALUE));
 				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 						getActiveWorkbenchWindow().getShell(),
 						new CreateBehaviorGraphBTWizard(c));
@@ -155,7 +155,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 			public void widgetSelected(SelectionEvent event) {
 
 				String selected = listComponents.getItem(listComponents.getSelectionIndex());
-				map.put(StandardNode.STANDARDNODE_COMPONENT, selected );
+				map.put(StandardNode.COMPONENT_VALUE, selected );
 				listBehaviours.removeAll();
 				Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), selected);
 				if(c!=null)
@@ -248,7 +248,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				Combo combo = (Combo)e.widget;
 				String selected = combo.getItem(combo.getSelectionIndex());
 
-				map.put(Behavior.BEHAVIOR_TYPE, selected);
+				map.put(Behavior.TYPE_VALUE, selected);
 			}
 		});
 

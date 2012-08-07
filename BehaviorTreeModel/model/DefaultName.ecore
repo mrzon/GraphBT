@@ -11,6 +11,8 @@
         eType="#//ComponentList" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="requirementList" lowerBound="1"
         eType="#//RequirementList" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="formulaList" lowerBound="1"
+        eType="#//FormulaList"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BehaviorTree">
     <eStructuralFeatures xsi:type="ecore:EReference" name="rootNode" lowerBound="1"
@@ -79,11 +81,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="traceabilityStatus" eType="#//TraceabilityStatus"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="#//Operator"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="traceabilityLink" eType="#//Requirement"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="componentRef" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="behaviorRef" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="traceabilityLink" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TraceabilityStatus">
     <eLiterals name="Original" literal=""/>
@@ -141,6 +143,23 @@
   <eClassifiers xsi:type="ecore:EClass" name="RequirementList">
     <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
         eType="#//Requirement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FormulaList">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="formulaName"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="formula" upperBound="-1"
+        eType="#//Formula">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="formulaName"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Formula">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="formulaName"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="formulaName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eSubpackages name="behaviortree" nsURI="defaultname" nsPrefix="be.behaviortree.model"/>
 </ecore:EPackage>

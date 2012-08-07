@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link behaviortree.BEModel#getName <em>Name</em>}</li>
  *   <li>{@link behaviortree.BEModel#getComponentList <em>Component List</em>}</li>
  *   <li>{@link behaviortree.BEModel#getRequirementList <em>Requirement List</em>}</li>
+ *   <li>{@link behaviortree.BEModel#getFormulaList <em>Formula List</em>}</li>
  * </ul>
  * </p>
  *
@@ -132,5 +133,31 @@ public interface BEModel extends EObject {
 	 * @generated
 	 */
 	void setRequirementList(RequirementList value);
+
+	/**
+	 * Returns the value of the '<em><b>Formula List</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Formula List</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Formula List</em>' reference.
+	 * @see #setFormulaList(FormulaList)
+	 * @see behaviortree.BehaviortreePackage#getBEModel_FormulaList()
+	 * @model required="true"
+	 * @generated
+	 */
+	FormulaList getFormulaList();
+
+	/**
+	 * Sets the value of the '{@link behaviortree.BEModel#getFormulaList <em>Formula List</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Formula List</em>' reference.
+	 * @see #getFormulaList()
+	 * @generated
+	 */
+	void setFormulaList(FormulaList value);
 
 } // BEModel

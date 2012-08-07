@@ -48,15 +48,15 @@ public class CreateBehaviorGraphBTWizard extends Wizard {
 		// Print the result to the console
 		//System.out.println(one.getText1());
 		//System.out.println(two.getText1());
-		if(map.get(Behavior.BEHAVIOR_NAME).equals("")||map.get(Behavior.BEHAVIOR_REF).equals("")||
-				map.get(Behavior.BEHAVIOR_NAME)==null||map.get(Behavior.BEHAVIOR_REF)==null)
+		if(map.get(Behavior.NAME_VALUE).equals("")||map.get(Behavior.REF_VALUE).equals("")||
+				map.get(Behavior.NAME_VALUE)==null||map.get(Behavior.REF_VALUE)==null)
 		{
 			return false;
 		}
 		final Behavior b = GraphBTUtil.getBEFactory().createBehavior();
-		b.setBehaviorName(map.get(Behavior.BEHAVIOR_NAME));
-		b.setBehaviorRef(map.get(Behavior.BEHAVIOR_REF));
-		b.setBehaviorType(BehaviorType.getByName(map.get(Behavior.BEHAVIOR_TYPE)));
+		b.setBehaviorName(map.get(Behavior.NAME_VALUE));
+		b.setBehaviorRef(map.get(Behavior.REF_VALUE));
+		b.setBehaviorType(BehaviorType.getByName(map.get(Behavior.TYPE_VALUE)));
 		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         DiagramEditor ds;
         if(page.getActiveEditor() instanceof DiagramEditor)

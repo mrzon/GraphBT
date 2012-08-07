@@ -28,6 +28,8 @@ import behaviortree.Composition;
 import behaviortree.Edge;
 import behaviortree.EmptyNode;
 import behaviortree.EventType;
+import behaviortree.Formula;
+import behaviortree.FormulaList;
 import behaviortree.Library;
 import behaviortree.Node;
 import behaviortree.Operator;
@@ -157,6 +159,20 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * @generated
 	 */
 	private EClass requirementListEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass formulaListEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass formulaEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -311,6 +327,15 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 */
 	public EReference getBEModel_RequirementList() {
 		return (EReference)beModelEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBEModel_FormulaList() {
+		return (EReference)beModelEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -480,8 +505,8 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getStandardNode_TraceabilityLink() {
-		return (EReference)standardNodeEClass.getEStructuralFeatures().get(3);
+	public EAttribute getStandardNode_TraceabilityLink() {
+		return (EAttribute)standardNodeEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -490,7 +515,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * @generated
 	 */
 	public EAttribute getStandardNode_ComponentRef() {
-		return (EAttribute)standardNodeEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)standardNodeEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -499,7 +524,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * @generated
 	 */
 	public EAttribute getStandardNode_BehaviorRef() {
-		return (EAttribute)standardNodeEClass.getEStructuralFeatures().get(5);
+		return (EAttribute)standardNodeEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -831,6 +856,42 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getFormulaList() {
+		return formulaListEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFormulaList_Formula() {
+		return (EReference)formulaListEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getFormula() {
+		return formulaEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getFormula_FormulaName() {
+		return (EAttribute)formulaEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getComposition() {
 		return compositionEEnum;
 	}
@@ -922,6 +983,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		createEAttribute(beModelEClass, BE_MODEL__NAME);
 		createEReference(beModelEClass, BE_MODEL__COMPONENT_LIST);
 		createEReference(beModelEClass, BE_MODEL__REQUIREMENT_LIST);
+		createEReference(beModelEClass, BE_MODEL__FORMULA_LIST);
 
 		behaviorTreeEClass = createEClass(BEHAVIOR_TREE);
 		createEReference(behaviorTreeEClass, BEHAVIOR_TREE__ROOT_NODE);
@@ -949,9 +1011,9 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		createEAttribute(standardNodeEClass, STANDARD_NODE__TRACEABILITY_STATUS);
 		createEAttribute(standardNodeEClass, STANDARD_NODE__OPERATOR);
 		createEAttribute(standardNodeEClass, STANDARD_NODE__LABEL);
-		createEReference(standardNodeEClass, STANDARD_NODE__TRACEABILITY_LINK);
 		createEAttribute(standardNodeEClass, STANDARD_NODE__COMPONENT_REF);
 		createEAttribute(standardNodeEClass, STANDARD_NODE__BEHAVIOR_REF);
+		createEAttribute(standardNodeEClass, STANDARD_NODE__TRACEABILITY_LINK);
 
 		componentEClass = createEClass(COMPONENT);
 		createEAttribute(componentEClass, COMPONENT__COMPONENT_NAME);
@@ -994,6 +1056,12 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 
 		requirementListEClass = createEClass(REQUIREMENT_LIST);
 		createEReference(requirementListEClass, REQUIREMENT_LIST__REQUIREMENTS);
+
+		formulaListEClass = createEClass(FORMULA_LIST);
+		createEReference(formulaListEClass, FORMULA_LIST__FORMULA);
+
+		formulaEClass = createEClass(FORMULA);
+		createEAttribute(formulaEClass, FORMULA__FORMULA_NAME);
 
 		// Create enums
 		compositionEEnum = createEEnum(COMPOSITION);
@@ -1042,6 +1110,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		initEAttribute(getBEModel_Name(), ecorePackage.getEString(), "name", null, 0, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBEModel_ComponentList(), this.getComponentList(), null, "componentList", null, 1, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBEModel_RequirementList(), this.getRequirementList(), null, "requirementList", null, 1, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBEModel_FormulaList(), this.getFormulaList(), null, "formulaList", null, 1, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(behaviorTreeEClass, BehaviorTree.class, "BehaviorTree", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBehaviorTree_RootNode(), this.getNode(), null, "rootNode", null, 1, 1, BehaviorTree.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1069,9 +1138,9 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		initEAttribute(getStandardNode_TraceabilityStatus(), this.getTraceabilityStatus(), "traceabilityStatus", null, 0, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStandardNode_Operator(), this.getOperator(), "operator", null, 0, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStandardNode_Label(), ecorePackage.getEString(), "label", null, 0, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getStandardNode_TraceabilityLink(), this.getRequirement(), null, "traceabilityLink", null, 0, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStandardNode_ComponentRef(), ecorePackage.getEString(), "componentRef", null, 1, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStandardNode_BehaviorRef(), ecorePackage.getEString(), "behaviorRef", null, 1, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStandardNode_TraceabilityLink(), ecorePackage.getEString(), "traceabilityLink", null, 0, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(componentEClass, Component.class, "Component", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getComponent_ComponentName(), ecorePackage.getEString(), "componentName", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1114,6 +1183,12 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 
 		initEClass(requirementListEClass, RequirementList.class, "RequirementList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRequirementList_Requirements(), this.getRequirement(), null, "requirements", null, 0, -1, RequirementList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(formulaListEClass, FormulaList.class, "FormulaList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getFormulaList_Formula(), this.getFormula(), null, "formula", null, 0, -1, FormulaList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(formulaEClass, Formula.class, "Formula", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getFormula_FormulaName(), ecorePackage.getEString(), "formulaName", null, 0, 1, Formula.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(compositionEEnum, Composition.class, "Composition");
@@ -1165,6 +1240,38 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 
 		// Create resource
 		createResource(eNS_URI);
+
+		// Create annotations
+		// http:///org/eclipse/emf/ecore/util/ExtendedMetaData
+		createExtendedMetaDataAnnotations();
+	}
+
+	/**
+	 * Initializes the annotations for <b>http:///org/eclipse/emf/ecore/util/ExtendedMetaData</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createExtendedMetaDataAnnotations() {
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+		addAnnotation
+		  (formulaListEClass, 
+		   source, 
+		   new String[] {
+			 "name", "formulaName"
+		   });		
+		addAnnotation
+		  (getFormulaList_Formula(), 
+		   source, 
+		   new String[] {
+			 "name", "formulaName"
+		   });		
+		addAnnotation
+		  (formulaEClass, 
+		   source, 
+		   new String[] {
+			 "name", "formulaName"
+		   });
 	}
 
 } //BehaviortreePackageImpl

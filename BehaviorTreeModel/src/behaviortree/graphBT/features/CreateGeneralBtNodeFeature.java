@@ -39,20 +39,6 @@ ICreateFeature {
     public boolean canCreate(ICreateContext context) {
         return context.getTargetContainer() instanceof Diagram;
     }
-    /*
-    public void createNewModel(String modelName)
-    {
-		System.out.println("Create new model, named modelName");
-		try {
-			GraphBTUtil.saveToModelFile(GraphBTUtil.createNewModel(modelName), getDiagram());
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }*/
     
     public void initiateBT(Node node)
     {
@@ -63,10 +49,8 @@ ICreateFeature {
     public Object[] create(ICreateContext context) {
         
 		Resource resource = getDiagram().eResource();
-//		ResourceSet rs = resource.getResourceSet();
 		HashMap <Integer,String> map = new HashMap <Integer,String>(); 
 		
-		//invokeCreateStandardNodeWizard(wizardCarrier);
 		WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
                 getActiveWorkbenchWindow().getShell(),
     		new CreateStandardNodeGraphBTWizard(map, getDiagram()));
@@ -75,64 +59,50 @@ ICreateFeature {
 			return null;
 		} 
 		
-		// Create a new node and add it to an EMF resource
 		StandardNode node = BehaviortreeFactory.eINSTANCE.createStandardNode();
 		resource.getContents().add(node);
-		/*URI uri = URI.createURI("bt.model");
-		System.out.println("Di method create sih resourcesetnya ini "+rs);
-		if(GraphBTUtil.isExist(rs, uri)&&rs.getResource(uri, true).getContents().size()>0)
-		{
-			System.out.println("1 Akhirnya kepanggil juga :DD");
-			beModel = (BEModel)rs.getResource(uri, true).getContents().get(0);
-		}
-		else
-		{
-			try 
-			{
-				beModel = GraphBTUtil.getBEFactory().createBEModel();
-				beModel.setName("BTPackage");
-				Resource createResource = rs.createResource(uri);
-				createResource.getContents().add(beModel);
-				System.out.println("udah dimasukin tuh, cek size =" + createResource.getContents().size());
-				createResource.save(Collections.emptyMap());
-				createResource.setTrackingModification(true);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		*/
+
 		BEModel beModel = GraphBTUtil.getBEModel(getDiagram());
-		
-		node.setTraceabilityStatus(TraceabilityStatus.getByName(map.get(StandardNode.STANDARDNODE_TRACEABILITYSTATUS)));
-		node.setOperator(Operator.getByName(map.get(StandardNode.STANDARDNODE_OPERATOR)));
+		if(map.get(StandardNode.TRACEABILITYSTATUS_VALUE)==null ||(map.get(StandardNode.TRACEABILITYSTATUS_VALUE))!=null&&map.get(StandardNode.COMPONENT_VALUE).equals("")) {
+			node.setTraceabilityStatus(TraceabilityStatus.getByName(map.get(StandardNode.TRACEABILITYSTATUS_VALUE)));
+		}
+		else {
+			node.setTraceabilityStatus(TraceabilityStatus.ORIGINAL);
+		}
+		if(map.get(StandardNode.OPERATOR_VALUE)==null ||(map.get(StandardNode.OPERATOR_VALUE)!=null&&map.get(StandardNode.COMPONENT_VALUE).equals(""))) {
+			node.setOperator(Operator.getByName(map.get(StandardNode.OPERATOR_VALUE)));
+		}
+		else {
+			node.setOperator(Operator.NO_OPERATOR);
+		}
 		
 		Component c = null;
-		if(map.get(StandardNode.STANDARDNODE_COMPONENT)==null ||(map.get(StandardNode.STANDARDNODE_COMPONENT)!=null&&map.get(StandardNode.STANDARDNODE_COMPONENT).equals(""))){
+		if(map.get(StandardNode.COMPONENT_VALUE)==null ||(map.get(StandardNode.COMPONENT_VALUE)!=null&&map.get(StandardNode.COMPONENT_VALUE).equals(""))) {
 			c = BehaviortreeFactory.eINSTANCE.createComponent();
 			c.setComponentName("DefaultComponent");
+			c.setComponentRef("DefaultComponent");
+			
 		}
-		else{
-			c = GraphBTUtil.getComponent(beModel, map.get(StandardNode.STANDARDNODE_COMPONENT));
+		else {
+			System.out.println("awuoo wuoooo"+map.get(StandardNode.COMPONENT_VALUE));
+			c = GraphBTUtil.getComponent(beModel, map.get(StandardNode.COMPONENT_VALUE));
 		}
 		
 	    node.setComponentRef(c.getComponentRef());
 	    
 	    Behavior b = null;
-	    if(map.get(StandardNode.STANDARDNODE_BEHAVIOR).equals("")){
+	    if(map.get(StandardNode.BEHAVIOR_VALUE).equals("")) {
 			b = BehaviortreeFactory.eINSTANCE.createBehavior();
 			b.setBehaviorName("DefaultBehavior");
 		}
-		else{
-			b=GraphBTUtil.getBehaviorFromComponent(c, map.get(StandardNode.STANDARDNODE_BEHAVIOR));
+		else {
+			b = GraphBTUtil.getBehaviorFromComponent(c, map.get(StandardNode.BEHAVIOR_VALUE));
 		}
 		
 	    node.setBehaviorRef(b.getBehaviorRef());
 	    
-	    Requirement r = null;
-	    if(!map.get(StandardNode.STANDARDNODE_TRACEABILITYLINK).equals("")){
-	    	r = GraphBTUtil.getRequirement(beModel, map.get(StandardNode.STANDARDNODE_TRACEABILITYLINK));
-	    }
-		node.setTraceabilityLink(r);
+	    Requirement r = GraphBTUtil.getRequirement(beModel, map.get(StandardNode.TRACEABILITYLINK_VALUE));
+	    node.setTraceabilityLink(r==null?null:r.getKey());
 
 		if(beModel != null) {
 			System.out.println("Be model ternyata ga null :p");		
@@ -143,18 +113,18 @@ ICreateFeature {
 			resource.getContents().add(beModel);
 		}
 		
-		if(beModel.getComponentList()==null) {
+		if(beModel.getComponentList() == null) {
 			System.out.println("inisialisasi component list");
 			beModel.setComponentList(GraphBTUtil.getBEFactory().createComponentList());
 		}
-		if(beModel.getRequirementList()==null) {
+		if(beModel.getRequirementList() == null) {
 			System.out.println("inisialisasi requirement list");
 			beModel.setRequirementList(GraphBTUtil.getBEFactory().createRequirementList());
 		}
 		if(beModel.getDbt()== null) {
 			initiateBT(node);
 		}
-		try {	
+		try {
 			try {
 				GraphBTUtil.saveToModelFile(node, getDiagram());
 			} catch (IOException e) {

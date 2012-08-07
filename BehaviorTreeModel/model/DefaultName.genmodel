@@ -58,6 +58,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//BEModel/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/componentList"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/requirementList"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/formulaList"/>
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//BehaviorTree">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BehaviorTree/rootNode"/>
@@ -85,9 +86,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/traceabilityStatus"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/operator"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/label"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//StandardNode/traceabilityLink"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/componentRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/behaviorRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/traceabilityLink"/>
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//Component">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Component/componentName"/>
@@ -129,6 +130,12 @@
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//RequirementList">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//RequirementList/requirements"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//FormulaList">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//FormulaList/formula"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//Formula">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Formula/formulaName"/>
     </genClasses>
     <nestedGenPackages prefix="Behaviortree" basePackage="behaviortree" disposableProviderFactory="true"
         ecorePackage="DefaultName.ecore#//behaviortree"/>

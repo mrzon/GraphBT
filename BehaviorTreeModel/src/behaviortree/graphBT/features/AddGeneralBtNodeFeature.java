@@ -5,6 +5,9 @@ package behaviortree.graphBT.features;
  * kosong yang bisa dispesifikasikan menjadi Node yang lebih spesifik
  */
 
+import java.io.IOException;
+
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
@@ -26,6 +29,7 @@ import org.eclipse.graphiti.util.IColorConstant;
 import behaviortree.Behavior;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
+import behaviortree.Requirement;
 import behaviortree.StandardNode;
 
 public class AddGeneralBtNodeFeature extends AbstractAddShapeFeature implements
@@ -135,16 +139,19 @@ IAddFeature {
         
         // SHAPE WITH TEXT FOR TRACEABILITY LINK
         {  	
+        	Requirement r = GraphBTUtil.getRequirement(GraphBTUtil.getBEModel(getDiagram()), node.getTraceabilityLink());
         	Shape shapeTraceabilityLink = peCreateService.createShape(containerShape, true);
-        	String str = node.getTraceabilityLink()==null?"":node.getTraceabilityLink().getKey(); 
+        	String str = r==null?"":r.getKey(); 
         	Text textTraceabilityLink = gaService.createText(shapeTraceabilityLink, str);
             textTraceabilityLink.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             textTraceabilityLink.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
             textTraceabilityLink.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             gaService.setLocationAndSize(textTraceabilityLink, 0, height/2 - 20, 40, 20);
      
-            link(shapeTraceabilityLink, 
-            		GraphBTUtil.getRequirement(GraphBTUtil.getBEModel(getDiagram()), node.getTraceabilityLink().getKey()));
+            if(r == null){
+            	r = GraphBTUtil.getDefaultRequirement(getDiagram());
+            }
+            link(shapeTraceabilityLink,	r);
             
 //            IDirectEditingInfo directEditingInfo =
 //                getFeatureProvider().getDirectEditingInfo();

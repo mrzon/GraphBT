@@ -136,6 +136,14 @@ public class BehaviortreeAdapterFactory extends AdapterFactoryImpl {
 				return createRequirementListAdapter();
 			}
 			@Override
+			public Adapter caseFormulaList(FormulaList object) {
+				return createFormulaListAdapter();
+			}
+			@Override
+			public Adapter caseFormula(Formula object) {
+				return createFormulaAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -376,6 +384,34 @@ public class BehaviortreeAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createRequirementListAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link behaviortree.FormulaList <em>Formula List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see behaviortree.FormulaList
+	 * @generated
+	 */
+	public Adapter createFormulaListAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link behaviortree.Formula <em>Formula</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see behaviortree.Formula
+	 * @generated
+	 */
+	public Adapter createFormulaAdapter() {
 		return null;
 	}
 

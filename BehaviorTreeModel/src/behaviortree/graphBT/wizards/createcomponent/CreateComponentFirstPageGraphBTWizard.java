@@ -77,14 +77,14 @@ public class CreateComponentFirstPageGraphBTWizard extends WizardPage {
 		componentNameText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				Text t= (Text) e.widget;
-				map.put(Component.COMPONENT_NAME, t.getText());
+				map.put(Component.NAME_VALUE, t.getText());
 			}
 	    });
 		
 		componentRefText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				Text t= (Text) e.widget;
-				map.put(Component.COMPONENT_REF, t.getText());
+				map.put(Component.REF_VALUE, t.getText());
 			}
 	    });
 

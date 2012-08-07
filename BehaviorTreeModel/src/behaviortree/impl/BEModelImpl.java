@@ -10,6 +10,7 @@ import behaviortree.BEModel;
 import behaviortree.BehaviorTree;
 import behaviortree.BehaviortreePackage;
 import behaviortree.ComponentList;
+import behaviortree.FormulaList;
 import behaviortree.RequirementList;
 import behaviortree.*;
 import java.util.Collection;
@@ -37,6 +38,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link behaviortree.impl.BEModelImpl#getName <em>Name</em>}</li>
  *   <li>{@link behaviortree.impl.BEModelImpl#getComponentList <em>Component List</em>}</li>
  *   <li>{@link behaviortree.impl.BEModelImpl#getRequirementList <em>Requirement List</em>}</li>
+ *   <li>{@link behaviortree.impl.BEModelImpl#getFormulaList <em>Formula List</em>}</li>
  * </ul>
  * </p>
  *
@@ -92,6 +94,16 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * @ordered
 	 */
 	protected RequirementList requirementList;
+
+	/**
+	 * The cached value of the '{@link #getFormulaList() <em>Formula List</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFormulaList()
+	 * @generated
+	 * @ordered
+	 */
+	protected FormulaList formulaList;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -267,6 +279,44 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public FormulaList getFormulaList() {
+		if (formulaList != null && formulaList.eIsProxy()) {
+			InternalEObject oldFormulaList = (InternalEObject)formulaList;
+			formulaList = (FormulaList)eResolveProxy(oldFormulaList);
+			if (formulaList != oldFormulaList) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BehaviortreePackage.BE_MODEL__FORMULA_LIST, oldFormulaList, formulaList));
+			}
+		}
+		return formulaList;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FormulaList basicGetFormulaList() {
+		return formulaList;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFormulaList(FormulaList newFormulaList) {
+		FormulaList oldFormulaList = formulaList;
+		formulaList = newFormulaList;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.BE_MODEL__FORMULA_LIST, oldFormulaList, formulaList));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -296,6 +346,9 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return getComponentList();
 			case BehaviortreePackage.BE_MODEL__REQUIREMENT_LIST:
 				return getRequirementList();
+			case BehaviortreePackage.BE_MODEL__FORMULA_LIST:
+				if (resolve) return getFormulaList();
+				return basicGetFormulaList();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -321,6 +374,9 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 			case BehaviortreePackage.BE_MODEL__REQUIREMENT_LIST:
 				setRequirementList((RequirementList)newValue);
 				return;
+			case BehaviortreePackage.BE_MODEL__FORMULA_LIST:
+				setFormulaList((FormulaList)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -345,6 +401,9 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 			case BehaviortreePackage.BE_MODEL__REQUIREMENT_LIST:
 				setRequirementList((RequirementList)null);
 				return;
+			case BehaviortreePackage.BE_MODEL__FORMULA_LIST:
+				setFormulaList((FormulaList)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -365,6 +424,8 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return componentList != null;
 			case BehaviortreePackage.BE_MODEL__REQUIREMENT_LIST:
 				return requirementList != null;
+			case BehaviortreePackage.BE_MODEL__FORMULA_LIST:
+				return formulaList != null;
 		}
 		return super.eIsSet(featureID);
 	}

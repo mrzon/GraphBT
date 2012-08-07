@@ -390,4 +390,37 @@ public class GraphBTUtil {
 	{
 		return null;
 	}
+	
+	public static Requirement getDefaultRequirement(Diagram d)
+	{
+		ResourceSet rs = d.eResource().getResourceSet();
+		Iterator<Resource> it = rs.getResources().iterator();
+		while(it.hasNext()){
+			Resource res = it.next();
+			Iterator<EObject> i = res.getContents().iterator();
+			while(i.hasNext())
+			{
+				Object e = i.next();
+				if(e instanceof Requirement)
+				{
+					Requirement r = (Requirement)e;
+					if(r.getKey().equals(""))
+						return r;
+				}
+			}
+		}
+		Requirement r = getBEFactory().createRequirement();
+		r.setKey("");
+		r.setRequirement("This is the default Requirement");
+		try {
+			GraphBTUtil.saveToModelFile(r, d);
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return r;
+	}
 }
