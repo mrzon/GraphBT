@@ -19,6 +19,7 @@ import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.algorithms.styles.impl.StylesFactoryImpl;
 import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
+import org.eclipse.graphiti.mm.pictograms.ChopboxAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.FixPointAnchor;
@@ -188,20 +189,12 @@ IAddFeature {
         	Shape shapeOperator = peCreateService.createShape(containerShape, true);
         	 
             Text textOperator = gaService.createText(shapeOperator, node.getOperator().getLiteral());
+            System.out.println("textOperator :" + textOperator.getValue());
             textOperator.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             textOperator.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER); 
             textOperator.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             
             gaService.setLocationAndSize(textOperator, 140, 5, 30, 20);
-            
-            //link(shapeOperator, node.getOperator());
-            
-//            IDirectEditingInfo directEditingInfo =
-//                getFeatureProvider().getDirectEditingInfo();
-//            
-//            directEditingInfo.setMainPictogramElement(containerShape);
-//            directEditingInfo.setPictogramElement(shapeOperator);
-//            directEditingInfo.setGraphicsAlgorithm(textOperator);
         }
         
         peCreateService.createChopboxAnchor(containerShape);
@@ -209,10 +202,12 @@ IAddFeature {
         // create an additional box relative anchor at middle-right
 //        final FixPointAnchor boxAnchor =
 //             peCreateService.createFixPointAnchor(containerShape);
-      
-//        Point p = gaService.createPoint(width, height);
+//      
 //        boxAnchor.setLocation(gaService.createPoint(width/2, height));
+//        boxAnchor.isUseAnchorLocationAsConnectionEndpoint();
+        
         layoutPictogramElement(containerShape);
+        
 //        // create an additional box relative anchor at middle-right
 //        final BoxRelativeAnchor boxAnchor =
 //             peCreateService.createBoxRelativeAnchor(containerShape);

@@ -123,7 +123,8 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
              }
         }
         if (bo instanceof Requirement) {
-        	businessName = node.getTraceabilityLink();
+//        	businessName = node.getTraceabilityLink();
+        	businessName = GraphBTUtil.getRequirement(GraphBTUtil.getBEModel(getDiagram()), node.getTraceabilityLink()).getKey();
             Shape shape = (Shape) pictogramElement;
                 if (shape.getGraphicsAlgorithm() instanceof Text) {
                     Text text = (Text) shape.getGraphicsAlgorithm();

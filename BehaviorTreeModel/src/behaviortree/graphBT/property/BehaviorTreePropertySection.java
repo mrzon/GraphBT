@@ -40,6 +40,7 @@ import behaviortree.Behavior;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.Operator;
+import behaviortree.Requirement;
 import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
 
@@ -212,6 +213,11 @@ public class BehaviorTreePropertySection extends GFPropertySection
             for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()) {
     	    	componentCombo.add(component.getComponentName());
     	    }
+            
+            requirementCombo.removeAll();
+            for(Requirement requirement : GraphBTUtil.getBEModel(d).getRequirementList().getRequirements()) {
+            	requirementCombo.add(requirement.getKey());
+            }
 
             componentCombo.addSelectionListener(new SelectionAdapter() {
     		    public void widgetSelected(SelectionEvent e) {
@@ -268,10 +274,8 @@ public class BehaviorTreePropertySection extends GFPropertySection
     	        			Component c = GraphBTUtil.getComponentByRef(model, node.getComponentRef());
     	        			Behavior b = GraphBTUtil.getBehaviorFromComponent(c,selected);
     	        			node.setBehaviorRef(b.getBehaviorRef());
-    	        			//String name = GraphBTUtil.getBehaviorFromComponentByRef(c, node.getBehaviorRef()).toString();
     	    		    }
     	    		};
-//    	    		cmd.execute();
     	    		ds.getEditingDomain().getCommandStack().execute(cmd);
     	    		PictogramElement pe = getSelectedPictogramElement();
 					if(!(pe instanceof ContainerShape))
@@ -287,7 +291,36 @@ public class BehaviorTreePropertySection extends GFPropertySection
 						if(bo instanceof Behavior)
 							updatePictogramElement(n);
 					}
-    	    		
+    		     }
+    	     });
+            
+            requirementCombo.addSelectionListener(new SelectionAdapter() {
+    		    public void widgetSelected(SelectionEvent e) {
+    		    	CCombo combo = (CCombo)e.widget;
+    		    	final String selected = combo.getItem(combo.getSelectionIndex());
+    		    	
+    		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+    	    			protected void doExecute() {
+    	    		    	BEModel model = GraphBTUtil.getBEModel(d);
+    	        			Requirement r = GraphBTUtil.getRequirement(model, selected);
+    	        			node.setTraceabilityLink(r.getKey());
+    	    		    }
+    	    		};
+    	    		ds.getEditingDomain().getCommandStack().execute(cmd);
+    	    		PictogramElement pe = getSelectedPictogramElement();
+					if(!(pe instanceof Requirement))
+						return;
+					ContainerShape cs = (ContainerShape)pe;
+					Iterator<Shape> s = cs.getChildren().iterator();
+					while(s.hasNext())
+					{
+						Shape n = s.next();
+						
+						Object bo = Graphiti.getLinkService()
+				                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
+						if(bo instanceof Requirement)
+							updatePictogramElement(n);
+					}
     		     }
     	     });
         }

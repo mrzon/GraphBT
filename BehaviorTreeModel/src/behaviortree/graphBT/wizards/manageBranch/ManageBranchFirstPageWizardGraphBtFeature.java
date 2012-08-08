@@ -16,7 +16,6 @@ import org.eclipse.swt.widgets.Label;
 
 import behaviortree.Branch;
 
-
 public class ManageBranchFirstPageWizardGraphBtFeature extends WizardPage {
 	
 	private Composite container;

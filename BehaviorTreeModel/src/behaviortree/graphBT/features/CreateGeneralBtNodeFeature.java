@@ -64,16 +64,16 @@ ICreateFeature {
 
 		BEModel beModel = GraphBTUtil.getBEModel(getDiagram());
 		if(map.get(StandardNode.TRACEABILITYSTATUS_VALUE)==null ||(map.get(StandardNode.TRACEABILITYSTATUS_VALUE))!=null&&map.get(StandardNode.COMPONENT_VALUE).equals("")) {
-			node.setTraceabilityStatus(TraceabilityStatus.getByName(map.get(StandardNode.TRACEABILITYSTATUS_VALUE)));
-		}
-		else {
 			node.setTraceabilityStatus(TraceabilityStatus.ORIGINAL);
 		}
+		else {
+			node.setTraceabilityStatus(TraceabilityStatus.getByName(map.get(StandardNode.TRACEABILITYSTATUS_VALUE)));
+		}
 		if(map.get(StandardNode.OPERATOR_VALUE)==null ||(map.get(StandardNode.OPERATOR_VALUE)!=null&&map.get(StandardNode.COMPONENT_VALUE).equals(""))) {
-			node.setOperator(Operator.getByName(map.get(StandardNode.OPERATOR_VALUE)));
+			node.setOperator(Operator.NO_OPERATOR);
 		}
 		else {
-			node.setOperator(Operator.NO_OPERATOR);
+			node.setOperator(Operator.getByName(map.get(StandardNode.OPERATOR_VALUE)));
 		}
 		
 		Component c = null;
