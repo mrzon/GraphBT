@@ -1,5 +1,7 @@
 package behaviortree.graphBT.features;
 
+import java.util.HashMap;
+
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateConnectionContext;
@@ -8,11 +10,17 @@ import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.PlatformUI;
 
 import behaviortree.BehaviortreeFactory;
+import behaviortree.Branch;
 import behaviortree.Composition;
 import behaviortree.Edge;
 import behaviortree.StandardNode;
+import behaviortree.graphBT.wizards.CreateStandardNodeGraphBTWizard;
+import behaviortree.graphBT.wizards.manageBranch.ManageBranchWizardGraphBtFeature;
 
 
 public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConnectionFeature
@@ -25,7 +33,6 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
 	@Override
 	public boolean canStartConnection(ICreateConnectionContext context) {
 		if (getStandardNode(context.getSourceAnchor()) != null) {
-			System.out.println("can start connection.");
             return true;
         }
         return false;
@@ -35,7 +42,6 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
 	public boolean canCreate(ICreateConnectionContext context) {
 		StandardNode source = getStandardNode(context.getSourceAnchor());
 		StandardNode target = getStandardNode(context.getTargetAnchor());
-		System.out.println("can start create connection.");
         if (source != null && target != null && source != target) {
             return true;
         }
@@ -64,10 +70,15 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
             PictogramElement pes = context.getSourcePictogramElement();
             PictogramElement pet = context.getTargetPictogramElement();
             
-            pet.getGraphicsAlgorithm().setX(pes.getGraphicsAlgorithm().getX());
-            pet.getGraphicsAlgorithm().setY(
-            		pes.getGraphicsAlgorithm().getY() + 
-            		pes.getGraphicsAlgorithm().getHeight() + 45);
+            System.out.println("source.getEdge().getChildNode().size(): " + 
+            source.getEdge().getChildNode().size());
+            
+            if(source.getEdge().getChildNode().size() == 0) {
+	            pet.getGraphicsAlgorithm().setX(pes.getGraphicsAlgorithm().getX());
+	            pet.getGraphicsAlgorithm().setY(
+	            		pes.getGraphicsAlgorithm().getY() + 
+	            		pes.getGraphicsAlgorithm().getHeight() + 45);
+            }
         }
         
         return newConnection;
@@ -86,14 +97,6 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
     
     
     private Edge createEdge(StandardNode source, StandardNode target) {
-//        Edge edge = BehaviortreeFactory.eINSTANCE.createEdge();
-//        
-//        edge.setChildNode(target);
-//        
-//        edge.setComposition(Composition.SEQUENTIAL);
-//        source.getEdge().add(edge);
-//        
-//        return edge;
     	Edge edge = source.getEdge();
         if(edge == null)
         {
@@ -101,6 +104,23 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
         	edge.setComposition(Composition.SEQUENTIAL);
         	source.setEdge(edge);
         }
+        
+        System.out.println("the branch name is: " + edge.getBranch().getLiteral());
+        
+        if(source.getEdge().getChildNode().size() == 1) {
+        	HashMap<Integer, String> map = new HashMap<Integer, String>();
+        	WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+                    getActiveWorkbenchWindow().getShell(),
+        		new ManageBranchWizardGraphBtFeature(map, getDiagram()));
+        		
+    		if (wizardDialog.open() != Window.OK) {
+    			return null;
+    		}
+    		
+    		edge.setBranch(Branch.get(map.get(1)));
+    		System.out.println("branch: " + edge.getBranch().getLiteral());
+        }
+        
         edge.getChildNode().add(target);
         return edge;
    }

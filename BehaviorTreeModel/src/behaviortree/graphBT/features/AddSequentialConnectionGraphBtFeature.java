@@ -1,5 +1,7 @@
 package behaviortree.graphBT.features;
 
+import java.awt.Color;
+
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
@@ -8,14 +10,17 @@ import org.eclipse.graphiti.features.impl.AbstractAddFeature;
 import org.eclipse.graphiti.mm.GraphicsAlgorithmContainer;
 import org.eclipse.graphiti.mm.algorithms.Polygon;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
+import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
+import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
+import behaviortree.Branch;
 import behaviortree.Edge;
 
 public class AddSequentialConnectionGraphBtFeature extends AbstractAddFeature implements
@@ -51,17 +56,19 @@ public class AddSequentialConnectionGraphBtFeature extends AbstractAddFeature im
 		Edge addedEdge = (Edge) context.getNewObject();
 		link(connection, addedEdge);
 		
-//		ConnectionDecorator textDecorator = peCreateService.createConnectionDecorator(connection, true, 0.5, true);
-//		Text text = gaService.createPlainText(textDecorator);
-//		text.setStyle(StyleUtil.getStyleForTextDecorator((getDiagram())));
-//		gaService.setLocation(text, 10, 0);
-
-//		Edge edge = (Edge) context.getNewObject();
-//		text.setValue(edge.getBranch().getLiteral());
+		System.out.println("addedEdge: " + addedEdge.getBranch().getLiteral());
+		System.out.println("addedEdge: " + Branch.ALTERNATIVE);
 
 		ConnectionDecorator cd;
 		cd = peCreateService.createConnectionDecorator(connection, false, 1.0, true);
 		createArrow(cd);
+		
+		if(addedEdge.getBranch().getLiteral().equals(Branch.ALTERNATIVE.getLiteral())) {
+			System.out.println("herehereh");
+			ConnectionDecorator cd2;
+			cd2 = peCreateService.createConnectionDecorator(connection, false, 0.0, true);
+			createAlternativeIdentifier(cd2);
+		}
 		
 		return connection;
 	}
@@ -69,6 +76,14 @@ public class AddSequentialConnectionGraphBtFeature extends AbstractAddFeature im
 	private Polygon createArrow(GraphicsAlgorithmContainer gaContainer) {
 		
 		Polygon polygon = Graphiti.getGaCreateService().createPlainPolygon(gaContainer, new int[] { -15, 10, 0, 0, -15, -10, -15, 10 });
+		return polygon;
+	}
+	
+	private Polygon createAlternativeIdentifier(GraphicsAlgorithmContainer gaContainer) {
+		Polygon polygon = Graphiti.getGaCreateService().createPlainPolygon(gaContainer, new int[] { -5, 5, 5, 5, 5, -5, -5, -5, -5, 5 });
+		polygon.setBackground(manageColor(new ColorConstant(0, 255, 0)));
+		polygon.setForeground(manageColor(new ColorConstant(0, 0, 0)));
+		polygon.setLineWidth(1);
 		return polygon;
 	}
 }

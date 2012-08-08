@@ -88,13 +88,6 @@ public class CreateAtomicConnectionGraphBtFeature
     }
     
     private Edge createEdge(StandardNode source, StandardNode target) {
-//        Edge edge = BehaviortreeFactory.eINSTANCE.createEdge();
-//        
-//        edge.setChildNode(target);
-//    	edge.setComposition(Composition.ATOMIC);       
-//        source.getEdge().add(edge);
-//        
-//        return edge;
     	Edge edge = source.getEdge();
         if(edge == null)
         {

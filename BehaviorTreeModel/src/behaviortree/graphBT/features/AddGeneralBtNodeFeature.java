@@ -16,8 +16,12 @@ import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
+import org.eclipse.graphiti.mm.algorithms.styles.Point;
+import org.eclipse.graphiti.mm.algorithms.styles.impl.StylesFactoryImpl;
+import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.FixPointAnchor;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
@@ -201,7 +205,35 @@ IAddFeature {
         }
         
         peCreateService.createChopboxAnchor(containerShape);
+        
+        // create an additional box relative anchor at middle-right
+//        final FixPointAnchor boxAnchor =
+//             peCreateService.createFixPointAnchor(containerShape);
+      
+//        Point p = gaService.createPoint(width, height);
+//        boxAnchor.setLocation(gaService.createPoint(width/2, height));
         layoutPictogramElement(containerShape);
+//        // create an additional box relative anchor at middle-right
+//        final BoxRelativeAnchor boxAnchor =
+//             peCreateService.createBoxRelativeAnchor(containerShape);
+//      
+//        boxAnchor.setRelativeWidth(0.5);
+//        boxAnchor.setRelativeHeight(1.0);
+//  
+//        // anchor references visible rectangle instead of invisible rectangle
+//        boxAnchor.setReferencedGraphicsAlgorithm(rectangle);
+//  
+//        // assign a graphics algorithm for the box relative anchor
+//        Rectangle rect = gaService.createRectangle(boxAnchor);
+//        rect.setFilled(true);
+//  
+//        // anchor is located on the right border of the visible rectangle
+//        // and touches the border of the invisible rectangle
+//  
+//        int w = 6;
+//        gaService.setLocationAndSize(rect, -2 * w, -w, 2 * w, 2 * w);
+//        rect.setForeground(manageColor(E_CLASS_FOREGROUND));
+//        rect.setBackground(manageColor(E_CLASS_BACKGROUND));
                
         return containerShape;
     }
