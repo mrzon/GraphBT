@@ -156,6 +156,7 @@ IAddFeature {
             if(r == null){
             	r = GraphBTUtil.getDefaultRequirement(getDiagram());
             }
+            
             link(shapeTraceabilityLink,	r);
             
 //            IDirectEditingInfo directEditingInfo =

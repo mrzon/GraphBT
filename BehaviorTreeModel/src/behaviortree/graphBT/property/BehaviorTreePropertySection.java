@@ -229,7 +229,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
     	    			protected void doExecute() {
     	    				node.setComponentRef(c.getComponentRef());
     	    				Behavior beh = c.getBehaviors().size()>0?c.getBehaviors().get(0):null;
-    	    				Assert.isNotNull(beh);
+//    	    				Assert.isNotNull(beh);
     	    				node.setBehaviorRef(beh.getBehaviorRef());
     	    				behaviorCombo.setText(beh.getBehaviorName());
     	    		    }

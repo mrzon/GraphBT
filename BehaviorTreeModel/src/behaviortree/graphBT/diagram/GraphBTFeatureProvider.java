@@ -104,17 +104,16 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 			System.out.println("objeknya ternyata behavior");
 			return new UpdateGraphBtFeature(this);
 		}
+	    if (bo instanceof Requirement) {
+			System.out.println("objeknya ternyata requirement");
+			return new UpdateGraphBtFeature(this);
+		}
 	   return super.getUpdateFeature(context);
 	 } 
 	
 	@Override
 	public IMoveShapeFeature getMoveShapeFeature(IMoveShapeContext context) {
-	    Shape shape = context.getShape();
-	    Object bo = getBusinessObjectForPictogramElement(shape);
-	    if (bo instanceof StandardNode) {
-	        return new MoveGraphBtFeature(this);
-	    }
-	    return super.getMoveShapeFeature(context);
+	    return new MoveGraphBtFeature(this);
 	 } 
 	
 	@Override
@@ -122,7 +121,6 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 		if (context.getPictogramElement() instanceof ContainerShape /* && getBusinessObjectForPictogramElement(context.getPictogramElement()) instanceof <DomainObject> */) {
 			return  new LayoutGraphBtFeature(this);
 		}
-
 		return super.getLayoutFeature(context);
 	}
 	
@@ -146,21 +144,7 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	@Override
 	public IResizeShapeFeature getResizeShapeFeature(
 	        IResizeShapeContext context) {
-		Shape shape = context.getShape();
-		Object bo = getBusinessObjectForPictogramElement(shape);
-		if (bo instanceof StandardNode) {
-	    	return new ResizeGraphBtFeature(this);
-		}
-		
-		else if (bo instanceof Component || 
-				bo instanceof Operator ||
-				bo instanceof Behavior ||
-				bo instanceof TraceabilityStatus ||
-				bo instanceof Requirement) {
-	    	return new ResizeGraphBtFeature(this);
-		}
-		
-		return super.getResizeShapeFeature(context);
+    	return new ResizeGraphBtFeature(this);
 	}
 	
 	@Override
