@@ -67,12 +67,10 @@ public class BehaviorTreePropertySection extends GFPropertySection
         FormData statusData;
         IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         DiagramEditor ds;
-        if(page.getActiveEditor() instanceof DiagramEditor)
-        {
+        if(page.getActiveEditor() instanceof DiagramEditor) {
         	 ds = (DiagramEditor)page.getActiveEditor();	
         }
-        else
-        {
+        else {
         	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
         }
         
@@ -256,7 +254,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
     		    	behaviorCombo.removeAll();
     		    	
     		    	if(c!=null)
-    		    	for(Behavior behavior: c.getBehaviors()){
+    		    	for(Behavior behavior: c.getBehaviors()) {
     			    	behaviorCombo.add(behavior.toString());
     			    }
     		    	
@@ -306,14 +304,16 @@ public class BehaviorTreePropertySection extends GFPropertySection
     	        			node.setTraceabilityLink(r.getKey());
     	    		    }
     	    		};
+    	    		
     	    		ds.getEditingDomain().getCommandStack().execute(cmd);
     	    		PictogramElement pe = getSelectedPictogramElement();
-					if(!(pe instanceof Requirement))
+
+    	    		if(!(pe instanceof ContainerShape))
 						return;
-					ContainerShape cs = (ContainerShape)pe;
+					
+    	    		ContainerShape cs = (ContainerShape)pe;
 					Iterator<Shape> s = cs.getChildren().iterator();
-					while(s.hasNext())
-					{
+					while(s.hasNext()) {
 						Shape n = s.next();
 						
 						Object bo = Graphiti.getLinkService()
@@ -324,7 +324,5 @@ public class BehaviorTreePropertySection extends GFPropertySection
     		     }
     	     });
         }
-        
-        
     }
 }

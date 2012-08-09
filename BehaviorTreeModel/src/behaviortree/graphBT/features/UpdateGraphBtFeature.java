@@ -30,6 +30,7 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
        	
         
         System.out.println("in update check if standard node: " + (bo instanceof StandardNode));
+        System.out.println("in update check if requirement: " + (bo instanceof Requirement));
         
         return ((bo instanceof Component)||
         		(bo instanceof Behavior)||

@@ -70,10 +70,12 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	
 	@Override
 	public IAddFeature getAddFeature(IAddContext context) {
-		if (context instanceof IAddConnectionContext && context.getNewObject() instanceof Edge) {
+		if (context instanceof IAddConnectionContext && 
+				context.getNewObject() instanceof Edge) {
 			Edge edge = (Edge) context.getNewObject();
 			
-			if(edge.getComposition().getLiteral().equals(Composition.ATOMIC.getLiteral())) {
+			if(edge.getComposition().getLiteral().
+					equals(Composition.ATOMIC.getLiteral())) {
 				System.out.println("di add atomic connection context");
 				return new AddAtomicConnectionGraphBtFeature(this);
 			}
@@ -81,7 +83,7 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 				System.out.println("di add sequential connection context");
 				return new AddSequentialConnectionGraphBtFeature(this);
 			}
-		} else if (context instanceof IAddContext /* && context.getNewObject() instanceof <DomainObject> */) {
+		} else if (context instanceof IAddContext) {
 			return new AddGeneralBtNodeFeature(this);
 		}
 		return super.getAddFeature(context);
