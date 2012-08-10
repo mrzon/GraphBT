@@ -31,6 +31,9 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 	private Composite container;
 	private HashMap<Integer,String> map;
 	private Component c;
+	private Text behaviorNameText;
+	private Text behaviorRefText;
+	private Combo typeCombo;
 	
 	public CreateBehaviorFirstPageGraphBTWizard(HashMap<Integer,String> map, Component c) {
 		super("Create Behavior Wizard");
@@ -50,7 +53,7 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 		final Label typeLabel = new Label(container, SWT.NULL);
 		typeLabel.setText("Behavior Type");
 		
-		final Combo typeCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
+		typeCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
 		typeCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 	    for(BehaviorType t : BehaviorType.VALUES) {
@@ -67,16 +70,22 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 	    final Label behaviorLabel = new Label(container, SWT.NULL);
 		behaviorLabel.setText("Behavior Name");
 		
-		final Text behaviorNameText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		
+		behaviorNameText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		behaviorNameText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				dialogChanged();
+			}
+		});
 		
 		final Label behaviorRefLabel = new Label(container, SWT.NULL);
 		behaviorRefLabel.setText("Behavior Ref");
-		//componentRefLabel.setVisible(false);
 		
-		final Text behaviorRefText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		//componentRefText.setVisible(false);
-		
+		behaviorRefText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		behaviorRefText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				dialogChanged();
+			}
+		});
 		
 		behaviorNameText.setText("");
 		
@@ -84,9 +93,7 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 			public void modifyText(ModifyEvent e) {
 				Text t= (Text) e.widget;
 				map.put(Behavior.NAME_VALUE, t.getText());
-				
 			}
-			
 	    });
 		
 		behaviorRefText.addModifyListener(new ModifyListener() {
@@ -96,10 +103,43 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 			}
 	    });
 
-
-		//System.out.println("stringCarrier[0] " + stringCarrier[0]);
-		System.out.println("stringCarrier[0].getText() " + behaviorNameText.getText());
 		// Required to avoid an error in the system
 		setControl(container);
 	}
+	
+	private void dialogChanged() {
+
+//		if (typeCombo.getText().length() == 0) {
+//			updateStatus("Behavior type must be specified");
+//			return;
+//		}
+		
+		if (behaviorNameText.getText().length() == 0) {
+			updateStatus("Behavior name must be specified");
+			return;
+		}
+		
+		if (behaviorRefText.getText().length() == 0) {
+			updateStatus("Behavior reference must be specified");
+			return;
+		}
+		
+		if (GraphBTUtil.getBehaviorFromComponentByRef(c, behaviorRefText.getText()) != null) {
+			updateStatus("Behavior reference is already exist");
+			return;
+		}
+
+		if (!(behaviorRefText.getText().matches("[0-9]+"))) {
+			updateStatus("Format of behavior reference should be number");
+			return;
+		}
+		
+		updateStatus(null);
+	}
+	
+	private void updateStatus(String message) {
+		setErrorMessage(message);
+		setPageComplete(message == null);
+	}
+	
 }

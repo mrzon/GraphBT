@@ -43,7 +43,7 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 		
 		super("Create Requirement Wizard");		
 		setTitle("Create Requirement Wizard");
-		setDescription("Fill in the requirement below.");
+		setDescription("Fill in the requirement elements below.");
 		this.map = map;
 		this.d=d;
 	}
@@ -51,14 +51,14 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 	@Override
 	public void createControl(Composite parent) {
 		container = new Composite(parent, SWT.NULL);
-		GridLayout layout = new GridLayout();
-		container.setLayout(layout);
-		layout.numColumns = 2;
+		GridLayout layout = new GridLayout(2, false);
+		container.setLayout(layout);	
 
 	    final Label requirementLabel = new Label(container, SWT.NULL);
 	    requirementLabel.setText("Requirement Name:");
 		
-	    requirementNameText = new Text(container, SWT.BORDER | SWT.SINGLE);		
+	    requirementNameText = new Text(container, SWT.BORDER | SWT.SINGLE);
+	    requirementNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));		
 		requirementNameText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				dialogChanged();
@@ -69,6 +69,7 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 		componentRefLabel.setText("Requirement Ref:");
 
 		requirementRefText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		requirementRefText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));		
 		requirementRefText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				dialogChanged();
@@ -86,9 +87,9 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 		GridData gridData =
 			      new GridData(
 			        GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
-			    gridData.horizontalSpan = 3;
+			    gridData.horizontalSpan = 1;
 			    gridData.grabExcessVerticalSpace = true;
-
+			    
 			    requirementDescText.setLayoutData(gridData);
 		requirementDescText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
