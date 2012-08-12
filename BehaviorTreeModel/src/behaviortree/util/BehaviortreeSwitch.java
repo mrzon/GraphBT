@@ -180,6 +180,18 @@ public class BehaviortreeSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case BehaviortreePackage.OPERATOR_CLASS: {
+				OperatorClass operatorClass = (OperatorClass)theEObject;
+				T result = caseOperatorClass(operatorClass);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BehaviortreePackage.TRACEABILITY_STATUS_CLASS: {
+				TraceabilityStatusClass traceabilityStatusClass = (TraceabilityStatusClass)theEObject;
+				T result = caseTraceabilityStatusClass(traceabilityStatusClass);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -451,6 +463,36 @@ public class BehaviortreeSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseFormula(Formula object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Operator Class</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Operator Class</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOperatorClass(OperatorClass object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Traceability Status Class</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Traceability Status Class</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTraceabilityStatusClass(TraceabilityStatusClass object) {
 		return null;
 	}
 

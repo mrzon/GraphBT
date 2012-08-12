@@ -40,9 +40,11 @@ import behaviortree.Behavior;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.Operator;
+import behaviortree.OperatorClass;
 import behaviortree.Requirement;
 import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
+import behaviortree.TraceabilityStatusClass;
 
 public class BehaviorTreePropertySection extends GFPropertySection 
 	implements ITabbedPropertyConstants {
@@ -227,12 +229,10 @@ public class BehaviorTreePropertySection extends GFPropertySection
     	    			protected void doExecute() {
     	    				node.setComponentRef(c.getComponentRef());
     	    				Behavior beh = c.getBehaviors().size()>0?c.getBehaviors().get(0):null;
-//    	    				Assert.isNotNull(beh);
     	    				node.setBehaviorRef(beh.getBehaviorRef());
     	    				behaviorCombo.setText(beh.getBehaviorName());
     	    		    }
     	    		};
-    	    		
     	    		
 					PictogramElement pe = getSelectedPictogramElement();
 					if(!(pe instanceof ContainerShape))
@@ -319,6 +319,75 @@ public class BehaviorTreePropertySection extends GFPropertySection
 						Object bo = Graphiti.getLinkService()
 				                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
 						if(bo instanceof Requirement)
+							updatePictogramElement(n);
+					}
+    		     }
+    	     });
+            
+            statusCombo.addSelectionListener(new SelectionAdapter() {
+    		    public void widgetSelected(SelectionEvent e) {
+    		    	CCombo combo = (CCombo)e.widget;
+    		    	final String selected = combo.getItem(combo.getSelectionIndex());
+    		    	
+    		    	System.out.println("TraceabilityStatus.get(selected) " + TraceabilityStatus.getByName(selected).getLiteral());
+    		    	
+    		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+    	    			protected void doExecute() {
+    	    				BEModel model = GraphBTUtil.getBEModel(d);
+    	    				System.out.println("Selected on TraceabilityStatus " + selected);
+    	        			
+    	    				node.setTraceabilityStatus(TraceabilityStatus.getByName(selected));
+    	    		    }
+    	    		};
+    	    		
+    	    		ds.getEditingDomain().getCommandStack().execute(cmd);
+    	    		PictogramElement pe = getSelectedPictogramElement();
+
+    	    		if(!(pe instanceof ContainerShape))
+						return;
+					
+    	    		ContainerShape cs = (ContainerShape)pe;
+					Iterator<Shape> s = cs.getChildren().iterator();
+					while(s.hasNext()) {
+						Shape n = s.next();
+						
+						Object bo = Graphiti.getLinkService()
+				                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
+						if(bo instanceof TraceabilityStatusClass) {
+							System.out.println("update on TraceabilityStatus from property: " + selected);
+							updatePictogramElement(n);
+						}
+					}
+    		     }
+    	     });
+            
+            operatorCombo.addSelectionListener(new SelectionAdapter() {
+    		    public void widgetSelected(SelectionEvent e) {
+    		    	CCombo combo = (CCombo)e.widget;
+    		    	final String selected = combo.getItem(combo.getSelectionIndex());
+    		    	
+    		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+    	    			protected void doExecute() {
+    	    				BEModel model = GraphBTUtil.getBEModel(d);
+    	    				
+    	        			node.setOperator(Operator.getByName(selected));
+    	    		    }
+    	    		};
+    	    		
+    	    		ds.getEditingDomain().getCommandStack().execute(cmd);
+    	    		PictogramElement pe = getSelectedPictogramElement();
+
+    	    		if(!(pe instanceof ContainerShape))
+						return;
+					
+    	    		ContainerShape cs = (ContainerShape)pe;
+					Iterator<Shape> s = cs.getChildren().iterator();
+					while(s.hasNext()) {
+						Shape n = s.next();
+						
+						Object bo = Graphiti.getLinkService()
+				                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
+						if(bo instanceof OperatorClass)
 							updatePictogramElement(n);
 					}
     		     }

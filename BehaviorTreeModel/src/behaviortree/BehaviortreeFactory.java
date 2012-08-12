@@ -188,6 +188,24 @@ public interface BehaviortreeFactory extends EFactory {
 	Formula createFormula();
 
 	/**
+	 * Returns a new object of class '<em>Operator Class</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Operator Class</em>'.
+	 * @generated
+	 */
+	OperatorClass createOperatorClass();
+
+	/**
+	 * Returns a new object of class '<em>Traceability Status Class</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Traceability Status Class</em>'.
+	 * @generated
+	 */
+	TraceabilityStatusClass createTraceabilityStatusClass();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

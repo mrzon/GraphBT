@@ -32,10 +32,13 @@ import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
 import behaviortree.Behavior;
+import behaviortree.BehaviortreeFactory;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
+import behaviortree.OperatorClass;
 import behaviortree.Requirement;
 import behaviortree.StandardNode;
+import behaviortree.TraceabilityStatusClass;
 
 public class AddGeneralBtNodeFeature extends AbstractAddShapeFeature implements
 IAddFeature {
@@ -176,6 +179,14 @@ IAddFeature {
             textTraceabilityStatus.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             gaService.setLocationAndSize(textTraceabilityStatus, 0, height/2 + 10, 40, 20);
             
+            TraceabilityStatusClass tsc = BehaviortreeFactory.eINSTANCE.createTraceabilityStatusClass();
+            tsc.setTraceabilityStatusLiteral(node.getTraceabilityStatus().getLiteral());
+            
+            if (tsc.eResource() == null) {
+                getDiagram().eResource().getContents().add(tsc);
+            }
+            link(shapeTraceabilityStatus, tsc);
+            
             //link(shapeTraceabilityStatus, node.getTraceabilityStatus());
          
 //            IDirectEditingInfo directEditingInfo =
@@ -196,6 +207,14 @@ IAddFeature {
             textOperator.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             
             gaService.setLocationAndSize(textOperator, 140, 5, 30, 20);
+            
+            OperatorClass oc = BehaviortreeFactory.eINSTANCE.createOperatorClass();
+            
+            if (oc.eResource() == null) {
+                getDiagram().eResource().getContents().add(oc);
+            }
+            oc.setOperatorLiteral(node.getOperator().getLiteral());
+            link(shapeOperator, oc);
         }
         
         peCreateService.createChopboxAnchor(containerShape);

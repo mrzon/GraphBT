@@ -916,6 +916,62 @@ public interface BehaviortreePackage extends EPackage {
 	int FORMULA_FEATURE_COUNT = 1;
 
 	/**
+	 * The meta object id for the '{@link behaviortree.impl.OperatorClassImpl <em>Operator Class</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see behaviortree.impl.OperatorClassImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getOperatorClass()
+	 * @generated
+	 */
+	int OPERATOR_CLASS = 18;
+
+	/**
+	 * The feature id for the '<em><b>Operator Literal</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATOR_CLASS__OPERATOR_LITERAL = 0;
+
+	/**
+	 * The number of structural features of the '<em>Operator Class</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATOR_CLASS_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link behaviortree.impl.TraceabilityStatusClassImpl <em>Traceability Status Class</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see behaviortree.impl.TraceabilityStatusClassImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getTraceabilityStatusClass()
+	 * @generated
+	 */
+	int TRACEABILITY_STATUS_CLASS = 19;
+
+	/**
+	 * The feature id for the '<em><b>Traceability Status Literal</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACEABILITY_STATUS_CLASS__TRACEABILITY_STATUS_LITERAL = 0;
+
+	/**
+	 * The number of structural features of the '<em>Traceability Status Class</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACEABILITY_STATUS_CLASS_FEATURE_COUNT = 1;
+
+	/**
 	 * The meta object id for the '{@link behaviortree.Composition <em>Composition</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -923,7 +979,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getComposition()
 	 * @generated
 	 */
-	int COMPOSITION = 18;
+	int COMPOSITION = 20;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.Branch <em>Branch</em>}' enum.
@@ -933,7 +989,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getBranch()
 	 * @generated
 	 */
-	int BRANCH = 19;
+	int BRANCH = 21;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.Operator <em>Operator</em>}' enum.
@@ -943,7 +999,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 20;
+	int OPERATOR = 22;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.BehaviorType <em>Behavior Type</em>}' enum.
@@ -953,7 +1009,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getBehaviorType()
 	 * @generated
 	 */
-	int BEHAVIOR_TYPE = 21;
+	int BEHAVIOR_TYPE = 23;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.EventType <em>Event Type</em>}' enum.
@@ -963,7 +1019,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getEventType()
 	 * @generated
 	 */
-	int EVENT_TYPE = 22;
+	int EVENT_TYPE = 24;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.SpecialEdgeEnum <em>Special Edge Enum</em>}' enum.
@@ -973,7 +1029,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getSpecialEdgeEnum()
 	 * @generated
 	 */
-	int SPECIAL_EDGE_ENUM = 23;
+	int SPECIAL_EDGE_ENUM = 25;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.TraceabilityStatus <em>Traceability Status</em>}' enum.
@@ -983,7 +1039,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getTraceabilityStatus()
 	 * @generated
 	 */
-	int TRACEABILITY_STATUS = 24;
+	int TRACEABILITY_STATUS = 26;
 
 
 	/**
@@ -1706,6 +1762,48 @@ public interface BehaviortreePackage extends EPackage {
 	EAttribute getFormula_FormulaName();
 
 	/**
+	 * Returns the meta object for class '{@link behaviortree.OperatorClass <em>Operator Class</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Operator Class</em>'.
+	 * @see behaviortree.OperatorClass
+	 * @generated
+	 */
+	EClass getOperatorClass();
+
+	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.OperatorClass#getOperatorLiteral <em>Operator Literal</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Operator Literal</em>'.
+	 * @see behaviortree.OperatorClass#getOperatorLiteral()
+	 * @see #getOperatorClass()
+	 * @generated
+	 */
+	EAttribute getOperatorClass_OperatorLiteral();
+
+	/**
+	 * Returns the meta object for class '{@link behaviortree.TraceabilityStatusClass <em>Traceability Status Class</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Traceability Status Class</em>'.
+	 * @see behaviortree.TraceabilityStatusClass
+	 * @generated
+	 */
+	EClass getTraceabilityStatusClass();
+
+	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.TraceabilityStatusClass#getTraceabilityStatusLiteral <em>Traceability Status Literal</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Traceability Status Literal</em>'.
+	 * @see behaviortree.TraceabilityStatusClass#getTraceabilityStatusLiteral()
+	 * @see #getTraceabilityStatusClass()
+	 * @generated
+	 */
+	EAttribute getTraceabilityStatusClass_TraceabilityStatusLiteral();
+
+	/**
 	 * Returns the meta object for enum '{@link behaviortree.Composition <em>Composition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2368,6 +2466,42 @@ public interface BehaviortreePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute FORMULA__FORMULA_NAME = eINSTANCE.getFormula_FormulaName();
+
+		/**
+		 * The meta object literal for the '{@link behaviortree.impl.OperatorClassImpl <em>Operator Class</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see behaviortree.impl.OperatorClassImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getOperatorClass()
+		 * @generated
+		 */
+		EClass OPERATOR_CLASS = eINSTANCE.getOperatorClass();
+
+		/**
+		 * The meta object literal for the '<em><b>Operator Literal</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute OPERATOR_CLASS__OPERATOR_LITERAL = eINSTANCE.getOperatorClass_OperatorLiteral();
+
+		/**
+		 * The meta object literal for the '{@link behaviortree.impl.TraceabilityStatusClassImpl <em>Traceability Status Class</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see behaviortree.impl.TraceabilityStatusClassImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getTraceabilityStatusClass()
+		 * @generated
+		 */
+		EClass TRACEABILITY_STATUS_CLASS = eINSTANCE.getTraceabilityStatusClass();
+
+		/**
+		 * The meta object literal for the '<em><b>Traceability Status Literal</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TRACEABILITY_STATUS_CLASS__TRACEABILITY_STATUS_LITERAL = eINSTANCE.getTraceabilityStatusClass_TraceabilityStatusLiteral();
 
 		/**
 		 * The meta object literal for the '{@link behaviortree.Composition <em>Composition</em>}' enum.

@@ -79,6 +79,8 @@ public class BehaviortreeFactoryImpl extends EFactoryImpl implements Behaviortre
 			case BehaviortreePackage.REQUIREMENT_LIST: return createRequirementList();
 			case BehaviortreePackage.FORMULA_LIST: return createFormulaList();
 			case BehaviortreePackage.FORMULA: return createFormula();
+			case BehaviortreePackage.OPERATOR_CLASS: return createOperatorClass();
+			case BehaviortreePackage.TRACEABILITY_STATUS_CLASS: return createTraceabilityStatusClass();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -316,6 +318,26 @@ public class BehaviortreeFactoryImpl extends EFactoryImpl implements Behaviortre
 	public Formula createFormula() {
 		FormulaImpl formula = new FormulaImpl();
 		return formula;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OperatorClass createOperatorClass() {
+		OperatorClassImpl operatorClass = new OperatorClassImpl();
+		return operatorClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TraceabilityStatusClass createTraceabilityStatusClass() {
+		TraceabilityStatusClassImpl traceabilityStatusClass = new TraceabilityStatusClassImpl();
+		return traceabilityStatusClass;
 	}
 
 	/**

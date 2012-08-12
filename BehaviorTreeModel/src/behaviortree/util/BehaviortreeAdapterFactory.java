@@ -144,6 +144,14 @@ public class BehaviortreeAdapterFactory extends AdapterFactoryImpl {
 				return createFormulaAdapter();
 			}
 			@Override
+			public Adapter caseOperatorClass(OperatorClass object) {
+				return createOperatorClassAdapter();
+			}
+			@Override
+			public Adapter caseTraceabilityStatusClass(TraceabilityStatusClass object) {
+				return createTraceabilityStatusClassAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -412,6 +420,34 @@ public class BehaviortreeAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createFormulaAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link behaviortree.OperatorClass <em>Operator Class</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see behaviortree.OperatorClass
+	 * @generated
+	 */
+	public Adapter createOperatorClassAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link behaviortree.TraceabilityStatusClass <em>Traceability Status Class</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see behaviortree.TraceabilityStatusClass
+	 * @generated
+	 */
+	public Adapter createTraceabilityStatusClassAdapter() {
 		return null;
 	}
 

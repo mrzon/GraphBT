@@ -33,9 +33,11 @@ import behaviortree.Component;
 import behaviortree.Composition;
 import behaviortree.Edge;
 import behaviortree.Operator;
+import behaviortree.OperatorClass;
 import behaviortree.Requirement;
 import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
+import behaviortree.TraceabilityStatusClass;
 import behaviortree.graphBT.features.AddAtomicConnectionGraphBtFeature;
 import behaviortree.graphBT.features.AddGeneralBtNodeFeature;
 import behaviortree.graphBT.features.AddSequentialConnectionGraphBtFeature;
@@ -108,6 +110,14 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 		}
 	    if (bo instanceof Requirement) {
 			System.out.println("objeknya ternyata requirement");
+			return new UpdateGraphBtFeature(this);
+		}
+	    if (bo instanceof OperatorClass) {
+			System.out.println("objeknya ternyata operatorClass");
+			return new UpdateGraphBtFeature(this);
+		}
+	    if (bo instanceof TraceabilityStatusClass) {
+			System.out.println("objeknya ternyata traceabilityStatusClass");
 			return new UpdateGraphBtFeature(this);
 		}
 	   return super.getUpdateFeature(context);

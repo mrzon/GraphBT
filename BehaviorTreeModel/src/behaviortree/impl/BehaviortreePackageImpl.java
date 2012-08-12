@@ -33,6 +33,7 @@ import behaviortree.FormulaList;
 import behaviortree.Library;
 import behaviortree.Node;
 import behaviortree.Operator;
+import behaviortree.OperatorClass;
 import behaviortree.Requirement;
 import behaviortree.RequirementList;
 import behaviortree.SpecialEdge;
@@ -40,6 +41,7 @@ import behaviortree.SpecialEdgeEnum;
 import behaviortree.StandardNode;
 import behaviortree.State;
 import behaviortree.TraceabilityStatus;
+import behaviortree.TraceabilityStatusClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -173,6 +175,20 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * @generated
 	 */
 	private EClass formulaEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass operatorClassEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass traceabilityStatusClassEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -892,6 +908,42 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getOperatorClass() {
+		return operatorClassEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getOperatorClass_OperatorLiteral() {
+		return (EAttribute)operatorClassEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getTraceabilityStatusClass() {
+		return traceabilityStatusClassEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTraceabilityStatusClass_TraceabilityStatusLiteral() {
+		return (EAttribute)traceabilityStatusClassEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getComposition() {
 		return compositionEEnum;
 	}
@@ -1063,6 +1115,12 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		formulaEClass = createEClass(FORMULA);
 		createEAttribute(formulaEClass, FORMULA__FORMULA_NAME);
 
+		operatorClassEClass = createEClass(OPERATOR_CLASS);
+		createEAttribute(operatorClassEClass, OPERATOR_CLASS__OPERATOR_LITERAL);
+
+		traceabilityStatusClassEClass = createEClass(TRACEABILITY_STATUS_CLASS);
+		createEAttribute(traceabilityStatusClassEClass, TRACEABILITY_STATUS_CLASS__TRACEABILITY_STATUS_LITERAL);
+
 		// Create enums
 		compositionEEnum = createEEnum(COMPOSITION);
 		branchEEnum = createEEnum(BRANCH);
@@ -1189,6 +1247,12 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 
 		initEClass(formulaEClass, Formula.class, "Formula", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFormula_FormulaName(), ecorePackage.getEString(), "formulaName", null, 0, 1, Formula.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(operatorClassEClass, OperatorClass.class, "OperatorClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getOperatorClass_OperatorLiteral(), ecorePackage.getEString(), "operatorLiteral", null, 0, 1, OperatorClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(traceabilityStatusClassEClass, TraceabilityStatusClass.class, "TraceabilityStatusClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTraceabilityStatusClass_TraceabilityStatusLiteral(), ecorePackage.getEString(), "traceabilityStatusLiteral", null, 0, 1, TraceabilityStatusClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(compositionEEnum, Composition.class, "Composition");

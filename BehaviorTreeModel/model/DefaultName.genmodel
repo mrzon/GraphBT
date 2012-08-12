@@ -137,6 +137,12 @@
     <genClasses ecoreClass="DefaultName.ecore#//Formula">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Formula/formulaName"/>
     </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//OperatorClass">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//OperatorClass/operatorLiteral"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//TraceabilityStatusClass">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//TraceabilityStatusClass/traceabilityStatusLiteral"/>
+    </genClasses>
     <nestedGenPackages prefix="Behaviortree" basePackage="behaviortree" disposableProviderFactory="true"
         ecorePackage="DefaultName.ecore#//behaviortree"/>
   </genPackages>

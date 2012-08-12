@@ -61,7 +61,7 @@ ICreateFeature {
 		
 		StandardNode node = BehaviortreeFactory.eINSTANCE.createStandardNode();
 		resource.getContents().add(node);
-
+		
 		BEModel beModel = GraphBTUtil.getBEModel(getDiagram());
 		if(map.get(StandardNode.TRACEABILITYSTATUS_VALUE)==null ||(map.get(StandardNode.TRACEABILITYSTATUS_VALUE))!=null&&map.get(StandardNode.COMPONENT_VALUE).equals("")) {
 			node.setTraceabilityStatus(TraceabilityStatus.ORIGINAL);

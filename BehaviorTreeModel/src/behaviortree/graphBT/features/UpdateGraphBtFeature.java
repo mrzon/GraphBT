@@ -12,8 +12,10 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import behaviortree.Behavior;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
+import behaviortree.OperatorClass;
 import behaviortree.Requirement;
 import behaviortree.StandardNode;
+import behaviortree.TraceabilityStatusClass;
 
 
 public class UpdateGraphBtFeature extends AbstractUpdateFeature {
@@ -26,15 +28,14 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         // return true, if linked business object is a StandardNode
     	PictogramElement pictogramElement = context.getPictogramElement();
     	Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-        //Object oSN = getBusinessObjectForPictogramElement(((Shape)context.getPictogramElement()).getContainer());
-       	
         
         System.out.println("in update check if standard node: " + (bo instanceof StandardNode));
-        System.out.println("in update check if requirement: " + (bo instanceof Requirement));
+        System.out.println("in update check if TraceabilityStatusClass: " + (bo instanceof TraceabilityStatusClass));
+        System.out.println("where we go: " + ((bo instanceof Component)|| (bo instanceof Behavior)|| (bo instanceof OperatorClass) ||
+        		(bo instanceof Requirement) || (bo instanceof TraceabilityStatusClass)));
         
-        return ((bo instanceof Component)||
-        		(bo instanceof Behavior)||
-        		(bo instanceof Requirement));
+        return ((bo instanceof Component)|| (bo instanceof Behavior)|| (bo instanceof OperatorClass) ||
+        		(bo instanceof Requirement) || (bo instanceof TraceabilityStatusClass));
     }
  
     public IReason updateNeeded(IUpdateContext context) {
@@ -80,10 +81,19 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
 				businessName = null;
 			}
 		}
-		
+		else if (bo instanceof TraceabilityStatusClass) {
+			System.out.println("in update needed, TraceabilityStatusClass: " + node.getTraceabilityStatus().getLiteral());
+			businessName = node.getTraceabilityStatus().getLiteral();
+		}
+		else if (bo instanceof OperatorClass) {
+			businessName = node.getOperator().getLiteral();
+		}
+
 		if(((Shape)pictogramElement).getGraphicsAlgorithm() instanceof Text) {
 			pictogramName = ((Text)((Shape)pictogramElement).getGraphicsAlgorithm()).getValue();
 		}
+		
+		System.out.println("pictogramName " + pictogramName);
 
 		// update needed, if names are different
 		boolean updateNameNeeded = ((pictogramName == null && businessName != null) || 
@@ -127,8 +137,29 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
              }
         }
         if (bo instanceof Requirement) {
-//        	businessName = node.getTraceabilityLink();
         	businessName = GraphBTUtil.getRequirement(GraphBTUtil.getBEModel(getDiagram()), node.getTraceabilityLink()).getKey();
+            Shape shape = (Shape) pictogramElement;
+        
+            if (shape.getGraphicsAlgorithm() instanceof Text) {
+                Text text = (Text) shape.getGraphicsAlgorithm();
+                text.setValue(businessName);
+                return true;
+            }
+        }
+        if (bo instanceof TraceabilityStatusClass) {
+        	businessName = node.getTraceabilityStatus().getLiteral();
+            Shape shape = (Shape) pictogramElement;
+            
+            System.out.println("TraceabilityStatus at update method: " + businessName);
+        
+            if (shape.getGraphicsAlgorithm() instanceof Text) {
+                Text text = (Text) shape.getGraphicsAlgorithm();
+                text.setValue(businessName);
+                return true;
+            }
+        }
+        if (bo instanceof OperatorClass) {
+        	businessName = node.getOperator().getLiteral();
             Shape shape = (Shape) pictogramElement;
         
             if (shape.getGraphicsAlgorithm() instanceof Text) {
