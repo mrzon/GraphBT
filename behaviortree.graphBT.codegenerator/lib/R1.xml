@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<textbt:TextBT xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:textbt="http://org.be.textbe/textbt">
+  <requirements>
+    <requirements ref="R1" val="R1"/>
+  </requirements>
+  <components>
+    <components ref="CBUFF" val="BUFFER">
+      <behaviors xsi:type="textbt:ExternalInput" ref="1" val="N"/>
+      <behaviors xsi:type="textbt:State" ref="2" val="CTR:=0"/>
+      <behaviors xsi:type="textbt:State" ref="3" val="CTR:=CTR+1"/>
+    </components>
+    <components ref="CCONS" val="CONSUMER">
+      <behaviors xsi:type="textbt:State" ref="1" val="PUT">
+        <relations question="What" componentRef="CDATA"/>
+        <relations question="Where" preposition="to" componentRef="CBUFF"/>
+      </behaviors>
+      <behaviors xsi:type="textbt:ExternalInput" ref="2" val="M"/>
+      <behaviors xsi:type="textbt:State" ref="3" val="M:=M-1"/>
+      <behaviors xsi:type="textbt:Selection" ref="4" val="NOT(M=0)"/>
+    </components>
+    <components ref="CPROD" val="PRODUCER">
+      <behaviors xsi:type="textbt:State" ref="1" val="PUT">
+        <relations question="What" componentRef="CDATA"/>
+        <relations question="Where" preposition="to" componentRef="CBUFF"/>
+      </behaviors>
+            <behaviors xsi:type="textbt:State" ref="5" val="PUT">
+        <relations question="What" componentRef="CDATA"/>
+        <relations question="Where" preposition="to" componentRef="CCONS"/>
+      </behaviors>
+      <behaviors xsi:type="textbt:ExternalInput" ref="2" val="M"/>
+      <behaviors xsi:type="textbt:State" ref="3" val="M:=M-1"/>
+      <behaviors xsi:type="textbt:Selection" ref="4" val="NOT(M=0)"/>
+    </components>
+    <components ref="CDATA" val="DATA"/>
+    <components ref="CSYS" val="SYSTEM">
+      <behaviors xsi:type="textbt:State" ref="1" val="START"/>
+    </components>
+  </components>
+  <behaviorTree>
+    <rootNode componentRef="CBUFF" behaviorRef="1">
+      <requirementRef>R1</requirementRef>
+      <childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="2" traceabilityStatus="+">
+        <requirementRef>R1</requirementRef>
+        <childNode xsi:type="textbt:SequentialNode" componentRef="CPROD" behaviorRef="2">
+          <requirementRef>R1</requirementRef>
+          <childNode xsi:type="textbt:SequentialNode" componentRef="CCONS" behaviorRef="2">
+            <requirementRef>R1</requirementRef>
+            <childNode xsi:type="textbt:SequentialNode" componentRef="CSYS" behaviorRef="1" traceabilityStatus="+">
+              <requirementRef>R1</requirementRef>
+            </childNode>
+          </childNode>
+        </childNode>
+      </childNode>
+    </rootNode>
+  </behaviorTree>
+</textbt:TextBT>

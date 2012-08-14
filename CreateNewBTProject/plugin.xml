@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="sampleBuilder"
+         name="Sample Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="createnewbtproject.builder.SampleBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="sampleNature"
+         name="Sample Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="createnewbtproject.builder.SampleNature">
+         </run>
+      </runtime>
+      <builder
+            id="CreateNewBTProject.sampleBuilder">
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            objectClass="org.eclipse.core.resources.IProject"
+            nameFilter="*"
+            id="CreateNewBTProject.contribution1">
+         <action
+               label="Add/Remove Sample Nature"
+               class="createnewbtproject.builder.ToggleNatureAction"
+               menubarPath="additions"
+               enablesFor="+"
+               id="CreateNewBTProject.addRemoveNatureAction">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         id="xmlProblem"
+         name="XML Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            canFinishEarly="true"
+            class="behaviortree.graphBT.newproject.BTProjectWizard"
+            hasPages="true"
+            id="behaviortree.graphBT.newproject"
+            name="New BT Project Wizard"
+            project="true">
+         <description>
+            %wizard.description
+         </description>
+      </wizard>
+   </extension>
+
+</plugin>

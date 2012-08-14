@@ -1,0 +1,51 @@
+
+interface N{
+Unit runNode();
+String getPC();
+}
+class Node(Component c, String cmd, String t, String op, String pc)
+{
+	Component comp = c;
+	String command = cmd;
+	String tipe = t;
+	String operator = op;
+	String pC= pc;
+	Bool runNode()
+	{
+		Bool ret = True;
+		if(tipe=="")
+		{
+			comp.runMethod(command);
+			ret = comp.isTerminate();
+		}
+		else if(tipe=="STATE")
+		{
+			comp.runMethod(command);	
+		}
+		else if(tipe=="GUARD")
+		{
+			Fut<Unit> b = comp!runMethod(command);
+			await b?;
+		}
+		return ret;
+	}
+
+	String getPC()
+	{
+		return pC;
+	}
+}
+data Data<T> = Val(T); 
+def T getValue<T>(Data<T> d) = 
+	case(d){
+		Val(a) => a;
+	};
+
+interface Component{
+
+	Bool isTerminate();
+
+	Unit runMethod(String command);
+
+	Data<T> getData(String var)
+}

@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BT Code Generator
+Bundle-SymbolicName: behaviortree.graphBT.codegenerator;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: codegenerator.Activator
+Bundle-Vendor: Green Cloud
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.expressions;bundle-version="3.4.300",
+ org.eclipse.core.resources;bundle-version="3.7.101",
+ org.eclipse.ui.console;bundle-version="3.5.100",
+ org.eclipse.m2m.atl.core
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7,
+ JavaSE-1.6
+Bundle-ActivationPolicy: lazy

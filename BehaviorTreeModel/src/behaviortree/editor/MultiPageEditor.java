@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 
-//import org.be.textbe.bt.textbt.presentation.TextbtEditor;
+import org.be.textbe.bt.textbt.presentation.TextbtEditor;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -27,7 +27,12 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
@@ -48,7 +53,7 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	/** The text editor used in page 0. */
 	private DiagramEditor editor;
 	private TextEditor editor2;
-	//private TextbtEditor editor3;
+	private TextbtEditor editor3;
 
 	/**
 	 * Creates a multi-page editor example.
@@ -56,7 +61,7 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	public MultiPageEditor() {
 		super();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
-		
+
 	}
 	/**
 	 * Creates page 0 of the multi-page editor,
@@ -66,7 +71,7 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		try {
 			editor = new DiagramEditor();
 			int index = addPage(editor, getEditorInput());
-			setPageText(index, editor.getTitle());
+			setPageText(index, "Graphical");
 			/*ResourceSet rs = new ResourceSetImpl();
 			Diagram d =editor.getDiagramTypeProvider().getDiagram(); 
 			IWorkbenchPart workbenchPart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart(); 
@@ -116,19 +121,25 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 				e.getStatus());
 		}
 	}
+
+	private StyledText text;
 	/**
 	 * Creates page 1 of the multi-page editor,
 	 * which allows you to change the font used in page 2.
 	 */
 	void createPage1() {
 
-		try {
-			editor2 = new TextEditor();
-			int index = addPage(editor2, getEditorInput());
-			setPageText(index, editor2.getTitle());
-		} catch (PartInitException e) {
-			ErrorDialog.openError(getSite().getShell(), "Error creating nested text editor", null, e.getStatus());
-		}
+		Composite composite = new Composite(getContainer(), SWT.NONE);
+		FillLayout layout = new FillLayout();
+		composite.setLayout(layout);
+		text = new StyledText(composite, SWT.H_SCROLL | SWT.V_SCROLL);
+
+
+		int index = addPage(composite);
+
+//			editor2 = new TextEditor();
+//			int index = addPage(editor2, getEditorInput()); 
+		setPageText(index, "Textual");
 	}
 	/**
 	 * Creates page 1 of the multi-page editor,
@@ -136,22 +147,25 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	 */
 	void createPage2() {
 
-		/*try {
+		try {
 			editor3 = new TextbtEditor();
 			int index = addPage(editor3, getEditorInput());
-			setPageText(index, editor3.getTitle());
+
+			setPageText(index, "Textual");
 		} catch (PartInitException e) {
 			ErrorDialog.openError(getSite().getShell(), "Error creating nested text editor", null, e.getStatus());
-		}*/
+		}
 	}
 
 	/**
 	 * Creates the pages of the multi-page editor.
 	 */
+	@SuppressWarnings("deprecation")
 	protected void addPages() {
 		createPage0();
 		createPage1();
-		createPage2();
+		//createPage2();
+		this.setTitle(editor.getTitle());
 	}
 	/**
 	 * The <code>MultiPageEditorPart</code> implementation of this 
@@ -178,14 +192,14 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		editor.doSaveAs();
 		setPageText(0, editor.getTitle());
 		setInput(editor.getEditorInput());
-		
+
 	}
 	/* (non-Javadoc)
 	 * Method declared on IEditorPart
 	 */
 	public void gotoMarker(IMarker marker) {
 		setActivePage(0);
-		
+
 		IDE.gotoMarker(getEditor(0), marker);
 	}
 	/**
@@ -197,7 +211,7 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		if (!(editorInput instanceof IFileEditorInput))
 			throw new PartInitException("Invalid Input: Must be IFileEditorInput");
 		super.init(site, editorInput);
-		
+
 	}
 	/* (non-Javadoc)
 	 * Method declared on IEditorPart.
@@ -210,7 +224,20 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	 */
 	protected void pageChange(int newPageIndex) {
 		super.pageChange(newPageIndex);
+		switch (newPageIndex)
+		{
+		 case 0: System.out.println("editor 0 nih"); 
+
+		 break;
+		 case 1: System.out.println("editor 1 nih");
+		 //IEditorInput ii = new IEditorInput();
+		 text.setText(GraphBTUtil.getBEModel(((DiagramEditor)editor).getDiagramTypeProvider().getDiagram()).toString());
+		 break;
+		 case 2: System.out.println("editor 2 nih");break;
+		 case 3: System.out.println("editor 3 nih");break;
+		}
 	}
+
 	/**
 	 * Closes all project files on project close.
 	 */
@@ -224,16 +251,18 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 							IEditorPart editorPart = pages[i].findEditor(editor.getEditorInput());
 							pages[i].closeEditor(editorPart,true);
 						}
+
 					}
 				}            
 			});
 		}
-		
 	}
-	
+
 	public DiagramEditor getDiagramEditor()
 	{
-		return editor;	
+	return editor;	
 	}
+
+
 
 }

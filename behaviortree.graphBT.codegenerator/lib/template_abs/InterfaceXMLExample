@@ -1,0 +1,9 @@
+<interface name="IO">
+<method tipe="String" name="print">
+<param tipe="String" name="msg"/>
+</method>
+<method tipe="Int" name="readInt">
+</method>
+<method tipe="String" name="readString">
+</method>
+</interface>
