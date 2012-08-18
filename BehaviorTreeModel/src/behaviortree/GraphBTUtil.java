@@ -385,7 +385,74 @@ public class GraphBTUtil {
 		
 		return l;
 	}
-	
+	public static OperatorClass getOperator(Diagram rs,String literal)
+	{
+		
+		Iterator<Resource> it = rs.eResource().getResourceSet().getResources().iterator();
+		while(it.hasNext()){
+			Resource res = it.next();
+			Iterator<EObject> i = res.getContents().iterator();
+			while(i.hasNext())
+			{
+				Object e = i.next();
+				if(e instanceof OperatorClass)
+				{
+					OperatorClass oc = (OperatorClass)e;
+					if(oc.getOperatorLiteral().equals(literal))
+					{
+						return oc;
+					}
+				}
+			}
+		}
+		if(Operator.get(literal) != null)
+		{
+			OperatorClass oc = getBEFactory().createOperatorClass();
+			oc.setOperatorLiteral(literal);
+			try {
+				GraphBTUtil.saveToModelFile(oc,rs);
+			} catch (CoreException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return oc;
+		}
+		return null;
+	}
+	public static TraceabilityStatusClass getTraceabilityStatus(Diagram rs,String literal)
+	{
+		
+		Iterator<Resource> it = rs.eResource().getResourceSet().getResources().iterator();
+		while(it.hasNext()){
+			Resource res = it.next();
+			Iterator<EObject> i = res.getContents().iterator();
+			while(i.hasNext())
+			{
+				Object e = i.next();
+				if(e instanceof TraceabilityStatusClass)
+				{
+					TraceabilityStatusClass oc = (TraceabilityStatusClass)e;
+					if(oc.getTraceabilityStatusLiteral().equals(literal))
+					{
+						return oc;
+					}
+				}
+			}
+		}
+		if(TraceabilityStatus.get(literal) != null)
+		{
+			TraceabilityStatusClass oc = getBEFactory().createTraceabilityStatusClass();
+			oc.setTraceabilityStatusLiteral(literal);
+			try {
+				GraphBTUtil.saveToModelFile(oc,rs);
+			} catch (CoreException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return oc;
+		}
+		return null;
+	}
 	public List getFormulaList()
 	{
 		return null;

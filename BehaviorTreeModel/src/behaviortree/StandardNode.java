@@ -109,7 +109,6 @@ public interface StandardNode extends Node {
 
 	/**
 	 * Returns the value of the '<em><b>Traceability Status</b></em>' attribute.
-	 * The literals are from the enumeration {@link behaviortree.TraceabilityStatus}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Traceability Status</em>' attribute isn't clear,
@@ -117,28 +116,25 @@ public interface StandardNode extends Node {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Traceability Status</em>' attribute.
-	 * @see behaviortree.TraceabilityStatus
-	 * @see #setTraceabilityStatus(TraceabilityStatus)
+	 * @see #setTraceabilityStatus(String)
 	 * @see behaviortree.BehaviortreePackage#getStandardNode_TraceabilityStatus()
 	 * @model
 	 * @generated
 	 */
-	TraceabilityStatus getTraceabilityStatus();
+	String getTraceabilityStatus();
 
 	/**
 	 * Sets the value of the '{@link behaviortree.StandardNode#getTraceabilityStatus <em>Traceability Status</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Traceability Status</em>' attribute.
-	 * @see behaviortree.TraceabilityStatus
 	 * @see #getTraceabilityStatus()
 	 * @generated
 	 */
-	void setTraceabilityStatus(TraceabilityStatus value);
+	void setTraceabilityStatus(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Operator</b></em>' attribute.
-	 * The literals are from the enumeration {@link behaviortree.Operator}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Operator</em>' attribute isn't clear,
@@ -146,24 +142,22 @@ public interface StandardNode extends Node {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Operator</em>' attribute.
-	 * @see behaviortree.Operator
-	 * @see #setOperator(Operator)
+	 * @see #setOperator(String)
 	 * @see behaviortree.BehaviortreePackage#getStandardNode_Operator()
 	 * @model
 	 * @generated
 	 */
-	Operator getOperator();
+	String getOperator();
 
 	/**
 	 * Sets the value of the '{@link behaviortree.StandardNode#getOperator <em>Operator</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Operator</em>' attribute.
-	 * @see behaviortree.Operator
 	 * @see #getOperator()
 	 * @generated
 	 */
-	void setOperator(Operator value);
+	void setOperator(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Label</b></em>' attribute.

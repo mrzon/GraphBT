@@ -32,34 +32,62 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
 
 	@Override
 	public boolean canStartConnection(ICreateConnectionContext context) {
-		if (getStandardNode(context.getSourceAnchor()) != null) {
-            return true;
-        }
+		
+		PictogramElement pe = context.getSourcePictogramElement();
+		if (this.getBusinessObjectForPictogramElement(pe) != null)
+		{
+			if (this.getBusinessObjectForPictogramElement(pe) instanceof StandardNode)
+			{
+				StandardNode st = (StandardNode)this.getBusinessObjectForPictogramElement(pe);
+				
+				if (st.getEdge() == null || (st.getEdge() != null && st.getEdge().getComposition().getValue() != Composition.ATOMIC_VALUE)) {
+					
+		            return true;
+		        }
+			}
+		}
+		
         return false;
 	}
 
+	/**
+	 * Criteria that a node can be created
+	 * - the target
+	 */
 	@Override
 	public boolean canCreate(ICreateConnectionContext context) {
-		StandardNode source = getStandardNode(context.getSourceAnchor());
-		StandardNode target = getStandardNode(context.getTargetAnchor());
-        if (source != null && target != null && source != target) {
-            return true;
-        }
+		
+		PictogramElement pe = context.getTargetPictogramElement();
+		PictogramElement peS = context.getTargetPictogramElement();
+		if (this.getBusinessObjectForPictogramElement(pe) != null)
+		{
+			if (this.getBusinessObjectForPictogramElement(pe) instanceof StandardNode)
+			{
+				StandardNode ss = (StandardNode)this.getBusinessObjectForPictogramElement(peS);
+				
+				return true;
+		    }
+		}
         return false;
 	}
 
 	@Override
 	public Connection create(ICreateConnectionContext context) {
 		Connection newConnection = null; 
-
+		System.out.println("Kepanggil woi.."+context.getSourcePictogramElement()+" "+context.getTargetPictogramElement());
         // get EClasses which should be connected
-        StandardNode source = getStandardNode(context.getSourceAnchor());
-        StandardNode target = getStandardNode(context.getTargetAnchor());
+        StandardNode source = getStandardNode(context.getSourcePictogramElement());
+        StandardNode target = getStandardNode(context.getTargetPictogramElement());
         
         
         if (source != null && target != null) {
             // create new business object
+        	
             Edge edge = createEdge(source, target);
+            if (edge==null)
+            {
+            	return null;
+            }
             
             // add connection for business object
             AddConnectionContext addContext =
@@ -84,10 +112,10 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
         return newConnection;
 	}
 	
-    private StandardNode getStandardNode(Anchor anchor) {
-        if (anchor != null) {
+    private StandardNode getStandardNode(PictogramElement pe) {
+        if (pe != null) {
             Object object =
-                getBusinessObjectForPictogramElement(anchor.getParent());
+                getBusinessObjectForPictogramElement(pe);
             if (object instanceof StandardNode) {
                 return (StandardNode) object;
             }
@@ -98,29 +126,38 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
     
     private Edge createEdge(StandardNode source, StandardNode target) {
     	Edge edge = source.getEdge();
+    	System.out.println("Ini edgenya "+edge);
         if(edge == null)
         {
         	edge = BehaviortreeFactory.eINSTANCE.createEdge();
         	edge.setComposition(Composition.SEQUENTIAL);
         	source.setEdge(edge);
         }
-        
-        System.out.println("the branch name is: " + edge.getBranch().getLiteral());
-        
-        if(source.getEdge().getChildNode().size() == 1) {
-        	HashMap<Integer, String> map = new HashMap<Integer, String>();
-        	WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
-                    getActiveWorkbenchWindow().getShell(),
-        		new ManageBranchWizardGraphBtFeature(map, getDiagram()));
+        else
+        {
+        	if(edge.getChildNode().contains(target))
+        	{
+        		return null;
+        	}
+        	if(target.getEdge().getChildNode().contains(source))
+        	{
+        		return null;
+        	}
+        	if(edge.getBranch()==null)
+        	{
+        		HashMap<Integer, String> map = new HashMap<Integer, String>();
+            	WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+                        getActiveWorkbenchWindow().getShell(),
+            		new ManageBranchWizardGraphBtFeature(map, getDiagram()));
+            		
+        		if (wizardDialog.open() != Window.OK) {
+        			return null;
+        		}
         		
-    		if (wizardDialog.open() != Window.OK) {
-    			return null;
-    		}
-    		
-    		edge.setBranch(Branch.get(map.get(1)));
-    		System.out.println("branch: " + edge.getBranch().getLiteral());
+        		edge.setBranch(Branch.get(map.get(1)));
+        		System.out.println("branch: " + edge.getBranch().getLiteral());
+        	}
         }
-        
         edge.getChildNode().add(target);
         return edge;
    }

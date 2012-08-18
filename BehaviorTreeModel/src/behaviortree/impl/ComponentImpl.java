@@ -491,7 +491,7 @@ public class ComponentImpl extends EObjectImpl implements Component {
 
 		StringBuffer result = new StringBuffer();
 		result.append("#C "+componentRef+" "+componentName+"\n");
-		Iterator<Behavior> i = behaviors.iterator();
+		Iterator<Behavior> i = getBehaviors().iterator();
 		int j=0;
 		while(i.hasNext())
 		{

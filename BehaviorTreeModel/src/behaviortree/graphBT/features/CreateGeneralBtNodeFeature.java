@@ -64,16 +64,16 @@ ICreateFeature {
 		
 		BEModel beModel = GraphBTUtil.getBEModel(getDiagram());
 		if(map.get(StandardNode.TRACEABILITYSTATUS_VALUE)==null ||(map.get(StandardNode.TRACEABILITYSTATUS_VALUE))!=null&&map.get(StandardNode.COMPONENT_VALUE).equals("")) {
-			node.setTraceabilityStatus(TraceabilityStatus.ORIGINAL);
+			node.setTraceabilityStatus(TraceabilityStatus.ORIGINAL.getLiteral());
 		}
 		else {
-			node.setTraceabilityStatus(TraceabilityStatus.getByName(map.get(StandardNode.TRACEABILITYSTATUS_VALUE)));
+			node.setTraceabilityStatus(TraceabilityStatus.getByName(map.get(StandardNode.TRACEABILITYSTATUS_VALUE)).getLiteral());
 		}
 		if(map.get(StandardNode.OPERATOR_VALUE)==null ||(map.get(StandardNode.OPERATOR_VALUE)!=null&&map.get(StandardNode.COMPONENT_VALUE).equals(""))) {
-			node.setOperator(Operator.NO_OPERATOR);
+			node.setOperator(Operator.NO_OPERATOR.getLiteral());
 		}
 		else {
-			node.setOperator(Operator.getByName(map.get(StandardNode.OPERATOR_VALUE)));
+			node.setOperator(Operator.getByName(map.get(StandardNode.OPERATOR_VALUE)).getLiteral());
 		}
 		
 		Component c = null;
@@ -124,15 +124,17 @@ ICreateFeature {
 		if(beModel.getDbt()== null) {
 			initiateBT(node);
 		}
+		
 		try {
-			try {
-				GraphBTUtil.saveToModelFile(node, getDiagram());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			GraphBTUtil.saveToModelFile(node, getDiagram());
 		} catch (CoreException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	
 		
 		// Delegate to the add feature
 		addGraphicalRepresentation(context, node);

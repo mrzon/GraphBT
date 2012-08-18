@@ -38,6 +38,7 @@ import behaviortree.GraphBTUtil;
 import behaviortree.OperatorClass;
 import behaviortree.Requirement;
 import behaviortree.StandardNode;
+import behaviortree.TraceabilityStatus;
 import behaviortree.TraceabilityStatusClass;
 
 public class AddGeneralBtNodeFeature extends AbstractAddShapeFeature implements
@@ -89,7 +90,7 @@ IAddFeature {
         rectangle.setBackground(manageColor(E_CLASS_BACKGROUND));
         rectangle.setLineWidth(1);
         gaService.setLocationAndSize(rectangle, context.getX(), context.getY(), width, height);
-
+        
         link(containerShape, node);
 
         // SHAPE FOR LINE
@@ -173,18 +174,14 @@ IAddFeature {
         {  	
         	Shape shapeTraceabilityStatus = peCreateService.createShape(containerShape, true);
         	
-        	Text textTraceabilityStatus = gaService.createText(shapeTraceabilityStatus, node.getTraceabilityStatus().getLiteral());
+        	Text textTraceabilityStatus = gaService.createText(shapeTraceabilityStatus, node.getTraceabilityStatus());
             textTraceabilityStatus.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             textTraceabilityStatus.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER); 
             textTraceabilityStatus.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             gaService.setLocationAndSize(textTraceabilityStatus, 0, height/2 + 10, 40, 20);
             
-            TraceabilityStatusClass tsc = BehaviortreeFactory.eINSTANCE.createTraceabilityStatusClass();
-            tsc.setTraceabilityStatusLiteral(node.getTraceabilityStatus().getLiteral());
+            TraceabilityStatusClass tsc = GraphBTUtil.getTraceabilityStatus(getDiagram(), node.getTraceabilityStatus());
             
-            if (tsc.eResource() == null) {
-                getDiagram().eResource().getContents().add(tsc);
-            }
             link(shapeTraceabilityStatus, tsc);
             
             //link(shapeTraceabilityStatus, node.getTraceabilityStatus());
@@ -200,7 +197,7 @@ IAddFeature {
         {  	
         	Shape shapeOperator = peCreateService.createShape(containerShape, true);
         	 
-            Text textOperator = gaService.createText(shapeOperator, node.getOperator().getLiteral());
+            Text textOperator = gaService.createText(shapeOperator, node.getOperator());
             System.out.println("textOperator :" + textOperator.getValue());
             textOperator.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             textOperator.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER); 
@@ -208,12 +205,8 @@ IAddFeature {
             
             gaService.setLocationAndSize(textOperator, 140, 5, 30, 20);
             
-            OperatorClass oc = BehaviortreeFactory.eINSTANCE.createOperatorClass();
+            OperatorClass oc = GraphBTUtil.getOperator(getDiagram(), node.getOperator());
             
-            if (oc.eResource() == null) {
-                getDiagram().eResource().getContents().add(oc);
-            }
-            oc.setOperatorLiteral(node.getOperator().getLiteral());
             link(shapeOperator, oc);
         }
         

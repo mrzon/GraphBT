@@ -187,12 +187,12 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 		//if the direct-edited object is an instance of operator
 		else if(object instanceof Operator) {
 			System.out.println("object instanceof operator");
-			node.setOperator(Operator.get(value));
+			node.setOperator(value);
 		}
 		//if the direct-edited object is and instance of traceability status
 		else if(object instanceof TraceabilityStatus) {
 			System.out.println("object instanceof traceability status");
-			node.setTraceabilityStatus(TraceabilityStatus.get(value));
+			node.setTraceabilityStatus(value);
 		}
 		//if the direct-edited object is and instance of traceability link
 		else if(object instanceof Requirement) {

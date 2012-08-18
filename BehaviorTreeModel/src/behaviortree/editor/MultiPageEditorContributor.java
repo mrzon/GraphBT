@@ -233,28 +233,9 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						{
 							return;
 						}
-						BEModel be = GraphBTUtil.getBEModel(d);
-						
-						System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
-						Component c = GraphBTUtil.getBEFactory().createComponent();
-						//if(map.get(Component.COMPONENT_NAME)!=null||map.get(Component.COMPONENT_NAME)!="")
-						c.setComponentName(map.get(Component.NAME_VALUE));
-						c.setComponentRef(map.get(Component.REF_VALUE));
-						
-						/*if(!c.getComponentName().equals("")&&c.getComponentName()!=null)
-						try {
-							GraphBTUtil.saveToModelFile(c, d);
-						} catch (CoreException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}*/
-						be.getComponentList().getComponents().add(c);
 						
 						
-						System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
+						//System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
 						
 					
 					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);

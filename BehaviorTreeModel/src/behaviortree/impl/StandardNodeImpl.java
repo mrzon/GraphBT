@@ -49,7 +49,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final TraceabilityStatus TRACEABILITY_STATUS_EDEFAULT = TraceabilityStatus.ORIGINAL;
+	protected static final String TRACEABILITY_STATUS_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getTraceabilityStatus() <em>Traceability Status</em>}' attribute.
@@ -59,7 +59,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * @generated
 	 * @ordered
 	 */
-	protected TraceabilityStatus traceabilityStatus = TRACEABILITY_STATUS_EDEFAULT;
+	protected String traceabilityStatus = TRACEABILITY_STATUS_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getOperator() <em>Operator</em>}' attribute.
@@ -69,7 +69,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Operator OPERATOR_EDEFAULT = Operator.REFERENCE;
+	protected static final String OPERATOR_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getOperator() <em>Operator</em>}' attribute.
@@ -79,7 +79,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * @generated
 	 * @ordered
 	 */
-	protected Operator operator = OPERATOR_EDEFAULT;
+	protected String operator = OPERATOR_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getLabel() <em>Label</em>}' attribute.
@@ -248,7 +248,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TraceabilityStatus getTraceabilityStatus() {
+	public String getTraceabilityStatus() {
 		return traceabilityStatus;
 	}
 
@@ -257,9 +257,9 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setTraceabilityStatus(TraceabilityStatus newTraceabilityStatus) {
-		TraceabilityStatus oldTraceabilityStatus = traceabilityStatus;
-		traceabilityStatus = newTraceabilityStatus == null ? TRACEABILITY_STATUS_EDEFAULT : newTraceabilityStatus;
+	public void setTraceabilityStatus(String newTraceabilityStatus) {
+		String oldTraceabilityStatus = traceabilityStatus;
+		traceabilityStatus = newTraceabilityStatus;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.STANDARD_NODE__TRACEABILITY_STATUS, oldTraceabilityStatus, traceabilityStatus));
 	}
@@ -269,7 +269,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Operator getOperator() {
+	public String getOperator() {
 		return operator;
 	}
 
@@ -278,9 +278,9 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setOperator(Operator newOperator) {
-		Operator oldOperator = operator;
-		operator = newOperator == null ? OPERATOR_EDEFAULT : newOperator;
+	public void setOperator(String newOperator) {
+		String oldOperator = operator;
+		operator = newOperator;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.STANDARD_NODE__OPERATOR, oldOperator, operator));
 	}
@@ -339,10 +339,10 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_STATUS:
-				setTraceabilityStatus((TraceabilityStatus)newValue);
+				setTraceabilityStatus((String)newValue);
 				return;
 			case BehaviortreePackage.STANDARD_NODE__OPERATOR:
-				setOperator((Operator)newValue);
+				setOperator((String)newValue);
 				return;
 			case BehaviortreePackage.STANDARD_NODE__LABEL:
 				setLabel((String)newValue);
@@ -399,9 +399,9 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_STATUS:
-				return traceabilityStatus != TRACEABILITY_STATUS_EDEFAULT;
+				return TRACEABILITY_STATUS_EDEFAULT == null ? traceabilityStatus != null : !TRACEABILITY_STATUS_EDEFAULT.equals(traceabilityStatus);
 			case BehaviortreePackage.STANDARD_NODE__OPERATOR:
-				return operator != OPERATOR_EDEFAULT;
+				return OPERATOR_EDEFAULT == null ? operator != null : !OPERATOR_EDEFAULT.equals(operator);
 			case BehaviortreePackage.STANDARD_NODE__LABEL:
 				return LABEL_EDEFAULT == null ? label != null : !LABEL_EDEFAULT.equals(label);
 			case BehaviortreePackage.STANDARD_NODE__COMPONENT_REF:
@@ -424,7 +424,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer();
-		result.append("#T");
+		result.append("#T ");
 		result.append(toString(this));
 		return result.toString();
 	}
@@ -442,15 +442,15 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 		{
 			str+=root.getTraceabilityLink()+" ";	
 		}
-		if(root.getTraceabilityStatus().getValue() != TraceabilityStatus.ORIGINAL_VALUE)
+		if(!root.getTraceabilityStatus().equals(TraceabilityStatus.ORIGINAL.getLiteral()))
 		{
-			str+=root.getTraceabilityStatus().getLiteral()+" ";
+			str+=root.getTraceabilityStatus()+" ";
 		}
 		str+=root.getComponentRef()+" ";
 		str+=root.getBehaviorRef();
-		if(root.getOperator().getValue()!=Operator.NO_OPERATOR_VALUE)
+		if(!root.getOperator().equals(Operator.NO_OPERATOR.getLiteral()))
 		{
-			str+=" "+root.getOperator().getLiteral();
+			str+=" "+root.getOperator();
 		}
 		
 		if(root.getEdge()==null)

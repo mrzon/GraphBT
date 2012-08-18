@@ -832,7 +832,7 @@
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_11FSAeBNEeGpk9f6swWH8g" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_11FSAuBNEeGpk9f6swWH8g" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
     <element xmi:type="ecore:EReference" href="DefaultName.ecore#//FormulaList/formula"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_11FSA-BNEeGpk9f6swWH8g" points="[-72, -4, -72, -4]$[-72, -4, -72, -4]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_11FSA-BNEeGpk9f6swWH8g" points="[72, 0, -20, -88]$[92, 0, 0, -88]$[92, 64, 0, -24]"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_ktiFwOBOEeGpk9f6swWH8g" type="3002" source="_QwVw0JIpEeGNAeT231rMGw" target="_YMRaEOBNEeGpk9f6swWH8g">
     <children xmi:type="notation:Node" xmi:id="_ktiFxOBOEeGpk9f6swWH8g" type="4011">
@@ -844,6 +844,6 @@
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_ktiFweBOEeGpk9f6swWH8g" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_ktiFwuBOEeGpk9f6swWH8g" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
     <element xmi:type="ecore:EReference" href="DefaultName.ecore#//BEModel/formulaList"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ktiFw-BOEeGpk9f6swWH8g" points="[4, 25, 4, 25]$[4, 25, 4, 25]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ktiFw-BOEeGpk9f6swWH8g" points="[57, 0, -199, -104]$[76, 0, -180, -104]$[76, 96, -180, -8]$[184, 96, -72, -8]"/>
   </edges>
 </notation:Diagram>

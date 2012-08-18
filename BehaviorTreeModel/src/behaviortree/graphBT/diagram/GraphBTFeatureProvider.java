@@ -85,7 +85,7 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 				System.out.println("di add sequential connection context");
 				return new AddSequentialConnectionGraphBtFeature(this);
 			}
-		} else if (context instanceof IAddContext) {
+		} else if (context.getNewObject() instanceof StandardNode) {
 			return new AddGeneralBtNodeFeature(this);
 		}
 		return super.getAddFeature(context);

@@ -82,11 +82,11 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
 			}
 		}
 		else if (bo instanceof TraceabilityStatusClass) {
-			System.out.println("in update needed, TraceabilityStatusClass: " + node.getTraceabilityStatus().getLiteral());
-			businessName = node.getTraceabilityStatus().getLiteral();
+			System.out.println("in update needed, TraceabilityStatusClass: " + node.getTraceabilityStatus());
+			businessName = node.getTraceabilityStatus();
 		}
 		else if (bo instanceof OperatorClass) {
-			businessName = node.getOperator().getLiteral();
+			businessName = node.getOperator();
 		}
 
 		if(((Shape)pictogramElement).getGraphicsAlgorithm() instanceof Text) {
@@ -147,7 +147,7 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
             }
         }
         if (bo instanceof TraceabilityStatusClass) {
-        	businessName = node.getTraceabilityStatus().getLiteral();
+        	businessName = node.getTraceabilityStatus();
             Shape shape = (Shape) pictogramElement;
             
             System.out.println("TraceabilityStatus at update method: " + businessName);
@@ -159,7 +159,7 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
             }
         }
         if (bo instanceof OperatorClass) {
-        	businessName = node.getOperator().getLiteral();
+        	businessName = node.getOperator();
             Shape shape = (Shape) pictogramElement;
         
             if (shape.getGraphicsAlgorithm() instanceof Text) {

@@ -336,7 +336,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
     	    				BEModel model = GraphBTUtil.getBEModel(d);
     	    				System.out.println("Selected on TraceabilityStatus " + selected);
     	        			
-    	    				node.setTraceabilityStatus(TraceabilityStatus.getByName(selected));
+    	    				node.setTraceabilityStatus(TraceabilityStatus.getByName(selected).getLiteral());
     	    		    }
     	    		};
     	    		
@@ -370,7 +370,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
     	    			protected void doExecute() {
     	    				BEModel model = GraphBTUtil.getBEModel(d);
     	    				
-    	        			node.setOperator(Operator.getByName(selected));
+    	        			node.setOperator(Operator.getByName(selected).getLiteral());
     	    		    }
     	    		};
     	    		
