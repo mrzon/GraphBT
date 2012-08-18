@@ -59,6 +59,12 @@ public class BTProjectWizard extends Wizard implements INewWizard {
 					project.create(monitor);
 					project.open(monitor);
 					project.getDescription().setName(fileName);
+					String natures[] = new String[1];
+					natures[0] = "org.eclipse.jdt.core.javanature";
+					String builders[] = new String[1];
+					builders[0] = "org.eclipse.jdt.core.javabuilder";
+					project.getDescription().setNatureIds(natures);
+					project.getDescription().setBuildConfigs(builders);
 					project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 					
 					IFolder src = project.getFolder("src");

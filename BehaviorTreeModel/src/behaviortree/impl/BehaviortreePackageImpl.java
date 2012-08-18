@@ -530,6 +530,15 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getStandardNode_Leaf() {
+		return (EAttribute)standardNodeEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getStandardNode_ComponentRef() {
 		return (EAttribute)standardNodeEClass.getEStructuralFeatures().get(3);
 	}
@@ -1066,6 +1075,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		createEAttribute(standardNodeEClass, STANDARD_NODE__COMPONENT_REF);
 		createEAttribute(standardNodeEClass, STANDARD_NODE__BEHAVIOR_REF);
 		createEAttribute(standardNodeEClass, STANDARD_NODE__TRACEABILITY_LINK);
+		createEAttribute(standardNodeEClass, STANDARD_NODE__LEAF);
 
 		componentEClass = createEClass(COMPONENT);
 		createEAttribute(componentEClass, COMPONENT__COMPONENT_NAME);
@@ -1199,6 +1209,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		initEAttribute(getStandardNode_ComponentRef(), ecorePackage.getEString(), "componentRef", null, 1, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStandardNode_BehaviorRef(), ecorePackage.getEString(), "behaviorRef", null, 1, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStandardNode_TraceabilityLink(), ecorePackage.getEString(), "traceabilityLink", null, 0, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStandardNode_Leaf(), ecorePackage.getEBoolean(), "leaf", null, 0, 1, StandardNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(componentEClass, Component.class, "Component", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getComponent_ComponentName(), ecorePackage.getEString(), "componentName", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -10,6 +10,10 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+
 import codegenerator.helper.Helper;
 
 /**
@@ -155,6 +159,8 @@ public class ABSModule {
             BufferedReader f = null;
             BufferedWriter g = null;
             File classpath = new File(absPath+"\\.classpath");
+            IWorkspace workspace= ResourcesPlugin.getWorkspace();
+            String projectName = classpath.getParent();
             String strClasspath = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+
 "<classpath>\n"+
 	"<classpathentry kind=\"src\" path=\"src\"/>\n"+
@@ -164,7 +170,7 @@ public class ABSModule {
 "</classpath>";
             classpath.createNewFile();
             File project = new File(absPath+"\\.project");
-            project.createNewFile();
+            //project.createNewFile();
             String strProject = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+
 "<projectDescription>"+
 	"<name>"+getName()+"</name>"+
@@ -182,10 +188,10 @@ public class ABSModule {
 		"<nature>org.eclipse.jdt.core.javanature</nature>"+
 	"</natures>"+
 "</projectDescription>";
-            FileWriter fw = new FileWriter(classpath);
-            fw.append(strClasspath);
-            fw.flush();
-            fw.close();
+            FileWriter fw;// = new FileWriter(classpath);
+           // fw.append(strClasspath);
+           // fw.flush();
+           // fw.close();
             fw = new FileWriter(project);
             fw.append(strProject);
             fw.flush();

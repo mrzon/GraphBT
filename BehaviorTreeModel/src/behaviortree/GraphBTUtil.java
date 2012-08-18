@@ -16,6 +16,7 @@ package behaviortree;
  *
  *******************************************************************************/
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -489,5 +490,42 @@ public class GraphBTUtil {
 			e.printStackTrace();
 		}
 		return r;
+	}
+	
+	public static boolean isAncestor(StandardNode src, StandardNode target)
+	{
+		List <StandardNode> n = new ArrayList<StandardNode>();
+		collect(src, n);
+		System.out.println("GraphBTUtil isAncestor "+n.size());
+		return n.contains(target);
+	}
+	private static void collect(StandardNode src, List<StandardNode> li)
+	{
+		if(src==null)
+		{
+			return;
+		}
+		else
+		{
+			if(src.getEdge() != null)
+			{
+				Edge e = src.getEdge();
+				for(int i = 0; i < e.getChildNode().size();i++)
+				{
+					li.add((StandardNode) e.getChildNode().get(i));
+					collect((StandardNode) e.getChildNode().get(i),li);
+				}
+			}
+		}
+	}
+	
+	public static void validate(Diagram d)
+	{
+		
+	}
+	
+	public static void generateFromBTFile(File bt, Diagram d)
+	{
+		
 	}
 }

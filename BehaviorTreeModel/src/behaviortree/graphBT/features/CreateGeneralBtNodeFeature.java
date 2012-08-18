@@ -81,7 +81,6 @@ ICreateFeature {
 			c = BehaviortreeFactory.eINSTANCE.createComponent();
 			c.setComponentName("DefaultComponent");
 			c.setComponentRef("DefaultComponent");
-			
 		}
 		else {
 			System.out.println("awuoo wuoooo"+map.get(StandardNode.COMPONENT_VALUE));

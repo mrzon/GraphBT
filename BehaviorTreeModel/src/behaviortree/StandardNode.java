@@ -21,6 +21,7 @@ package behaviortree;
  *   <li>{@link behaviortree.StandardNode#getComponentRef <em>Component Ref</em>}</li>
  *   <li>{@link behaviortree.StandardNode#getBehaviorRef <em>Behavior Ref</em>}</li>
  *   <li>{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}</li>
+ *   <li>{@link behaviortree.StandardNode#isLeaf <em>Leaf</em>}</li>
  * </ul>
  * </p>
  *
@@ -54,6 +55,32 @@ public interface StandardNode extends Node {
 	 * @generated
 	 */
 	void setTraceabilityLink(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Leaf</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Leaf</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Leaf</em>' attribute.
+	 * @see #setLeaf(boolean)
+	 * @see behaviortree.BehaviortreePackage#getStandardNode_Leaf()
+	 * @model ordered="false"
+	 * @generated
+	 */
+	boolean isLeaf();
+
+	/**
+	 * Sets the value of the '{@link behaviortree.StandardNode#isLeaf <em>Leaf</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Leaf</em>' attribute.
+	 * @see #isLeaf()
+	 * @generated
+	 */
+	void setLeaf(boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Component Ref</b></em>' attribute.

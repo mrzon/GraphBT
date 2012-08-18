@@ -294,6 +294,10 @@
         <element xmi:type="ecore:EAttribute" href="DefaultName.ecore#//StandardNode/traceabilityLink"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_D1Jv8uBNEeGpk9f6swWH8g"/>
       </children>
+      <children xmi:type="notation:Node" xmi:id="_nhwt4OmDEeGBf_clkx6jwQ" type="2001">
+        <element xmi:type="ecore:EAttribute" href="DefaultName.ecore#//StandardNode/leaf"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_nhwt4emDEeGBf_clkx6jwQ"/>
+      </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_dTQAspKKEeGjCcMKQlqTfg"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_dTQAs5KKEeGjCcMKQlqTfg"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_dTQAtJKKEeGjCcMKQlqTfg"/>
@@ -766,7 +770,7 @@
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_vNOXkbuKEeGLjK2GWAe1Cw" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_vNOXkruKEeGLjK2GWAe1Cw" fontColor="4210752" fontHeight="10"/>
     <element xmi:type="ecore:EReference" href="DefaultName.ecore#//RequirementList/requirements"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_vNOXk7uKEeGLjK2GWAe1Cw" points="[0, 6, -121, -51]$[0, 50, -121, -7]$[43, 50, -78, -7]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_vNOXk7uKEeGLjK2GWAe1Cw" points="[0, 6, -121, -59]$[0, 65, -121, 0]$[43, 65, -78, 0]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_vNVsULuKEeGLjK2GWAe1Cw" id="(0.3684210526315789,0.8571428571428571)"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_hHjHsMdOEeGvUM5tw7bAHQ" type="3002" source="_b9cZcJKMEeGjCcMKQlqTfg" target="_Ijb4sMdOEeGvUM5tw7bAHQ">
@@ -824,7 +828,7 @@
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_11FSAOBNEeGpk9f6swWH8g" type="3002" source="_YMRaEOBNEeGpk9f6swWH8g" target="_vbsuEOBNEeGpk9f6swWH8g">
     <children xmi:type="notation:Node" xmi:id="_11FSBOBNEeGpk9f6swWH8g" type="4011">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_11FSBeBNEeGpk9f6swWH8g" x="-56" y="45"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_11FSBeBNEeGpk9f6swWH8g" x="-39" y="-26"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_11FSBuBNEeGpk9f6swWH8g" type="4012">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_11FSB-BNEeGpk9f6swWH8g" x="4" y="-17"/>

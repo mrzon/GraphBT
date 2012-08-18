@@ -18,6 +18,7 @@ import behaviortree.BehaviortreeFactory;
 import behaviortree.Branch;
 import behaviortree.Composition;
 import behaviortree.Edge;
+import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
 import behaviortree.graphBT.wizards.CreateStandardNodeGraphBTWizard;
 import behaviortree.graphBT.wizards.manageBranch.ManageBranchWizardGraphBtFeature;
@@ -125,8 +126,17 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
     
     
     private Edge createEdge(StandardNode source, StandardNode target) {
+    	if(GraphBTUtil.isAncestor(target, source))
+    	{
+    		return null;
+    	}
+    	if(target.isLeaf())
+    	{
+    		return null;
+    	}
     	Edge edge = source.getEdge();
     	System.out.println("Ini edgenya "+edge);
+    	
         if(edge == null)
         {
         	edge = BehaviortreeFactory.eINSTANCE.createEdge();
@@ -139,11 +149,7 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
         	{
         		return null;
         	}
-        	if(target.getEdge().getChildNode().contains(source))
-        	{
-        		return null;
-        	}
-        	if(edge.getBranch()==null)
+        	if(edge.getChildNode().size()>0)
         	{
         		HashMap<Integer, String> map = new HashMap<Integer, String>();
             	WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
@@ -159,6 +165,7 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
         	}
         }
         edge.getChildNode().add(target);
+        target.setLeaf(true);
         return edge;
    }
 }

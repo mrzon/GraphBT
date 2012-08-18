@@ -13,6 +13,7 @@ import behaviortree.BehaviortreeFactory;
 import behaviortree.Branch;
 import behaviortree.Composition;
 import behaviortree.Edge;
+import behaviortree.GraphBTUtil;
 import behaviortree.Node;
 import behaviortree.StandardNode;
 
@@ -29,7 +30,10 @@ public class CreateAtomicConnectionGraphBtFeature
 	@Override
 	public boolean canStartConnection(ICreateConnectionContext context) {
 		if (getStandardNode(context.getSourceAnchor()) != null) {
+			StandardNode md = getStandardNode(context.getSourceAnchor());
+			if(md.getEdge()==null)
             return true;
+			
         }
         return false;
 	}
@@ -38,9 +42,12 @@ public class CreateAtomicConnectionGraphBtFeature
 	public boolean canCreate(ICreateConnectionContext context) {
 		StandardNode source = getStandardNode(context.getSourceAnchor());
 		StandardNode target = getStandardNode(context.getTargetAnchor());
-        if (source != null && target != null && source != target) {
+        
+		if (source != null && target != null && source != target) {
+			if(!target.isLeaf())
             return true;
         }
+        
         return false;
 	}
 
@@ -55,7 +62,10 @@ public class CreateAtomicConnectionGraphBtFeature
         if (source != null && target != null) {
             // create new business object
             Edge edge = createEdge(source, target);
-            
+            if(edge==null)
+            {
+            	return null;
+            }
             // add connection for business object
             AddConnectionContext addContext =
                 new AddConnectionContext(context.getSourceAnchor(), 
@@ -88,6 +98,10 @@ public class CreateAtomicConnectionGraphBtFeature
     }
     
     private Edge createEdge(StandardNode source, StandardNode target) {
+    	if(GraphBTUtil.isAncestor(target, source))
+    	{
+    		return null;
+    	}
     	Edge edge = source.getEdge();
         if(edge == null)
         {
@@ -96,6 +110,7 @@ public class CreateAtomicConnectionGraphBtFeature
         	source.setEdge(edge);
         }
         edge.getChildNode().add(target);
+        target.setLeaf(true);
         return edge;
    }
 }

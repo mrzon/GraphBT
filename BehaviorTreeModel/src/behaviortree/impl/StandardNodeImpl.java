@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link behaviortree.impl.StandardNodeImpl#getComponentRef <em>Component Ref</em>}</li>
  *   <li>{@link behaviortree.impl.StandardNodeImpl#getBehaviorRef <em>Behavior Ref</em>}</li>
  *   <li>{@link behaviortree.impl.StandardNodeImpl#getTraceabilityLink <em>Traceability Link</em>}</li>
+ *   <li>{@link behaviortree.impl.StandardNodeImpl#isLeaf <em>Leaf</em>}</li>
  * </ul>
  * </p>
  *
@@ -162,6 +163,26 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	protected String traceabilityLink = TRACEABILITY_LINK_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #isLeaf() <em>Leaf</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isLeaf()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean LEAF_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isLeaf() <em>Leaf</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isLeaf()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean leaf = LEAF_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -199,6 +220,27 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 		traceabilityLink = newTraceabilityLink;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK, oldTraceabilityLink, traceabilityLink));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isLeaf() {
+		return leaf;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLeaf(boolean newLeaf) {
+		boolean oldLeaf = leaf;
+		leaf = newLeaf;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.STANDARD_NODE__LEAF, oldLeaf, leaf));
 	}
 
 	/**
@@ -326,6 +368,8 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 				return getBehaviorRef();
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
 				return getTraceabilityLink();
+			case BehaviortreePackage.STANDARD_NODE__LEAF:
+				return isLeaf();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -355,6 +399,9 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 				return;
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
 				setTraceabilityLink((String)newValue);
+				return;
+			case BehaviortreePackage.STANDARD_NODE__LEAF:
+				setLeaf((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -386,6 +433,9 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
 				setTraceabilityLink(TRACEABILITY_LINK_EDEFAULT);
 				return;
+			case BehaviortreePackage.STANDARD_NODE__LEAF:
+				setLeaf(LEAF_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -410,6 +460,8 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 				return BEHAVIOR_REF_EDEFAULT == null ? behaviorRef != null : !BEHAVIOR_REF_EDEFAULT.equals(behaviorRef);
 			case BehaviortreePackage.STANDARD_NODE__TRACEABILITY_LINK:
 				return TRACEABILITY_LINK_EDEFAULT == null ? traceabilityLink != null : !TRACEABILITY_LINK_EDEFAULT.equals(traceabilityLink);
+			case BehaviortreePackage.STANDARD_NODE__LEAF:
+				return leaf != LEAF_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -461,11 +513,11 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 		{
 			if(e.getBranch().getValue()==Branch.ALTERNATIVE_VALUE)
 			{
-				str += "#A{\n";
+				str += " #A{\n";
 			}
 			else
 			{
-				str += "#P{\n";
+				str += " #P{\n";
 			}
 			Iterator<Node> i = e.getChildNode().iterator();
 			while(i.hasNext())

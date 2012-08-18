@@ -90,7 +90,7 @@ public class BTProjectWizardPage extends WizardPage {
 				containerText.setText(container.getFullPath().toString());
 			}
 		}
-		fileText.setText("new_file.btdiagram");
+		fileText.setText("Default BT Project");
 	}
 
 	/**

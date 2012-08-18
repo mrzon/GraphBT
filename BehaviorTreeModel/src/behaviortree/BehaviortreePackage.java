@@ -464,13 +464,22 @@ public interface BehaviortreePackage extends EPackage {
 	int STANDARD_NODE__TRACEABILITY_LINK = NODE_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Leaf</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STANDARD_NODE__LEAF = NODE_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>Standard Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STANDARD_NODE_FEATURE_COUNT = NODE_FEATURE_COUNT + 6;
+	int STANDARD_NODE_FEATURE_COUNT = NODE_FEATURE_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.impl.ComponentImpl <em>Component</em>}' class.
@@ -1311,6 +1320,17 @@ public interface BehaviortreePackage extends EPackage {
 	EAttribute getStandardNode_TraceabilityLink();
 
 	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.StandardNode#isLeaf <em>Leaf</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Leaf</em>'.
+	 * @see behaviortree.StandardNode#isLeaf()
+	 * @see #getStandardNode()
+	 * @generated
+	 */
+	EAttribute getStandardNode_Leaf();
+
+	/**
 	 * Returns the meta object for the attribute '{@link behaviortree.StandardNode#getComponentRef <em>Component Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2108,6 +2128,14 @@ public interface BehaviortreePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STANDARD_NODE__TRACEABILITY_LINK = eINSTANCE.getStandardNode_TraceabilityLink();
+
+		/**
+		 * The meta object literal for the '<em><b>Leaf</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STANDARD_NODE__LEAF = eINSTANCE.getStandardNode_Leaf();
 
 		/**
 		 * The meta object literal for the '<em><b>Component Ref</b></em>' attribute feature.
