@@ -20,7 +20,7 @@ import behaviortree.Composition;
 import behaviortree.Edge;
 import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
-import behaviortree.graphBT.wizards.CreateStandardNodeGraphBTWizard;
+import behaviortree.graphBT.wizards.createstandardnode.CreateStandardNodeGraphBTWizard;
 import behaviortree.graphBT.wizards.manageBranch.ManageBranchWizardGraphBtFeature;
 
 

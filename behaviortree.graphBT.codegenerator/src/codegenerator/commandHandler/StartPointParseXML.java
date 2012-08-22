@@ -84,10 +84,15 @@ public class StartPointParseXML extends AbstractHandler implements IHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IStructuredSelection selectedFiles = (IStructuredSelection)HandlerUtil.getActiveMenuSelection(event);
 
-		final StringBuffer buf = new StringBuffer();
+		
 		final Object selectedFile = selectedFiles.getFirstElement();
-		final IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
-
+		generateCodeFromBT(selectedFile);
+		
+		return null;
+	}
+	public void generateCodeFromBT(Object selectedFile)
+	{
+		final StringBuffer buf = new StringBuffer();
 		boolean isValid = false;
 		if(selectedFile instanceof IFile && ((IFile)selectedFile).getFileExtension().equals("xml")){
 			IFile xml = (IFile)selectedFile;
@@ -155,7 +160,7 @@ public class StartPointParseXML extends AbstractHandler implements IHandler {
 				System.out.println(xml);
 				//InputStream is = new FileInputStream(btURI);
 				//InputStream is = xml.getContents(true);
-				IProject ip = bt.getProject();
+				final IProject ip = bt.getProject();
 				String modName = ip.getName();
 				StringBuffer strB = new StringBuffer(modName);
 				strB.setCharAt(0,(modName.substring(0, 1).toUpperCase().charAt(0)));
@@ -179,6 +184,7 @@ public class StartPointParseXML extends AbstractHandler implements IHandler {
 					protected IStatus run(IProgressMonitor monitor) {
 						try {
 							parseXmlToBT(btURI.getAbsolutePath(),folder,moduleName, false);
+							ip.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -193,16 +199,18 @@ public class StartPointParseXML extends AbstractHandler implements IHandler {
 				//System.out.println("path buat naro javanya "+javaPath);
 				//						GlobalData.tree = parseXmlToBT(is);
 				//						System.out.println(GlobalData.tree.toString());
-				ip.refreshLocal(IResource.DEPTH_INFINITE, null);
+				
 				//						GlobalData.tree = 
 				//						System.out.println("Ini datanya"+GlobalData.tree.toString());
 				//is.close();
 				isValid = true;
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				buf.append(e.getMessage());
 				isValid = false;
 			}
+			
 		}
 		else{
 			isValid = false;
@@ -220,18 +228,9 @@ public class StartPointParseXML extends AbstractHandler implements IHandler {
 						MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", "The selected file is not xml");
 				}
 			});
-		}else{
-			//showing the console view
-			//IWorkbenchPage perspectivePage = PlatformUI.getWorkbench().showPerspective(DEBUGGER_PERSPECTIVE_ID, window);// showPerspective(DEBUGGER_PERSPECTIVE_ID, window);
-			//IConsole myConsole = findConsole("btdebuggertool.view.consoleView");
-			//IConsoleView consoleView = (IConsoleView) perspectivePage.showView(IConsoleConstants.ID_CONSOLE_VIEW);
-			//consoleView.display(myConsole);
-
-			//getting the output stream for the writing purpose
-			//((MessageConsole)myConsole).clearConsole();
-			//MessageConsoleStream out = ((MessageConsole)myConsole).newMessageStream();
 		}
-		return null;
+		
+		
 	}
 
 	private void parseXmlToBT(String path, String folder,String modName,boolean trace) throws Exception{

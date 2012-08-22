@@ -466,22 +466,32 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 		return super.eIsSet(featureID);
 	}
 
+	@Override
+	public String toString()
+	{
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (index: ");
+		result.append(index);
+		result.append(", id: ");
+		result.append(id);
+		result.append(')');
+		return result.toString();
+	}
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * 
 	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
+	public String toBTText() {
 		StringBuffer result = new StringBuffer();
 		result.append("#T ");
-		result.append(toString(this));
+		result.append(toBTText(this));
 		return result.toString();
 	}
 	
-	public String toString(Node r)
+	public String toBTText(Node r)
 	{
 		if(r ==null)
 			return "";
@@ -522,7 +532,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 			Iterator<Node> i = e.getChildNode().iterator();
 			while(i.hasNext())
 			{
-				str+=toString(i.next())+"\n";
+				str+=toBTText(i.next())+"\n";
 			}
 			str+="}\n";
 			return str;
@@ -537,8 +547,27 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 			{
 				str+= ";";
 			}
-			return str+toString(e.getChildNode().get(0));
+			return str+toBTText(e.getChildNode().get(0));
 		}
 		return null;
+	}
+	public boolean equals(Object o)
+	{
+		if (o instanceof StandardNode)
+		{
+			StandardNode node = (StandardNode)o;
+			if(node.toString().equals(toString()))
+			{
+				return node.getLabel().equals(this.getLabel());
+			}
+		}
+		return false;
+	}
+	/**
+	 * 
+	 */
+	public int hashCode()
+	{
+		return getLabel().hashCode();
 	}
 } //StandardNodeImpl

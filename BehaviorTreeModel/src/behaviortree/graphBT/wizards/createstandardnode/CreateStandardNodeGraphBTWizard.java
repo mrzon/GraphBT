@@ -1,4 +1,4 @@
-package behaviortree.graphBT.wizards;
+package behaviortree.graphBT.wizards.createstandardnode;
 
 import java.util.HashMap;
 

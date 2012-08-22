@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
+import java.util.Map;
 
 import org.be.textbe.bt.textbt.presentation.TextbtEditor;
 import org.eclipse.core.resources.IFile;
@@ -24,6 +25,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -54,6 +56,7 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	private DiagramEditor editor;
 	private TextEditor editor2;
 	private TextbtEditor editor3;
+	private String strRep;
 
 	/**
 	 * Creates a multi-page editor example.
@@ -61,7 +64,6 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	public MultiPageEditor() {
 		super();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
-
 	}
 	/**
 	 * Creates page 0 of the multi-page editor,
@@ -69,9 +71,12 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	 */
 	void createPage0() {
 		try {
-			editor = new DiagramEditor();
+			editor = new GraphBTDiagramEditor();
 			int index = addPage(editor, getEditorInput());
 			setPageText(index, "Graphical");
+		    Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+		    Map<String, Object> m = reg.getExtensionToFactoryMap();
+		    m.put("model", new XMIResourceFactoryImpl());
 			/*ResourceSet rs = new ResourceSetImpl();
 			Diagram d =editor.getDiagramTypeProvider().getDiagram(); 
 			IWorkbenchPart workbenchPart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart(); 
@@ -133,8 +138,8 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		FillLayout layout = new FillLayout();
 		composite.setLayout(layout);
 		text = new StyledText(composite, SWT.H_SCROLL | SWT.V_SCROLL);
-
-
+		
+		
 		int index = addPage(composite);
 
 //			editor2 = new TextEditor();
@@ -231,7 +236,7 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		 break;
 		 case 1: System.out.println("editor 1 nih");
 		 //IEditorInput ii = new IEditorInput();
-		 text.setText(GraphBTUtil.getBEModel(((DiagramEditor)editor).getDiagramTypeProvider().getDiagram()).toString());
+		 text.setText(GraphBTUtil.getBTText(((DiagramEditor)editor).getDiagramTypeProvider().getDiagram()));
 		 break;
 		 case 2: System.out.println("editor 2 nih");break;
 		 case 3: System.out.println("editor 3 nih");break;
@@ -262,7 +267,9 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	{
 	return editor;	
 	}
-
-
-
+	
+	public String getBTText()
+	{
+		return text.getText();
+	}
 }

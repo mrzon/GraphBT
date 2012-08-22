@@ -218,6 +218,7 @@ public interface StandardNode extends Node {
 	static final int TRACEABILITYLINK_VALUE = 0x18;
 	static final int TRACEABILITYSTATUS_VALUE = 0x15;
 	static final int OPERATOR_VALUE = 0x19;
+	String toBTText();
 	
 	
 } // StandardNode

@@ -24,7 +24,7 @@ import behaviortree.Operator;
 import behaviortree.Requirement;
 import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
-import behaviortree.graphBT.wizards.CreateStandardNodeGraphBTWizard;
+import behaviortree.graphBT.wizards.createstandardnode.CreateStandardNodeGraphBTWizard;
 
 
 public class CreateGeneralBtNodeFeature extends AbstractCreateFeature  implements
@@ -60,6 +60,7 @@ ICreateFeature {
 		} 
 		
 		StandardNode node = BehaviortreeFactory.eINSTANCE.createStandardNode();
+		node.setLabel(System.currentTimeMillis()+"");
 		resource.getContents().add(node);
 		
 		BEModel beModel = GraphBTUtil.getBEModel(getDiagram());

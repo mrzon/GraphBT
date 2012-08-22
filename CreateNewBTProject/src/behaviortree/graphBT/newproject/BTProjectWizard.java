@@ -2,6 +2,7 @@ package behaviortree.graphBT.newproject;
 
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.Collection;
 
 
@@ -63,8 +64,11 @@ public class BTProjectWizard extends Wizard implements INewWizard {
 					natures[0] = "org.eclipse.jdt.core.javanature";
 					String builders[] = new String[1];
 					builders[0] = "org.eclipse.jdt.core.javabuilder";
+					System.out.println("Nature id"+Arrays.toString(project.getDescription().getNatureIds()));
+					
+					
 					project.getDescription().setNatureIds(natures);
-					project.getDescription().setBuildConfigs(builders);
+					//project.getDescription().setBuildConfigs(builders);
 					project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 					
 					IFolder src = project.getFolder("src");

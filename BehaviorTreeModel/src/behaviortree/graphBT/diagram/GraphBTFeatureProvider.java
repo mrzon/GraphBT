@@ -139,8 +139,9 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	@Override
 	public ICopyFeature getCopyFeature(ICopyContext context) {
 		System.out.println("getCopyFeature() is invoked");
-		
+		//if(context.getPictogramElements() instanceof ContainerShape[])
 		return  new CopyNodeGraphBtFeature(this);
+		//return super.getCopyFeature(context);
 	}
 	
 	@Override

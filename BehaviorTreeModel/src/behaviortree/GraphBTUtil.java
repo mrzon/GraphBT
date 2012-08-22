@@ -16,14 +16,20 @@ package behaviortree;
  *
  *******************************************************************************/
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
+import java.util.Scanner;
+import org.be.textbe.bt.textbt.*;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -31,6 +37,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -41,10 +50,24 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
+import org.eclipse.m2m.atl.core.ATLCoreException;
+import org.eclipse.m2m.atl.core.IExtractor;
+import org.eclipse.m2m.atl.core.IInjector;
+import org.eclipse.m2m.atl.core.IModel;
+import org.eclipse.m2m.atl.core.IReferenceModel;
+import org.eclipse.m2m.atl.core.ModelFactory;
+import org.eclipse.m2m.atl.core.launch.ILauncher;
+import org.eclipse.m2m.atl.core.service.CoreService;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
+import org.osgi.framework.Bundle;
 
 public class GraphBTUtil {
 	/**
@@ -519,13 +542,252 @@ public class GraphBTUtil {
 		}
 	}
 	
-	public static void validate(Diagram d)
+	public static boolean isValid(Diagram d)
 	{
-		
+		return GraphBTUtil.getRoots(d.eResource().getResourceSet()).size() == 1;
 	}
 	
-	public static void generateFromBTFile(File bt, Diagram d)
+	public static void generateFromBTFile(IFile bt, Diagram d)
 	{
+		File xml = getXMLFromBT(bt);
+		if(xml == null)
+		{
+			return;
+		}
+		URI ur = URI.createFileURI(xml.getAbsolutePath());
+		ResourceSet rs = new ResourceSetImpl();
+		Resource res = rs.getResource(ur, true);
+		System.out.println(res.getContents().toString());
+		Iterator<EObject> i = res.getAllContents();
+		TextBT btModel = null;
+		while(i.hasNext())
+		{
+			EObject e = i.next();
+			if(e instanceof TextBT)
+			{
+				btModel = (TextBT) e;
+				break;
+			}
+		}
+		System.out.println(btModel);
+	}
+	
+	private static File getXMLFromBT(IFile file){	
+		IInjector injector = null;
+		IExtractor extractor = null;
+		IReferenceModel inMetamodel;
+		IReferenceModel outMetamodel;
+		File target = null;
+		URL btASMURL;
+		URL ctASMURL;
+		URL stASMURL;
+		ModelFactory factory = null;	
+		try {
+			Bundle bundle = Platform.getBundle("BTDebuggerTool");
+			btASMURL = bundle.getEntry("transformations/textBT2GV.asm");
+			ctASMURL = null;
+			stASMURL = null;
+
+			injector = CoreService.getInjector("EMF"); //$NON-NLS-1$
+			extractor = CoreService.getExtractor("EMF"); //$NON-NLS-1$
+
+			factory = CoreService.createModelFactory("EMF");
+		} catch (ATLCoreException e) {
+			e.printStackTrace();
+		}
+		IFile f = (IFile) file;
+		IPath path = (IPath) f.getLocation();
+		IModel outputModel = null;
+
+		// Defaults
+		try {
+			// Metamodels
+			inMetamodel = factory.newReferenceModel();
+			outMetamodel = factory.newReferenceModel();
+			injector.inject(inMetamodel, "http://org.be.textbe/textbt");	    
+			injector.inject(outMetamodel, "http://org.be.textbe/gv");		    
+
+			// Getting Launcher
+			ILauncher launcher = null;
+			launcher = CoreService.getLauncher("EMF-specific VM");
+			launcher.initialize(Collections.<String, Object> emptyMap());
+
+			// Creating Models
+			IModel inputModel = factory.newModel(inMetamodel);
+			outputModel = factory.newModel(outMetamodel);
+
+			// Loading Existing Model
+			System.out.println("file .btnya "+file.getFullPath().toPortableString());
+			System.out.println("file .bt1nya "+file.getFullPath().toString());
+
+			Scanner s = new Scanner(file.getContents(true));
+			System.out.println("Konteks nya adalah:");
+			while(s.hasNext())
+			{
+				System.out.println(s.next());
+			}
+
+			injector.inject(inputModel, file.getFullPath().toPortableString());
+
+			target = File.createTempFile("tempbt2sal", ".textbt", null);
+			
+			IWorkbenchPart workbenchPart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart(); 
+			IFile fileRaw = (IFile) workbenchPart.getSite().getPage().getActiveEditor().getEditorInput().getAdapter(IFile.class);
+			if (fileRaw == null)
+				try {
+					throw new FileNotFoundException();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			String path1 = fileRaw.getRawLocation().toOSString();
+
+			path1 = path1.substring(0, path1.lastIndexOf("."));
+			path1 = path1+".xml";
+			File f1 = new File(path1);
+			System.out.println("path Init: " + path1);
+
+			// DEBUG - Dump Input Model
+			//extractor.extract(inputModel, filetest.getName());
+			extractor.extract(inputModel, target.toURI().toString());
+			//extractor.extract(inputModel, f1.toURI().toString());
+			target.deleteOnExit();
+			// Launching
+			launcher.addOutModel(outputModel, "GV", "OUT");
+			launcher.addInModel(inputModel, "TEXTBT", "IN");
+
+			// Saving Model
+			extractor.extract(outputModel, "outputModel.gv");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		} 
+		return target;
+	}
+	public static String getBTText(Diagram d)
+	{
+		BEModel be = GraphBTUtil.getBEModel(d);
+		String content = be.toString();
 		
+		List<StandardNode> ln = GraphBTUtil.getRoots(d.eResource().getResourceSet());
+		for(int i=0; i < ln.size(); i++)
+		{
+			content+="\n"+ln.get(i).toBTText();
+		}
+		return content;
+	}
+	public static boolean generateBTFromDiagramFile(IFile diag)
+	{
+		ResourceSet rs = new ResourceSetImpl();
+		Diagram d = GraphBTUtil.getDiagramFromFile(diag, rs);
+		if(!isValid(d))
+		{
+			return false;
+		}
+		String content = getBTText(d);
+		URI uri = d.eResource().getURI();
+		uri = uri.trimFragment();
+		uri = uri.trimFileExtension();
+		uri = uri.appendFileExtension("bt");
+		
+		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+		
+		IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
+		{
+			Path path = new Path(uri.toPlatformString(true));
+			IFile ifile = workspaceRoot.getFile(path);
+			InputStream in = new ByteArrayInputStream(content.getBytes());
+			try {
+				if (file == null || !file.exists()) 
+				{
+					ifile.create(in,false,null);
+				}	
+				else
+				{
+					ifile.setContents(in, false, false, null);
+				}	
+			} catch (CoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return true;
+	}
+	
+	public static void applyTreeLayout(Diagram d)
+	{
+		if(!isValid(d))
+		{
+			return;
+		}
+		StandardNode root = getRoots(d.eResource().getResourceSet()).get(0);
+		HashMap<StandardNode,Integer> map = new HashMap<StandardNode,Integer>();
+		int width = getWidth(d,root,map);
+		System.out.println(map.toString());
+		int currentY = 0;
+		int currentX = 0;
+		applyTreeLayout(d,root,currentX,currentY,map);
+		
+	}
+	private static int hSpace = 20;
+	private static int vSpace = 30;
+	
+	private static void applyTreeLayout(Diagram d, StandardNode node, int currentX, int currentY, HashMap<StandardNode,Integer> map)
+	{
+		final PictogramElement rootP = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
+		final int width = map.get(node);
+		final int cX = currentX;
+		final int cY = currentY;
+		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+        final DiagramEditor ds;
+        if(page.getActiveEditor() instanceof DiagramEditor)
+        {
+        	 ds = (DiagramEditor)page.getActiveEditor();	
+        }
+        else
+        {
+        	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+        }
+		final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Move Node") {
+			protected void doExecute() {
+				//System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
+				
+				//if(!c.getComponentName().equals("")&&c.getComponentName()!=null)
+
+				rootP.getGraphicsAlgorithm().setX(cX+width/2);
+				rootP.getGraphicsAlgorithm().setY(cY);
+						//String name = GraphBTUtil.getBehaviorFromComponentByRef(c, node.getBehaviorRef()).toString();
+		    }
+		};
+		ds.getEditingDomain().getCommandStack().execute(cmd);
+		if(node.getEdge()==null)
+		{
+			return;
+		}
+		currentY = currentY + vSpace + rootP.getGraphicsAlgorithm().getHeight();
+		for(int i = 0; i < node.getEdge().getChildNode().size(); i++)
+		{
+			GraphBTUtil.applyTreeLayout(d, (StandardNode) node.getEdge().getChildNode().get(i),currentX,currentY,map);
+			currentX=currentX + hSpace+map.get((StandardNode) node.getEdge().getChildNode().get(i));
+		}
+	}
+	
+	private static int getWidth(Diagram d, StandardNode node, HashMap<StandardNode,Integer> map) {
+		if(node.getEdge() == null)
+		{
+			PictogramElement rootP = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
+			
+			map.put(node, rootP.getGraphicsAlgorithm().getWidth());
+			return rootP.getGraphicsAlgorithm().getWidth();
+		}
+		int width = getWidth(d, (StandardNode) node.getEdge().getChildNode().get(0), map);
+		
+		for(int i = 1; i < node.getEdge().getChildNode().size(); i++)
+		{
+			width=width+hSpace+getWidth(d, (StandardNode) node.getEdge().getChildNode().get(i),map);
+		}
+		System.out.println(node.toString()+" "+width);
+		map.put(node, width);
+		return width;
 	}
 }

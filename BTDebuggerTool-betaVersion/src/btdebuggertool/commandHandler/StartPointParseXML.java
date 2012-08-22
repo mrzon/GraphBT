@@ -63,7 +63,7 @@ public class StartPointParseXML extends AbstractHandler implements IHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IStructuredSelection selectedFiles = (IStructuredSelection)HandlerUtil.getActiveMenuSelection(event);
-		final StringBuffer buf = new StringBuffer();
+		
 		final Object selectedFile = selectedFiles.getFirstElement();
 		final IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
 		
@@ -71,102 +71,109 @@ public class StartPointParseXML extends AbstractHandler implements IHandler {
 			
 			@Override
 			public void run() {
-				boolean isValid = false;
-				if(selectedFile instanceof IFile && ((IFile)selectedFile).getFileExtension().equals("xml")){
-					IFile xml = (IFile)selectedFile;
-					try {
-						
-						
-						InputStream is = xml.getContents(true);
-						
-						GlobalData.tree = parseXmlToBT(is);
-						System.out.println(GlobalData.tree.toString());
-						is.close();
-						isValid = true;
-					} catch (Exception e) {
-						e.printStackTrace();
-						buf.append(e.getMessage());
-						isValid = false;
-					}
-				}
-				else if(selectedFile instanceof IFile && ((IFile)selectedFile).getFileExtension().equals("bt"))
-				{
-					IFile bt = (IFile)selectedFile;
-					try {
-						processGVModel(bt);
-						IWorkspace workspace= ResourcesPlugin.getWorkspace();
-						System.out.println(btURI.getAbsolutePath());
-						IPath location= Path.fromOSString(btURI.getAbsolutePath()); 
-						IFile xml= workspace.getRoot().getFileForLocation(location);
-						System.out.println(xml);
-						InputStream is = new FileInputStream(btURI);
-						
-						
-						GlobalData.tree = parseXmlToBT(is);
-						System.out.println("Ini datanya"+GlobalData.tree.toString());
-						is.close();
-						isValid = true;
-					} catch (Exception e) {
-						e.printStackTrace();
-						buf.append(e.getMessage());
-						isValid = false;
-					}
-				}
-				else{
-					isValid = false;
-				}
-				
-				if(!isValid){
-					Display.getDefault().syncExec(new Runnable() {
-						
-						@Override
-						public void run() {
-							String message = buf.toString();
-							if(message.length() > 0)
-								MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", buf.toString());
-							else
-								MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", "The selected file is not xml");
-						}
-					});
-				}else{
-					try {
-
-						//showing the console view
-						IWorkbenchPage perspectivePage = PlatformUI.getWorkbench().showPerspective(DEBUGGER_PERSPECTIVE_ID, window);// showPerspective(DEBUGGER_PERSPECTIVE_ID, window);
-						IConsole myConsole = findConsole("btdebuggertool.view.consoleView");
-						IConsoleView consoleView = (IConsoleView) perspectivePage.showView(IConsoleConstants.ID_CONSOLE_VIEW);
-						consoleView.display(myConsole);
-						
-						//getting the output stream for the writing purpose
-						((MessageConsole)myConsole).clearConsole();
-						MessageConsoleStream out = ((MessageConsole)myConsole).newMessageStream();
-						
-						BTSimulator simulatorData = new BTSimulator(GlobalData.tree, out);
-						simulatorData.init();
-						
-						IViewPart zestViewPart = perspectivePage.showView(DebuggerPerspective.ZEST_VIEW_ID);
-						if(zestViewPart!=null && zestViewPart instanceof ZestDebuggerView){
-							ZestDebuggerView zestView = (ZestDebuggerView)zestViewPart;
-							zestView.setInput(simulatorData);
-						}
-						
-						IViewPart stateVarViewPart = perspectivePage.showView(StateVarDebuggerView.ID);
-						if(stateVarViewPart!=null && stateVarViewPart instanceof StateVarDebuggerView){
-							StateVarDebuggerView stateVarView = (StateVarDebuggerView)stateVarViewPart;
-							stateVarView.setInput(simulatorData);
-						}
-					} catch (WorkbenchException e) {
-						e.printStackTrace();
-						
-					}
-				}
-				
-
+				showDebugger(selectedFile,window);
 			}
 		});
 
 		return null;
 	}
+	
+	public void showDebugger(Object selectedFile, IWorkbenchWindow window)
+	{
+		boolean isValid = false;
+		final StringBuffer buf = new StringBuffer();
+		if(selectedFile instanceof IFile && ((IFile)selectedFile).getFileExtension().equals("xml")){
+			IFile xml = (IFile)selectedFile;
+			try {
+				
+				
+				InputStream is = xml.getContents(true);
+				
+				GlobalData.tree = parseXmlToBT(is);
+				System.out.println(GlobalData.tree.toString());
+				is.close();
+				isValid = true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				buf.append(e.getMessage());
+				isValid = false;
+			}
+		}
+		else if(selectedFile instanceof IFile && ((IFile)selectedFile).getFileExtension().equals("bt"))
+		{
+			IFile bt = (IFile)selectedFile;
+			try {
+				processGVModel(bt);
+				IWorkspace workspace= ResourcesPlugin.getWorkspace();
+				System.out.println(btURI.getAbsolutePath());
+				IPath location= Path.fromOSString(btURI.getAbsolutePath()); 
+				IFile xml= workspace.getRoot().getFileForLocation(location);
+				System.out.println(xml);
+				InputStream is = new FileInputStream(btURI);
+				
+				
+				GlobalData.tree = parseXmlToBT(is);
+				System.out.println("Ini datanya"+GlobalData.tree.toString());
+				is.close();
+				isValid = true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				buf.append(e.getMessage());
+				isValid = false;
+			}
+		}
+		else{
+			isValid = false;
+		}
+		
+		if(!isValid){
+			Display.getDefault().syncExec(new Runnable() {
+				
+				@Override
+				public void run() {
+					String message = buf.toString();
+					if(message.length() > 0)
+						MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", buf.toString());
+					else
+						MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", "The selected file is not xml");
+				}
+			});
+		}else{
+			try {
+
+				//showing the console view
+				IWorkbenchPage perspectivePage = PlatformUI.getWorkbench().showPerspective(DEBUGGER_PERSPECTIVE_ID, window);// showPerspective(DEBUGGER_PERSPECTIVE_ID, window);
+				IConsole myConsole = findConsole("btdebuggertool.view.consoleView");
+				IConsoleView consoleView = (IConsoleView) perspectivePage.showView(IConsoleConstants.ID_CONSOLE_VIEW);
+				consoleView.display(myConsole);
+				
+				//getting the output stream for the writing purpose
+				((MessageConsole)myConsole).clearConsole();
+				MessageConsoleStream out = ((MessageConsole)myConsole).newMessageStream();
+				
+				BTSimulator simulatorData = new BTSimulator(GlobalData.tree, out);
+				simulatorData.init();
+				
+				IViewPart zestViewPart = perspectivePage.showView(DebuggerPerspective.ZEST_VIEW_ID);
+				if(zestViewPart!=null && zestViewPart instanceof ZestDebuggerView){
+					ZestDebuggerView zestView = (ZestDebuggerView)zestViewPart;
+					zestView.setInput(simulatorData);
+				}
+				
+				IViewPart stateVarViewPart = perspectivePage.showView(StateVarDebuggerView.ID);
+				if(stateVarViewPart!=null && stateVarViewPart instanceof StateVarDebuggerView){
+					StateVarDebuggerView stateVarView = (StateVarDebuggerView)stateVarViewPart;
+					stateVarView.setInput(simulatorData);
+				}
+			} catch (WorkbenchException e) {
+				e.printStackTrace();
+				
+			}
+		}
+		
+
+	}
+	
 	
 	private BTTree parseXmlToBT(final InputStream is) throws Exception{
 		SAXParserFactory factory = SAXParserFactory.newInstance();

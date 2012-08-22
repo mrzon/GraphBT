@@ -51,6 +51,8 @@ public class AddSequentialConnectionGraphBtFeature extends AbstractAddFeature im
 		connection.setEnd(addConContext.getTargetAnchor());
 
 		Polyline polyline = gaService.createPlainPolyline(connection);
+		
+		
 		polyline.setForeground(manageColor(IColorConstant.BLACK));
 		
 		Edge addedEdge = (Edge) context.getNewObject();
