@@ -199,23 +199,9 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 			// Get the currently selected file from the editor
 		};	
 
-		Bundle bundleGenerateCode = Platform.getBundle("BehaviorTreeModel");
-		IPath pathGenerateCode = new Path("icons/generateCode.gif");
-
-		URL fileURLGenerateCode = FileLocator.find(bundleGenerateCode , pathGenerateCode , null);
-		System.out.println("wooo "+fileURLGenerateCode.getPath());
-		try {
-			fileURLGenerateCode = FileLocator.resolve(fileURLGenerateCode );
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ImageData imGenerateCode = new ImageData(fileURLGenerateCode.getPath());
-		ImageDescriptor imdGenerateCode = ImageDescriptor.createFromImageData(imGenerateCode );
-
 		generateBTCode.setText("Generate BT Code");
 		generateBTCode.setToolTipText("Generate the corresponding BT Code of the BE model");
-		generateBTCode.setImageDescriptor(imdGenerateCode);
+		generateBTCode.setImageDescriptor(getImageDescriptor("icons/generateBTCode.gif"));
 
 		addNewComponent = new Action() {
 			public void run() {
@@ -246,26 +232,9 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 			}
 		};
 
-		Bundle bundleAddComponent = Platform.getBundle("BehaviorTreeModel");
-		IPath pathAddComponent = new Path("icons/newComponent.gif");
-
-		URL fileURLAddComponent = FileLocator.find(bundleAddComponent, pathAddComponent, null);
-		System.out.println("wooo "+fileURLAddComponent.getPath());
-		try {
-			fileURLAddComponent = FileLocator.resolve(fileURLAddComponent);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ImageData imAddComponent = new ImageData(fileURLAddComponent.getPath());
-		ImageDescriptor imdAddComponent = ImageDescriptor.createFromImageData(imAddComponent);
-
 		addNewComponent.setText("Add new Component");
 		addNewComponent.setToolTipText("Add new component to the model");
-		addNewComponent.setImageDescriptor(imdAddComponent);
-
-
-
+		addNewComponent.setImageDescriptor(getImageDescriptor("icons/newComponent.gif"));
 
 		manageComponents = new Action(){
 			public void run() {
@@ -298,32 +267,10 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 			}
 		};
 
-		//final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-		//IResource file = workspaceRoot.findMember("icons/requirement.gif",true);
-		//IPath ip = workspaceRoot.getWorkspace().;
-		//System.out.println("Filenya "+ip.toOSString());
-
-		//URL pluginInternalURL = getDefault().getBundle().getEntry("icons/requirement.gif"); 
-
-		Bundle bundleComponent = Platform.getBundle("BehaviorTreeModel");
-		IPath pathComponent = new Path("icons/component.gif");
-
-		URL fileURLComponent = FileLocator.find(bundleComponent, pathComponent, null);
-		System.out.println("wooo "+fileURLComponent.getPath());
-		try {
-			fileURLComponent = FileLocator.resolve(fileURLComponent);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ImageData imComponent = new ImageData(fileURLComponent.getPath());
-		ImageDescriptor imdComponent = ImageDescriptor.createFromImageData(imComponent);
-
 		manageComponents.setText("Manage Components");
 		manageComponents.setToolTipText("Manage components of the model");
-		manageComponents.setImageDescriptor(imdComponent);
-
-
+		manageComponents.setImageDescriptor(getImageDescriptor("icons/component.gif"));
+		
 		manageRequirements = new Action(){
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
@@ -356,30 +303,11 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		};
 
 
-		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-		//IResource file = workspaceRoot.findMember("icons/requirement.gif",true);
-		//IPath ip = workspaceRoot.getWorkspace().;
-		//System.out.println("Filenya "+ip.toOSString());
-
-		//URL pluginInternalURL = getDefault().getBundle().getEntry("icons/requirement.gif"); 
-
-		Bundle bundle = Platform.getBundle("BehaviorTreeModel");
-		IPath path = new Path("icons/requirement.gif");
-
-		URL fileURL = FileLocator.find(bundle, path, null);
-		System.out.println("wooo "+fileURL.getPath());
-		try {
-			fileURL = FileLocator.resolve(fileURL);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ImageData im = new ImageData(fileURL.getPath());
-		ImageDescriptor imd = ImageDescriptor.createFromImageData(im);
+		
 		//System.out.println("Filenya "+ip.toString());
 		manageRequirements.setText("Manage Requirements");
 		manageRequirements.setToolTipText("Manage Requirements of The Model");
-		manageRequirements.setImageDescriptor(imd);
+		manageRequirements.setImageDescriptor(getImageDescriptor("icons/requirement.gif"));
 
 		verifyModel = new Action() {
 			public void run() {
@@ -433,8 +361,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		};
 		validateBT.setText("Validate BT");
 		validateBT.setToolTipText("Validate BT");
-		validateBT.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
+		validateBT.setImageDescriptor(getImageDescriptor("icons/validate.gif"));
 
 		this.debugBT = new Action() {
 			public void run() {
@@ -450,8 +377,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		};
 		debugBT.setText("BT Debugger");
 		debugBT.setToolTipText("Debug and simulate the model");
-		debugBT.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
+		debugBT.setImageDescriptor(getImageDescriptor("icons/debug.gif"));
 		
 		this.generateJavaFromBT = new Action() {
 			public void run() {
@@ -467,8 +393,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		};
 		generateJavaFromBT.setText("BT Code Generator");
 		generateJavaFromBT.setToolTipText("Generate the Java Code");
-		generateJavaFromBT.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(IDE.SharedImages.IMG_OBJ_PROJECT_CLOSED));
+		generateJavaFromBT.setImageDescriptor(getImageDescriptor("icons/generateCode.gif"));
 		applyLayout = new Action() {
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
@@ -485,8 +410,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		};
 		applyLayout.setText("Apply Layout");
 		applyLayout.setToolTipText("Apply layout to the graphical model");
-		applyLayout.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
+		applyLayout.setImageDescriptor(getImageDescriptor("icons/layout.gif"));
 		extractFromBTFile = new Action() {
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
@@ -516,12 +440,10 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		};
 		extractFromBTFile.setText("Extract BT File");
 		extractFromBTFile.setToolTipText("Extract model from BT File");
-		extractFromBTFile.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
+		extractFromBTFile.setImageDescriptor(getImageDescriptor("icons/extract.gif"));
 	}
 	
 	private String handleBrowse() {
-		
 		@SuppressWarnings("deprecation")
 		FileDialog dialog = new FileDialog(
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
@@ -533,6 +455,23 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		if(path!=null)
 			return path;
 		return "";
+	}
+	
+	private ImageDescriptor getImageDescriptor(String imgPath)
+	{
+		Bundle bundle = Platform.getBundle("BehaviorTreeModel");
+		IPath path = new Path(imgPath);
+
+		URL fileURL = FileLocator.find(bundle, path, null);
+		try {
+			fileURL = FileLocator.resolve(fileURL);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ImageData im = new ImageData(fileURL.getPath());
+		ImageDescriptor imd = ImageDescriptor.createFromImageData(im);
+		return imd;
 	}
 	public void contributeToMenu(IMenuManager manager) {
 		IMenuManager menu = new MenuManager("Editor &Menu");
