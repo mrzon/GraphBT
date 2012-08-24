@@ -141,7 +141,7 @@ public class ComponentListImpl extends EObjectImpl implements ComponentList {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer();
-		Iterator<Component> i = components.iterator();
+		Iterator<Component> i = this.getComponents().iterator();
 		while(i.hasNext())
 		{
 			result.append(i.next().toString());

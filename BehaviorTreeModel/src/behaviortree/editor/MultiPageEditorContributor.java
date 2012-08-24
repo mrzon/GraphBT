@@ -48,6 +48,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorPart;
@@ -55,6 +56,8 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.dialogs.ContainerSelectionDialog;
+import org.eclipse.ui.dialogs.FileSelectionDialog;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.ide.IDEActionFactory;
 import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
@@ -89,6 +92,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	private Action generateJavaFromBT;
 	private Action verifyModel;
 	private Action applyLayout;
+	private Action extractFromBTFile;
 	private IFile btIFile;
 	/**
 	 * Creates a multi-page contributor.
@@ -396,7 +400,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 							return;
 						}
 						BEModel be = GraphBTUtil.getBEModel(d);
-
 					}
 					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
@@ -422,7 +425,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					}
 					else
 					{
-						MessageDialog.openInformation(null, "Validation info", "The model is valid and layouted");
+						MessageDialog.openInformation(null, "Validation info", "The model is valid");
 					}
 					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
@@ -484,6 +487,52 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		applyLayout.setToolTipText("Apply layout to the graphical model");
 		applyLayout.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
+		extractFromBTFile = new Action() {
+			public void run() {
+				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
+				if(activeEditorPart instanceof DiagramEditor)
+				{
+					String filePath = handleBrowse();
+					File f = new File(filePath);
+					IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+					IPath path = Path.fromOSString(URI.createFileURI(f.getAbsolutePath()).devicePath());
+					IFile file = root.getFileForLocation(path);
+					
+					System.out.println("file pathnya "+f.getAbsolutePath()+" ");
+					if(filePath == null)
+						return;
+							
+					if(filePath.endsWith("bt"))
+					{
+						GraphBTUtil.generateFromBTFile(file, ((DiagramEditor)activeEditorPart));
+					}
+					else 
+					{
+						MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error reading file", "Only bt file is supported");
+					}
+					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
+				}
+			}
+		};
+		extractFromBTFile.setText("Extract BT File");
+		extractFromBTFile.setToolTipText("Extract model from BT File");
+		extractFromBTFile.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
+				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
+	}
+	
+	private String handleBrowse() {
+		
+		@SuppressWarnings("deprecation")
+		FileDialog dialog = new FileDialog(
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+		dialog.setFilterExtensions(new String [] {"*.bt"});
+		dialog.setFilterPath(ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toOSString());
+		   
+		String path = dialog.open();
+		
+		if(path!=null)
+			return path;
+		return "";
 	}
 	public void contributeToMenu(IMenuManager manager) {
 		IMenuManager menu = new MenuManager("Editor &Menu");
@@ -499,6 +548,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		menu.add(generateJavaFromBT);
 		menu.add(new Separator());
 		menu.add(applyLayout);
+		menu.add(extractFromBTFile);
 	}
 	public void contributeToToolBar(IToolBarManager manager) {
 		manager.add(new Separator());
@@ -511,5 +561,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		manager.add(debugBT);
 		manager.add(generateJavaFromBT);
 		manager.add(applyLayout);
+		manager.add(extractFromBTFile);
 	}
 }

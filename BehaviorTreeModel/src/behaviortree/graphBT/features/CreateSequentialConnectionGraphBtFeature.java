@@ -71,7 +71,7 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
 		}
         return false;
 	}
-
+	
 	@Override
 	public Connection create(ICreateConnectionContext context) {
 		Connection newConnection = null; 

@@ -42,6 +42,7 @@ public class AddSequentialConnectionGraphBtFeature extends AbstractAddFeature im
 
 	@Override
 	public PictogramElement add(IAddContext context) {
+		
 		IAddConnectionContext addConContext = (IAddConnectionContext) context;
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
 		IGaService gaService = Graphiti.getGaService();

@@ -50,12 +50,23 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.graphiti.features.context.ICreateConnectionContext;
+import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
+import org.eclipse.graphiti.features.context.impl.AddContext;
+import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
+import org.eclipse.graphiti.features.context.impl.CreateContext;
+import org.eclipse.graphiti.mm.pictograms.Anchor;
+import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
+import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.mm.pictograms.impl.AnchorContainerImpl;
+import org.eclipse.graphiti.mm.pictograms.impl.AnchorImpl;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
+import org.eclipse.graphiti.ui.platform.GraphitiConnectionEditPart;
 import org.eclipse.m2m.atl.core.ATLCoreException;
 import org.eclipse.m2m.atl.core.IExtractor;
 import org.eclipse.m2m.atl.core.IInjector;
@@ -68,6 +79,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
+
+import behaviortree.graphBT.features.AddGeneralBtNodeFeature;
 
 public class GraphBTUtil {
 	/**
@@ -205,7 +218,6 @@ public class GraphBTUtil {
 		uri = uri.trimFileExtension();
 		uri = uri.appendFileExtension("model"); //$NON-NLS-1$
 		ResourceSet rSet = d.eResource().getResourceSet();
-		System.out.println(uri.toFileString());
 		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
 		if (file == null || !file.exists()) {
@@ -547,9 +559,10 @@ public class GraphBTUtil {
 		return GraphBTUtil.getRoots(d.eResource().getResourceSet()).size() == 1;
 	}
 	
-	public static void generateFromBTFile(IFile bt, Diagram d)
+	public static void generateFromBTFile(IFile f, final DiagramEditor de)
 	{
-		File xml = getXMLFromBT(bt);
+		final Diagram d = de.getDiagramTypeProvider().getDiagram();
+		File xml = getXMLFromBT(f);
 		if(xml == null)
 		{
 			return;
@@ -559,17 +572,277 @@ public class GraphBTUtil {
 		Resource res = rs.getResource(ur, true);
 		System.out.println(res.getContents().toString());
 		Iterator<EObject> i = res.getAllContents();
-		TextBT btModel = null;
+		TextBT temp = null;
+		
 		while(i.hasNext())
 		{
 			EObject e = i.next();
 			if(e instanceof TextBT)
 			{
-				btModel = (TextBT) e;
+				temp = (TextBT) e;
 				break;
 			}
 		}
-		System.out.println(btModel);
+		
+		if(temp==null)
+			return;
+		final TextBT btModel = temp;
+		final BEModel beModel = getBEFactory().createBEModel();
+		
+		de.getEditingDomain().getCommandStack().execute(new RecordingCommand(de.getEditingDomain(),"generating model"){
+
+			@Override
+			protected void doExecute() {
+				// TODO Auto-generated method stub
+				beModel.setComponentList(getComponentList(btModel,d));
+				try {
+					saveToModelFile(beModel,d);
+				} catch (CoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				BehaviorTree dbt = getBEFactory().createBehaviorTree();
+				RequirementList rl = getBEFactory().createRequirementList();
+				beModel.setRequirementList(rl);
+				dbt.setRootNode(getRoot(btModel, de));
+				beModel.setDbt(dbt);
+				System.out.println("GraphBTUtil generateFromBTFile "+beModel+"\n"+((StandardNode)dbt.getRootNode()).toBTText());
+			}
+			
+		});
+		
+		
+		applyTreeLayout(d);
+	}
+	
+	private static StandardNode getRoot(TextBT bt, DiagramEditor de)
+	{
+		
+		StandardNode root = getBEFactory().createStandardNode();
+		org.be.textbe.bt.textbt.BehaviorTree btbt = bt.getBehaviorTree();
+		org.be.textbe.bt.textbt.Node rootbt = btbt.getRootNode();
+		setNode(root,rootbt, de);
+		setChild(root,rootbt, de);
+		return root;
+	}
+	
+	private static void setNode(final StandardNode node, org.be.textbe.bt.textbt.AbstractNode nodebt, final DiagramEditor de)
+	{
+		final Diagram d = de.getDiagramTypeProvider().getDiagram();
+		
+		node.setComponentRef(nodebt.getComponentRef());
+		node.setBehaviorRef(nodebt.getBehaviorRef());
+		node.setLabel(nodebt.getLabel()+""+System.currentTimeMillis());
+		node.setOperator("");
+		
+		node.setTraceabilityStatus("");
+		AddContext addContext = new AddContext();
+		addContext.setNewObject(node);
+		try {
+			saveToModelFile(node,d);
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		addContext.setTargetContainer(d);
+		de.getDiagramTypeProvider().getFeatureProvider().addIfPossible(addContext);
+		System.out.println("GraphBTUtil setNode nodebt: "+node.toBTText()+" PEnya: "+Graphiti.getLinkService().getPictogramElements(d, node).size());
+	}
+	private static void createConnection(DiagramEditor de, StandardNode s, StandardNode t, Edge e, int tipe)
+	{
+		Diagram d = de.getDiagramTypeProvider().getDiagram();
+		PictogramElement peS = Graphiti.getLinkService().getPictogramElements(d, s).get(0);
+		PictogramElement peC = Graphiti.getLinkService().getPictogramElements(d, t).get(0);
+		CreateConnectionContext context = new CreateConnectionContext();
+		context.setSourcePictogramElement(peS);
+		context.setTargetPictogramElement(peC);
+		
+		Anchor source = Graphiti.getPeService().getChopboxAnchor((ContainerShape) peS);
+		if(source == null)
+			return;
+		Anchor target = Graphiti.getPeService().getChopboxAnchor((ContainerShape) peC);
+		if(target == null)
+			return;
+        AddConnectionContext addContext =
+                new AddConnectionContext(source, target);
+        addContext.setNewObject(e);
+        Connection connection = (Connection)de.getDiagramTypeProvider().getFeatureProvider().addIfPossible(addContext);
+        //d.getConnections().add(connection);
+	}
+	
+	private static void setChild(StandardNode node, org.be.textbe.bt.textbt.AbstractNode nodebt, DiagramEditor de)
+	{
+		Diagram d = de.getDiagramTypeProvider().getDiagram();
+		
+		
+		AbstractBlockOrNode _childNode = null;
+		if (nodebt instanceof org.be.textbe.bt.textbt.Node)
+		{
+			_childNode = ((org.be.textbe.bt.textbt.Node)nodebt).getChildNode();
+			
+		}
+		else if (nodebt instanceof org.be.textbe.bt.textbt.AtomicNode)
+		{
+			_childNode = ((org.be.textbe.bt.textbt.AtomicNode)nodebt).getChildNode();
+		}
+		else if (nodebt instanceof org.be.textbe.bt.textbt.SequentialNode)
+		{
+			_childNode = ((org.be.textbe.bt.textbt.SequentialNode)nodebt).getChildNode();
+		}
+		
+		if(_childNode==null)
+			return;
+		if(_childNode instanceof SequentialNode)
+		{
+			System.out.println("GraphBTUtil setChild ternyata ini sequential node");
+			org.be.textbe.bt.textbt.SequentialNode childNode = (org.be.textbe.bt.textbt.SequentialNode)_childNode;
+			StandardNode childSN = getBEFactory().createStandardNode();
+			setNode(childSN,childNode, de);
+			System.out.println("setChild jumlahPE "+childSN.toBTText()+" "+Graphiti.getLinkService().getPictogramElements(d, childSN).size());
+			Edge e = getBEFactory().createEdge();
+			e.setComposition(Composition.SEQUENTIAL);
+			e.getChildNode().add(childSN);
+			node.setEdge(e);
+			createConnection(de,node,childSN,e,0);
+			setChild(childSN,childNode, de);
+		}
+		else if(_childNode instanceof AtomicNode)
+		{
+			org.be.textbe.bt.textbt.AtomicNode childNode = (org.be.textbe.bt.textbt.AtomicNode)_childNode;
+			StandardNode childSN = getBEFactory().createStandardNode();
+			setNode(childSN,childNode, de);
+			Edge e = getBEFactory().createEdge();
+			e.setComposition(Composition.ATOMIC);
+			e.getChildNode().add(childSN);
+			node.setEdge(e);
+			createConnection(de,node,childSN,e,1);
+			setChild(childSN,childNode, de);
+		}
+		else if(_childNode instanceof AbstractBlock)
+		{
+			EList<org.be.textbe.bt.textbt.Node> childNodes = ((AbstractBlock)_childNode).getChildNode();
+			Edge e = getBEFactory().createEdge();
+			e.setComposition(Composition.SEQUENTIAL);
+			if(_childNode instanceof ParallelBlock)
+			{
+				e.setBranch(Branch.PARALLEL);
+			}
+			else
+			{
+				e.setBranch(Branch.ALTERNATIVE);
+			}
+			node.setEdge(e);
+			for(int i = 0; i < childNodes.size(); i++)
+			{
+				org.be.textbe.bt.textbt.Node childNode = childNodes.get(i);
+				StandardNode childSN = getBEFactory().createStandardNode();
+				setNode(childSN,childNode, de);
+				e.getChildNode().add(childSN);
+				createConnection(de,node,childSN,e,3);
+				setChild(childSN,childNode, de);
+			}
+		}
+		
+	}
+	
+	private static ComponentList getComponentList(TextBT bt, Diagram d)
+	{
+		System.out.print("GraphBTUtil getComponentList ");
+		ComponentList cl = getBEFactory().createComponentList();
+		org.be.textbe.bt.textbt.ComponentList clbt = bt.getComponents();
+		for(int i = 0; i < clbt.getComponents().size(); i++)
+		{
+			Component cp = getBEFactory().createComponent();
+			org.be.textbe.bt.textbt.Component cpbt = clbt.getComponents().get(i);
+			System.out.print(cpbt.getVal()+" "+cpbt.getRef());
+			cp.setComponentName(cpbt.getVal());
+			cp.setComponentRef(cpbt.getRef());
+			cl.getComponents().add(cp);
+			for(int j=0; j<cpbt.getBehaviors().size();j++)
+			{
+				Behavior b = getBEFactory().createBehavior();
+				AbstractBehavior abbt = cpbt.getBehaviors().get(j);
+				
+				
+				cp.getBehaviors().add(b);
+				if(abbt instanceof org.be.textbe.bt.textbt.State)
+				{
+					org.be.textbe.bt.textbt.Behavior bbt = (org.be.textbe.bt.textbt.Behavior)abbt;
+					b.setBehaviorType(BehaviorType.STATE_REALIZATION);
+					b.setBehaviorName(bbt.getVal());
+					b.setBehaviorRef(bbt.getRef());
+				}
+				else if(abbt instanceof org.be.textbe.bt.textbt.Selection)
+				{
+					org.be.textbe.bt.textbt.Behavior bbt = (org.be.textbe.bt.textbt.Behavior)abbt;
+					b.setBehaviorType(BehaviorType.SELECTION);
+					b.setBehaviorName(bbt.getVal());
+					b.setBehaviorRef(bbt.getRef());
+				}
+				else if(abbt instanceof org.be.textbe.bt.textbt.Guard)
+				{
+					org.be.textbe.bt.textbt.Behavior bbt = (org.be.textbe.bt.textbt.Behavior)abbt;
+					b.setBehaviorType(BehaviorType.GUARD);
+					b.setBehaviorName(bbt.getVal());
+					b.setBehaviorRef(bbt.getRef());
+				}else if(abbt instanceof org.be.textbe.bt.textbt.Event)
+				{
+					org.be.textbe.bt.textbt.Behavior bbt = (org.be.textbe.bt.textbt.Behavior)abbt;
+					b.setBehaviorType(BehaviorType.GUARD);
+					b.setBehaviorName(bbt.getVal());
+					b.setBehaviorRef(bbt.getRef());
+				}else if(abbt instanceof org.be.textbe.bt.textbt.InternalInput)
+				{
+					org.be.textbe.bt.textbt.Behavior bbt = (org.be.textbe.bt.textbt.Behavior)abbt;
+					b.setBehaviorType(BehaviorType.INTERNAL_INPUT);
+					b.setBehaviorName(bbt.getVal());
+					b.setBehaviorRef(bbt.getRef());
+				}else if(abbt instanceof org.be.textbe.bt.textbt.InternalOutput)
+				{
+					org.be.textbe.bt.textbt.Behavior bbt = (org.be.textbe.bt.textbt.Behavior)abbt;
+					b.setBehaviorType(BehaviorType.INTERNA_OUTPUT);
+					b.setBehaviorName(bbt.getVal());
+					b.setBehaviorRef(bbt.getRef());
+				}else if(abbt instanceof org.be.textbe.bt.textbt.ExternalInput)
+				{
+					org.be.textbe.bt.textbt.Behavior bbt = (org.be.textbe.bt.textbt.Behavior)abbt;
+					b.setBehaviorType(BehaviorType.EXTERNAL_INPUT);
+					b.setBehaviorName(bbt.getVal());
+					b.setBehaviorRef(bbt.getRef());
+				}else if(abbt instanceof org.be.textbe.bt.textbt.ExternalOutput)
+				{
+					org.be.textbe.bt.textbt.Behavior bbt = (org.be.textbe.bt.textbt.Behavior)abbt;
+					b.setBehaviorType(BehaviorType.EXTERNAL_OUTPUT);
+					b.setBehaviorName(bbt.getVal());
+					b.setBehaviorRef(bbt.getRef());
+				}else if(abbt instanceof org.be.textbe.bt.textbt.Assertion)
+				{
+					org.be.textbe.bt.textbt.Behavior bbt = (org.be.textbe.bt.textbt.Behavior)abbt;
+					b.setBehaviorType(BehaviorType.SELECTION);
+					b.setBehaviorName(bbt.getVal());
+					b.setBehaviorRef(bbt.getRef());
+				}
+				System.out.print("behavior ke "+j+": "+b.toString()+" "+abbt.toString());
+			}
+			
+			try {
+				saveToModelFile(cp,d);
+			} catch (CoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		System.out.println();
+		return cl;
 	}
 	
 	private static File getXMLFromBT(IFile file){	
@@ -596,7 +869,7 @@ public class GraphBTUtil {
 			e.printStackTrace();
 		}
 		IFile f = (IFile) file;
-		IPath path = (IPath) f.getLocation();
+		//IPath path = (IPath) f.getLocation();
 		IModel outputModel = null;
 
 		// Defaults
@@ -617,16 +890,10 @@ public class GraphBTUtil {
 			outputModel = factory.newModel(outMetamodel);
 
 			// Loading Existing Model
-			System.out.println("file .btnya "+file.getFullPath().toPortableString());
-			System.out.println("file .bt1nya "+file.getFullPath().toString());
+			//System.out.println("file .btnya "+file.getFullPath().toPortableString());
+			//System.out.println("file .bt1nya "+file.getFullPath().toString());
 
 			Scanner s = new Scanner(file.getContents(true));
-			System.out.println("Konteks nya adalah:");
-			while(s.hasNext())
-			{
-				System.out.println(s.next());
-			}
-
 			injector.inject(inputModel, file.getFullPath().toPortableString());
 
 			target = File.createTempFile("tempbt2sal", ".textbt", null);

@@ -73,7 +73,10 @@ IAddFeature {
 		
     	StandardNode node = (StandardNode) context.getNewObject();
 		Diagram targetDiagram = (Diagram) context.getTargetContainer();
- 
+		System.out.println("AddGeneralBtNodeFeature add "+node.toBTText());
+		return createPENode(targetDiagram, node,context.getX(),context.getY());
+    }
+    public PictogramElement createPENode(Diagram targetDiagram, StandardNode node, int x, int y){
 		// CONTAINER SHAPE WITH RECTANGLE
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
         ContainerShape containerShape =
@@ -89,7 +92,7 @@ IAddFeature {
         rectangle.setForeground(manageColor(E_CLASS_FOREGROUND));
         rectangle.setBackground(manageColor(E_CLASS_BACKGROUND));
         rectangle.setLineWidth(1);
-        gaService.setLocationAndSize(rectangle, context.getX(), context.getY(), width, height);
+        gaService.setLocationAndSize(rectangle, x, y, width, height);
         
         link(containerShape, node);
 
@@ -109,7 +112,7 @@ IAddFeature {
         // SHAPE WITH TEXT FOR COMPONENT
         {  	
         	Shape shapeComponent = peCreateService.createShape(containerShape, false);
-        	String str = node.getComponentRef()==null?"Default component":cp.getComponentName();
+        	String str = cp==null?"Default component":cp.getComponentName();
             Text text = gaService.createText(shapeComponent, str);
             text.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER); 
@@ -130,8 +133,8 @@ IAddFeature {
         {
         	Behavior b = GraphBTUtil.getBehaviorFromComponentByRef(cp, node.getBehaviorRef());
         	Shape shapeBehavior = peCreateService.createShape(containerShape, true);
-//        	String str = b==null?"Default behavior":b.toString();
-            Text textBehavior = gaService.createText(shapeBehavior, b.toString());
+        	String str = b==null?"Default behavior":b.toString();
+            Text textBehavior = gaService.createText(shapeBehavior, str);
             textBehavior.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             textBehavior.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
             textBehavior.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
