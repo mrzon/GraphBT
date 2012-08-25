@@ -280,7 +280,8 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
        		changeDialog("Behavior is empty!");
     	}/*else if(traceabilityLinkCombo.getSelectionIndex()==-1){
        		changeDialog("Requitement is empty!");
-    	}else*/{
+    	}*/
+       	else{
     		changeDialog(null);
     	}
 

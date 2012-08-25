@@ -342,6 +342,7 @@ public class GraphBTUtil {
 		}
 		return null;
 	}
+	
 	public static Component getComponentByRef(BEModel model, String ref)
 	{
 		Iterator<Component> it = model.getComponentList().getComponents().iterator();
@@ -354,6 +355,21 @@ public class GraphBTUtil {
 		}
 		return null;
 	}
+	
+	public static void removeComponentByRef(BEModel model, String ref)
+	{
+		Iterator<Component> it = model.getComponentList().getComponents().iterator();
+		while(it.hasNext()){
+			Component c = it.next();
+	
+			if(c.getComponentRef().equals(ref)/*||c.getComponentName().equals(ref)*/) {
+				model.getComponentList().getComponents().remove(c);
+				return;
+			}
+		}
+		return;
+	}
+	
 	public static boolean createNewComponent(BEModel model, Component com)
 	{
 		if(getComponent(model, com.getComponentName())!=null)
@@ -389,6 +405,19 @@ public class GraphBTUtil {
 		return null;
 	}
 	
+	public static void removeBehaviorFromComponentByRef(Component component,
+			String ref) {
+		Iterator<Behavior> it = component.getBehaviors().iterator();
+		while(it.hasNext()){
+			Behavior b = it.next();
+	
+			if(b.getBehaviorRef().equals(ref)) {
+				component.getBehaviors().remove(b);
+				return;
+			}
+		}
+	}
+	
 	public static Requirement getRequirement(BEModel model,
 			String key) {
 		Iterator<Requirement> it = model.getRequirementList().getRequirements().iterator();
@@ -400,6 +429,19 @@ public class GraphBTUtil {
 			}
 		}
 		return null;
+	}
+	
+	public static void removeRequirement(BEModel model,
+			String key) {
+		Iterator<Requirement> it = model.getRequirementList().getRequirements().iterator();
+		while(it.hasNext()){
+			Requirement res = it.next();
+	
+			if(res.getKey().equals(key)) {
+				model.getRequirementList().getRequirements().remove(res);
+				return;
+			}
+		}
 	}
 	
 	public static List<StandardNode> getRoots(ResourceSet rs)
