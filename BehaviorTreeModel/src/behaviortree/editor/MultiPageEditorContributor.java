@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
+import org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
@@ -81,7 +82,7 @@ import behaviortree.graphBT.wizards.verifymodel.VerifyModelGraphBTWizard;
  * Responsible for the redirection of global actions to the active editor.
  * Multi-page contributor replaces the contributors for the individual editors in the multi-page editor.
  */
-public class MultiPageEditorContributor extends MultiPageEditorActionBarContributor {
+public class MultiPageEditorContributor extends DiagramEditorActionBarContributor {
 	private IEditorPart activeEditorPart;
 	private Action generateBTCode;
 	private Action addNewComponent;

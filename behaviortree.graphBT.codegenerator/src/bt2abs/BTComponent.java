@@ -369,7 +369,7 @@ public class BTComponent {
                     //ABSVariable abs = new ABSVariable();
                     String n = b.getName().toLowerCase();
                     
-                    if(n.startsWith("not"))
+                    if(n.startsWith("not("))
                     {
                         String aa[] = n.split("[\\(\\)]");
                         if(!this.boolVar.contains(aa[1].trim()))
@@ -421,9 +421,7 @@ public class BTComponent {
                     else
                     {
                         String aa = n;
-                        if(!this.boolVar.contains(aa.trim()))
-                        {
-                        	this.boolVar.add(aa.trim());
+                        
                             String stat="";
                             //jika dia terdapat equality
                             if(aa.indexOf("=")>0)
@@ -455,11 +453,15 @@ public class BTComponent {
                             }
                             else //jika dia boolean biasa saja
                             {
-                                stat = aa+"_var";
-                                if(!this.isVarExist(stat))
+                            	if(!this.boolVar.contains(aa.trim())) //kalau boolean tok
                                 {
-                                    //boolVar.add(aa[1]);
-                                    set.add(new ABSVariable(ABSDataType.BOOL,stat));
+                                	this.boolVar.add(aa.trim());
+                                	stat = aa+"_var";
+                                	if(!this.isVarExist(stat))
+                                	{
+                                		//boolVar.add(aa[1]);
+                                		set.add(new ABSVariable(ABSDataType.BOOL,stat));
+                                	}
                                 }
                             }
                             _ABSIfGroup aw = new _ABSIfGroup();
@@ -467,7 +469,7 @@ public class BTComponent {
                             aw.addCondition(af);
                             absMI.addStatement(aw);
                             af.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT,"terminate=True"));
-                        }
+                       
                     }
                 }
                 else if(b.getType() == BTType.GUARD)
@@ -524,10 +526,7 @@ public class BTComponent {
                     }
                     else {
                         String aa = n;
-                        if(!this.boolVar.contains(aa.trim()))
-                        {
-                            String stat="";
-                            this.boolVar.add(aa.trim());
+                        String stat="";
                             //jika dia terdapat equality
                             if(aa.indexOf("=")>0)
                             {
@@ -558,17 +557,22 @@ public class BTComponent {
                             }
                             else //jika dia boolean biasa saja
                             {
+                            	if(!this.boolVar.contains(aa.trim()))
+                                {
+                                   
+                                    this.boolVar.add(aa.trim());
                                 stat = aa+"_var";
                                 if(!this.isVarExist(stat))
                                 {
                                     //boolVar.add(aa[1]);
                                     set.add(new ABSVariable(ABSDataType.BOOL,stat));
+                                } 
                                 }
                             }
                             _ABSWhile aw = new _ABSWhile(new _ABSCondition("not("+stat+")"));
                             absMI.addStatement(aw);
                             aw.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT,"terminate=True"));
-                        }
+                       
                     }
                 }
                 else if(b.getType() == BTType.INTERNALINPUT)

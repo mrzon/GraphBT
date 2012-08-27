@@ -636,7 +636,8 @@ public class GraphBTUtil {
 		node.setComponentRef(nodebt.getComponentRef());
 		node.setBehaviorRef(nodebt.getBehaviorRef());
 		node.setLabel(nodebt.getLabel()+""+System.currentTimeMillis());
-		node.setOperator("");
+		System.out.println("operatornya "+nodebt.getOperator());
+		node.setOperator(nodebt.getOperator()==null?"":nodebt.getOperator());
 		
 		node.setTraceabilityStatus("");
 		AddContext addContext = new AddContext();

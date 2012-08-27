@@ -208,6 +208,8 @@ public class BTParser extends DefaultHandler
             mod.setBTTree(bt);      //assign the BT to the module
             mod.addForeign(ABSForeign.IO);  //add foreign class 'IO'
             mod.addForeign(ABSForeign.MATH);//add foreign class 'Math'
+            mod.addForeign(ABSForeign.MOUSE);//add foreign class 'Math'
+            
             if(bt.getComponents()!=null)    //get one component
             {
                 Iterator<BTComponent> i = bt.getComponents().iterator();

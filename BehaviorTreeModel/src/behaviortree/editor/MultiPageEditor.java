@@ -77,47 +77,7 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		    Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		    Map<String, Object> m = reg.getExtensionToFactoryMap();
 		    m.put("model", new XMIResourceFactoryImpl());
-			/*ResourceSet rs = new ResourceSetImpl();
-			Diagram d =editor.getDiagramTypeProvider().getDiagram(); 
-			IWorkbenchPart workbenchPart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart(); 
-			IFile fileRaw = (IFile) workbenchPart.getSite().getPage().getActiveEditor().getEditorInput().getAdapter(IFile.class);
-			if (fileRaw == null)
-				try {
-					throw new FileNotFoundException();
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			String path = fileRaw.getRawLocation().toOSString();
-			System.out.println("path: " + path);
 			
-			URI uri = URI.createFileURI(path); //$NON-NLS-1$
-			uri = uri.trimFragment();
-			uri = uri.trimFileExtension();
-			uri = uri.appendFileExtension("model"); //$NON-NLS-1$
-			System.out.println("urinya: "+uri.toFileString());
-			final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-			//IWorkspace df = ResourcesPlugin.getPlugin().getStateLocation();
-			/*IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
-			fileRaw = new IFile(uri.toFileString());
-			if (!fileRaw.isAccessible()) {
-				Resource createResource = rs.createResource(uri);
-				try {
-					createResource.save(Collections.emptyMap());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				createResource.setTrackingModification(true);
-			}
-			Resource res = rs.getResource(uri, true);
-			try {
-				res.load(Collections.EMPTY_MAP);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			d.eContents().addAll(res.getContents());*/
 		} catch (PartInitException e) {
 			ErrorDialog.openError(
 				getSite().getShell(),

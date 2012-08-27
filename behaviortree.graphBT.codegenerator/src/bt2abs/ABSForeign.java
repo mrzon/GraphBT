@@ -20,11 +20,11 @@ public class ABSForeign {
     private String ji="";
     public static ABSForeign IO = new ABSForeign("IO");
     public static ABSForeign MATH = new ABSForeign("Math");
-    
+    public static ABSForeign MOUSE = new ABSForeign("Mouse");
     public ABSForeign(String name)
     {
         n = name;
-        if(n.equals("IO")||n.equals("Math"))
+        if(n.equals("IO")||n.equals("Math")||n.equals("Mouse"))
         {
             BufferedReader f = null;
             try {
@@ -37,6 +37,10 @@ public class ABSForeign {
                 {
                     f = new BufferedReader(new InputStreamReader(Helper.getURL("lib\\template_abs\\Math").openStream()));
                     ji = "Math_fli";
+                }else if(n.equals("Mouse"))
+                {
+                    f = new BufferedReader(new InputStreamReader(Helper.getURL("lib\\template_abs\\Mouse").openStream()));
+                    ji = "Mouse_fli";
                 }
                 String temp;
                 temp=f.readLine();
