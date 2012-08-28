@@ -24,7 +24,7 @@
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
-            uri="http://defaultname/1.0"
+            uri="http://bt/1.0"
             class="behaviortree.BehaviortreePackage"
             genModel="model/DefaultName.genmodel"/>
    </extension>

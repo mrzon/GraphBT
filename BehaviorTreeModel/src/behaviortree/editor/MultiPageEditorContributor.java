@@ -82,7 +82,7 @@ import behaviortree.graphBT.wizards.verifymodel.VerifyModelGraphBTWizard;
  * Responsible for the redirection of global actions to the active editor.
  * Multi-page contributor replaces the contributors for the individual editors in the multi-page editor.
  */
-public class MultiPageEditorContributor extends DiagramEditorActionBarContributor {
+public class MultiPageEditorContributor extends MultiPageEditorActionBarContributor {
 	private IEditorPart activeEditorPart;
 	private Action generateBTCode;
 	private Action addNewComponent;
@@ -427,11 +427,11 @@ public class MultiPageEditorContributor extends DiagramEditorActionBarContributo
 					if(filePath == null)
 						return;
 							
-					if(filePath.endsWith("bt"))
+					if(filePath.endsWith(".bt"))
 					{
 						GraphBTUtil.generateFromBTFile(file, ((DiagramEditor)activeEditorPart));
 					}
-					else 
+					else if(!filePath.endsWith(".bt"))
 					{
 						MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error reading file", "Only bt file is supported");
 					}

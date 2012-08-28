@@ -20,10 +20,13 @@ package behaviortree.graphBT.diagram;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.ICustomContext;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.palette.IPaletteCompartmentEntry;
 import org.eclipse.graphiti.palette.impl.ConnectionCreationToolEntry;
@@ -31,7 +34,10 @@ import org.eclipse.graphiti.palette.impl.ObjectCreationToolEntry;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
 import org.eclipse.graphiti.palette.impl.StackEntry;
 import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
+import org.eclipse.graphiti.tb.IContextMenuEntry;
 import org.eclipse.graphiti.tb.IDecorator;
+
+import behaviortree.Requirement;
 
 public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 
@@ -102,4 +108,25 @@ public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 	 
 	    return ret.toArray(new IPaletteCompartmentEntry[ret.size()]);
 	} 
+	
+	public IContextMenuEntry[] getContextMenu(ICustomContext menu)
+	{
+		System.out.println("Aku kepencet.. kyaa~~");
+		
+		return super.getContextMenu(menu);
+	}
+	
+	@Override
+	public String getToolTip(GraphicsAlgorithm ga) {
+		PictogramElement pe = ga.getPictogramElement();
+		Object bo = getFeatureProvider().getBusinessObjectForPictogramElement(pe);
+		if (bo instanceof Requirement) {
+			Requirement req = ((Requirement) bo);
+			StringBuffer strBuff = new StringBuffer(req.getRequirement());
+			strBuff.append('\n');
+			strBuff.append(req.getDescription());
+			return strBuff.toString();
+		}
+		return super.getToolTip(ga);
+	}
 }

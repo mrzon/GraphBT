@@ -4,6 +4,7 @@ package behaviortree;
  * <copyright>
  *
  * Copyright (c) 2005, 2010 SAP AG.
+ * Copyright (c) 2012 GreenCloud.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +12,7 @@ package behaviortree;
  *
  * Contributors:
  *    SAP AG - initial API, implementation and documentation
+ *    GreenCloud - enhancement in adding feature for GraphBT
  *
  * </copyright>
  *
@@ -26,9 +28,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+
 import org.be.textbe.bt.textbt.*;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -37,7 +42,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.command.Command;
@@ -50,23 +54,16 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.graphiti.features.context.ICreateConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
-import org.eclipse.graphiti.features.context.impl.CreateContext;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
-import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.eclipse.graphiti.mm.pictograms.impl.AnchorContainerImpl;
-import org.eclipse.graphiti.mm.pictograms.impl.AnchorImpl;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
-import org.eclipse.graphiti.ui.platform.GraphitiConnectionEditPart;
 import org.eclipse.m2m.atl.core.ATLCoreException;
 import org.eclipse.m2m.atl.core.IExtractor;
 import org.eclipse.m2m.atl.core.IInjector;
@@ -79,8 +76,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
-
-import behaviortree.graphBT.features.AddGeneralBtNodeFeature;
 
 public class GraphBTUtil {
 	/**
@@ -109,48 +104,6 @@ public class GraphBTUtil {
 	
 	public static BEModel getBEModel(final Diagram d)
 	{
-		
-		/*
-		  getBEFactory();
-
-	      // Register the XMI Resource factory for the.enterprise extension
-	      // Obtain a new Resource set
-	      // Load one of the resources into the resoruce set.
-	     
-	      // Print all the resources inthe Resource set.
-	      // Note: the process of printing the contents of the first Resource
-
-	      // will cause the second Resource to be demand loaded.
-		  URI uri = URI.createURI("bt.model");
-	      BEModel beModel = null;
-	      if(GraphBTUtil.isExist(resourceSet, uri)&&resourceSet.getResource(uri, true).getContents().size()>0)
-			{
-	    	    System.out.println("Di method getBEModel sih resourcesetnya ini "+resourceSet);
-				beModel = (BEModel)resourceSet.getResource(uri, true).getContents().get(0);
-			}
-			else
-			{
-				beModel = GraphBTUtil.getBEFactory().createBEModel();
-				beModel.setName("BTPackage");
-				beModel.setComponentList(GraphBTUtil.getBEFactory().createComponentList());
-				beModel.setDbt(GraphBTUtil.getBEFactory().createBehaviorTree());
-				beModel.setRequirements(GraphBTUtil.getBEFactory().createRequirementList());
-				Resource createResource = resourceSet.createResource(uri);
-				//resourceSet.getResources().add(createResource);
-				createResource.getContents().add(beModel);
-				try {
-					createResource.save(Collections.emptyMap());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				createResource.setTrackingModification(true);
-			}
-		return beModel;*/
-		// get model elements from the resource
-		//return resource.getContents().size() != 0?(BEModel)resource.getContents().get(0):null; // get(0) might be dangerous. why?
-	
 		URI uri = d.eResource().getURI();
 		uri = uri.trimFragment();
 		uri = uri.trimFileExtension();
@@ -198,7 +151,11 @@ public class GraphBTUtil {
 		return beModel;
 	}
 	
-
+	/**
+	 * Get diagram files from a project
+	 * @param p project instance
+	 * @return collection of diagrams
+	 */
 	public static Collection<Diagram> getDiagrams(IProject p) {
 		final List<IFile> files = getDiagramFiles(p);
 		final List<Diagram> diagramList = new ArrayList<Diagram>();
@@ -212,6 +169,13 @@ public class GraphBTUtil {
 		return diagramList;
 	}
 
+	/**
+	 * Save an object to a corresponding diagram
+	 * @param obj object that want to added
+	 * @param d diagram instance
+	 * @throws CoreException
+	 * @throws IOException
+	 */
 	public static void saveToModelFile(final EObject obj, final Diagram d) throws CoreException, IOException {
 		URI uri = d.eResource().getURI();
 		uri = uri.trimFragment();
@@ -245,6 +209,11 @@ public class GraphBTUtil {
 		f.getCommandStack().execute(cmd);
 	}
 
+	/**
+	 * get list of file which contain diagram instance from a folder 
+	 * @param folder instance of folder
+	 * @return list of diagram file
+	 */
 	private static List<IFile> getDiagramFiles(IContainer folder) {
 		final List<IFile> ret = new ArrayList<IFile>();
 		try {
@@ -266,6 +235,12 @@ public class GraphBTUtil {
 		return ret;
 	}
 
+	/**
+	 * get diagram instance from a file
+	 * @param file instance of file
+	 * @param resourceSet instance of ResourceSet that used in the diagram 
+	 * @return diagram instance
+	 */
 	public static Diagram getDiagramFromFile(IFile file, ResourceSet resourceSet) {
 		// Get the URI of the model file.
 		final URI resourceURI = getFileURI(file, resourceSet);
@@ -291,6 +266,12 @@ public class GraphBTUtil {
 		return null;
 	}
 
+	/**
+	 * get file URI from a file based on a ResourceSet
+	 * @param file
+	 * @param resourceSet
+	 * @return
+	 */
 	private static URI getFileURI(IFile file, ResourceSet resourceSet) {
 		final String pathName = file.getFullPath().toString();
 		URI resourceURI = URI.createFileURI(pathName);
@@ -298,13 +279,24 @@ public class GraphBTUtil {
 		return resourceURI;
 	}
 	
+	/**
+	 * get resourceset instance from a diagram
+	 * @param d
+	 * @return
+	 * @throws CoreException
+	 * @throws IOException
+	 */
 	public static ResourceSet getResourceSet(final Diagram d) throws CoreException, IOException {
-
 		ResourceSet rSet = d.eResource().getResourceSet();
-		
 		return rSet;
 	}
 	
+	/**
+	 * check whether the uri is exist in a resource set
+	 * @param rs the resourceset
+	 * @param uri the uri
+	 * @return true if exist, false if not
+	 */
 	public static boolean isExist(ResourceSet rs, URI uri)
 	{
 		Iterator<Resource> it = rs.getResources().iterator();
@@ -318,6 +310,13 @@ public class GraphBTUtil {
 		}
 		return false;
 	}
+	
+	/**
+	 * get a resource from a resourceset based on a uri
+	 * @param rs the resource set
+	 * @param uri the uri
+	 * @return the resource
+	 */
 	public static Resource getResource(ResourceSet rs, URI uri)
 	{
 		Iterator<Resource> it = rs.getResources().iterator();
@@ -330,18 +329,32 @@ public class GraphBTUtil {
 		}
 		return null;
 	}
-	public static Component getComponent(BEModel model, String ref)
+	
+	/**
+	 * Get component instance based on a model and its name
+	 * @param model bt model
+	 * @param name component name
+	 * @return
+	 */
+	public static Component getComponent(BEModel model, String name)
 	{
 		Iterator<Component> it = model.getComponentList().getComponents().iterator();
 		while(it.hasNext()){
 			Component c = it.next();
 	
-			if(/*c.getComponentRef().equals(ref)||*/c.getComponentName().equals(ref)) {
+			if(/*c.getComponentRef().equals(ref)||*/c.getComponentName().equals(name)) {
 				return c;
 			}
 		}
 		return null;
 	}
+	
+	/**
+	 * Get component instance from a model and based on its reference string
+	 * @param model
+	 * @param ref
+	 * @return
+	 */
 	public static Component getComponentByRef(BEModel model, String ref)
 	{
 		Iterator<Component> it = model.getComponentList().getComponents().iterator();
@@ -354,6 +367,13 @@ public class GraphBTUtil {
 		}
 		return null;
 	}
+	
+	/**
+	 * Create new component in a model
+	 * @param model the model instance
+	 * @param com the component instance
+	 * @return true if the adding success, false if not
+	 */
 	public static boolean createNewComponent(BEModel model, Component com)
 	{
 		if(getComponent(model, com.getComponentName())!=null)
@@ -363,6 +383,13 @@ public class GraphBTUtil {
 		}
 		return false;
 	}
+	
+	/**
+	 * get behavior instance from a component based on its tostring
+	 * @param component
+	 * @param ref
+	 * @return
+	 */
 	public static Behavior getBehaviorFromComponent(Component component,
 			String ref) {
 		Iterator<Behavior> it = component.getBehaviors().iterator();
@@ -376,6 +403,12 @@ public class GraphBTUtil {
 		return null;
 	}
 	
+	/**
+	 * get behavior instance from a component based on its reference string
+	 * @param component
+	 * @param ref
+	 * @return
+	 */
 	public static Behavior getBehaviorFromComponentByRef(Component component,
 			String ref) {
 		Iterator<Behavior> it = component.getBehaviors().iterator();
@@ -389,6 +422,12 @@ public class GraphBTUtil {
 		return null;
 	}
 	
+	/**
+	 * get requirement
+	 * @param model
+	 * @param key
+	 * @return
+	 */
 	public static Requirement getRequirement(BEModel model,
 			String key) {
 		Iterator<Requirement> it = model.getRequirementList().getRequirements().iterator();
@@ -402,6 +441,11 @@ public class GraphBTUtil {
 		return null;
 	}
 	
+	/**
+	 * get standardnode roots from a resourceset
+	 * @param rs
+	 * @return
+	 */
 	public static List<StandardNode> getRoots(ResourceSet rs)
 	{
 		List<StandardNode> l=new ArrayList<StandardNode>();
@@ -421,6 +465,13 @@ public class GraphBTUtil {
 		
 		return l;
 	}
+	
+	/**
+	 * get operator class
+	 * @param rs
+	 * @param literal
+	 * @return
+	 */
 	public static OperatorClass getOperator(Diagram rs,String literal)
 	{
 		
@@ -455,9 +506,15 @@ public class GraphBTUtil {
 		}
 		return null;
 	}
+	
+	/**
+	 * get traceability status 
+	 * @param rs
+	 * @param literal
+	 * @return
+	 */
 	public static TraceabilityStatusClass getTraceabilityStatus(Diagram rs,String literal)
 	{
-		
 		Iterator<Resource> it = rs.eResource().getResourceSet().getResources().iterator();
 		while(it.hasNext()){
 			Resource res = it.next();
@@ -489,11 +546,21 @@ public class GraphBTUtil {
 		}
 		return null;
 	}
+	
+	/**
+	 * get list of formula
+	 * @return
+	 */
 	public List getFormulaList()
 	{
 		return null;
 	}
 	
+	/**
+	 * get default requirement
+	 * @param d
+	 * @return
+	 */
 	public static Requirement getDefaultRequirement(Diagram d)
 	{
 		ResourceSet rs = d.eResource().getResourceSet();
@@ -527,14 +594,25 @@ public class GraphBTUtil {
 		return r;
 	}
 	
+	/**
+	 * looks whether target node is ancestor of source node
+	 * @param src source node
+	 * @param target target node
+	 * @return true if target is ancestor of source, false if not
+	 */
 	public static boolean isAncestor(StandardNode src, StandardNode target)
 	{
-		List <StandardNode> n = new ArrayList<StandardNode>();
+		Set <StandardNode> n = new HashSet<StandardNode>();
 		collect(src, n);
-		System.out.println("GraphBTUtil isAncestor "+n.size());
 		return n.contains(target);
 	}
-	private static void collect(StandardNode src, List<StandardNode> li)
+	
+	/**
+	 * collect node list to a set
+	 * @param src
+	 * @param n
+	 */
+	private static void collect(StandardNode src, Set<StandardNode> n)
 	{
 		if(src==null)
 		{
@@ -547,18 +625,28 @@ public class GraphBTUtil {
 				Edge e = src.getEdge();
 				for(int i = 0; i < e.getChildNode().size();i++)
 				{
-					li.add((StandardNode) e.getChildNode().get(i));
-					collect((StandardNode) e.getChildNode().get(i),li);
+					n.add((StandardNode) e.getChildNode().get(i));
+					collect((StandardNode) e.getChildNode().get(i),n);
 				}
 			}
 		}
 	}
 	
+	/**
+	 * check whether a diagram is valid or not
+	 * @param d 
+	 * @return true if valide, false if not
+	 */
 	public static boolean isValid(Diagram d)
 	{
 		return GraphBTUtil.getRoots(d.eResource().getResourceSet()).size() == 1;
 	}
 	
+	/**
+	 * generate from bt file
+	 * @param f bt file
+	 * @param de diagram editor instance
+	 */
 	public static void generateFromBTFile(IFile f, final DiagramEditor de)
 	{
 		final Diagram d = de.getDiagramTypeProvider().getDiagram();
@@ -573,7 +661,6 @@ public class GraphBTUtil {
 		System.out.println(res.getContents().toString());
 		Iterator<EObject> i = res.getAllContents();
 		TextBT temp = null;
-		
 		while(i.hasNext())
 		{
 			EObject e = i.next();
@@ -583,14 +670,11 @@ public class GraphBTUtil {
 				break;
 			}
 		}
-		
 		if(temp==null)
 			return;
 		final TextBT btModel = temp;
 		final BEModel beModel = getBEFactory().createBEModel();
-		
 		de.getEditingDomain().getCommandStack().execute(new RecordingCommand(de.getEditingDomain(),"generating model"){
-
 			@Override
 			protected void doExecute() {
 				// TODO Auto-generated method stub
@@ -609,18 +693,20 @@ public class GraphBTUtil {
 				beModel.setRequirementList(rl);
 				dbt.setRootNode(getRoot(btModel, de));
 				beModel.setDbt(dbt);
-				System.out.println("GraphBTUtil generateFromBTFile "+beModel+"\n"+((StandardNode)dbt.getRootNode()).toBTText());
+				//System.out.println("GraphBTUtil generateFromBTFile "+beModel+"\n"+((StandardNode)dbt.getRootNode()).toBTText());
 			}
-			
 		});
-		
-		
 		applyTreeLayout(d);
 	}
-	
+
+	/**
+	 * get StandardNode root from bt instance
+	 * @param bt 
+	 * @param de
+	 * @return
+	 */
 	private static StandardNode getRoot(TextBT bt, DiagramEditor de)
 	{
-		
 		StandardNode root = getBEFactory().createStandardNode();
 		org.be.textbe.bt.textbt.BehaviorTree btbt = bt.getBehaviorTree();
 		org.be.textbe.bt.textbt.Node rootbt = btbt.getRootNode();
@@ -629,6 +715,12 @@ public class GraphBTUtil {
 		return root;
 	}
 	
+	/**
+	 * create instance of StandardNode node
+	 * @param node
+	 * @param nodebt
+	 * @param de
+	 */
 	private static void setNode(final StandardNode node, org.be.textbe.bt.textbt.AbstractNode nodebt, final DiagramEditor de)
 	{
 		final Diagram d = de.getDiagramTypeProvider().getDiagram();
@@ -655,6 +747,15 @@ public class GraphBTUtil {
 		de.getDiagramTypeProvider().getFeatureProvider().addIfPossible(addContext);
 		System.out.println("GraphBTUtil setNode nodebt: "+node.toBTText()+" PEnya: "+Graphiti.getLinkService().getPictogramElements(d, node).size());
 	}
+	
+	/**
+	 * create connection between standardnode s and standardnode t named edge e
+	 * @param de
+	 * @param s
+	 * @param t
+	 * @param e
+	 * @param tipe
+	 */
 	private static void createConnection(DiagramEditor de, StandardNode s, StandardNode t, Edge e, int tipe)
 	{
 		Diagram d = de.getDiagramTypeProvider().getDiagram();
@@ -677,16 +778,19 @@ public class GraphBTUtil {
         //d.getConnections().add(connection);
 	}
 	
+	/**
+	 * set child
+	 * @param node
+	 * @param nodebt
+	 * @param de
+	 */
 	private static void setChild(StandardNode node, org.be.textbe.bt.textbt.AbstractNode nodebt, DiagramEditor de)
 	{
 		Diagram d = de.getDiagramTypeProvider().getDiagram();
-		
-		
 		AbstractBlockOrNode _childNode = null;
 		if (nodebt instanceof org.be.textbe.bt.textbt.Node)
 		{
 			_childNode = ((org.be.textbe.bt.textbt.Node)nodebt).getChildNode();
-			
 		}
 		else if (nodebt instanceof org.be.textbe.bt.textbt.AtomicNode)
 		{
@@ -701,11 +805,11 @@ public class GraphBTUtil {
 			return;
 		if(_childNode instanceof SequentialNode)
 		{
-			System.out.println("GraphBTUtil setChild ternyata ini sequential node");
+			//System.out.println("GraphBTUtil setChild ternyata ini sequential node");
 			org.be.textbe.bt.textbt.SequentialNode childNode = (org.be.textbe.bt.textbt.SequentialNode)_childNode;
 			StandardNode childSN = getBEFactory().createStandardNode();
 			setNode(childSN,childNode, de);
-			System.out.println("setChild jumlahPE "+childSN.toBTText()+" "+Graphiti.getLinkService().getPictogramElements(d, childSN).size());
+			//System.out.println("setChild jumlahPE "+childSN.toBTText()+" "+Graphiti.getLinkService().getPictogramElements(d, childSN).size());
 			Edge e = getBEFactory().createEdge();
 			e.setComposition(Composition.SEQUENTIAL);
 			e.getChildNode().add(childSN);
@@ -754,14 +858,14 @@ public class GraphBTUtil {
 	
 	private static ComponentList getComponentList(TextBT bt, Diagram d)
 	{
-		System.out.print("GraphBTUtil getComponentList ");
+		//System.out.print("GraphBTUtil getComponentList ");
 		ComponentList cl = getBEFactory().createComponentList();
 		org.be.textbe.bt.textbt.ComponentList clbt = bt.getComponents();
 		for(int i = 0; i < clbt.getComponents().size(); i++)
 		{
 			Component cp = getBEFactory().createComponent();
 			org.be.textbe.bt.textbt.Component cpbt = clbt.getComponents().get(i);
-			System.out.print(cpbt.getVal()+" "+cpbt.getRef());
+			//System.out.print(cpbt.getVal()+" "+cpbt.getRef());
 			cp.setComponentName(cpbt.getVal());
 			cp.setComponentRef(cpbt.getRef());
 			cl.getComponents().add(cp);
@@ -769,8 +873,6 @@ public class GraphBTUtil {
 			{
 				Behavior b = getBEFactory().createBehavior();
 				AbstractBehavior abbt = cpbt.getBehaviors().get(j);
-				
-				
 				cp.getBehaviors().add(b);
 				if(abbt instanceof org.be.textbe.bt.textbt.State)
 				{
@@ -842,7 +944,7 @@ public class GraphBTUtil {
 				e.printStackTrace();
 			}
 		}
-		System.out.println();
+		//System.out.println();
 		return cl;
 	}
 	
@@ -872,7 +974,6 @@ public class GraphBTUtil {
 		IFile f = (IFile) file;
 		//IPath path = (IPath) f.getLocation();
 		IModel outputModel = null;
-
 		// Defaults
 		try {
 			// Metamodels
@@ -891,9 +992,6 @@ public class GraphBTUtil {
 			outputModel = factory.newModel(outMetamodel);
 
 			// Loading Existing Model
-			//System.out.println("file .btnya "+file.getFullPath().toPortableString());
-			//System.out.println("file .bt1nya "+file.getFullPath().toString());
-
 			Scanner s = new Scanner(file.getContents(true));
 			injector.inject(inputModel, file.getFullPath().toPortableString());
 
@@ -931,11 +1029,16 @@ public class GraphBTUtil {
 		} 
 		return target;
 	}
+	
+	/**
+	 * get bt text from a diagram
+	 * @param d
+	 * @return
+	 */
 	public static String getBTText(Diagram d)
 	{
 		BEModel be = GraphBTUtil.getBEModel(d);
 		String content = be.toString();
-		
 		List<StandardNode> ln = GraphBTUtil.getRoots(d.eResource().getResourceSet());
 		for(int i=0; i < ln.size(); i++)
 		{
@@ -943,6 +1046,12 @@ public class GraphBTUtil {
 		}
 		return content;
 	}
+	
+	/**
+	 * generate bt file from diagram file
+	 * @param diag
+	 * @return
+	 */
 	public static boolean generateBTFromDiagramFile(IFile diag)
 	{
 		ResourceSet rs = new ResourceSetImpl();
@@ -982,6 +1091,10 @@ public class GraphBTUtil {
 		return true;
 	}
 	
+	/**
+	 * apply layout to a diagram
+	 * @param d
+	 */
 	public static void applyTreeLayout(Diagram d)
 	{
 		if(!isValid(d))
@@ -1000,6 +1113,14 @@ public class GraphBTUtil {
 	private static int hSpace = 20;
 	private static int vSpace = 30;
 	
+	/**
+	 * apply tree layout
+	 * @param d
+	 * @param node
+	 * @param currentX
+	 * @param currentY
+	 * @param map
+	 */
 	private static void applyTreeLayout(Diagram d, StandardNode node, int currentX, int currentY, HashMap<StandardNode,Integer> map)
 	{
 		final PictogramElement rootP = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
@@ -1018,14 +1139,9 @@ public class GraphBTUtil {
         }
 		final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Move Node") {
 			protected void doExecute() {
-				//System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
-				
-				//if(!c.getComponentName().equals("")&&c.getComponentName()!=null)
-
 				rootP.getGraphicsAlgorithm().setX(cX+width/2);
 				rootP.getGraphicsAlgorithm().setY(cY);
-						//String name = GraphBTUtil.getBehaviorFromComponentByRef(c, node.getBehaviorRef()).toString();
-		    }
+			}
 		};
 		ds.getEditingDomain().getCommandStack().execute(cmd);
 		if(node.getEdge()==null)
@@ -1040,11 +1156,17 @@ public class GraphBTUtil {
 		}
 	}
 	
+	/**
+	 * get subtree width
+	 * @param d
+	 * @param node
+	 * @param map
+	 * @return
+	 */
 	private static int getWidth(Diagram d, StandardNode node, HashMap<StandardNode,Integer> map) {
 		if(node.getEdge() == null)
 		{
 			PictogramElement rootP = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
-			
 			map.put(node, rootP.getGraphicsAlgorithm().getWidth());
 			return rootP.getGraphicsAlgorithm().getWidth();
 		}
@@ -1054,7 +1176,6 @@ public class GraphBTUtil {
 		{
 			width=width+hSpace+getWidth(d, (StandardNode) node.getEdge().getChildNode().get(i),map);
 		}
-		System.out.println(node.toString()+" "+width);
 		map.put(node, width);
 		return width;
 	}

@@ -14,15 +14,12 @@ public class GraphBTDiagramTypeProvider extends AbstractDiagramTypeProvider {
 	public GraphBTDiagramTypeProvider() {
 		super();
 		setFeatureProvider(new GraphBTFeatureProvider(this));
-	
 	}
 	@Override
 	public IToolBehaviorProvider[] getAvailableToolBehaviorProviders() {
 		if (toolBehaviorProviders == null) {
 			toolBehaviorProviders = new IToolBehaviorProvider[] { new GraphBTToolBehaviorProvider(this) };
 		}
-		DiagramEditor d = new DiagramEditor();
-		
 		return toolBehaviorProviders;
 	}
 
