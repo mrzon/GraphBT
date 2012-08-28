@@ -225,19 +225,24 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		listComponents.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 
+				System.out.println("awal= " + index);
 				String selected = listComponents.getItem(listComponents.getSelectionIndex());
 				index = listComponents.getSelectionIndex();
 				System.out.println("index= " + index);
 				map.put(StandardNode.COMPONENT_VALUE, selected );
 				listBehaviors.removeAll();
 				Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), selected);
-				if(c!=null)
+				if(c!=null) {
 					for(Behavior behavior: c.getBehaviors()){
 						listBehaviors.add(behavior.toString());
 					}
+					
+					cNameLabel.setVisible(true);
+					cNameLabel.setText("Name: " + c.getComponentName());
+					cRefLabel.setVisible(true);
+					cRefLabel.setText("Reference: " +c.getComponentRef());
+				}
 				
-				cNameLabel.setText("Name: " + c.getComponentName());
-				cRefLabel.setText("Reference: " +c.getComponentRef());
 				//editComponentNameText.setText(c.getComponentName());
 				componentRefTemp = c.getComponentRef();
 				System.out.println("test awal= " + componentRefTemp);
@@ -255,11 +260,15 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
 				Behavior b = GraphBTUtil.getBehaviorFromComponent(c, selected);
 
+				if(b != null) {
 				//editcomponentNameText.setText(c.getComponentName());
-				bNameLabel.setText("Name: " + b.getBehaviorName());
-				bRefLabel.setText("Reference: " + b.getBehaviorRef());
-				bTypeLabel.setText("Type: " + b.getBehaviorType().getName());
-				
+					bNameLabel.setVisible(true);
+					bNameLabel.setText("Name: " + b.getBehaviorName());
+					bRefLabel.setVisible(true);
+					bRefLabel.setText("Reference: " + b.getBehaviorRef());
+					bTypeLabel.setVisible(true);
+					bTypeLabel.setText("Type: " + b.getBehaviorType().getName());
+				}
 				behaviorRefTemp = b.getBehaviorRef();
 				//System.out.println("komponen = " + componentRefTemp);
 			}
@@ -371,9 +380,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 
 		editComponentButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-
 				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
-
 
 				editComponentNameText.setText(c.getComponentName());
 				componentRefText.setText(c.getComponentRef());
@@ -386,17 +393,53 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 
 		});
 		
+		deleteComponentButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				
+				IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				final DiagramEditor ds;
+				if(page.getActiveEditor() instanceof DiagramEditor) {
+					ds = (DiagramEditor)page.getActiveEditor();	
+				}
+				else {
+					ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+				}
+				d = ds.getDiagramTypeProvider().getDiagram();
+				
+				final BEModel be = GraphBTUtil.getBEModel(d);
+				final Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
+
+				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+					protected void doExecute() {
+						GraphBTUtil.removeComponentByRef(be, componentRefTemp);
+					}
+				};
+
+				ds.getEditingDomain().getCommandStack().execute(cmd);
+				editComponentGroup.setVisible(false);
+				editComponentLabel.setVisible(false);
+				editComponentNameText.setVisible(false);
+
+				cNameLabel.setVisible(false);
+				cRefLabel.setVisible(false);
+				
+				listComponents.removeAll();
+				listBehaviors.removeAll();
+				for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()){
+					listComponents.add(component.getComponentName());
+				}
+			}
+		});
+		
 		saveComponentButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 
 				IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				final DiagramEditor ds;
-				if(page.getActiveEditor() instanceof DiagramEditor)
-				{
+				if(page.getActiveEditor() instanceof DiagramEditor) {
 					ds = (DiagramEditor)page.getActiveEditor();	
 				}
-				else
-				{
+				else {
 					ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
 				}
 				d = ds.getDiagramTypeProvider().getDiagram();
@@ -424,11 +467,8 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()){
 					listComponents.add(component.getComponentName());
 				}
-
 			}
 		});
-
-		
 		
 			/*
 			 * Inside Group Edit Behavior
@@ -513,10 +553,48 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				editBehaviorLabel.setVisible(true);
 				editBehaviorNameText.setVisible(true);
 				saveBehaviorButton.setVisible(true);
-				
 			}
+		});
 		
-		
+		deleteBehaviorButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				
+				IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				final DiagramEditor ds;
+				if(page.getActiveEditor() instanceof DiagramEditor) {
+					ds = (DiagramEditor)page.getActiveEditor();	
+				}
+				else {
+					ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+				}
+				d = ds.getDiagramTypeProvider().getDiagram();
+				
+				final BEModel be = GraphBTUtil.getBEModel(d);
+				final Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
+				final Behavior b = GraphBTUtil.getBehaviorFromComponentByRef(c, behaviorRefTemp);
+
+				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+					protected void doExecute() {
+						GraphBTUtil.removeBehaviorFromComponentByRef(c, behaviorRefTemp);
+					}
+				};
+
+				ds.getEditingDomain().getCommandStack().execute(cmd);
+				editBehaviorGroup.setVisible(false);
+				typeLabel.setVisible(false);
+				typeCombo.setVisible(false);
+				editBehaviorLabel.setVisible(false);
+				editBehaviorNameText.setVisible(false);
+				
+				bNameLabel.setVisible(false);
+				bRefLabel.setVisible(false);
+				bTypeLabel.setVisible(false);
+				
+				listBehaviors.removeAll();
+				for(Behavior behavior: c.getBehaviors()){
+					listBehaviors.add(behavior.toString());
+				}
+			}
 		});
 		
 		saveBehaviorButton.addSelectionListener(new SelectionAdapter() {
@@ -562,24 +640,6 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 			}
 		});
 
-		/*
-		
-
-		
-
-		
-
-		
-
-		
-		
-		
-
-		
-		
-
-		
-*/
 		setControl(container);
 	}
 	

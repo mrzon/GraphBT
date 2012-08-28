@@ -69,6 +69,12 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 		gridData = new GridData();
 		gridData.horizontalSpan = 4;
 		createRequirementButton.setLayoutData(gridData);
+		
+//		Button removeRequirementButton = new Button(container, SWT.NULL);
+//		removeRequirementButton.setText("Remove Requirement");
+//		gridData = new GridData();
+//		gridData.horizontalSpan = 4;
+//		removeRequirementButton.setLayoutData(gridData);
 
 		final Label listRequirementLabel = new Label(container, SWT.NULL);
 		listRequirementLabel.setText("List Requirements:");
@@ -125,18 +131,37 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 		gridData.verticalAlignment = GridData.BEGINNING;
 		descLabel.setLayoutData(gridData);
 		descLabel.setText("");
-
-		final Button editRequirementButton = new Button(group, SWT.NULL);
-		editRequirementButton.setText("Edit Requirement");
+		
+		final Group innerGroup = new Group(group, SWT.SHADOW_ETCHED_IN);
+		innerGroup.setText("");
 		gridData =
-				new GridData(
-						GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
+				new GridData( GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL );
+		gridData.horizontalSpan = 2;
+		innerGroup.setLayoutData(gridData);
+		GridLayout innerGroupLayout = new GridLayout(2, false);
+		innerGroup.setLayout(innerGroupLayout);
+		
+		final Button editRequirementButton = new Button(innerGroup, SWT.NULL);
+		editRequirementButton.setText("Edit Requirement");
+		gridData = new GridData();
+//				new GridData(
+//						GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
 		gridData.horizontalSpan = 1;
 		gridData.horizontalAlignment = GridData.END;
-		gridData.verticalAlignment = GridData.END;
+//		gridData.verticalAlignment = GridData.END;
 		editRequirementButton.setLayoutData(gridData);
 		editRequirementButton.setVisible(false);
-
+		
+		final Button removeRequirementButton = new Button(innerGroup, SWT.NULL);
+		removeRequirementButton.setText("Remove Requirement");
+		gridData = new GridData();
+//				new GridData(
+//						GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
+		gridData.horizontalSpan = 1;
+		gridData.horizontalAlignment = GridData.BEGINNING;
+//		gridData.verticalAlignment = GridData.END;
+		removeRequirementButton.setLayoutData(gridData);
+		removeRequirementButton.setVisible(false);
 
 		/*
 		 * Edit Label
@@ -223,12 +248,15 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 
 				Requirement r = GraphBTUtil.getRequirement(GraphBTUtil.getBEModel(d), selected);
 
-				nameLabel.setText(r.getKey() + " " + r.getRequirement());
-				descLabel.setText(r.getDescription());
-				editRequirementNameText.setText(r.getRequirement());
-				requirementRefText.setText(r.getKey());
-				editRequirementDescText.setText(r.getDescription());
+				if(r !=  null) {
+					nameLabel.setText(r.getKey() + " " + r.getRequirement());
+					descLabel.setText(r.getDescription());
+					editRequirementNameText.setText(r.getRequirement());
+					requirementRefText.setText(r.getKey());
+					editRequirementDescText.setText(r.getDescription());
+				}
 				editRequirementButton.setVisible(true);
+				removeRequirementButton.setVisible(true);
 			}
 		});
 
@@ -237,22 +265,19 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 				
 				IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				final DiagramEditor ds;
-				if(page.getActiveEditor() instanceof DiagramEditor)
-				{
+				if(page.getActiveEditor() instanceof DiagramEditor) {
 					ds = (DiagramEditor)page.getActiveEditor();	
 				}
-				else
-				{
+				else {
 					ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
 				}
+				
 				d = ds.getDiagramTypeProvider().getDiagram();
 				final BEModel be = GraphBTUtil.getBEModel(d);
 				final Requirement r = GraphBTUtil.getRequirement(GraphBTUtil.getBEModel(d), requirementRefText.getText());
 
-
 				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 					protected void doExecute() {
-						//System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
 						r.setRequirement(editRequirementNameText.getText());
 						r.setDescription(editRequirementDescText.getText());		
 					}
@@ -268,14 +293,46 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 				nameLabel.setText(r.getKey() + " " + r.getRequirement());
 				descLabel.setText(r.getDescription());
 				group.setVisible(true);
-			
+			}
+		});
+		
+		removeRequirementButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				
+				IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				final DiagramEditor ds;
+				if(page.getActiveEditor() instanceof DiagramEditor) {
+					ds = (DiagramEditor)page.getActiveEditor();	
+				}
+				else {
+					ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+				}
+				d = ds.getDiagramTypeProvider().getDiagram();
+				final BEModel be = GraphBTUtil.getBEModel(d);
+				final Requirement r = GraphBTUtil.getRequirement(GraphBTUtil.getBEModel(d), requirementRefText.getText());
 
-				/*listRequirements.removeAll();
-				for(Requirement requirement: GraphBTUtil.getBEModel(d).getRequirementList().getRequirements()){
-					listRequirements.add(requirement.getKey());
-				}*/
+				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+					protected void doExecute() {
+						GraphBTUtil.removeRequirement(GraphBTUtil.getBEModel(d), requirementRefText.getText());
+					}
+				};
+				ds.getEditingDomain().getCommandStack().execute(cmd);
 
-
+				editLabel.setVisible(false);
+				saveRequirementButton.setVisible(false);
+				editRequirementLabel.setVisible(false);
+				editRequirementDescLabel.setVisible(false);
+				editRequirementNameText.setVisible(false);
+				editRequirementDescText.setVisible(false);
+				nameLabel.setText("");
+				descLabel.setText("");
+				group.setVisible(true);
+				removeRequirementButton.setVisible(false);
+				editRequirementButton.setVisible(false);
+				listRequirements.removeAll();
+				for(Requirement req : GraphBTUtil.getBEModel(d).getRequirementList().getRequirements()){
+					listRequirements.add(req.getRequirement());
+				}
 			}
 		});
 
@@ -310,7 +367,6 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 					}
 				});			
 			}
-
 		});
 
 		setControl(container);

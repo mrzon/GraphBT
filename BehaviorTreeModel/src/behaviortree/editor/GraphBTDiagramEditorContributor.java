@@ -8,5 +8,4 @@ public class GraphBTDiagramEditorContributor extends DiagramEditorActionBarContr
 		super();
 		System.out.println("GraphBTDiagramEditorContributor constructor");
 	}
-	
 }

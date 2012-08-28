@@ -54,15 +54,22 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.graphiti.features.IDeleteFeature;
+import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
+import org.eclipse.graphiti.features.context.impl.DeleteContext;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.tb.ContextButtonEntry;
+import org.eclipse.graphiti.tb.ContextEntryHelper;
+import org.eclipse.graphiti.tb.IContextButtonEntry;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.m2m.atl.core.ATLCoreException;
 import org.eclipse.m2m.atl.core.IExtractor;
@@ -349,12 +356,15 @@ public class GraphBTUtil {
 		return null;
 	}
 	
+//<<<<<<< HEAD
 	/**
 	 * Get component instance from a model and based on its reference string
 	 * @param model
 	 * @param ref
 	 * @return
 	 */
+//=======
+//>>>>>>> refs/remotes/origin/master4
 	public static Component getComponentByRef(BEModel model, String ref)
 	{
 		Iterator<Component> it = model.getComponentList().getComponents().iterator();
@@ -374,6 +384,20 @@ public class GraphBTUtil {
 	 * @param com the component instance
 	 * @return true if the adding success, false if not
 	 */
+	public static void removeComponentByRef(BEModel model, String ref)
+	{
+		Iterator<Component> it = model.getComponentList().getComponents().iterator();
+		while(it.hasNext()){
+			Component c = it.next();
+	
+			if(c.getComponentRef().equals(ref)/*||c.getComponentName().equals(ref)*/) {
+				model.getComponentList().getComponents().remove(c);
+				return;
+			}
+		}
+		return;
+	}
+	
 	public static boolean createNewComponent(BEModel model, Component com)
 	{
 		if(getComponent(model, com.getComponentName())!=null)
@@ -428,6 +452,19 @@ public class GraphBTUtil {
 	 * @param key
 	 * @return
 	 */
+	public static void removeBehaviorFromComponentByRef(Component component,
+			String ref) {
+		Iterator<Behavior> it = component.getBehaviors().iterator();
+		while(it.hasNext()){
+			Behavior b = it.next();
+	
+			if(b.getBehaviorRef().equals(ref)) {
+				component.getBehaviors().remove(b);
+				return;
+			}
+		}
+	}
+	
 	public static Requirement getRequirement(BEModel model,
 			String key) {
 		Iterator<Requirement> it = model.getRequirementList().getRequirements().iterator();
@@ -446,6 +483,19 @@ public class GraphBTUtil {
 	 * @param rs
 	 * @return
 	 */
+	public static void removeRequirement(BEModel model,
+			String key) {
+		Iterator<Requirement> it = model.getRequirementList().getRequirements().iterator();
+		while(it.hasNext()){
+			Requirement res = it.next();
+	
+			if(res.getKey().equals(key)) {
+				model.getRequirementList().getRequirements().remove(res);
+				return;
+			}
+		}
+	}
+	
 	public static List<StandardNode> getRoots(ResourceSet rs)
 	{
 		List<StandardNode> l=new ArrayList<StandardNode>();
@@ -1178,5 +1228,20 @@ public class GraphBTUtil {
 		}
 		map.put(node, width);
 		return width;
+	}
+	
+	public static IContextButtonEntry createGraphBtDeleteContextButton(IFeatureProvider featureProvider, PictogramElement pe) {
+		IDeleteContext deleteContext = new DeleteContext(pe);
+		IDeleteFeature deleteFeature = featureProvider.getDeleteFeature(deleteContext);
+		IContextButtonEntry ret = null;
+		
+		StandardNode node = (StandardNode) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		
+//		node.getEdge().
+		if (deleteFeature != null) {
+			ret = new ContextButtonEntry(deleteFeature, deleteContext);
+			ContextEntryHelper.markAsDeleteContextEntry(ret);
+		}
+		return ret;
 	}
 }
