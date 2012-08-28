@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.platform.IDiagramEditor;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -108,27 +109,34 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	protected IAction getAction(ITextEditor editor, String actionID) {
 		return (editor == null ? null : editor.getAction(actionID));
 	}
+	
+//	protected IAction getAction(IDiagramEditor editor, String actionID) {
+//		return (editor == null ? null : editor.);
+//	}
 	/* (non-JavaDoc)
 	 * Method declared in AbstractMultiPageEditorActionBarContributor.
 	 */
 
-	public IEditorPart getActivePage()
-	{
+	public IEditorPart getActivePage() {
 		return activeEditorPart;
 	}
+	
 	public void setActivePage(IEditorPart part) {
 		if (activeEditorPart == part)
 			return;
 
-		/*if(activeEditorPart instanceof DiagramEditor && part instanceof TextbtEditor)
-		{
-
-		}*/
 		activeEditorPart = part;
 
 		IActionBars actionBars = getActionBars();
 		if (actionBars != null) {
-
+			
+			if(part instanceof ITextEditor){
+				System.out.println("part instanceof ITextEditor");
+			}
+			if(part instanceof IDiagramEditor){
+				System.out.println("part instanceof IDiagramEditor");
+			}
+			
 			ITextEditor editor = (part instanceof ITextEditor) ? (ITextEditor) part : null;
 
 			actionBars.setGlobalActionHandler(
@@ -182,21 +190,18 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						btIFile = workspaceRoot.getFile(path);
 						InputStream in = new ByteArrayInputStream(content.getBytes());
 						try {
-							if (file == null || !file.exists()) 
-							{
+							if (file == null || !file.exists()) {
 								btIFile.create(in,false,null);
 							}	
-							else
-							{
+							else {
 								btIFile.setContents(in, false, false, null);
 							}	
 						} catch (CoreException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
-				}}
-			// Get the currently selected file from the editor
+				}
+			}
 		};	
 
 		Bundle bundleGenerateCode = Platform.getBundle("BehaviorTreeModel");
@@ -207,7 +212,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		try {
 			fileURLGenerateCode = FileLocator.resolve(fileURLGenerateCode );
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ImageData imGenerateCode = new ImageData(fileURLGenerateCode.getPath());
@@ -220,14 +224,12 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		addNewComponent = new Action() {
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
-				if(activeEditorPart instanceof DiagramEditor)
-				{
+				if(activeEditorPart instanceof DiagramEditor) {
 					System.out.println("Diagramnya kebuka euy");
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
 					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
 					HashMap <Integer,String> map = new HashMap<Integer, String>();
-					//String ketemu="";
 
 					WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 							getActiveWorkbenchWindow().getShell(),
@@ -236,12 +238,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					{
 						return;
 					}
-
-
-					//System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
-
-
-					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
 			}
 		};
@@ -254,7 +250,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		try {
 			fileURLAddComponent = FileLocator.resolve(fileURLAddComponent);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ImageData imAddComponent = new ImageData(fileURLAddComponent.getPath());
@@ -264,46 +259,27 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		addNewComponent.setToolTipText("Add new component to the model");
 		addNewComponent.setImageDescriptor(imdAddComponent);
 
-
-
-
 		manageComponents = new Action(){
 			public void run() {
-				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
-				if(activeEditorPart instanceof DiagramEditor)
-				{
+				if(activeEditorPart instanceof DiagramEditor) {
 					System.out.println("Diagramnya kebuka euy");
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
 					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
 					HashMap <Integer,String> map = new HashMap<Integer, String>();
 					//String ketemu="";
-					if(d!=null)
-					{
+					if(d != null) {
 						WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 								getActiveWorkbenchWindow().getShell(),
 								new ManageComponentsGraphBTWizard(map, d));
-						if(wizardDialog.open() != Window.OK)
-						{
+						if(wizardDialog.open() != Window.OK) {
 							return;
 						}
 						BEModel be = GraphBTUtil.getBEModel(d);
-
-
-						//System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
-
 					}
-					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
 			}
 		};
-
-		//final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-		//IResource file = workspaceRoot.findMember("icons/requirement.gif",true);
-		//IPath ip = workspaceRoot.getWorkspace().;
-		//System.out.println("Filenya "+ip.toOSString());
-
-		//URL pluginInternalURL = getDefault().getBundle().getEntry("icons/requirement.gif"); 
 
 		Bundle bundleComponent = Platform.getBundle("BehaviorTreeModel");
 		IPath pathComponent = new Path("icons/component.gif");
@@ -327,39 +303,28 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		manageRequirements = new Action(){
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
-				if(activeEditorPart instanceof DiagramEditor)
-				{
+				if(activeEditorPart instanceof DiagramEditor) {
 					System.out.println("Diagramnya kebuka euy");
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
 					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
 					HashMap <Integer,String> map = new HashMap<Integer, String>();
 					//String ketemu="";
-					if(d!=null)
-					{
+					if(d!=null) {
 						WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 								getActiveWorkbenchWindow().getShell(),
 								new ManageRequirementsGraphBTWizard(map, d));
-						if(wizardDialog.open() != Window.OK)
-						{
+						if(wizardDialog.open() != Window.OK) {
 							return;
 						}
 						BEModel be = GraphBTUtil.getBEModel(d);
-
-
-						//System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
-
 					}
-					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
 			}
 		};
 
 
 		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-		//IResource file = workspaceRoot.findMember("icons/requirement.gif",true);
-		//IPath ip = workspaceRoot.getWorkspace().;
-		//System.out.println("Filenya "+ip.toOSString());
 
 		//URL pluginInternalURL = getDefault().getBundle().getEntry("icons/requirement.gif"); 
 
@@ -376,7 +341,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		}
 		ImageData im = new ImageData(fileURL.getPath());
 		ImageDescriptor imd = ImageDescriptor.createFromImageData(im);
-		//System.out.println("Filenya "+ip.toString());
 		manageRequirements.setText("Manage Requirements");
 		manageRequirements.setToolTipText("Manage Requirements of The Model");
 		manageRequirements.setImageDescriptor(imd);
@@ -384,24 +348,20 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		verifyModel = new Action() {
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
-				if(activeEditorPart instanceof DiagramEditor)
-				{
+				if(activeEditorPart instanceof DiagramEditor) {
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
 					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
 					HashMap <Integer,String> map = new HashMap<Integer, String>();
-					if(d!=null)
-					{
+					if(d != null) {
 						WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 								getActiveWorkbenchWindow().getShell(),
 								new VerifyModelGraphBTWizard(map, d));
-						if(wizardDialog.open() != Window.OK)
-						{
+						if(wizardDialog.open() != Window.OK) {
 							return;
 						}
 						BEModel be = GraphBTUtil.getBEModel(d);
 					}
-					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
 			}
 		};
@@ -414,17 +374,14 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		validateBT = new Action() {
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
-				if(activeEditorPart instanceof DiagramEditor)
-				{
+				if(activeEditorPart instanceof DiagramEditor) {
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
 					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
-					if(!GraphBTUtil.isValid(d))
-					{
+					if(!GraphBTUtil.isValid(d)) {
 						MessageDialog.openError(null, "Error in validate BT", "The model should contain only one root!");
 					}
-					else
-					{
+					else {
 						MessageDialog.openInformation(null, "Validation info", "The model is valid");
 					}
 					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
@@ -439,8 +396,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		this.debugBT = new Action() {
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
-				if(activeEditorPart instanceof DiagramEditor)
-				{
+				if(activeEditorPart instanceof DiagramEditor) {
 					StartPointParseXML debugger = new StartPointParseXML ();
 					generateBTCode.run(); //generate the bt code first
 					debugger.showDebugger(btIFile, PlatformUI.getWorkbench().getActiveWorkbenchWindow());
@@ -456,8 +412,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		this.generateJavaFromBT = new Action() {
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
-				if(activeEditorPart instanceof DiagramEditor)
-				{
+				if(activeEditorPart instanceof DiagramEditor) {
 					codegenerator.commandHandler.StartPointParseXML debugger = new codegenerator.commandHandler.StartPointParseXML ();
 					generateBTCode.run(); //generate the bt code first
 					debugger.generateCodeFromBT(btIFile);
@@ -472,8 +427,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		applyLayout = new Action() {
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
-				if(activeEditorPart instanceof DiagramEditor)
-				{
+				if(activeEditorPart instanceof DiagramEditor) {
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
 					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
@@ -490,8 +444,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		extractFromBTFile = new Action() {
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
-				if(activeEditorPart instanceof DiagramEditor)
-				{
+				if(activeEditorPart instanceof DiagramEditor) {
 					String filePath = handleBrowse();
 					File f = new File(filePath);
 					IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -502,15 +455,12 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					if(filePath == null)
 						return;
 							
-					if(filePath.endsWith("bt"))
-					{
+					if(filePath.endsWith("bt")) {
 						GraphBTUtil.generateFromBTFile(file, ((DiagramEditor)activeEditorPart));
 					}
-					else 
-					{
+					else  {
 						MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error reading file", "Only bt file is supported");
 					}
-					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
 			}
 		};
