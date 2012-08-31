@@ -22,6 +22,7 @@ import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -78,13 +79,16 @@ public class BehaviorTreePropertySection extends GFPropertySection
         
         final Diagram d = ds.getDiagramTypeProvider().getDiagram();
         
+        BEModel model = GraphBTUtil.getBEModel(d);
+        
         componentCombo = factory.createCCombo(composite);
         behaviorCombo = factory.createCCombo(composite);
         requirementCombo = factory.createCCombo(composite);
         operatorCombo = factory.createCCombo(composite);
         statusCombo = factory.createCCombo(composite);
         
-        refresh();        
+//        refresh();
+        
         for(TraceabilityStatus ts : TraceabilityStatus.VALUES) {
         	statusCombo.add(ts.getName());
 	    }
@@ -157,6 +161,40 @@ public class BehaviorTreePropertySection extends GFPropertySection
         statusData.right = new FormAttachment(statusCombo, -HSPACE);
         statusData.top = new FormAttachment(statusCombo, 0, SWT.CENTER);
         valueLabel5.setLayoutData(statusData);
+        
+        /***/
+        PictogramElement pe = getSelectedPictogramElement();
+
+        if (pe != null) {
+            Object bo = Graphiti.getLinkService()
+                 .getBusinessObjectForLinkedPictogramElement(pe);
+
+            if (bo == null)
+                return;
+            
+            if(!(bo instanceof StandardNode)) {
+            	return;
+            }
+            
+            StandardNode node = (StandardNode) bo;
+            
+//            Component com = GraphBTUtil.getComponentByRef(model, node.getComponentRef());
+//            String componentString = com.getComponentName(); 
+//            String behaviorString =  GraphBTUtil.getBehaviorFromComponentByRef(com, node.getComponentRef()).getBehaviorName();
+//            String requirementString = GraphBTUtil.getRequirement(model, node.getTraceabilityLink()).getKey();
+//            String operatorString = GraphBTUtil.getOperator(d, node.getOperator()).getOperatorLiteral();
+//            String statusString = GraphBTUtil.getTraceabilityStatus(d, node.getTraceabilityStatus()).getTraceabilityStatusLiteral();
+//            
+//            componentCombo.setText(componentString);
+//            System.out.println("componentCombo.setText(componentString) " + componentString);
+//            behaviorCombo.setText(behaviorString);
+//            requirementCombo.setText(requirementString);
+//            statusCombo.setText(statusString);
+//            operatorCombo.setText(operatorString);
+            
+        }
+        /***/
+        refresh();
     }
 
 	/**
@@ -209,6 +247,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
             }
             
             final Diagram d = ds.getDiagramTypeProvider().getDiagram();
+            
             componentCombo.removeAll();
             for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()) {
     	    	componentCombo.add(component.getComponentName());
@@ -218,6 +257,23 @@ public class BehaviorTreePropertySection extends GFPropertySection
             for(Requirement requirement : GraphBTUtil.getBEModel(d).getRequirementList().getRequirements()) {
             	requirementCombo.add(requirement.getKey());
             }
+            
+            BEModel model = GraphBTUtil.getBEModel(d);
+            
+            Component com = GraphBTUtil.getComponentByRef(model, node.getComponentRef());
+            String componentString = com.getComponentName(); 
+            String behaviorString =  GraphBTUtil.getBehaviorFromComponentByRef(com, node.getBehaviorRef()).getBehaviorName();
+            String requirementString = GraphBTUtil.getRequirement(model, node.getTraceabilityLink()).getKey();
+            String operatorString = GraphBTUtil.getOperator(d, node.getOperator()).getOperatorLiteral();
+            String statusString = GraphBTUtil.getTraceabilityStatus(d, node.getTraceabilityStatus()).getTraceabilityStatusLiteral();
+            
+            componentCombo.setText(componentString);
+            System.out.println("componentCombo.setText(componentString) " + componentString);
+            behaviorCombo.setText(behaviorString);
+            requirementCombo.setText(requirementString);
+            statusCombo.setText(statusString);
+            operatorCombo.setText(operatorString);
+
 
             componentCombo.addSelectionListener(new SelectionAdapter() {
     		    public void widgetSelected(SelectionEvent e) {
@@ -329,13 +385,8 @@ public class BehaviorTreePropertySection extends GFPropertySection
     		    	CCombo combo = (CCombo)e.widget;
     		    	final String selected = combo.getItem(combo.getSelectionIndex());
     		    	
-    		    	System.out.println("TraceabilityStatus.get(selected) " + TraceabilityStatus.getByName(selected).getLiteral());
-    		    	
     		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
     	    			protected void doExecute() {
-    	    				BEModel model = GraphBTUtil.getBEModel(d);
-    	    				System.out.println("Selected on TraceabilityStatus " + selected);
-    	        			
     	    				node.setTraceabilityStatus(TraceabilityStatus.getByName(selected).getLiteral());
     	    		    }
     	    		};
@@ -346,7 +397,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
     	    		if(!(pe instanceof ContainerShape))
 						return;
 					
-    	    		ContainerShape cs = (ContainerShape)pe;
+    	    		ContainerShape cs = (ContainerShape) pe;
 					Iterator<Shape> s = cs.getChildren().iterator();
 					while(s.hasNext()) {
 						Shape n = s.next();
@@ -354,7 +405,6 @@ public class BehaviorTreePropertySection extends GFPropertySection
 						Object bo = Graphiti.getLinkService()
 				                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
 						if(bo instanceof TraceabilityStatusClass) {
-							System.out.println("update on TraceabilityStatus from property: " + selected);
 							updatePictogramElement(n);
 						}
 					}
@@ -368,8 +418,6 @@ public class BehaviorTreePropertySection extends GFPropertySection
     		    	
     		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
     	    			protected void doExecute() {
-    	    				BEModel model = GraphBTUtil.getBEModel(d);
-    	    				
     	        			node.setOperator(Operator.getByName(selected).getLiteral());
     	    		    }
     	    		};
