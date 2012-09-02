@@ -149,7 +149,7 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
         	{
         		return null;
         	}
-        	if(edge.getChildNode().size()>0)
+        	if(edge.getBranch() == null && edge.getChildNode().size()>0)
         	{
         		HashMap<Integer, String> map = new HashMap<Integer, String>();
             	WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
@@ -165,6 +165,7 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
         	}
         }
         edge.getChildNode().add(target);
+        target.setParent(source);
         target.setLeaf(true);
         return edge;
    }

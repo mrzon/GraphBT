@@ -90,6 +90,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/behaviorRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/traceabilityLink"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/leaf"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//StandardNode/parent"/>
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//Component">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Component/componentName"/>

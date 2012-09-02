@@ -850,4 +850,18 @@
     <element xmi:type="ecore:EReference" href="DefaultName.ecore#//BEModel/formulaList"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ktiFw-BOEeGpk9f6swWH8g" points="[57, 0, -199, -104]$[76, 0, -180, -104]$[76, 96, -180, -8]$[184, 96, -72, -8]"/>
   </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_zZ8NYPRmEeGxu61HeDbarw" type="3002" source="_dTOykJKKEeGjCcMKQlqTfg" target="_dTOykJKKEeGjCcMKQlqTfg">
+    <children xmi:type="notation:Node" xmi:id="_zaBs8PRmEeGxu61HeDbarw" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_zaBs8fRmEeGxu61HeDbarw" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_zaC7EPRmEeGxu61HeDbarw" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_zaC7EfRmEeGxu61HeDbarw" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_zZ8NYfRmEeGxu61HeDbarw" routing="Rectilinear" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_zZ8NYvRmEeGxu61HeDbarw" fontColor="4210752" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="DefaultName.ecore#//StandardNode/parent"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_zZ8NY_RmEeGxu61HeDbarw" points="[1, 31, 1, 31]$[1, 31, 1, 31]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_zaMsEPRmEeGxu61HeDbarw" id="(0.4972375690607735,0.7973856209150327)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_zaNTIPRmEeGxu61HeDbarw" id="(0.4972375690607735,0.7973856209150327)"/>
+  </edges>
 </notation:Diagram>

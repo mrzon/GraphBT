@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link behaviortree.impl.StandardNodeImpl#getBehaviorRef <em>Behavior Ref</em>}</li>
  *   <li>{@link behaviortree.impl.StandardNodeImpl#getTraceabilityLink <em>Traceability Link</em>}</li>
  *   <li>{@link behaviortree.impl.StandardNodeImpl#isLeaf <em>Leaf</em>}</li>
+ *   <li>{@link behaviortree.impl.StandardNodeImpl#getParent <em>Parent</em>}</li>
  * </ul>
  * </p>
  *
@@ -183,6 +184,16 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 	protected boolean leaf = LEAF_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getParent() <em>Parent</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getParent()
+	 * @generated
+	 * @ordered
+	 */
+	protected StandardNode parent;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -241,6 +252,44 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 		leaf = newLeaf;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.STANDARD_NODE__LEAF, oldLeaf, leaf));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StandardNode getParent() {
+		if (parent != null && parent.eIsProxy()) {
+			InternalEObject oldParent = (InternalEObject)parent;
+			parent = (StandardNode)eResolveProxy(oldParent);
+			if (parent != oldParent) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BehaviortreePackage.STANDARD_NODE__PARENT, oldParent, parent));
+			}
+		}
+		return parent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StandardNode basicGetParent() {
+		return parent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setParent(StandardNode newParent) {
+		StandardNode oldParent = parent;
+		parent = newParent;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.STANDARD_NODE__PARENT, oldParent, parent));
 	}
 
 	/**
@@ -370,6 +419,9 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 				return getTraceabilityLink();
 			case BehaviortreePackage.STANDARD_NODE__LEAF:
 				return isLeaf();
+			case BehaviortreePackage.STANDARD_NODE__PARENT:
+				if (resolve) return getParent();
+				return basicGetParent();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -402,6 +454,9 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 				return;
 			case BehaviortreePackage.STANDARD_NODE__LEAF:
 				setLeaf((Boolean)newValue);
+				return;
+			case BehaviortreePackage.STANDARD_NODE__PARENT:
+				setParent((StandardNode)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -436,6 +491,9 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 			case BehaviortreePackage.STANDARD_NODE__LEAF:
 				setLeaf(LEAF_EDEFAULT);
 				return;
+			case BehaviortreePackage.STANDARD_NODE__PARENT:
+				setParent((StandardNode)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -462,6 +520,8 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 				return TRACEABILITY_LINK_EDEFAULT == null ? traceabilityLink != null : !TRACEABILITY_LINK_EDEFAULT.equals(traceabilityLink);
 			case BehaviortreePackage.STANDARD_NODE__LEAF:
 				return leaf != LEAF_EDEFAULT;
+			case BehaviortreePackage.STANDARD_NODE__PARENT:
+				return parent != null;
 		}
 		return super.eIsSet(featureID);
 	}

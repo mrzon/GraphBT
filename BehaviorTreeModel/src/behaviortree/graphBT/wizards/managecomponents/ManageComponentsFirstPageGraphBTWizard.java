@@ -53,6 +53,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 	private Combo typeCombo;
 	private int index;
 	private Button saveBehaviorButton;
+	private Button cancelEditBehaviorButton;
 
 	public ManageComponentsFirstPageGraphBTWizard(HashMap<Integer,String> map, Diagram d) {
 		super("Manage Components Wizard");
@@ -149,7 +150,6 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		editBehaviorButton.setText("Edit");
 
 		
-		
 		/*
 		 * Group Details Component
 		 */
@@ -193,7 +193,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		gridData.heightHint = 70;
 		gridData.widthHint = 200;
 		groupBehavior.setLayoutData(gridData);
-		
+		groupBehavior.setVisible(false);
 		GridLayout groupBehaviorLayout = new GridLayout(1, false);
 		groupBehavior.setLayout(groupBehaviorLayout);
 		
@@ -312,7 +312,6 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 					listBehaviors.add(behavior.toString());
 				}
 			}
-
 		});
 		
 		/*
@@ -381,7 +380,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		editComponentButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
-
+			
 				editComponentNameText.setText(c.getComponentName());
 				componentRefText.setText(c.getComponentRef());
 				
@@ -389,13 +388,16 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				editComponentLabel.setVisible(true);
 				editComponentNameText.setVisible(true);
 				saveComponentButton.setVisible(true);
+				editBehaviorGroup.setVisible(false);
 			}
 
 		});
 		
 		deleteComponentButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				
+				boolean delete = MessageDialog.openQuestion(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Confirm delete component", "Are you sure you want to delete component? It may affect your current design..");
+				if(!delete)
+					return;
 				IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				final DiagramEditor ds;
 				if(page.getActiveEditor() instanceof DiagramEditor) {
@@ -409,7 +411,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				final BEModel be = GraphBTUtil.getBEModel(d);
 				final Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
 
-				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Delete Component") {
 					protected void doExecute() {
 						GraphBTUtil.removeComponentByRef(be, componentRefTemp);
 					}
@@ -525,12 +527,17 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		final Button saveBehaviorButton = new Button(editBehaviorGroup, SWT.NULL);
 		saveBehaviorButton.setText("Save");
 		gridData = new GridData(GridData.FILL_HORIZONTAL);		
-		gridData.horizontalSpan = 2;
+		
+		
 		gridData.verticalAlignment = GridData.BEGINNING;
 		gridData.horizontalAlignment = GridData.END;
 		saveBehaviorButton.setLayoutData(gridData);
 		saveBehaviorButton.setVisible(false);
-
+		cancelEditBehaviorButton = new Button(editBehaviorGroup,SWT.NULL);
+		cancelEditBehaviorButton.setText("Cancel");
+		cancelEditBehaviorButton.setLayoutData(gridData);
+		cancelEditBehaviorButton.setVisible(false);
+		
 		final Text behaviorRefText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		behaviorRefText.setVisible(false);
 
@@ -546,19 +553,22 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				
 				editBehaviorNameText.setText(b.getBehaviorName());
 				typeCombo.setText(b.getBehaviorType().getName());
-
+				
 				editBehaviorGroup.setVisible(true);
 				typeLabel.setVisible(true);
 				typeCombo.setVisible(true);
 				editBehaviorLabel.setVisible(true);
 				editBehaviorNameText.setVisible(true);
 				saveBehaviorButton.setVisible(true);
+				cancelEditBehaviorButton.setVisible(true);
 			}
 		});
 		
 		deleteBehaviorButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				
+				boolean delete = MessageDialog.openQuestion(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Confirm delete behavior", "Are you sure you want to delete the behavior? It may affect your current design..");
+				if(!delete)
+					return;
 				IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				final DiagramEditor ds;
 				if(page.getActiveEditor() instanceof DiagramEditor) {
@@ -629,17 +639,23 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				editBehaviorLabel.setVisible(false);
 				editBehaviorNameText.setVisible(false);
 				saveBehaviorButton.setVisible(false);
-				bNameLabel.setText("Name: " + b.getBehaviorName());
-				bRefLabel.setText("Reference: " + b.getBehaviorRef());
-				bTypeLabel.setText("Type: " + b.getBehaviorType().getName());
-
 				listBehaviors.removeAll();
 				for(Behavior behavior: c.getBehaviors()){
 					listBehaviors.add(behavior.toString());
 				}
 			}
 		});
-
+		cancelEditBehaviorButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				editBehaviorGroup.setVisible(false);
+				typeLabel.setVisible(false);
+				typeCombo.setVisible(false);
+				editBehaviorLabel.setVisible(false);
+				editBehaviorNameText.setVisible(false);
+				saveBehaviorButton.setVisible(false);
+				cancelEditBehaviorButton.setVisible(false);
+			}
+		});
 		setControl(container);
 	}
 	

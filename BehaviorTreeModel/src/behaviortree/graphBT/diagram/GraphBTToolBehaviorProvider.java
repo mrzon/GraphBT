@@ -51,6 +51,7 @@ import org.eclipse.graphiti.tb.IContextButtonPadData;
 import org.eclipse.graphiti.tb.IContextMenuEntry;
 import org.eclipse.graphiti.tb.IDecorator;
 
+import behaviortree.GraphBTUtil;
 import behaviortree.Requirement;
 import behaviortree.StandardNode;
 
@@ -94,7 +95,7 @@ public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 		}
 		
 		if(object instanceof StandardNode) {
-			IContextButtonEntry deleteButton = ContextEntryHelper.createDefaultDeleteContextButton(
+			IContextButtonEntry deleteButton = GraphBTUtil.createGraphBtDeleteContextButton(
 					getFeatureProvider(), pe);
 			data.getGenericContextButtons().add(deleteButton);
 		}

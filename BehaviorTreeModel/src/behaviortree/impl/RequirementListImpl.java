@@ -159,16 +159,16 @@ public class RequirementListImpl extends EObjectImpl implements RequirementList 
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer("");
+		
 		Iterator<Requirement> i = getRequirements().iterator();
 		if(getRequirements().size()==0)
 		{
 			return "";
 		}
+		StringBuffer result = new StringBuffer("#RT");
 		int j=1;
 		while(i.hasNext())
 		{
-			
 			result.append(" R"+j+" R"+j);
 			j++;
 			i.next();

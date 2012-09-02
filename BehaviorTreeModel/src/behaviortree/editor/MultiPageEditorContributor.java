@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor;
@@ -67,8 +68,10 @@ import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.osgi.framework.Bundle;
 
 import behaviortree.BEModel;
+import behaviortree.BehaviorTree;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
+import behaviortree.RequirementList;
 import behaviortree.StandardNode;
 import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard;
 import behaviortree.graphBT.wizards.createrequirement.CreateRequirementGraphBTWizard;
@@ -421,15 +424,29 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					File f = new File(filePath);
 					IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 					IPath path = Path.fromOSString(URI.createFileURI(f.getAbsolutePath()).devicePath());
-					IFile file = root.getFileForLocation(path);
-					
-					System.out.println("file pathnya "+f.getAbsolutePath()+" ");
+					final IFile file = root.getFileForLocation(path);
+					final DiagramEditor d = ((DiagramEditor)activeEditorPart);
+					//System.out.println("file pathnya "+f.getAbsolutePath()+" ");
 					if(filePath == null)
 						return;
-							
+					if(file == null)
+					{
+						return;
+					}
+					BEModel mod = GraphBTUtil.getBEModel(d.getDiagramTypeProvider().getDiagram());
+					if(d.getDiagramTypeProvider().getDiagram().getChildren().size() > 0 || mod.getComponentList().getComponents().size() > 0 || mod.getRequirementList().getRequirements().size() > 0)
+					{
+						boolean overide=MessageDialog.openQuestion(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Extract confirmation", "Diagram is not empty, are you sure you want to overide current diagram");
+						if(!overide)
+						{
+							return;
+						}
+						
+					}
 					if(filePath.endsWith(".bt"))
 					{
-						GraphBTUtil.generateFromBTFile(file, ((DiagramEditor)activeEditorPart));
+						clearDiagram(d);
+						GraphBTUtil.generateFromBTFile(file, d);
 					}
 					else if(!filePath.endsWith(".bt"))
 					{
@@ -502,5 +519,28 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		manager.add(generateJavaFromBT);
 		manager.add(applyLayout);
 		manager.add(extractFromBTFile);
+	}
+	
+	private void clearDiagram(final DiagramEditor d)
+	{
+		d.getEditingDomain().getCommandStack().execute(new RecordingCommand(d.getEditingDomain(),"clear diagram editor"){
+			@Override
+			protected void doExecute() {
+				BEModel mod = GraphBTUtil.getBEModel(d.getDiagramTypeProvider().getDiagram());
+				mod.setComponentList(GraphBTUtil.getBEFactory().createComponentList());
+				mod.setRequirementList(GraphBTUtil.getBEFactory().createRequirementList());
+				Diagram diag = d.getDiagramTypeProvider().getDiagram(); 
+				diag.getChildren().clear();
+				diag.getConnections().clear();
+				diag.getAnchors().clear();
+				diag.getPictogramLinks().clear();
+				diag.getProperties().clear();
+				URI uri = d.getDiagramTypeProvider().getDiagram().eResource().getURI();
+				uri = uri.trimFragment();
+				uri = uri.trimFileExtension();
+				uri = uri.appendFileExtension("model");
+				diag.eResource().getResourceSet().getResource(uri, true).getContents().clear();
+			}
+		});
 	}
 }

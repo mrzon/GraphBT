@@ -55,7 +55,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.features.IDeleteFeature;
+import org.eclipse.graphiti.features.IFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddContext;
@@ -66,6 +68,7 @@ import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.PictogramLink;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.tb.ContextButtonEntry;
 import org.eclipse.graphiti.tb.ContextEntryHelper;
@@ -79,10 +82,14 @@ import org.eclipse.m2m.atl.core.IReferenceModel;
 import org.eclipse.m2m.atl.core.ModelFactory;
 import org.eclipse.m2m.atl.core.launch.ILauncher;
 import org.eclipse.m2m.atl.core.service.CoreService;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.EditorPart;
 import org.osgi.framework.Bundle;
+
+import behaviortree.editor.MultiPageEditor;
 
 public class GraphBTUtil {
 	/**
@@ -723,21 +730,12 @@ public class GraphBTUtil {
 		if(temp==null)
 			return;
 		final TextBT btModel = temp;
-		final BEModel beModel = getBEFactory().createBEModel();
+		final BEModel beModel = getBEModel(d);
 		de.getEditingDomain().getCommandStack().execute(new RecordingCommand(de.getEditingDomain(),"generating model"){
 			@Override
 			protected void doExecute() {
 				// TODO Auto-generated method stub
 				beModel.setComponentList(getComponentList(btModel,d));
-				try {
-					saveToModelFile(beModel,d);
-				} catch (CoreException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				BehaviorTree dbt = getBEFactory().createBehaviorTree();
 				RequirementList rl = getBEFactory().createRequirementList();
 				beModel.setRequirementList(rl);
@@ -863,6 +861,8 @@ public class GraphBTUtil {
 			Edge e = getBEFactory().createEdge();
 			e.setComposition(Composition.SEQUENTIAL);
 			e.getChildNode().add(childSN);
+			childSN.setParent(node);
+			childSN.setLeaf(true);
 			node.setEdge(e);
 			createConnection(de,node,childSN,e,0);
 			setChild(childSN,childNode, de);
@@ -875,6 +875,8 @@ public class GraphBTUtil {
 			Edge e = getBEFactory().createEdge();
 			e.setComposition(Composition.ATOMIC);
 			e.getChildNode().add(childSN);
+			childSN.setParent(node);
+			childSN.setLeaf(true);
 			node.setEdge(e);
 			createConnection(de,node,childSN,e,1);
 			setChild(childSN,childNode, de);
@@ -900,6 +902,8 @@ public class GraphBTUtil {
 				setNode(childSN,childNode, de);
 				e.getChildNode().add(childSN);
 				createConnection(de,node,childSN,e,3);
+				childSN.setParent(node);
+				childSN.setLeaf(true);
 				setChild(childSN,childNode, de);
 			}
 		}
@@ -1230,16 +1234,80 @@ public class GraphBTUtil {
 		return width;
 	}
 	
-	public static IContextButtonEntry createGraphBtDeleteContextButton(IFeatureProvider featureProvider, PictogramElement pe) {
-		IDeleteContext deleteContext = new DeleteContext(pe);
-		IDeleteFeature deleteFeature = featureProvider.getDeleteFeature(deleteContext);
-		IContextButtonEntry ret = null;
+	public static IContextButtonEntry createGraphBtDeleteContextButton(IFeatureProvider featureProvider, final PictogramElement pe) {
+		final IDeleteContext deleteContext = new DeleteContext(pe);
+		IEditorPart ep = (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor());
 		
-		StandardNode node = (StandardNode) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		final DiagramEditor de = ((MultiPageEditor)ep).getDiagramEditor();
+		final IDeleteFeature deleteFeature = featureProvider.getDeleteFeature(deleteContext);
+		
+		IContextButtonEntry ret = null;
+		System.out.println("GraphBTUtil createGraphBTDeleteContextButton");
 		
 //		node.getEdge().
 		if (deleteFeature != null) {
-			ret = new ContextButtonEntry(deleteFeature, deleteContext);
+			ret = new ContextButtonEntry(deleteFeature, deleteContext){
+				@Override
+				public boolean canExecute() {
+					// TODO Auto-generated method stub
+					return true;
+				}
+
+				@Override
+				public void execute() {
+					// TODO Auto-generated method stub
+					final StandardNode node = (StandardNode) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+					
+					de.getEditingDomain().getCommandStack().execute(new RecordingCommand(de.getEditingDomain(), "Remove Node object"){
+
+						@Override
+						protected void doExecute() {
+							if(node.getParent()!=null)
+							{
+								StandardNode parent = node.getParent();
+								parent.getEdge().getChildNode().remove(node);
+								node.setParent(null);
+								if(parent.getEdge().getChildNode().size() ==1)
+								{
+									parent.getEdge().setBranch(null);
+								}
+								else if(parent.getEdge().getChildNode().size()==0)
+								{
+									parent.setEdge(null);
+								}
+							}
+							if(node.getEdge() != null)
+							{
+								for(int i = 0; i < node.getEdge().getChildNode().size(); i++)
+								{
+									StandardNode child = (StandardNode) node.getEdge().getChildNode().get(i);
+									child.setParent(null);
+									child.setLeaf(false);
+//									try {
+//										saveToModelFile(child, de.getDiagramTypeProvider().getDiagram());
+//									} catch (CoreException e) {
+//										// TODO Auto-generated catch block
+//										e.printStackTrace();
+//									} catch (IOException e) {
+//										// TODO Auto-generated catch block
+//										e.printStackTrace();
+//									}
+								}
+								
+								GraphBTUtil.getRoots(de.getDiagramTypeProvider().getDiagram().eResource().getResourceSet()).get(0).eResource().getContents().addAll(node.getEdge().getChildNode());
+								node.getEdge().getChildNode().clear();
+								node.setEdge(null);
+							}
+							System.out.println("GraphBTUtil createGraphBTDeleteContextButton jumlah root"+ GraphBTUtil.getRoots(de.getDiagramTypeProvider().getDiagram().eResource().getResourceSet()).size());
+							deleteFeature.delete(deleteContext);
+						}
+						
+					});
+					
+					
+				}
+
+			};
 			ContextEntryHelper.markAsDeleteContextEntry(ret);
 		}
 		return ret;

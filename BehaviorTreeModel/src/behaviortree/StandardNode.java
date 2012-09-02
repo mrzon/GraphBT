@@ -22,6 +22,7 @@ package behaviortree;
  *   <li>{@link behaviortree.StandardNode#getBehaviorRef <em>Behavior Ref</em>}</li>
  *   <li>{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}</li>
  *   <li>{@link behaviortree.StandardNode#isLeaf <em>Leaf</em>}</li>
+ *   <li>{@link behaviortree.StandardNode#getParent <em>Parent</em>}</li>
  * </ul>
  * </p>
  *
@@ -81,6 +82,32 @@ public interface StandardNode extends Node {
 	 * @generated
 	 */
 	void setLeaf(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Parent</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Parent</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Parent</em>' reference.
+	 * @see #setParent(StandardNode)
+	 * @see behaviortree.BehaviortreePackage#getStandardNode_Parent()
+	 * @model
+	 * @generated
+	 */
+	StandardNode getParent();
+
+	/**
+	 * Sets the value of the '{@link behaviortree.StandardNode#getParent <em>Parent</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Parent</em>' reference.
+	 * @see #getParent()
+	 * @generated
+	 */
+	void setParent(StandardNode value);
 
 	/**
 	 * Returns the value of the '<em><b>Component Ref</b></em>' attribute.

@@ -111,6 +111,7 @@ public class CreateAtomicConnectionGraphBtFeature
         }
         edge.getChildNode().add(target);
         target.setLeaf(true);
+        target.setParent(source);
         return edge;
    }
 }

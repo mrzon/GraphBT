@@ -10,6 +10,7 @@ import org.eclipse.graphiti.features.IFeature;
 import org.eclipse.graphiti.features.ILayoutFeature;
 import org.eclipse.graphiti.features.IMoveShapeFeature;
 import org.eclipse.graphiti.features.IPasteFeature;
+import org.eclipse.graphiti.features.IReconnectionFeature;
 import org.eclipse.graphiti.features.IResizeShapeFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
@@ -20,9 +21,11 @@ import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.context.IPasteContext;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
+import org.eclipse.graphiti.features.context.IReconnectionContext;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
+import org.eclipse.graphiti.features.impl.DefaultReconnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
@@ -41,6 +44,7 @@ import behaviortree.TraceabilityStatusClass;
 import behaviortree.graphBT.features.AddAtomicConnectionGraphBtFeature;
 import behaviortree.graphBT.features.AddGeneralBtNodeFeature;
 import behaviortree.graphBT.features.AddSequentialConnectionGraphBtFeature;
+import behaviortree.graphBT.features.ConnectionReconnectGraphBTFeature;
 import behaviortree.graphBT.features.CopyNodeGraphBtFeature;
 import behaviortree.graphBT.features.CreateAtomicConnectionGraphBtFeature;
 import behaviortree.graphBT.features.CreateGeneralBtNodeFeature;
@@ -164,6 +168,10 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
     public IFeature[] getDragAndDropFeatures(IPictogramElementContext context) {
         // simply return all create connection features
         return getCreateConnectionFeatures();
-
     }
+	
+	public IReconnectionFeature getReconnectionFeature(IReconnectionContext context)
+	{
+		return new ConnectionReconnectGraphBTFeature(this);
+	}
 }

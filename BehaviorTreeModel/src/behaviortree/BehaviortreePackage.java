@@ -473,13 +473,22 @@ public interface BehaviortreePackage extends EPackage {
 	int STANDARD_NODE__LEAF = NODE_FEATURE_COUNT + 6;
 
 	/**
+	 * The feature id for the '<em><b>Parent</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STANDARD_NODE__PARENT = NODE_FEATURE_COUNT + 7;
+
+	/**
 	 * The number of structural features of the '<em>Standard Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STANDARD_NODE_FEATURE_COUNT = NODE_FEATURE_COUNT + 7;
+	int STANDARD_NODE_FEATURE_COUNT = NODE_FEATURE_COUNT + 8;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.impl.ComponentImpl <em>Component</em>}' class.
@@ -1331,6 +1340,17 @@ public interface BehaviortreePackage extends EPackage {
 	EAttribute getStandardNode_Leaf();
 
 	/**
+	 * Returns the meta object for the reference '{@link behaviortree.StandardNode#getParent <em>Parent</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Parent</em>'.
+	 * @see behaviortree.StandardNode#getParent()
+	 * @see #getStandardNode()
+	 * @generated
+	 */
+	EReference getStandardNode_Parent();
+
+	/**
 	 * Returns the meta object for the attribute '{@link behaviortree.StandardNode#getComponentRef <em>Component Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2136,6 +2156,14 @@ public interface BehaviortreePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STANDARD_NODE__LEAF = eINSTANCE.getStandardNode_Leaf();
+
+		/**
+		 * The meta object literal for the '<em><b>Parent</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STANDARD_NODE__PARENT = eINSTANCE.getStandardNode_Parent();
 
 		/**
 		 * The meta object literal for the '<em><b>Component Ref</b></em>' attribute feature.
