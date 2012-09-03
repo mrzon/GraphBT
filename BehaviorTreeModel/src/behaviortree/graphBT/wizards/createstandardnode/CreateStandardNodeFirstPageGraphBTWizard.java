@@ -30,7 +30,11 @@ import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard
 import behaviortree.graphBT.wizards.managecomponents.ManageComponentsGraphBTWizard;
 import behaviortree.graphBT.wizards.managerequirements.ManageRequirementsGraphBTWizard;
 
-
+/**
+ * Class to define the contents of create standard BT node wizard
+ * @author GraphBT Team
+ *
+ */
 public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 	
 	private Composite container;

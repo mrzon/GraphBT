@@ -1,35 +1,26 @@
 package behaviortree.graphBT.wizards.createrequirement;
 
-
 import java.util.HashMap;
 
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PlatformUI;
 
-import behaviortree.Component;
 import behaviortree.GraphBTUtil;
-import behaviortree.Operator;
 import behaviortree.Requirement;
-import behaviortree.TraceabilityStatus;
 
-
+/**
+ * Class to define the contents of create requirement wizard
+ * @author GraphBT Team
+ *
+ */
 public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 	
 	private Composite container;
@@ -119,9 +110,6 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 			}
 	    });
 
-		//System.out.println("stringCarrier[0] " + stringCarrier[0]);
-		//System.out.println("stringCarrier[0].getText() " + componentNameText.getText());
-		// Required to avoid an error in the system
 		setControl(container);
 	}
 	
@@ -151,38 +139,7 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 			updateStatus("Requirement description must be specified");
 			return;
 		}
-		
 	
-/*		if (getContainerName().length() == 0) {
-			updateStatus("File container must be specified");
-			return;
-		}
-		if (container == null
-				|| (container.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
-			updateStatus("File container must exist");
-			return;
-		}
-		if (!container.isAccessible()) {
-			updateStatus("Project must be writable");
-			return;
-		}
-		if (fileName.length() == 0) {
-			updateStatus("File name must be specified");
-			return;
-		}
-		if (fileName.replace('\\', '/').indexOf('/', 1) > 0) {
-			updateStatus("File name must be valid");
-			return;
-		}
-		int dotLoc = fileName.lastIndexOf('.');
-		if (dotLoc != -1) {
-			String ext = fileName.substring(dotLoc + 1);
-			if (ext.equalsIgnoreCase("mpe") == false) {
-				updateStatus("File extension must be \"mpe\"");
-				return;
-			}
-		}
-		updateStatus(null);*/
 		updateStatus(null);
 	}
 	

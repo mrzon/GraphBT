@@ -1,7 +1,5 @@
 package behaviortree.graphBT.features;
 
-import java.awt.Color;
-
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
@@ -10,7 +8,6 @@ import org.eclipse.graphiti.features.impl.AbstractAddFeature;
 import org.eclipse.graphiti.mm.GraphicsAlgorithmContainer;
 import org.eclipse.graphiti.mm.algorithms.Polygon;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
-import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -23,6 +20,12 @@ import org.eclipse.graphiti.util.IColorConstant;
 import behaviortree.Branch;
 import behaviortree.Edge;
 
+/**
+ * Class AddSequentialConnectionGraphBtFeature is for adding sequential edge between
+ * two connected nodes
+ * @author GraphBT Team
+ *
+ */
 public class AddSequentialConnectionGraphBtFeature extends AbstractAddFeature implements
 		IAddFeature {
 

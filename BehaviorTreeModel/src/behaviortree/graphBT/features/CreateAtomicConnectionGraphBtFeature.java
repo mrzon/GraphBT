@@ -10,14 +10,17 @@ import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
 import behaviortree.BehaviortreeFactory;
-import behaviortree.Branch;
 import behaviortree.Composition;
 import behaviortree.Edge;
 import behaviortree.GraphBTUtil;
-import behaviortree.Node;
 import behaviortree.StandardNode;
 
-
+/**
+ * Class CreateAtomicConnectionGraphBtFeature is for creating atomic edge model 
+ * of two connected BT node
+ * @author GraphBT Team
+ *
+ */
 public class CreateAtomicConnectionGraphBtFeature 
 		extends AbstractCreateConnectionFeature
 		implements ICreateConnectionFeature {

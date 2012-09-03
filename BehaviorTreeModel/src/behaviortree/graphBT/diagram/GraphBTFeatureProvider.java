@@ -1,6 +1,5 @@
 package behaviortree.graphBT.diagram;
 
-
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.ICopyFeature;
@@ -16,7 +15,6 @@ import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICopyContext;
-import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.context.IPasteContext;
@@ -24,22 +22,22 @@ import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.features.context.IReconnectionContext;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
+//<<<<<<< HEAD
 import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.features.impl.DefaultReconnectionFeature;
+//=======
+//>>>>>>> refs/remotes/origin/masterComment
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 
 import behaviortree.Behavior;
 import behaviortree.Component;
 import behaviortree.Composition;
 import behaviortree.Edge;
-import behaviortree.Operator;
 import behaviortree.OperatorClass;
 import behaviortree.Requirement;
 import behaviortree.StandardNode;
-import behaviortree.TraceabilityStatus;
 import behaviortree.TraceabilityStatusClass;
 import behaviortree.graphBT.features.AddAtomicConnectionGraphBtFeature;
 import behaviortree.graphBT.features.AddGeneralBtNodeFeature;
@@ -52,7 +50,6 @@ import behaviortree.graphBT.features.CreateSequentialConnectionGraphBtFeature;
 import behaviortree.graphBT.features.LayoutGraphBtFeature;
 import behaviortree.graphBT.features.MoveGraphBtFeature;
 import behaviortree.graphBT.features.PasteNodeGraphBtFeature;
-import behaviortree.graphBT.features.RenameGraphBtFeature;
 import behaviortree.graphBT.features.ResizeGraphBtFeature;
 import behaviortree.graphBT.features.UpdateGraphBtFeature;
 
@@ -82,11 +79,9 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 			
 			if(edge.getComposition().getLiteral().
 					equals(Composition.ATOMIC.getLiteral())) {
-				System.out.println("di add atomic connection context");
 				return new AddAtomicConnectionGraphBtFeature(this);
 			}
 			else {
-				System.out.println("di add sequential connection context");
 				return new AddSequentialConnectionGraphBtFeature(this);
 			}
 		} else if (context.getNewObject() instanceof StandardNode) {
@@ -99,29 +94,22 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	public IUpdateFeature getUpdateFeature(IUpdateContext context) {
 	    PictogramElement pictogramElement = context.getPictogramElement();
 	    Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-	    System.out.println("yeee masih masuk di update feature provider!");
 	    if (bo instanceof StandardNode) {
-			System.out.println("objeknya ternyata standar node");
 			return new UpdateGraphBtFeature(this);
 		}
 	    if (bo instanceof Component) {
-			System.out.println("objeknya ternyata component");
 			return new UpdateGraphBtFeature(this);
 		}
 	    if (bo instanceof Behavior) {
-			System.out.println("objeknya ternyata behavior");
 			return new UpdateGraphBtFeature(this);
 		}
 	    if (bo instanceof Requirement) {
-			System.out.println("objeknya ternyata requirement");
 			return new UpdateGraphBtFeature(this);
 		}
 	    if (bo instanceof OperatorClass) {
-			System.out.println("objeknya ternyata operatorClass");
 			return new UpdateGraphBtFeature(this);
 		}
 	    if (bo instanceof TraceabilityStatusClass) {
-			System.out.println("objeknya ternyata traceabilityStatusClass");
 			return new UpdateGraphBtFeature(this);
 		}
 	   return super.getUpdateFeature(context);
@@ -134,7 +122,7 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	
 	@Override
 	public ILayoutFeature getLayoutFeature(ILayoutContext context) {
-		if (context.getPictogramElement() instanceof ContainerShape /* && getBusinessObjectForPictogramElement(context.getPictogramElement()) instanceof <DomainObject> */) {
+		if (context.getPictogramElement() instanceof ContainerShape) {
 			return  new LayoutGraphBtFeature(this);
 		}
 		return super.getLayoutFeature(context);
@@ -142,10 +130,7 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	
 	@Override
 	public ICopyFeature getCopyFeature(ICopyContext context) {
-		System.out.println("getCopyFeature() is invoked");
-		//if(context.getPictogramElements() instanceof ContainerShape[])
 		return  new CopyNodeGraphBtFeature(this);
-		//return super.getCopyFeature(context);
 	}
 	
 	@Override
@@ -153,10 +138,10 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 		return  new PasteNodeGraphBtFeature(this);
 	}
 	
-	@Override
-	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
-		return new ICustomFeature[] { new RenameGraphBtFeature(this) };
-	}
+//	@Override
+//	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
+//		return new ICustomFeature[] { new RenameGraphBtFeature(this) };
+//	}
 	
 	@Override
 	public IResizeShapeFeature getResizeShapeFeature(
@@ -166,7 +151,6 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	
 	@Override
     public IFeature[] getDragAndDropFeatures(IPictogramElementContext context) {
-        // simply return all create connection features
         return getCreateConnectionFeatures();
     }
 	

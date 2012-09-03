@@ -1,13 +1,5 @@
 package behaviortree.graphBT.features;
 
-/**
- * General BT Node adalah diagram untuk node 
- * kosong yang bisa dispesifikasikan menjadi Node yang lebih spesifik
- */
-
-import java.io.IOException;
-
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
@@ -16,13 +8,8 @@ import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
-import org.eclipse.graphiti.mm.algorithms.styles.Point;
-import org.eclipse.graphiti.mm.algorithms.styles.impl.StylesFactoryImpl;
-import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
-import org.eclipse.graphiti.mm.pictograms.ChopboxAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.graphiti.mm.pictograms.FixPointAnchor;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
@@ -32,15 +19,19 @@ import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
 import behaviortree.Behavior;
-import behaviortree.BehaviortreeFactory;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.OperatorClass;
 import behaviortree.Requirement;
 import behaviortree.StandardNode;
-import behaviortree.TraceabilityStatus;
 import behaviortree.TraceabilityStatusClass;
 
+/**
+ * Class AddGeneralBtNodeFeature is for adding a standard BT node
+ * to the graphical model
+ * @author GraphBT Team
+ *
+ */
 public class AddGeneralBtNodeFeature extends AbstractAddShapeFeature implements
 IAddFeature {
 	
@@ -59,9 +50,7 @@ IAddFeature {
  
  
     public boolean canAdd(IAddContext context) {
-        // check if user wants to add a EClass
         if (context.getNewObject() instanceof StandardNode) {
-            // check if user wants to add to a diagram
             if (context.getTargetContainer() instanceof Diagram) {
                 return true;
             }
@@ -119,7 +108,6 @@ IAddFeature {
             text.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             gaService.setLocationAndSize(text, 40, height/2 - 20, width - 40, 20);
      
-            //
             //link(shapeComponent, node.getComponent());
             //link(shapeComponent, node);
             link(shapeComponent, cp);
@@ -141,12 +129,6 @@ IAddFeature {
             gaService.setLocationAndSize(textBehavior, 40, height/2 + 10, width - 40, 20);
             
             link(shapeBehavior, b);
-//            
-//            IDirectEditingInfo directEditingInfo =
-//                getFeatureProvider().getDirectEditingInfo();
-//            directEditingInfo.setMainPictogramElement(containerShape);
-//            directEditingInfo.setPictogramElement(shapeBehavior);
-//            directEditingInfo.setGraphicsAlgorithm(textBehavior);
         }
         
         // SHAPE WITH TEXT FOR TRACEABILITY LINK
@@ -165,12 +147,6 @@ IAddFeature {
             }
             
             link(shapeTraceabilityLink,	r);
-            
-//            IDirectEditingInfo directEditingInfo =
-//                getFeatureProvider().getDirectEditingInfo();
-//            directEditingInfo.setMainPictogramElement(containerShape);
-//            directEditingInfo.setPictogramElement(shapeTraceabilityLink);
-//            directEditingInfo.setGraphicsAlgorithm(textTraceabilityLink);
         }
         
         // SHAPE WITH TEXT FOR TRACEABILITY STATUS
@@ -186,14 +162,6 @@ IAddFeature {
             TraceabilityStatusClass tsc = GraphBTUtil.getTraceabilityStatus(getDiagram(), node.getTraceabilityStatus());
             
             link(shapeTraceabilityStatus, tsc);
-            
-            //link(shapeTraceabilityStatus, node.getTraceabilityStatus());
-         
-//            IDirectEditingInfo directEditingInfo =
-//                getFeatureProvider().getDirectEditingInfo();
-//            directEditingInfo.setMainPictogramElement(containerShape);
-//            directEditingInfo.setPictogramElement(shapeTraceabilityStatus);
-//            directEditingInfo.setGraphicsAlgorithm(textTraceabilityStatus);
         }
         
         // SHAPE WITH TEXT FOR OPERATOR
@@ -207,7 +175,6 @@ IAddFeature {
             textOperator.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             
             gaService.setLocationAndSize(textOperator, 140, 5, 30, 20);
-            
             OperatorClass oc = GraphBTUtil.getOperator(getDiagram(), node.getOperator());
             
             link(shapeOperator, oc);

@@ -2,7 +2,6 @@ package behaviortree.graphBT.wizards.createbehavior;
 
 import java.util.HashMap;
 
-import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -11,7 +10,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -21,11 +19,12 @@ import behaviortree.Behavior;
 import behaviortree.BehaviorType;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
-import behaviortree.Operator;
-import behaviortree.StandardNode;
-import behaviortree.TraceabilityStatus;
 
-
+/**
+ * Class to define the contents of create behavior wizard
+ * @author GraphBT Team
+ *
+ */
 public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 	
 	private Composite container;
@@ -108,11 +107,6 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 	}
 	
 	private void dialogChanged() {
-
-//		if (typeCombo.getText().length() == 0) {
-//			updateStatus("Behavior type must be specified");
-//			return;
-//		}
 		
 		if (behaviorNameText.getText().length() == 0) {
 			updateStatus("Behavior name must be specified");

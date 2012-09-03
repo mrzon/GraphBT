@@ -20,7 +20,6 @@ package behaviortree.graphBT.diagram;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.graphiti.datatypes.ILocation;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
@@ -28,13 +27,7 @@ import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
-import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
-import org.eclipse.graphiti.features.context.impl.CustomContext;
-import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.pictograms.Anchor;
-import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.palette.IPaletteCompartmentEntry;
 import org.eclipse.graphiti.palette.impl.ConnectionCreationToolEntry;
@@ -42,7 +35,6 @@ import org.eclipse.graphiti.palette.impl.ObjectCreationToolEntry;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
 import org.eclipse.graphiti.palette.impl.StackEntry;
 import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.tb.ContextButtonEntry;
 import org.eclipse.graphiti.tb.ContextEntryHelper;
 import org.eclipse.graphiti.tb.DefaultContextButtonPadData;
 import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
@@ -70,11 +62,6 @@ public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 
 	@Override
 	public IDecorator[] getDecorators(PictogramElement pe) {
-		Object object = getFeatureProvider().getBusinessObjectForPictogramElement(pe);
-		// Check if the business object of the given pictogram element (the
-		// square) is one of the allowed squares (see CreateChessMoveFeature)
-		// for a move in progress
-		
 		return super.getDecorators(pe);
 	}
 	

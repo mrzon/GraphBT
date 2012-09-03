@@ -26,7 +26,11 @@ import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
 import behaviortree.graphBT.wizards.createstandardnode.CreateStandardNodeGraphBTWizard;
 
-
+/**
+ * Class CreateGeneralBtNodeFeature is for creating BT model 
+ * @author GraphBT Team
+ *
+ */
 public class CreateGeneralBtNodeFeature extends AbstractCreateFeature  implements
 ICreateFeature {
 	private BEModel beModel;
@@ -36,12 +40,14 @@ ICreateFeature {
         super(fp, "General BT Node", "Create Behavior Tree Node");
     }
 
+    /**
+     * Check whether the BT node model can be created
+     */
     public boolean canCreate(ICreateContext context) {
         return context.getTargetContainer() instanceof Diagram;
     }
     
-    public void initiateBT(Node node)
-    {
+    public void initiateBT(Node node) {
     	beModel.setDbt(GraphBTUtil.getBEFactory().createBehaviorTree());
     	beModel.getDbt().setRootNode(node);
     }
@@ -105,7 +111,7 @@ ICreateFeature {
 	    node.setTraceabilityLink(r==null?null:r.getKey());
 
 		if(beModel != null) {
-			System.out.println("Be model ternyata ga null :p");		
+
 		}
 		else {
 			beModel = GraphBTUtil.getBEFactory().createBEModel();
@@ -114,11 +120,9 @@ ICreateFeature {
 		}
 		
 		if(beModel.getComponentList() == null) {
-			System.out.println("inisialisasi component list");
 			beModel.setComponentList(GraphBTUtil.getBEFactory().createComponentList());
 		}
 		if(beModel.getRequirementList() == null) {
-			System.out.println("inisialisasi requirement list");
 			beModel.setRequirementList(GraphBTUtil.getBEFactory().createRequirementList());
 		}
 		if(beModel.getDbt()== null) {
