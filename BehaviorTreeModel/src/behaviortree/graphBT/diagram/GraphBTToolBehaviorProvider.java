@@ -35,7 +35,6 @@ import org.eclipse.graphiti.palette.impl.ObjectCreationToolEntry;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
 import org.eclipse.graphiti.palette.impl.StackEntry;
 import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.tb.ContextEntryHelper;
 import org.eclipse.graphiti.tb.DefaultContextButtonPadData;
 import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
 import org.eclipse.graphiti.tb.IContextButtonEntry;
@@ -48,8 +47,6 @@ import behaviortree.Requirement;
 import behaviortree.StandardNode;
 
 public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
-
-	//private List<Square> allowedSquaresForMove = new ArrayList<Square>();
 
 	public GraphBTToolBehaviorProvider(IDiagramTypeProvider diagramTypeProvider) {
 		super(diagramTypeProvider);

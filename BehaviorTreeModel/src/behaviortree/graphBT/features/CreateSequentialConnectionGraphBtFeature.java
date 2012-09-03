@@ -178,7 +178,6 @@ import behaviortree.Composition;
 import behaviortree.Edge;
 import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
-import behaviortree.graphBT.wizards.createstandardnode.CreateStandardNodeGraphBTWizard;
 import behaviortree.graphBT.wizards.manageBranch.ManageBranchWizardGraphBtFeature;
 
 
@@ -263,9 +262,6 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
             PictogramElement pes = context.getSourcePictogramElement();
             PictogramElement pet = context.getTargetPictogramElement();
             
-            System.out.println("source.getEdge().getChildNode().size(): " + 
-            source.getEdge().getChildNode().size());
-            
             if(source.getEdge().getChildNode().size() == 0) {
 	            pet.getGraphicsAlgorithm().setX(pes.getGraphicsAlgorithm().getX());
 	            pet.getGraphicsAlgorithm().setY(
@@ -290,19 +286,16 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
     
     
     private Edge createEdge(StandardNode source, StandardNode target) {
-    	if(GraphBTUtil.isAncestor(target, source))
-    	{
+    	if(GraphBTUtil.isAncestor(target, source)) {
     		return null;
     	}
-    	if(target.isLeaf())
-    	{
+    	if(target.isLeaf()) {
     		return null;
     	}
     	Edge edge = source.getEdge();
     	System.out.println("Ini edgenya "+edge);
     	
-        if(edge == null)
-        {
+        if(edge == null) {
         	edge = BehaviortreeFactory.eINSTANCE.createEdge();
         	edge.setComposition(Composition.SEQUENTIAL);
         	source.setEdge(edge);

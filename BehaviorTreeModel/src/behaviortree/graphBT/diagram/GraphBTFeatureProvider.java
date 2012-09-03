@@ -22,11 +22,6 @@ import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.features.context.IReconnectionContext;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
-//<<<<<<< HEAD
-import org.eclipse.graphiti.features.custom.ICustomFeature;
-import org.eclipse.graphiti.features.impl.DefaultReconnectionFeature;
-//=======
-//>>>>>>> refs/remotes/origin/masterComment
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
@@ -137,11 +132,6 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	public IPasteFeature getPasteFeature(IPasteContext context) {
 		return  new PasteNodeGraphBtFeature(this);
 	}
-	
-//	@Override
-//	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
-//		return new ICustomFeature[] { new RenameGraphBtFeature(this) };
-//	}
 	
 	@Override
 	public IResizeShapeFeature getResizeShapeFeature(

@@ -2,10 +2,6 @@ package behaviortree.graphBT.diagram;
 
 import org.eclipse.graphiti.dt.AbstractDiagramTypeProvider;
 import org.eclipse.graphiti.tb.IToolBehaviorProvider;
-import org.eclipse.graphiti.ui.editor.DiagramEditor;
-
-import behaviortree.StandardNode;
-
 
 public class GraphBTDiagramTypeProvider extends AbstractDiagramTypeProvider {
 	

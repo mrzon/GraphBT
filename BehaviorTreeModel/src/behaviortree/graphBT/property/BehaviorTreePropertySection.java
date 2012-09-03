@@ -83,7 +83,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
         operatorCombo = factory.createCCombo(composite);
         statusCombo = factory.createCCombo(composite);
         
-//        refresh();
+        refresh();
         
         for(TraceabilityStatus ts : TraceabilityStatus.VALUES) {
         	statusCombo.add(ts.getName());
@@ -172,7 +172,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
             	return;
             }
         }
-        refresh();
+//        refresh();
     }
 
 	/**
