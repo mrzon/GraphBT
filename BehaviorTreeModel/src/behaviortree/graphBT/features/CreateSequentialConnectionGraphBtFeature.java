@@ -7,7 +7,6 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature;
-import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.jface.window.Window;
@@ -20,10 +19,14 @@ import behaviortree.Composition;
 import behaviortree.Edge;
 import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
-import behaviortree.graphBT.wizards.createstandardnode.CreateStandardNodeGraphBTWizard;
 import behaviortree.graphBT.wizards.manageBranch.ManageBranchWizardGraphBtFeature;
 
-
+/**
+ * Class CreateSequentialConnectionGraphBtFeature is for creating sequential 
+ * edge model of two connected BT node
+ * @author GraphBT Team
+ *
+ */
 public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConnectionFeature
 		implements ICreateConnectionFeature {
 
@@ -35,19 +38,15 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
 	public boolean canStartConnection(ICreateConnectionContext context) {
 		
 		PictogramElement pe = context.getSourcePictogramElement();
-		if (this.getBusinessObjectForPictogramElement(pe) != null)
-		{
-			if (this.getBusinessObjectForPictogramElement(pe) instanceof StandardNode)
-			{
+		if (this.getBusinessObjectForPictogramElement(pe) != null) {
+			if (this.getBusinessObjectForPictogramElement(pe) instanceof StandardNode) {
 				StandardNode st = (StandardNode)this.getBusinessObjectForPictogramElement(pe);
 				
 				if (st.getEdge() == null || (st.getEdge() != null && st.getEdge().getComposition().getValue() != Composition.ATOMIC_VALUE)) {
-					
 		            return true;
 		        }
 			}
 		}
-		
         return false;
 	}
 
@@ -59,13 +58,8 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
 	public boolean canCreate(ICreateConnectionContext context) {
 		
 		PictogramElement pe = context.getTargetPictogramElement();
-		PictogramElement peS = context.getTargetPictogramElement();
-		if (this.getBusinessObjectForPictogramElement(pe) != null)
-		{
-			if (this.getBusinessObjectForPictogramElement(pe) instanceof StandardNode)
-			{
-				StandardNode ss = (StandardNode)this.getBusinessObjectForPictogramElement(peS);
-				
+		if (this.getBusinessObjectForPictogramElement(pe) != null) {
+			if (this.getBusinessObjectForPictogramElement(pe) instanceof StandardNode) {
 				return true;
 		    }
 		}
@@ -75,22 +69,18 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
 	@Override
 	public Connection create(ICreateConnectionContext context) {
 		Connection newConnection = null; 
-		System.out.println("Kepanggil woi.."+context.getSourcePictogramElement()+" "+context.getTargetPictogramElement());
-        // get EClasses which should be connected
-        StandardNode source = getStandardNode(context.getSourcePictogramElement());
+
+		StandardNode source = getStandardNode(context.getSourcePictogramElement());
         StandardNode target = getStandardNode(context.getTargetPictogramElement());
         
         
         if (source != null && target != null) {
-            // create new business object
         	
             Edge edge = createEdge(source, target);
-            if (edge==null)
-            {
+            if (edge == null) {
             	return null;
             }
             
-            // add connection for business object
             AddConnectionContext addContext =
                 new AddConnectionContext(context.getSourceAnchor(), context.getTargetAnchor());
             addContext.setNewObject(edge);
@@ -98,9 +88,6 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
             
             PictogramElement pes = context.getSourcePictogramElement();
             PictogramElement pet = context.getTargetPictogramElement();
-            
-            System.out.println("source.getEdge().getChildNode().size(): " + 
-            source.getEdge().getChildNode().size());
             
             if(source.getEdge().getChildNode().size() == 0) {
 	            pet.getGraphicsAlgorithm().setX(pes.getGraphicsAlgorithm().getX());
@@ -126,31 +113,24 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
     
     
     private Edge createEdge(StandardNode source, StandardNode target) {
-    	if(GraphBTUtil.isAncestor(target, source))
-    	{
+    	if(GraphBTUtil.isAncestor(target, source)) {
     		return null;
     	}
-    	if(target.isLeaf())
-    	{
+    	if(target.isLeaf()) {
     		return null;
     	}
     	Edge edge = source.getEdge();
-    	System.out.println("Ini edgenya "+edge);
     	
-        if(edge == null)
-        {
+        if(edge == null) {
         	edge = BehaviortreeFactory.eINSTANCE.createEdge();
         	edge.setComposition(Composition.SEQUENTIAL);
         	source.setEdge(edge);
         }
-        else
-        {
-        	if(edge.getChildNode().contains(target))
-        	{
+        else {
+        	if(edge.getChildNode().contains(target)) {
         		return null;
         	}
-        	if(edge.getChildNode().size()>0)
-        	{
+        	if(edge.getChildNode().size() > 0) {
         		HashMap<Integer, String> map = new HashMap<Integer, String>();
             	WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
                         getActiveWorkbenchWindow().getShell(),

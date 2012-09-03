@@ -41,7 +41,11 @@ import behaviortree.TraceabilityStatus;
 import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard;
 import behaviortree.graphBT.wizards.createrequirement.CreateRequirementGraphBTWizard;
 
-
+/**
+ * Class to define the contents of manage requirement wizard
+ * @author GraphBT Team
+ *
+ */
 public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 
 	private Composite container;

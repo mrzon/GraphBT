@@ -15,6 +15,12 @@ import org.eclipse.graphiti.util.IColorConstant;
 
 import behaviortree.Edge;
 
+/**
+ * Class AddAtomicConnectionGraphBtFeature is for adding atomic edge between
+ * two connected nodes
+ * @author GraphBT Team
+ *
+ */
 public class AddAtomicConnectionGraphBtFeature extends AbstractAddFeature implements
 		IAddFeature {
 
@@ -42,12 +48,6 @@ public class AddAtomicConnectionGraphBtFeature extends AbstractAddFeature implem
 		connection.setStart(addConContext.getSourceAnchor());
 		connection.setEnd(addConContext.getTargetAnchor());
 
-//		connection.getEnd().getGraphicsAlgorithm().
-//			setX(connection.getStart().getGraphicsAlgorithm().getX());
-//		connection.getEnd().getGraphicsAlgorithm().
-//		setY(connection.getStart().getGraphicsAlgorithm().getY() +
-//				connection.getStart().getGraphicsAlgorithm().getHeight());
-		
 		Polyline polyline = gaService.createPlainPolyline(connection);
 		
 		gaService.setLocation(polyline, addConContext.getX(), addConContext.getY());
@@ -55,11 +55,6 @@ public class AddAtomicConnectionGraphBtFeature extends AbstractAddFeature implem
 
 		Edge addedEdge = (Edge) context.getNewObject();
 		link(connection, addedEdge);
-		
-//		ConnectionDecorator textDecorator = peCreateService.createConnectionDecorator(connection, true, 0.5, true);
-//		Text text = gaService.createPlainText(textDecorator);
-//		text.setStyle(StyleUtil.getStyleForTextDecorator((getDiagram())));
-//		gaService.setLocation(text, 10, 0);
 
 		return connection;
 	}

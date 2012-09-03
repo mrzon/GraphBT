@@ -20,10 +20,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
@@ -32,14 +32,15 @@ import behaviortree.Behavior;
 import behaviortree.BehaviorType;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
-import behaviortree.Operator;
-import behaviortree.Requirement;
 import behaviortree.StandardNode;
-import behaviortree.TraceabilityStatus;
 import behaviortree.graphBT.wizards.createbehavior.CreateBehaviorGraphBTWizard;
 import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard;
 
-
+/**
+ * Class to define the contents of manage component wizard
+ * @author GraphBT Team
+ *
+ */
 public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 
 	private Composite container;

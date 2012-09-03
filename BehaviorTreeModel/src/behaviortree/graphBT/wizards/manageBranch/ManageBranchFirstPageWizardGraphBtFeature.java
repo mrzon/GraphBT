@@ -10,12 +10,16 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import behaviortree.Branch;
 
+/**
+ * Class to define the contents of manage branch wizard
+ * @author GraphBT Team
+ *
+ */
 public class ManageBranchFirstPageWizardGraphBtFeature extends WizardPage {
 	
 	private Composite container;

@@ -7,7 +7,11 @@ import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import behaviortree.*;
 
-
+/**
+ * Class to filter whether property section of BT node can be accessed or not
+ * @author GraphBT Team
+ *
+ */
 public class BehaviorTreeFilter extends AbstractPropertySectionFilter {
 	
     @Override
@@ -15,15 +19,7 @@ public class BehaviorTreeFilter extends AbstractPropertySectionFilter {
         EObject eObject =
             Graphiti.getLinkService()
             .getBusinessObjectForLinkedPictogramElement(pe);
-//<<<<<<< HEAD
-//        if(!(pe instanceof Shape))
-//        	return false;
-//        EObject eObj =
-//                Graphiti.getLinkService()
-//                .getBusinessObjectForLinkedPictogramElement(((Shape)pe).getContainer());
-//            
-//=======
-//        
+
         EObject eObj = null;
         if(pe instanceof Shape){
 	        eObj = Graphiti.getLinkService()
@@ -32,33 +28,25 @@ public class BehaviorTreeFilter extends AbstractPropertySectionFilter {
         else {
         	return false;
         }
-//>>>>>>> refs/remotes/origin/master3composition
         
-        System.out.println("Ane masuk filter nyakkk");
         boolean isTrue = false;
         if (eObject instanceof StandardNode) {
         	isTrue = true;
-        	System.out.println("Ini adalah standard node di treefilter..");
         }
         if (eObject instanceof Component) {
         	isTrue = true;
-        	System.out.println("Ini adalah component di treefilter..");
         }
         if (eObject instanceof Behavior) {
         	isTrue = true;
-        	System.out.println("Ini adalah behavior di treefilter..");
         }
         if (eObj instanceof StandardNode) {
         	isTrue = true;
-        	System.out.println("Ini adalah standard node..");
         }
         if (eObj instanceof Component) {
         	isTrue = true;
-        	System.out.println("Ini adalah component..");
         }
         if (eObj instanceof Behavior) {
         	isTrue = true;
-        	System.out.println("Ini adalah behavior..");
         }
         return isTrue;
     }

@@ -17,7 +17,12 @@ import behaviortree.Requirement;
 import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatusClass;
 
-
+/**
+ * Class UpdateGraphBtFeature is for updating the graphical BT model if
+ * some changes are made 
+ * @author GraphBT Team
+ *
+ */
 public class UpdateGraphBtFeature extends AbstractUpdateFeature {
  
     public UpdateGraphBtFeature(IFeatureProvider fp) {
@@ -28,11 +33,6 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         // return true, if linked business object is a StandardNode
     	PictogramElement pictogramElement = context.getPictogramElement();
     	Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-        
-        System.out.println("in update check if standard node: " + (bo instanceof StandardNode));
-        System.out.println("in update check if TraceabilityStatusClass: " + (bo instanceof TraceabilityStatusClass));
-        System.out.println("where we go: " + ((bo instanceof Component)|| (bo instanceof Behavior)|| (bo instanceof OperatorClass) ||
-        		(bo instanceof Requirement) || (bo instanceof TraceabilityStatusClass)));
         
         return ((bo instanceof Component)|| (bo instanceof Behavior)|| (bo instanceof OperatorClass) ||
         		(bo instanceof Requirement) || (bo instanceof TraceabilityStatusClass));
@@ -51,19 +51,16 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         }
        	
         StandardNode node = (StandardNode) oSN;
-       	System.out.println("This is updateNeeded method");
         String businessName = null;
 		
         if (bo instanceof Component) {
 			Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram()), node.getComponentRef());
-			if(c != null)
-			{
+			if(c != null) {
 				businessName = c.getComponentName();
-				System.out.println("This is updateNeeded method bo instanceof component: " + businessName);
 			}
 		}
 		else if (bo instanceof Behavior) {
-			if(node.getBehaviorRef()!=null) {
+			if(node.getBehaviorRef() != null) {
 				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram()), node.getComponentRef());
 				businessName = GraphBTUtil.getBehaviorFromComponentByRef(c, node.getBehaviorRef()).toString();
 			}
@@ -72,8 +69,7 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
 			}
 		}
 		else if (bo instanceof Requirement) {
-			System.out.println("node.traceabilityLink: " + node.getTraceabilityLink());
-			if(node.getTraceabilityLink()!=null) {
+			if(node.getTraceabilityLink() != null) {
 				Requirement c = GraphBTUtil.getRequirement(GraphBTUtil.getBEModel(getDiagram()), node.getTraceabilityLink());
 				businessName = c.getKey();
 			}
@@ -82,7 +78,6 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
 			}
 		}
 		else if (bo instanceof TraceabilityStatusClass) {
-			System.out.println("in update needed, TraceabilityStatusClass: " + node.getTraceabilityStatus());
 			businessName = node.getTraceabilityStatus();
 		}
 		else if (bo instanceof OperatorClass) {
@@ -93,14 +88,10 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
 			pictogramName = ((Text)((Shape)pictogramElement).getGraphicsAlgorithm()).getValue();
 		}
 		
-		System.out.println("pictogramName " + pictogramName);
-
-		// update needed, if names are different
 		boolean updateNameNeeded = ((pictogramName == null && businessName != null) || 
 				(pictogramName != null && !pictogramName.equals(businessName)));
 		if (updateNameNeeded) {
-			System.out.println("Update is needed!");
-			return Reason.createTrueReason("Name is out of date"); //$NON-NLS-1$
+			return Reason.createTrueReason("Name is out of date");
 		} else {
 			return Reason.createFalseReason();
 		}
@@ -150,8 +141,6 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         	businessName = node.getTraceabilityStatus();
             Shape shape = (Shape) pictogramElement;
             
-            System.out.println("TraceabilityStatus at update method: " + businessName);
-        
             if (shape.getGraphicsAlgorithm() instanceof Text) {
                 Text text = (Text) shape.getGraphicsAlgorithm();
                 text.setValue(businessName);

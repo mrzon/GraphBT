@@ -7,6 +7,11 @@ import org.eclipse.graphiti.ui.features.AbstractCopyFeature;
 
 import behaviortree.StandardNode;
 
+/**
+ * Class for specifying copy feature for a standard BT node
+ * @author GraphBT Team
+ *
+ */
 public class CopyNodeGraphBtFeature extends AbstractCopyFeature {
 
 	public CopyNodeGraphBtFeature(IFeatureProvider fp) {
