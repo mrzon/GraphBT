@@ -94,7 +94,7 @@ import org.osgi.framework.Bundle;
 import behaviortree.editor.MultiPageEditor;
 
 public class GraphBTUtil {
-	
+	public static final Set<StandardNode> errorNode = new HashSet<StandardNode>(); 
     public static final IColorConstant ORIGINAL_BEHAVIOR_COLOR =
             new ColorConstant("99FF66");
         
@@ -109,6 +109,9 @@ public class GraphBTUtil {
     
     public static final IColorConstant DELETED_BEHAVIOR_COLOR =
             new ColorConstant("FFFFFF");	//white
+    
+    public static final IColorConstant ERROR_COLOR =
+            new ColorConstant("D32121");	//red
         
 	/**
 	 * This method is used to get the BE factory
@@ -298,6 +301,15 @@ public class GraphBTUtil {
 		return null;
 	}
 
+	public static URI getDiagramModelURI(Diagram d)
+	{
+		URI uri = d.eResource().getURI();
+		uri = uri.trimFragment();
+		uri = uri.trimFileExtension();
+		uri = uri.appendFileExtension("model"); //$NON-NLS-1$
+		return uri;
+	}
+	
 	/**
 	 * get file URI from a file based on a ResourceSet
 	 * @param file
@@ -712,9 +724,51 @@ public class GraphBTUtil {
 	 * @param d 
 	 * @return true if valide, false if not
 	 */
-	public static boolean isValid(Diagram d)
+	public static int isValid(Diagram d)
 	{
-		return GraphBTUtil.getRoots(d.eResource().getResourceSet()).size() == 1;
+		List<StandardNode> listNode = GraphBTUtil.getRoots(d.eResource().getResourceSet()); 
+		StandardNode node = listNode.get(0);
+		
+		checkReversion(node);
+		
+		if(listNode.size() != 1)
+			return 1;
+		if(errorNode.size() > 0) {
+			return 2;
+		}
+		
+		return 0;
+	}
+	
+//	static boolean checkReversion(StandardNode node) {
+//		if(node.getEdge() != null && node.getOperator().equals(Operator.REVERSION.getLiteral())) {
+//			return false;
+//		}
+//		else if(node.getEdge() == null) {
+//			return true;
+//		}
+//		else {
+//			List<Node> nodes = node.getEdge().getChildNode();
+//			for(Node node1 : nodes) {
+//				checkReversion((StandardNode) node1);
+//			}
+//		}
+//		return true;
+//	}
+	
+	static void checkReversion(StandardNode node) {
+		if(node.getEdge() != null && node.getOperator().equals(Operator.REVERSION.getLiteral())) {
+			errorNode.add(node);
+		}
+		else if(node.getEdge() != null && !node.getOperator().equals(Operator.REVERSION.getLiteral())){
+			List<Node> nodes = node.getEdge().getChildNode();
+			for(Node node1 : nodes) {
+				checkReversion((StandardNode) node1);
+			}
+		}
+		else {
+			return;
+		}
 	}
 	
 	/**
@@ -1127,7 +1181,7 @@ public class GraphBTUtil {
 	{
 		ResourceSet rs = new ResourceSetImpl();
 		Diagram d = GraphBTUtil.getDiagramFromFile(diag, rs);
-		if(!isValid(d))
+		if(isValid(d) > 0)
 		{
 			return false;
 		}
@@ -1168,7 +1222,7 @@ public class GraphBTUtil {
 	 */
 	public static void applyTreeLayout(Diagram d)
 	{
-		if(!isValid(d))
+		if(isValid(d) > 0)
 		{
 			return;
 		}

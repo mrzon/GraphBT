@@ -351,15 +351,20 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
 					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
-					if(!GraphBTUtil.isValid(d))
+					
+					int isValid = GraphBTUtil.isValid(d);
+					
+					if(isValid == 1)
 					{
 						MessageDialog.openError(null, "Error in validate BT", "The model should contain only one root!");
+					}
+					else if(isValid == 2) {
+						MessageDialog.openError(null, "Error in validate BT", "The model contain invalid reversion node!");
 					}
 					else
 					{
 						MessageDialog.openInformation(null, "Validation info", "The model is valid");
 					}
-					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
 			}
 		};

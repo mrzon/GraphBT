@@ -34,6 +34,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import behaviortree.BEModel;
 import behaviortree.Behavior;
 import behaviortree.Component;
+import behaviortree.Edge;
 import behaviortree.GraphBTUtil;
 import behaviortree.Operator;
 import behaviortree.OperatorClass;
@@ -391,12 +392,18 @@ public class BehaviorTreePropertySection extends GFPropertySection
 						return;
     	    		
     	    		final ContainerShape cs = (ContainerShape) pe;
-//    	    		final Rectangle rectangle = (Rectangle) cs.getGraphicsAlgorithm();
     	    		
     		    	final Command cmd2 = new RecordingCommand(ds.getEditingDomain(), "Nope") {
     	    			protected void doExecute() {
     	    				final Rectangle rectangle = (Rectangle) cs.getGraphicsAlgorithm();
     	    				
+    	    				Edge edge = node.getEdge();
+    	        			
+    	        			if(edge != null && node.getOperator().equals(Operator.REVERSION.getLiteral())) {
+    	        				rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ERROR_COLOR));
+    	        				return;
+    	        			}
+    	        			
 	    					if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.DELETED.getLiteral())) {
     	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
     	    	            }
@@ -449,7 +456,46 @@ public class BehaviorTreePropertySection extends GFPropertySection
     	    		if(!(pe instanceof ContainerShape))
 						return;
 					
-    	    		ContainerShape cs = (ContainerShape)pe;
+    	    		final ContainerShape cs = (ContainerShape)pe;
+    	    		
+    	    		final Command cmd2 = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+    	    			protected void doExecute() {
+    	        			node.setOperator(Operator.getByName(selected).getLiteral());
+    	        			
+    	        			Edge edge = node.getEdge();
+    	        			
+    	        			final Rectangle rectangle = (Rectangle) cs.getGraphicsAlgorithm();
+    	        			
+    	        			if(edge != null && Operator.getByName(selected).getLiteral().equals(Operator.REVERSION.getLiteral())) {
+    	        				rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ERROR_COLOR));
+    	        				GraphBTUtil.errorNode.add(node);
+    	        			}
+    	        			else {
+    	        				GraphBTUtil.errorNode.remove(node);
+    	        				
+    	        				if(node.getTraceabilityStatus().equals(TraceabilityStatus.DELETED.getLiteral())) {
+        	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
+        	    	            }
+        	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.IMPLIED.getLiteral())) {
+        	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.IMPLIED_BEHAVIOR_COLOR));
+        	    	            }
+        	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.MISSING.getLiteral())) {
+        	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.MISSING_BEHAVIOR_COLOR));
+        	    	            }
+        	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.UPDATED.getLiteral())) {
+        	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.UPDATED_BEHAVIOR_COLOR));
+        	    	            }
+        	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.DESIGN_REFINEMENT.getLiteral())) {
+        	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
+        	    	            }
+        	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.ORIGINAL.getLiteral())) {
+        	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ORIGINAL_BEHAVIOR_COLOR));
+        	    	            }
+    	        			}
+    	    		    }
+    	    		};
+    	    		ds.getEditingDomain().getCommandStack().execute(cmd2);
+    	    		
 					Iterator<Shape> s = cs.getChildren().iterator();
 					while(s.hasNext()) {
 						Shape n = s.next();
