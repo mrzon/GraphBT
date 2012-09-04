@@ -18,17 +18,6 @@ public class MoveGraphBtFeature extends DefaultMoveShapeFeature {
  
     @Override
     public boolean canMoveShape(IMoveShapeContext context) {
-        boolean canMove = super.canMoveShape(context);
- 
-        if (canMove) {
-            Shape shape = context.getShape();
-            Object bo = getBusinessObjectForPictogramElement(shape);
-            if (bo instanceof Component ||
-            		bo instanceof Behavior ||
-            		bo instanceof Requirement) {
-                canMove = false;
-            }
-        }
-        return canMove;
+        return false;
     }
 }
