@@ -1002,6 +1002,7 @@ public class GraphBTUtil {
 		return cl;
 	}
 	
+	@SuppressWarnings("deprecation")
 	private static File getXMLFromBT(IFile file){	
 		IInjector injector = null;
 		IExtractor extractor = null;
@@ -1025,7 +1026,6 @@ public class GraphBTUtil {
 		} catch (ATLCoreException e) {
 			e.printStackTrace();
 		}
-		IFile f = (IFile) file;
 		//IPath path = (IPath) f.getLocation();
 		IModel outputModel = null;
 		// Defaults
@@ -1046,7 +1046,6 @@ public class GraphBTUtil {
 			outputModel = factory.newModel(outMetamodel);
 
 			// Loading Existing Model
-			Scanner s = new Scanner(file.getContents(true));
 			injector.inject(inputModel, file.getFullPath().toPortableString());
 
 			target = File.createTempFile("tempbt2sal", ".textbt", null);
@@ -1156,13 +1155,14 @@ public class GraphBTUtil {
 			return;
 		}
 		StandardNode root = getRoots(d.eResource().getResourceSet()).get(0);
-		HashMap<StandardNode,Integer> map = new HashMap<StandardNode,Integer>();
-		int width = getWidth(d,root,map);
-		System.out.println(map.toString());
+		HashMap<StandardNode,Integer> widthMap = new HashMap<StandardNode,Integer>();
+		HashMap<Integer,Integer> heightMap = new HashMap<Integer,Integer>();
+		int width = getWidth(d,root,widthMap);
+		int height = getHeight(d,root,heightMap,0);
+		
 		int currentY = 0;
 		int currentX = 0;
-		applyTreeLayout(d,root,currentX,currentY,map);
-		
+		applyTreeLayout(d,root,currentX,currentY,widthMap,heightMap,0);
 	}
 	private static int hSpace = 20;
 	private static int vSpace = 30;
@@ -1173,14 +1173,15 @@ public class GraphBTUtil {
 	 * @param node
 	 * @param currentX
 	 * @param currentY
-	 * @param map
+	 * @param widthMap
 	 */
-	private static void applyTreeLayout(Diagram d, StandardNode node, int currentX, int currentY, HashMap<StandardNode,Integer> map)
+	private static void applyTreeLayout(Diagram d, StandardNode node, int currentX, int currentY, HashMap<StandardNode,Integer> widthMap,HashMap<Integer,Integer> heightMap, int level)
 	{
-		final PictogramElement rootP = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
-		final int width = map.get(node);
-		final int cX = currentX;
-		final int cY = currentY;
+		PictogramElement rootP = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
+		final int width = widthMap.get(node);
+		final int height = heightMap.get(level);
+		int currentHeight = rootP.getGraphicsAlgorithm().getHeight();
+		System.out.println("level: "+level+"; height: "+height);
 		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         final DiagramEditor ds;
         if(page.getActiveEditor() instanceof DiagramEditor)
@@ -1191,22 +1192,70 @@ public class GraphBTUtil {
         {
         	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
         }
+        currentY = currentY + vSpace;
+        if(node.getParent()!=null && node.getParent().getEdge().getComposition().getValue()==Composition.SEQUENTIAL_VALUE)
+		{
+        	if(node.getEdge()!=null && node.getEdge().getComposition().getValue()==Composition.ATOMIC_VALUE)
+        	{
+        		PictogramElement rootP1 = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
+        		currentHeight=rootP1.getGraphicsAlgorithm().getHeight();
+    			StandardNode child = node;
+    			while (child.getEdge()!=null && child.getEdge().getComposition().getValue()==Composition.ATOMIC_VALUE)
+    			{
+    				rootP1 = Graphiti.getLinkService().getPictogramElements(d, child).get(0);
+    				currentHeight+=rootP1.getGraphicsAlgorithm().getHeight();
+    				child = (StandardNode) child.getEdge().getChildNode().get(0);
+    			}
+    			currentY=currentY+height/2-currentHeight/2;
+    			child = (StandardNode) node;
+    			while (child.getEdge()!=null && child.getEdge().getComposition().getValue()==Composition.ATOMIC_VALUE)
+    			{
+    				final PictogramElement rootP11 = Graphiti.getLinkService().getPictogramElements(d, child).get(0);
+    				final int cX = currentX;
+    				final int cY = currentY;
+    				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Move Node") {
+    					protected void doExecute() {
+    						rootP11.getGraphicsAlgorithm().setX(cX+width/2);
+    						rootP11.getGraphicsAlgorithm().setY(cY);
+    					}
+    				};
+    				currentY+=rootP11.getGraphicsAlgorithm().getHeight();
+    				ds.getEditingDomain().getCommandStack().execute(cmd);
+    				child = (StandardNode) child.getEdge().getChildNode().get(0);
+    				System.out.println("pas layouting saya keprint terus nih");
+    			}
+    			node=child;
+    		}
+        	else
+        	{
+        		currentY=currentY+height/2-currentHeight/2;
+        	}
+		}
+        final PictogramElement rootP1 = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
+        final int cX = currentX;
+		final int cY = currentY;
 		final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Move Node") {
 			protected void doExecute() {
-				rootP.getGraphicsAlgorithm().setX(cX+width/2);
-				rootP.getGraphicsAlgorithm().setY(cY);
+				rootP1.getGraphicsAlgorithm().setX(cX+width/2);
+				rootP1.getGraphicsAlgorithm().setY(cY);
 			}
 		};
+		currentY+=rootP1.getGraphicsAlgorithm().getHeight()+vSpace;
 		ds.getEditingDomain().getCommandStack().execute(cmd);
+		
 		if(node.getEdge()==null)
 		{
 			return;
 		}
-		currentY = currentY + vSpace + rootP.getGraphicsAlgorithm().getHeight();
-		for(int i = 0; i < node.getEdge().getChildNode().size(); i++)
+
+		if(node.getEdge().getComposition().getValue()==Composition.SEQUENTIAL_VALUE)
 		{
-			GraphBTUtil.applyTreeLayout(d, (StandardNode) node.getEdge().getChildNode().get(i),currentX,currentY,map);
-			currentX=currentX + hSpace+map.get((StandardNode) node.getEdge().getChildNode().get(i));
+			currentY = currentY-currentHeight/2+height/2;
+			for(int i = 0; i < node.getEdge().getChildNode().size(); i++)
+			{
+				GraphBTUtil.applyTreeLayout(d, (StandardNode) node.getEdge().getChildNode().get(i),currentX,currentY,widthMap,heightMap,level+1);
+				currentX=currentX + hSpace+widthMap.get((StandardNode) node.getEdge().getChildNode().get(i));
+			}
 		}
 	}
 	
@@ -1234,6 +1283,44 @@ public class GraphBTUtil {
 		return width;
 	}
 	
+	private static int getHeight(Diagram d, StandardNode node, HashMap<Integer,Integer> map, int level)
+	{
+		
+		if(node==null)
+			return 0;
+		int height=Graphiti.getLinkService().getPictogramElements(d, node).get(0).getGraphicsAlgorithm().getHeight();
+		
+		if(node.getEdge()==null)
+		{
+			if(map.get(level)==null||map.get(level)!=null&&map.get(level)<height)
+			{
+				map.put(level, height);
+			}
+			return 0;
+		}
+		if(node.getEdge().getComposition().getValue()==Composition.ATOMIC_VALUE)
+		{
+			StandardNode child = node;
+			while (child.getEdge()!=null && child.getEdge().getComposition().getValue()==Composition.ATOMIC_VALUE)
+			{
+				PictogramElement rootP = Graphiti.getLinkService().getPictogramElements(d, child).get(0);
+				height+=rootP.getGraphicsAlgorithm().getHeight();
+				child = (StandardNode) child.getEdge().getChildNode().get(0);
+				System.out.println("Saya keprint terus nih");
+			}
+			node=child;
+		}
+		if(map.get(level) == null || map.get(level) != null&&map.get(level)<height)
+		{
+			map.put(level, height);
+		}
+		for(int i = 0; node.getEdge()!=null&&i < node.getEdge().getChildNode().size(); i++)
+		{
+			StandardNode child = (StandardNode) node.getEdge().getChildNode().get(i);
+			getHeight(d,child,map,level+1);
+		}
+		return 0;
+	}
 	public static IContextButtonEntry createGraphBtDeleteContextButton(IFeatureProvider featureProvider, final PictogramElement pe) {
 		final IDeleteContext deleteContext = new DeleteContext(pe);
 		IEditorPart ep = (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor());
@@ -1244,7 +1331,6 @@ public class GraphBTUtil {
 		IContextButtonEntry ret = null;
 		System.out.println("GraphBTUtil createGraphBTDeleteContextButton");
 		
-//		node.getEdge().
 		if (deleteFeature != null) {
 			ret = new ContextButtonEntry(deleteFeature, deleteContext){
 				@Override
@@ -1283,15 +1369,6 @@ public class GraphBTUtil {
 									StandardNode child = (StandardNode) node.getEdge().getChildNode().get(i);
 									child.setParent(null);
 									child.setLeaf(false);
-//									try {
-//										saveToModelFile(child, de.getDiagramTypeProvider().getDiagram());
-//									} catch (CoreException e) {
-//										// TODO Auto-generated catch block
-//										e.printStackTrace();
-//									} catch (IOException e) {
-//										// TODO Auto-generated catch block
-//										e.printStackTrace();
-//									}
 								}
 								
 								GraphBTUtil.getRoots(de.getDiagramTypeProvider().getDiagram().eResource().getResourceSet()).get(0).eResource().getContents().addAll(node.getEdge().getChildNode());
@@ -1303,10 +1380,7 @@ public class GraphBTUtil {
 						}
 						
 					});
-					
-					
 				}
-
 			};
 			ContextEntryHelper.markAsDeleteContextEntry(ret);
 		}
