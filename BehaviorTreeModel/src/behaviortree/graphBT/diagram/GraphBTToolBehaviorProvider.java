@@ -42,6 +42,8 @@ import org.eclipse.graphiti.tb.IContextButtonPadData;
 import org.eclipse.graphiti.tb.IContextMenuEntry;
 import org.eclipse.graphiti.tb.IDecorator;
 
+import behaviortree.Behavior;
+import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.Requirement;
 import behaviortree.StandardNode;
@@ -152,6 +154,25 @@ public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 			strBuff.append(req.getDescription());
 			return strBuff.toString();
 		}
+		if(bo instanceof Component) {
+			Component com = (Component) bo;
+			StringBuffer strBuff = new StringBuffer(com.getComponentRef());
+			strBuff.append(". ");
+			strBuff.append(com.getComponentName());
+			strBuff.append('\n');
+			strBuff.append("Default description");
+			return strBuff.toString();
+		}
+		if(bo instanceof Behavior) {
+			Behavior beh = (Behavior) bo;
+			StringBuffer strBuff = new StringBuffer(beh.getBehaviorRef());
+			strBuff.append(". ");
+			strBuff.append(beh.getBehaviorName());
+			strBuff.append('\n');
+			strBuff.append("Default description");
+			return strBuff.toString();
+		}
+		
 		return super.getToolTip(ga);
 	}
 }

@@ -74,6 +74,8 @@ import org.eclipse.graphiti.tb.ContextButtonEntry;
 import org.eclipse.graphiti.tb.ContextEntryHelper;
 import org.eclipse.graphiti.tb.IContextButtonEntry;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
+import org.eclipse.graphiti.util.ColorConstant;
+import org.eclipse.graphiti.util.IColorConstant;
 import org.eclipse.m2m.atl.core.ATLCoreException;
 import org.eclipse.m2m.atl.core.IExtractor;
 import org.eclipse.m2m.atl.core.IInjector;
@@ -92,6 +94,22 @@ import org.osgi.framework.Bundle;
 import behaviortree.editor.MultiPageEditor;
 
 public class GraphBTUtil {
+	
+    public static final IColorConstant ORIGINAL_BEHAVIOR_COLOR =
+            new ColorConstant("99FF66");
+        
+    public static final IColorConstant IMPLIED_BEHAVIOR_COLOR =
+            new ColorConstant("FFFF33");	//yellow
+ 
+    public static final IColorConstant MISSING_BEHAVIOR_COLOR =
+            new ColorConstant("FF6666");	//red
+        
+    public static final IColorConstant UPDATED_BEHAVIOR_COLOR =
+                new ColorConstant("66CCFF");	//blue
+    
+    public static final IColorConstant DELETED_BEHAVIOR_COLOR =
+            new ColorConstant("FFFFFF");	//white
+        
 	/**
 	 * This method is used to get the BE factory
 	 * @return instance of Behavior Tree Factory

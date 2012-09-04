@@ -6,6 +6,8 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
+import org.eclipse.graphiti.features.impl.AbstractFeature;
+import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -13,6 +15,8 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
+import org.eclipse.graphiti.util.ColorConstant;
+import org.eclipse.graphiti.util.IColorConstant;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
@@ -172,7 +176,6 @@ public class BehaviorTreePropertySection extends GFPropertySection
             	return;
             }
         }
-//        refresh();
     }
 
 	/**
@@ -235,6 +238,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
             for(Requirement requirement : GraphBTUtil.getBEModel(d).getRequirementList().getRequirements()) {
             	requirementCombo.add(requirement.getKey());
             }
+            requirementCombo.add(" ");
             
             BEModel model = GraphBTUtil.getBEModel(d);
             
@@ -338,8 +342,15 @@ public class BehaviorTreePropertySection extends GFPropertySection
     		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
     	    			protected void doExecute() {
     	    		    	BEModel model = GraphBTUtil.getBEModel(d);
-    	        			Requirement r = GraphBTUtil.getRequirement(model, selected);
-    	        			node.setTraceabilityLink(r.getKey());
+    	    		    	
+    	    		    	if(selected.equals(" ")) {
+    	    		    		Requirement r = GraphBTUtil.getDefaultRequirement(d);
+        	        			node.setTraceabilityLink(r.getKey());
+    	    		    	}
+    	    		    	else {
+    	    		    		Requirement r = GraphBTUtil.getRequirement(model, selected);
+        	        			node.setTraceabilityLink(r.getKey());
+    	    		    	}
     	    		    }
     	    		};
     	    		
@@ -372,14 +383,42 @@ public class BehaviorTreePropertySection extends GFPropertySection
     	    				node.setTraceabilityStatus(TraceabilityStatus.getByName(selected).getLiteral());
     	    		    }
     	    		};
-    	    		
     	    		ds.getEditingDomain().getCommandStack().execute(cmd);
+    	    		
     	    		PictogramElement pe = getSelectedPictogramElement();
 
     	    		if(!(pe instanceof ContainerShape))
 						return;
-					
-    	    		ContainerShape cs = (ContainerShape) pe;
+    	    		
+    	    		final ContainerShape cs = (ContainerShape) pe;
+//    	    		final Rectangle rectangle = (Rectangle) cs.getGraphicsAlgorithm();
+    	    		
+    		    	final Command cmd2 = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+    	    			protected void doExecute() {
+    	    				final Rectangle rectangle = (Rectangle) cs.getGraphicsAlgorithm();
+    	    				
+	    					if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.DELETED.getLiteral())) {
+    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
+    	    	            }
+    	    	            else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.IMPLIED.getLiteral())) {
+    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.IMPLIED_BEHAVIOR_COLOR));
+    	    	            }
+    	    	            else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.MISSING.getLiteral())) {
+    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.MISSING_BEHAVIOR_COLOR));
+    	    	            }
+    	    	            else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.UPDATED.getLiteral())) {
+    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.UPDATED_BEHAVIOR_COLOR));
+    	    	            }
+    	    	            else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.DESIGN_REFINEMENT.getLiteral())) {
+    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
+    	    	            }
+    	    	            else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.ORIGINAL.getLiteral())) {
+    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ORIGINAL_BEHAVIOR_COLOR));
+    	    	            }
+    	    		    }
+    	    		};
+    	    		ds.getEditingDomain().getCommandStack().execute(cmd2);
+    	    		
 					Iterator<Shape> s = cs.getChildren().iterator();
 					while(s.hasNext()) {
 						Shape n = s.next();
