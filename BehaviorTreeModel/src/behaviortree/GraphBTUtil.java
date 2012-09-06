@@ -728,10 +728,10 @@ public class GraphBTUtil {
 	 */
 	public static int isValid(Diagram d)
 	{
-		List<StandardNode> listNode = GraphBTUtil.getRoots(d.eResource().getResourceSet()); 
-		StandardNode node = listNode.get(0);
+		List<StandardNode> listNode = GraphBTUtil.getRoots(d.eResource().getResourceSet()); //get all roots from the model 
+		StandardNode node = listNode.get(0); 
 		
-		checkReversion(node);
+		checkReversion(node); //check 
 		
 		if(listNode.size() != 1)
 			return 1;
@@ -1227,7 +1227,7 @@ public class GraphBTUtil {
 //<<<<<<< HEAD
 		List<StandardNode> roots = getRoots(d.eResource().getResourceSet());
 //=======
-		if(isValid(d) > 0)
+		if(isValid(d) > 1)
 		{
 			return;
 		}
