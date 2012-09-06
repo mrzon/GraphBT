@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import btdebuggertool.commandHandler.*;
 import javax.swing.text.html.HTMLDocument.Iterator;
-
+import behaviortree.saltranslator.bt2sal.*;
 //import org.be.textbe.bt.textbt.presentation.TextbtEditor;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -94,12 +94,13 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	private Action manageRequirements;
 	private Action validateBT;
 	private Action debugBT;
-	private Action generateJavaFromBT;
+	private Action generateJavaCode;
 	private Action verifyModel;
 	private Action correctLayout;
 	private Action extractFromBTFile;
 	private IFile btIFile;
 	private Action clearDiagram;
+	private Action generateSALCode;
 	/**
 	 * Creates a multi-page contributor.
 	 */
@@ -401,7 +402,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		debugBT.setToolTipText("Debug and simulate the model");
 		debugBT.setImageDescriptor(getImageDescriptor("icons/debug.gif"));
 		
-		this.generateJavaFromBT = new Action() {
+		this.generateJavaCode = new Action() {
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor)
@@ -419,9 +420,9 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				}
 			}
 		};
-		generateJavaFromBT.setText("BT Code Generator");
-		generateJavaFromBT.setToolTipText("Generate the Java Code");
-		generateJavaFromBT.setImageDescriptor(getImageDescriptor("icons/generateCode.gif"));
+		generateJavaCode.setText("BT Code Generator");
+		generateJavaCode.setToolTipText("Generate the Java Code");
+		generateJavaCode.setImageDescriptor(getImageDescriptor("icons/generateCode.gif"));
 		correctLayout = new Action() {
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
@@ -524,6 +525,47 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		clearDiagram.setText("Clear editor");
 		clearDiagram.setToolTipText("Clear the diagram editor");
 		clearDiagram.setImageDescriptor(getImageDescriptor("icons/clear.gif"));
+		
+		generateSALCode = new Action() {
+			public void run() {
+				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
+				if(activeEditorPart instanceof DiagramEditor)
+				{
+					Diagram d = ((DiagramEditor)activeEditorPart).getDiagramTypeProvider().getDiagram();
+					if(GraphBTUtil.isValid(d)>0)
+					{
+						MessageDialog.openError(null, "SAL generation error", "The model is not valid, validate the model first to check error");
+						return;
+					}
+					codegenerator.commandHandler.StartPointParseXML debugger = new codegenerator.commandHandler.StartPointParseXML ();
+					generateBTCode.run(); //generate the bt code first
+					URI uri = d.eResource().getURI();
+					uri = uri.trimFragment();
+					uri = uri.trimFileExtension();
+					uri = uri.appendFileExtension("sal");
+					
+					final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+					IFile file = (IFile) workspaceRoot.findMember(uri.toPlatformString(true));
+					{
+						Path path = new Path(uri.toPlatformString(true));
+						file = workspaceRoot.getFile(path);
+						Main.run(GraphBTUtil.getXMLFromBT(btIFile),file);
+					}
+					
+					try {
+						workspaceRoot.refreshLocal(IResource.DEPTH_ONE, null);
+					} catch (CoreException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
+				}
+			}
+		};
+		generateSALCode.setText("BT to SAL Translator");
+		generateSALCode.setToolTipText("Generate the SAL Code");
+		generateSALCode.setImageDescriptor(getImageDescriptor("icons/generateSALCode.gif"));
+		
 	}
 	
 	private String handleBrowse() {
@@ -559,6 +601,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	public void contributeToMenu(IMenuManager manager) {
 		IMenuManager menu = new MenuManager("Editor &Menu");
 		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);
+		menu.add(clearDiagram);
 		menu.add(generateBTCode);
 		menu.add(addNewComponent);
 		menu.add(manageComponents);
@@ -566,7 +609,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		menu.add(verifyModel);
 		menu.add(validateBT);
 		menu.add(debugBT);
-		menu.add(generateJavaFromBT);
+		menu.add(generateJavaCode);
+		menu.add(generateSALCode);
 		menu.add(new Separator());
 		menu.add(correctLayout);
 		menu.add(extractFromBTFile);
@@ -583,7 +627,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		manager.add(verifyModel);
 		manager.add(debugBT);
 		manager.add(generateBTCode);
-		manager.add(generateJavaFromBT);
+		manager.add(generateJavaCode);
+		manager.add(generateSALCode);
 		manager.add(new Separator());
 		manager.add(correctLayout);
 	}

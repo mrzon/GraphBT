@@ -1076,8 +1076,8 @@ public class GraphBTUtil {
 		return cl;
 	}
 	
-	@SuppressWarnings("deprecation")
-	private static File getXMLFromBT(IFile file){	
+	
+	public static File getXMLFromBT(IFile file){	
 		IInjector injector = null;
 		IExtractor extractor = null;
 		IReferenceModel inMetamodel;
