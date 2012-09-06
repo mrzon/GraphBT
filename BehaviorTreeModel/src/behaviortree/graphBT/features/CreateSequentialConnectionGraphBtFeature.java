@@ -221,7 +221,7 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
 	@Override
 	public boolean canCreate(ICreateConnectionContext context) {
 		
-		PictogramElement pe = context.getTargetPictogramElement();
+		PictogramElement pe = context.getSourcePictogramElement();
 		PictogramElement peS = context.getTargetPictogramElement();
 		if (this.getBusinessObjectForPictogramElement(pe) != null)
 		{

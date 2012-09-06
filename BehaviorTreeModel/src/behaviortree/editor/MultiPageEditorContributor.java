@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -95,9 +96,10 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	private Action debugBT;
 	private Action generateJavaFromBT;
 	private Action verifyModel;
-	private Action applyLayout;
+	private Action correctLayout;
 	private Action extractFromBTFile;
 	private IFile btIFile;
+	private Action clearDiagram;
 	/**
 	 * Creates a multi-page contributor.
 	 */
@@ -173,6 +175,11 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				if(activeEditorPart instanceof DiagramEditor)
 				{
 					Diagram d = ((DiagramEditor)activeEditorPart).getDiagramTypeProvider().getDiagram();
+					if(!GraphBTUtil.isValid(d))
+					{
+						MessageDialog.openError(null, "BT generation error", "The model is not valid, validate the model first to check error");
+						return;
+					}
 					String content = GraphBTUtil.getBTText(d);
 					URI uri = d.eResource().getURI();
 					uri = uri.trimFragment();
@@ -372,6 +379,12 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor)
 				{
+					Diagram d = ((DiagramEditor)activeEditorPart).getDiagramTypeProvider().getDiagram();
+					if(!GraphBTUtil.isValid(d))
+					{
+						MessageDialog.openError(null, "Debug error", "The model is not valid, validate the model first to check error");
+						return;
+					}
 					StartPointParseXML debugger = new StartPointParseXML ();
 					generateBTCode.run(); //generate the bt code first
 					debugger.showDebugger(btIFile, PlatformUI.getWorkbench().getActiveWorkbenchWindow());
@@ -388,6 +401,12 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor)
 				{
+					Diagram d = ((DiagramEditor)activeEditorPart).getDiagramTypeProvider().getDiagram();
+					if(!GraphBTUtil.isValid(d))
+					{
+						MessageDialog.openError(null, "Code generation error", "The model is not valid, validate the model first to check error");
+						return;
+					}
 					codegenerator.commandHandler.StartPointParseXML debugger = new codegenerator.commandHandler.StartPointParseXML ();
 					generateBTCode.run(); //generate the bt code first
 					debugger.generateCodeFromBT(btIFile);
@@ -398,7 +417,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		generateJavaFromBT.setText("BT Code Generator");
 		generateJavaFromBT.setToolTipText("Generate the Java Code");
 		generateJavaFromBT.setImageDescriptor(getImageDescriptor("icons/generateCode.gif"));
-		applyLayout = new Action() {
+		correctLayout = new Action() {
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor)
@@ -412,9 +431,9 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				}
 			}
 		};
-		applyLayout.setText("Apply Layout");
-		applyLayout.setToolTipText("Apply layout to the graphical model");
-		applyLayout.setImageDescriptor(getImageDescriptor("icons/layout.gif"));
+		correctLayout.setText("Apply Layout");
+		correctLayout.setToolTipText("Apply layout to the graphical model");
+		correctLayout.setImageDescriptor(getImageDescriptor("icons/layout.gif"));
 		extractFromBTFile = new Action() {
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
@@ -445,7 +464,25 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					}
 					if(filePath.endsWith(".bt"))
 					{
-						clearDiagram(d);
+						d.getEditingDomain().getCommandStack().execute(new RecordingCommand(d.getEditingDomain(),"clear diagram editor"){
+							@Override
+							protected void doExecute() {
+								BEModel mod = GraphBTUtil.getBEModel(d.getDiagramTypeProvider().getDiagram());
+								mod.setComponentList(GraphBTUtil.getBEFactory().createComponentList());
+								mod.setRequirementList(GraphBTUtil.getBEFactory().createRequirementList());
+								Diagram diag = d.getDiagramTypeProvider().getDiagram(); 
+								diag.getChildren().clear();
+								diag.getConnections().clear();
+								diag.getAnchors().clear();
+								diag.getPictogramLinks().clear();
+								diag.getProperties().clear();
+								URI uri = d.getDiagramTypeProvider().getDiagram().eResource().getURI();
+								uri = uri.trimFragment();
+								uri = uri.trimFileExtension();
+								uri = uri.appendFileExtension("model");
+								diag.eResource().getResourceSet().getResource(uri, true).getContents().clear();
+							}
+						});
 						GraphBTUtil.generateFromBTFile(file, d);
 					}
 					else if(!filePath.endsWith(".bt"))
@@ -459,6 +496,29 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		extractFromBTFile.setText("Extract BT File");
 		extractFromBTFile.setToolTipText("Extract model from BT File");
 		extractFromBTFile.setImageDescriptor(getImageDescriptor("icons/extract.gif"));
+		clearDiagram = new Action() {
+			public void run() {
+				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
+				if(activeEditorPart instanceof DiagramEditor)
+				{
+					Diagram d = ((DiagramEditor)activeEditorPart).getDiagramTypeProvider().getDiagram();
+					
+					if(GraphBTUtil.getRoots(d.eResource().getResourceSet()).size() !=0 ){
+						boolean overide=MessageDialog.openQuestion(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Clear confirmation", "Are you sure you want to clear the current diagram? Components and requirements will not be cleared too.");
+						if(!overide)
+							{
+								return;
+							}
+							
+						}
+						clearDiagram((DiagramEditor)activeEditorPart);	
+					}
+					
+				}
+		};
+		clearDiagram.setText("Clear editor");
+		clearDiagram.setToolTipText("Clear the diagram editor");
+		clearDiagram.setImageDescriptor(getImageDescriptor("icons/clear.gif"));
 	}
 	
 	private String handleBrowse() {
@@ -494,7 +554,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	public void contributeToMenu(IMenuManager manager) {
 		IMenuManager menu = new MenuManager("Editor &Menu");
 		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);
-
 		menu.add(generateBTCode);
 		menu.add(addNewComponent);
 		menu.add(manageComponents);
@@ -504,21 +563,24 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		menu.add(debugBT);
 		menu.add(generateJavaFromBT);
 		menu.add(new Separator());
-		menu.add(applyLayout);
+		menu.add(correctLayout);
 		menu.add(extractFromBTFile);
 	}
 	public void contributeToToolBar(IToolBarManager manager) {
 		manager.add(new Separator());
-		manager.add(generateBTCode);
+		manager.add(clearDiagram);
+		manager.add(extractFromBTFile);
 		manager.add(addNewComponent);
 		manager.add(manageComponents);
 		manager.add(manageRequirements);
-		manager.add(verifyModel);
+		manager.add(new Separator());
 		manager.add(validateBT);
+		manager.add(verifyModel);
 		manager.add(debugBT);
+		manager.add(generateBTCode);
 		manager.add(generateJavaFromBT);
-		manager.add(applyLayout);
-		manager.add(extractFromBTFile);
+		manager.add(new Separator());
+		manager.add(correctLayout);
 	}
 	
 	private void clearDiagram(final DiagramEditor d)
@@ -526,9 +588,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		d.getEditingDomain().getCommandStack().execute(new RecordingCommand(d.getEditingDomain(),"clear diagram editor"){
 			@Override
 			protected void doExecute() {
-				BEModel mod = GraphBTUtil.getBEModel(d.getDiagramTypeProvider().getDiagram());
-				mod.setComponentList(GraphBTUtil.getBEFactory().createComponentList());
-				mod.setRequirementList(GraphBTUtil.getBEFactory().createRequirementList());
 				Diagram diag = d.getDiagramTypeProvider().getDiagram(); 
 				diag.getChildren().clear();
 				diag.getConnections().clear();
@@ -539,7 +598,17 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				uri = uri.trimFragment();
 				uri = uri.trimFileExtension();
 				uri = uri.appendFileExtension("model");
-				diag.eResource().getResourceSet().getResource(uri, true).getContents().clear();
+				Resource res = GraphBTUtil.getResource(diag.eResource().getResourceSet(), uri);
+				 
+				List<EObject> rs = new ArrayList<EObject>(res.getContents());
+				for(int i = 0; i < rs.size(); i++)
+				{
+					EObject ob = rs.get(i);
+					if(ob instanceof StandardNode)
+					{
+						res.getContents().remove(ob);
+					}
+				}
 			}
 		});
 	}

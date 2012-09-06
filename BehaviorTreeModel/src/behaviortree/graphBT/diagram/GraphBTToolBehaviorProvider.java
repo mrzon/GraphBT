@@ -27,6 +27,7 @@ import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
+import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.palette.IPaletteCompartmentEntry;
@@ -35,6 +36,7 @@ import org.eclipse.graphiti.palette.impl.ObjectCreationToolEntry;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
 import org.eclipse.graphiti.palette.impl.StackEntry;
 import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.tb.ContextMenuEntry;
 import org.eclipse.graphiti.tb.DefaultContextButtonPadData;
 import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
 import org.eclipse.graphiti.tb.IContextButtonEntry;
@@ -136,11 +138,24 @@ public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 	    return ret.toArray(new IPaletteCompartmentEntry[ret.size()]);
 	} 
 	
-	public IContextMenuEntry[] getContextMenu(ICustomContext menu)
+	public IContextMenuEntry[] getContextMenu(ICustomContext context)
 	{
+		IContextMenuEntry[] ret = NO_CONTEXT_MENU_ENTRIES;
+		List<IContextMenuEntry> retList = new ArrayList<IContextMenuEntry>();
 		System.out.println("Aku kepencet.. kyaa~~");
-		
-		return super.getContextMenu(menu);
+		ICustomFeature[] customFeatures = getFeatureProvider().getCustomFeatures(context);
+		for (int i = 0; i < customFeatures.length; i++) {
+			ICustomFeature customFeature = customFeatures[i];
+			System.out.println("getContextMenu "+customFeatures[i].canExecute(context));
+			retList.add(new ContextMenuEntry(customFeature, context));
+		}
+		try {
+			throw new Exception();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
 	}
 	
 	@Override

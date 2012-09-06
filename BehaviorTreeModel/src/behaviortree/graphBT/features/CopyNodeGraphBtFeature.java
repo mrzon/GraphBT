@@ -5,6 +5,7 @@ import org.eclipse.graphiti.features.context.ICopyContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.features.AbstractCopyFeature;
 
+import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
 
 /**
@@ -47,10 +48,13 @@ public class CopyNodeGraphBtFeature extends AbstractCopyFeature {
         for (int i = 0; i < pes.length ; i++) {
             PictogramElement pe = pes[i];
             bos[i] = getBusinessObjectForPictogramElement(pe);
+            
         }
         
         System.out.println("in the copy method");
         // put all business objects to the clipboard
         putToClipboard(bos);
 	}
+	
+	
 }

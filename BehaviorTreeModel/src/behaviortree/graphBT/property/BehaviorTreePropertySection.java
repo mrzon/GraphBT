@@ -243,8 +243,12 @@ public class BehaviorTreePropertySection extends GFPropertySection
             BEModel model = GraphBTUtil.getBEModel(d);
             
             Component com = GraphBTUtil.getComponentByRef(model, node.getComponentRef());
+            behaviorCombo.removeAll();
+            for(Behavior behavior: com.getBehaviors()) {
+		    	behaviorCombo.add(behavior.toString());
+		    }
             String componentString = com.getComponentName(); 
-            String behaviorString =  GraphBTUtil.getBehaviorFromComponentByRef(com, node.getBehaviorRef()).getBehaviorName();
+            String behaviorString =  GraphBTUtil.getBehaviorFromComponentByRef(com, node.getBehaviorRef()).toString();
             Requirement rr = GraphBTUtil.getRequirement(model, node.getTraceabilityLink());
             if(rr != null) {
             	String requirementString = GraphBTUtil.getRequirement(model, node.getTraceabilityLink()).getKey();
@@ -267,14 +271,15 @@ public class BehaviorTreePropertySection extends GFPropertySection
     		    public void widgetSelected(SelectionEvent e) {
     		    	CCombo combo = (CCombo)e.widget;
     		    	final String selected = combo.getItem(combo.getSelectionIndex());
+    		    	
     		    	final Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), selected);
     		    	
     		    	Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
     	    			protected void doExecute() {
     	    				node.setComponentRef(c.getComponentRef());
-    	    				Behavior beh = c.getBehaviors().size()>0?c.getBehaviors().get(0):null;
-    	    				node.setBehaviorRef(beh.getBehaviorRef());
-    	    				behaviorCombo.setText(beh.getBehaviorName());
+    	    				String beh = c.getBehaviors().size()>0?c.getBehaviors().get(0).getBehaviorRef():"";
+    	    				node.setBehaviorRef(beh);
+    	    				behaviorCombo.setText(beh);
     	    		    }
     	    		};
     	    		
@@ -309,7 +314,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
     		    	CCombo combo = (CCombo)e.widget;
     		    	final String selected = combo.getItem(combo.getSelectionIndex());
     		    	
-    		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+    		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Change behavior") {
     	    			protected void doExecute() {
     	    		    	BEModel model = GraphBTUtil.getBEModel(d);
     	        			Component c = GraphBTUtil.getComponentByRef(model, node.getComponentRef());
@@ -318,6 +323,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
     	    		    }
     	    		};
     	    		ds.getEditingDomain().getCommandStack().execute(cmd);
+    	    		
     	    		PictogramElement pe = getSelectedPictogramElement();
 					if(!(pe instanceof ContainerShape))
 						return;

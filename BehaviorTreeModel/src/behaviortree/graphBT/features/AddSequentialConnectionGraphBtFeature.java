@@ -19,6 +19,7 @@ import org.eclipse.graphiti.util.IColorConstant;
 
 import behaviortree.Branch;
 import behaviortree.Edge;
+import behaviortree.GraphBTUtil;
 
 /**
  * Class AddSequentialConnectionGraphBtFeature is for adding sequential edge between
@@ -72,7 +73,7 @@ public class AddSequentialConnectionGraphBtFeature extends AbstractAddFeature im
 			cd2 = peCreateService.createConnectionDecorator(connection, false, 0.0, true);
 			createAlternativeIdentifier(cd2);
 		}
-		
+		GraphBTUtil.applyTreeLayout(getDiagram());
 		return connection;
 	}
 	

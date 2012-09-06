@@ -441,6 +441,8 @@ public class GraphBTUtil {
 	 */
 	public static Behavior getBehaviorFromComponent(Component component,
 			String ref) {
+		if (component==null)
+			return null;
 		Iterator<Behavior> it = component.getBehaviors().iterator();
 		while(it.hasNext()){
 			Behavior b = it.next();
@@ -1168,19 +1170,20 @@ public class GraphBTUtil {
 	 */
 	public static void applyTreeLayout(Diagram d)
 	{
-		if(!isValid(d))
-		{
-			return;
-		}
-		StandardNode root = getRoots(d.eResource().getResourceSet()).get(0);
+		List<StandardNode> roots = getRoots(d.eResource().getResourceSet());
 		HashMap<StandardNode,Integer> widthMap = new HashMap<StandardNode,Integer>();
 		HashMap<Integer,Integer> heightMap = new HashMap<Integer,Integer>();
-		int width = getWidth(d,root,widthMap);
-		int height = getHeight(d,root,heightMap,0);
-		
 		int currentY = 0;
 		int currentX = 0;
-		applyTreeLayout(d,root,currentX,currentY,widthMap,heightMap,0);
+		for(int i = 0; i < roots.size(); i++)
+		{
+			int width = getWidth(d,roots.get(i),widthMap);
+			int height = getHeight(d,roots.get(i),heightMap,0);
+			
+			applyTreeLayout(d,roots.get(i),currentX,currentY,widthMap,heightMap,0);
+			currentX+=width+hSpace;
+			currentY=0;
+		}
 	}
 	private static int hSpace = 20;
 	private static int vSpace = 30;
@@ -1211,7 +1214,7 @@ public class GraphBTUtil {
         	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
         }
         currentY = currentY + vSpace;
-        if(node.getParent()!=null && node.getParent().getEdge().getComposition().getValue()==Composition.SEQUENTIAL_VALUE)
+        if(node.getParent()==null || node.getParent()!=null && node.getParent().getEdge().getComposition().getValue()==Composition.SEQUENTIAL_VALUE)
 		{
         	if(node.getEdge()!=null && node.getEdge().getComposition().getValue()==Composition.ATOMIC_VALUE)
         	{
@@ -1249,6 +1252,7 @@ public class GraphBTUtil {
         		currentY=currentY+height/2-currentHeight/2;
         	}
 		}
+        
         final PictogramElement rootP1 = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
         final int cX = currentX;
 		final int cY = currentY;
@@ -1342,8 +1346,11 @@ public class GraphBTUtil {
 	public static IContextButtonEntry createGraphBtDeleteContextButton(IFeatureProvider featureProvider, final PictogramElement pe) {
 		final IDeleteContext deleteContext = new DeleteContext(pe);
 		IEditorPart ep = (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor());
-		
-		final DiagramEditor de = ((MultiPageEditor)ep).getDiagramEditor();
+		final DiagramEditor de;
+		if(ep instanceof MultiPageEditor)
+			de = ((MultiPageEditor)ep).getDiagramEditor();
+		else
+			de = (DiagramEditor)ep;
 		final IDeleteFeature deleteFeature = featureProvider.getDeleteFeature(deleteContext);
 		
 		IContextButtonEntry ret = null;

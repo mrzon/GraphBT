@@ -8,6 +8,7 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import behaviortree.Behavior;
 import behaviortree.Component;
 import behaviortree.Requirement;
+import behaviortree.StandardNode;
 
 
 public class MoveGraphBtFeature extends DefaultMoveShapeFeature {
@@ -23,12 +24,14 @@ public class MoveGraphBtFeature extends DefaultMoveShapeFeature {
         if (canMove) {
             Shape shape = context.getShape();
             Object bo = getBusinessObjectForPictogramElement(shape);
-            if (bo instanceof Component ||
-            		bo instanceof Behavior ||
-            		bo instanceof Requirement) {
-                canMove = false;
+            
+            if(bo instanceof StandardNode)
+            {
+            	StandardNode node = (StandardNode)bo;
+            	if(node.getEdge()==null && node.getParent() == null)
+            		return true;
             }
         }
-        return canMove;
+        return false;
     }
 }
