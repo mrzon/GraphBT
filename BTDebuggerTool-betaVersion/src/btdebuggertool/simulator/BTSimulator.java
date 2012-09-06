@@ -15,6 +15,7 @@ import java.util.Set;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -30,6 +31,7 @@ import btdebuggertool.view.ZestDebuggerView;
 
 
 public class BTSimulator {
+	private boolean _flag_has_seen_parallel_branch = false;
 	/*
 	 * Tree yang akan dieksekusi
 	 */
@@ -307,9 +309,10 @@ public class BTSimulator {
 			isDone = executeBTAtomicNode(current, view);
 		
 		if(current.getBTNodeOperator() == BTNodeOperator.REVERSION){
-			BTNode destionationNode = this.btTree.getDestinationReversionNode(current);
-			destionationNode.setProcessID(current.getProcessID());
-			queue.add(destionationNode);
+			BTNode destinationNode = this.btTree.getDestinationReversionNode(current);
+			Assert.isNotNull(destinationNode);
+			destinationNode.setProcessID(current.getProcessID());
+			queue.add(destinationNode);
 		}else if(current.getBTNodeType() == BTNodeType.ATOMICNODE){
 			if(isDone){
 				BTNode tempNode = current;
@@ -333,16 +336,19 @@ public class BTSimulator {
 					}
 				}while(hasAtomicChildToo);
 				if(tempNode.hasParallelChild()){
-					Display.getDefault().syncExec(new Runnable() {
-						
-						@Override
-						public void run() {
-							MessageDialog.openInformation(view.getSite().getShell(), "Notification", 
-									"You will enter the parallel node. Please keep in mind that," +
-									" this Debugger Tools will simulate the parallel execution to " +
-									"be interleaved rather than parallel one");
-						}
+					if(!_flag_has_seen_parallel_branch){
+						_flag_has_seen_parallel_branch = true;
+						Display.getDefault().syncExec(new Runnable() {
+							
+							@Override
+							public void run() {
+								MessageDialog.openInformation(view.getSite().getShell(), "Notification", 
+										"You will enter the parallel node. Please keep in mind that," +
+										" this Debugger Tools will simulate the parallel execution to " +
+										"be interleaved rather than parallel one");
+							}
 					});
+					}
 					ArrayList<BTNode> childs = tempNode.getUndirectChildren();
 					int parentProcID = current.getProcessID();
 					if(childs!=null && childs.size()>0){
@@ -400,16 +406,19 @@ public class BTSimulator {
 					}
 				}
 				else{
-					Display.getDefault().syncExec(new Runnable() {
-						
-						@Override
-						public void run() {
-							MessageDialog.openInformation(view.getSite().getShell(), "Notification", 
-									"You will enter the parallel node. Please keep in mind that," +
-									" this Debugger Tools will simulate the parallel execution to " +
-									"be interleaved rather than parallel one");
-						}
+					if(!_flag_has_seen_parallel_branch){
+						_flag_has_seen_parallel_branch = true;
+						Display.getDefault().syncExec(new Runnable() {
+							
+							@Override
+							public void run() {
+								MessageDialog.openInformation(view.getSite().getShell(), "Notification", 
+										"You will enter the parallel node. Please keep in mind that," +
+										" this Debugger Tools will simulate the parallel execution to " +
+										"be interleaved rather than parallel one");
+							}
 					});
+					}
 					ArrayList<BTNode> childs = current.getUndirectChildren();
 					int parentProcID = current.getProcessID();
 					if(childs!=null && childs.size()>0){
@@ -450,16 +459,19 @@ public class BTSimulator {
 				}
 			}
 			else{
-				Display.getDefault().syncExec(new Runnable() {
-					
-					@Override
-					public void run() {
-						MessageDialog.openInformation(view.getSite().getShell(), "Notification", 
-								"You will enter the parallel node. Please keep in mind that," +
-								" this Debugger Tools will simulate the parallel execution to " +
-								"be interleaved rather than parallel one");
-					}
+				if(!_flag_has_seen_parallel_branch){
+					_flag_has_seen_parallel_branch = true;
+					Display.getDefault().syncExec(new Runnable() {
+						
+						@Override
+						public void run() {
+							MessageDialog.openInformation(view.getSite().getShell(), "Notification", 
+									"You will enter the parallel node. Please keep in mind that," +
+									" this Debugger Tools will simulate the parallel execution to " +
+									"be interleaved rather than parallel one");
+						}
 				});
+				}
 				ArrayList<BTNode> childs = current.getUndirectChildren();
 				int parentProcID = current.getProcessID();
 				if(childs!=null && childs.size()>0){

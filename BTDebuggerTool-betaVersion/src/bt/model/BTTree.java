@@ -40,6 +40,14 @@ public class BTTree {
 //    	System.out.println("behaviorType:"+behaviorType.toString());
         BTNode root = this.rootNode;
         ArrayList<BTNode> dests = new ArrayList<BTNode>();
+        if(root.getBTNodeType()!=BTNodeType.ALTERNATIVEBLOCK &&
+    			root.getBTNodeOperator() != BTNodeOperator.REVERSION && 
+    			root.getBTNodeType() != BTNodeType.PARALLELBLOCK &&
+    			root.getBTComponent().getName().equalsIgnoreCase(componentName) &&
+    			root.getBehavior().getName().equalsIgnoreCase(behaviorName) &&
+    			root.getBehavior().getType() == behaviorType){
+        	dests.add(root);
+        }
         for(int i = 1; i < suffixCode.length() - 1; ++i){
         	int ind = suffixCode.charAt(i)  - '0';
         	root = root.getDirectChilds().get(ind);
