@@ -75,7 +75,7 @@ public class BTProjectWizard extends Wizard implements INewWizard {
 					IFolder rbt = project.getFolder("rbt");
 					IFile btdiagram = project.getFile("RBT.btdiagram");
 					IFile bt = project.getFile("RBT.bt");
-					bt.create(null, true, monitor);
+					bt.create(new ByteArrayInputStream("".getBytes()), true, monitor);
 					String contents ="<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"+
 							"<pi:Diagram xmi:version=\"2.0\" xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:al=\"http://eclipse.org/graphiti/mm/algorithms\" xmlns:pi=\"http://eclipse.org/graphiti/mm/pictograms\" visible=\"true\" gridUnit=\"10\" diagramTypeId=\"graphbt\" name=\""+fileName+"\" snapToGrid=\"true\" version=\"0.9.0\">\n" +
 							  "<graphicsAlgorithm xsi:type=\"al:Rectangle\" background=\"//@colors.1\" foreground=\"//@colors.0\" lineWidth=\"1\" transparency=\"0.0\" width=\"1000\" height=\"1000\"/>"+

@@ -640,6 +640,7 @@ public class GraphBTUtil {
 	 * get list of formula
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public List<Formula> getFormulaList(BEModel model)
 	{
 		if(model.getFormulaList()!=null)
