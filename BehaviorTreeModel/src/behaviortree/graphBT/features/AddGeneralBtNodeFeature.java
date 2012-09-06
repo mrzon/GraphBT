@@ -24,6 +24,7 @@ import behaviortree.GraphBTUtil;
 import behaviortree.OperatorClass;
 import behaviortree.Requirement;
 import behaviortree.StandardNode;
+import behaviortree.TraceabilityStatus;
 import behaviortree.TraceabilityStatusClass;
 
 /**
@@ -45,10 +46,24 @@ IAddFeature {
     private static final IColorConstant E_CLASS_FOREGROUND =
         new ColorConstant(0, 0, 0);
 
-    private static final IColorConstant E_CLASS_BACKGROUND =
-        new ColorConstant(0, 255, 0);
+    public static final IColorConstant ORIGINAL_BEHAVIOR_COLOR =
+            new ColorConstant("99FF66");
+        
+    public static final IColorConstant IMPLIED_BEHAVIOR_COLOR =
+            new ColorConstant("FFFF66");	//yellow
  
- 
+    public static final IColorConstant MISSING_BEHAVIOR_COLOR =
+            new ColorConstant("FF6666");	//red
+        
+    public static final IColorConstant UPDATED_BEHAVIOR_COLOR =
+                new ColorConstant("66CCFF");	//blue
+    
+    public static final IColorConstant DELETED_BEHAVIOR_COLOR =
+            new ColorConstant("FFFFFF");	//white
+    
+    
+
+    
     public boolean canAdd(IAddContext context) {
         if (context.getNewObject() instanceof StandardNode) {
             if (context.getTargetContainer() instanceof Diagram) {
@@ -79,7 +94,7 @@ IAddFeature {
          
         Rectangle rectangle = gaService.createRectangle(containerShape);
         rectangle.setForeground(manageColor(E_CLASS_FOREGROUND));
-        rectangle.setBackground(manageColor(E_CLASS_BACKGROUND));
+        rectangle.setBackground(manageColor(ORIGINAL_BEHAVIOR_COLOR));
         rectangle.setLineWidth(1);
         gaService.setLocationAndSize(rectangle, x, y, width, height);
         
@@ -127,7 +142,7 @@ IAddFeature {
             textBehavior.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
             textBehavior.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             gaService.setLocationAndSize(textBehavior, 40, height/2 + 10, width - 40, 20);
-            
+            shapeBehavior.setActive(false);
             link(shapeBehavior, b);
         }
         
@@ -141,7 +156,7 @@ IAddFeature {
             textTraceabilityLink.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
             textTraceabilityLink.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
             gaService.setLocationAndSize(textTraceabilityLink, 0, height/2 - 20, 40, 20);
-     
+            shapeTraceabilityLink.setActive(false);
             if(r == null){
             	r = GraphBTUtil.getDefaultRequirement(getDiagram());
             }
@@ -161,6 +176,21 @@ IAddFeature {
             
             TraceabilityStatusClass tsc = GraphBTUtil.getTraceabilityStatus(getDiagram(), node.getTraceabilityStatus());
             
+            if(tsc.getTraceabilityStatusLiteral().equals(TraceabilityStatus.DELETED.getLiteral())) {
+            	rectangle.setBackground(manageColor(DELETED_BEHAVIOR_COLOR));
+            }
+            else if(tsc.getTraceabilityStatusLiteral().equals(TraceabilityStatus.IMPLIED.getLiteral())) {
+            	rectangle.setBackground(manageColor(IMPLIED_BEHAVIOR_COLOR));
+            }
+            else if(tsc.getTraceabilityStatusLiteral().equals(TraceabilityStatus.MISSING.getLiteral())) {
+            	rectangle.setBackground(manageColor(MISSING_BEHAVIOR_COLOR));
+            }
+            else if(tsc.getTraceabilityStatusLiteral().equals(TraceabilityStatus.UPDATED.getLiteral())) {
+            	rectangle.setBackground(manageColor(UPDATED_BEHAVIOR_COLOR));
+            }
+            else if(tsc.getTraceabilityStatusLiteral().equals(TraceabilityStatus.DESIGN_REFINEMENT.getLiteral())) {
+            	rectangle.setBackground(manageColor(DELETED_BEHAVIOR_COLOR));
+            }shapeTraceabilityStatus.setActive(false);
             link(shapeTraceabilityStatus, tsc);
         }
         
@@ -176,7 +206,7 @@ IAddFeature {
             
             gaService.setLocationAndSize(textOperator, 140, 5, 30, 20);
             OperatorClass oc = GraphBTUtil.getOperator(getDiagram(), node.getOperator());
-            
+            shapeOperator.setActive(false);
             link(shapeOperator, oc);
         }
         

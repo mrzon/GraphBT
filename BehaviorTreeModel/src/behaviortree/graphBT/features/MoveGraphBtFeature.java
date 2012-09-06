@@ -19,6 +19,7 @@ public class MoveGraphBtFeature extends DefaultMoveShapeFeature {
  
     @Override
     public boolean canMoveShape(IMoveShapeContext context) {
+//<<<<<<< HEAD
         boolean canMove = super.canMoveShape(context);
  
         if (canMove) {
@@ -32,6 +33,8 @@ public class MoveGraphBtFeature extends DefaultMoveShapeFeature {
             		return true;
             }
         }
+//=======
+//>>>>>>> branch 'master' of https://github.com/mrzon/GraphBT.git
         return false;
     }
 }
