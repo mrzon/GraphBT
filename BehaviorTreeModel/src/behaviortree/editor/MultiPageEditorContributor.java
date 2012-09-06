@@ -549,7 +549,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					{
 						Path path = new Path(uri.toPlatformString(true));
 						file = workspaceRoot.getFile(path);
-						Main.run(GraphBTUtil.getXMLFromBT(btIFile),file);
+						Main.run(GraphBTUtil.getXMLFromBT(btIFile), file);
 					}
 					
 					try {
