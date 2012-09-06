@@ -640,8 +640,12 @@ public class GraphBTUtil {
 	 * get list of formula
 	 * @return
 	 */
-	public List getFormulaList()
+	public List<Formula> getFormulaList(BEModel model)
 	{
+		if(model.getFormulaList()!=null)
+		{
+			return (List<Formula>) model.getFormulaList();
+		}
 		return null;
 	}
 	
