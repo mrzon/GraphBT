@@ -60,7 +60,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
     public void createControls(Composite parent, 
     		TabbedPropertySheetPage tabbedPropertySheetPage) {
 		super.createControls(parent, tabbedPropertySheetPage);
-
+		System.out.println("Sekali dibuat ini");
         TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
         Composite composite = factory.createFlatFormComposite(parent);
 
@@ -70,7 +70,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
         FormData operatorData;
         FormData statusData;
         IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-        DiagramEditor ds;
+        final DiagramEditor ds;
         if(page.getActiveEditor() instanceof DiagramEditor) {
         	 ds = (DiagramEditor)page.getActiveEditor();	
         }
@@ -88,7 +88,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
         operatorCombo = factory.createCCombo(composite);
         statusCombo = factory.createCCombo(composite);
         
-        refresh();
+        
         
         for(TraceabilityStatus ts : TraceabilityStatus.VALUES) {
         	statusCombo.add(ts.getName());
@@ -177,6 +177,277 @@ public class BehaviorTreePropertySection extends GFPropertySection
             	return;
             }
         }
+        
+        componentCombo.addSelectionListener(new SelectionAdapter() {
+		    public void widgetSelected(SelectionEvent e) {
+		    	PictogramElement pe = getSelectedPictogramElement();
+		    	Object ob = Graphiti.getLinkService()
+		                 .getBusinessObjectForLinkedPictogramElement(pe);
+		    	if(!(ob instanceof StandardNode))
+		    		return;
+		        final StandardNode node = (StandardNode) ob;
+		    	System.out.println("Aduh.. komponen kepencet");
+		    	
+		    	CCombo combo = (CCombo)e.widget;
+		    	final String selected = combo.getItem(combo.getSelectionIndex());
+		    	
+		    	final Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), selected);
+		    	
+		    	Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+	    			protected void doExecute() {
+	    				node.setComponentRef(c.getComponentRef());
+	    				String beh = c.getBehaviors().size()>0?c.getBehaviors().get(0).getBehaviorRef():"";
+	    				node.setBehaviorRef(beh);
+	    				behaviorCombo.setText(beh);
+	    		    }
+	    		};
+	    		
+				ContainerShape cs = (ContainerShape)pe;
+				Iterator<Shape> s = cs.getChildren().iterator();
+				while(s.hasNext()) {
+					Shape n = s.next();
+					
+					Object bo = Graphiti.getLinkService()
+			                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
+					if(bo instanceof Component||bo instanceof Behavior)
+						updatePictogramElement(n);
+				}
+	    		
+	    		TransactionalEditingDomain f = ds.getEditingDomain();
+	    		f.getCommandStack().execute(cmd);
+		    	behaviorCombo.removeAll();
+		    	
+		    	if(c!=null)
+		    	for(Behavior behavior: c.getBehaviors()) {
+			    	behaviorCombo.add(behavior.toString());
+			    }
+		    	refresh();
+		     }
+	     });
+        behaviorCombo.addSelectionListener(new SelectionAdapter() {
+		    public void widgetSelected(SelectionEvent e) {
+		    	CCombo combo = (CCombo)e.widget;
+		    	System.out.println("Aduh.. behavior kepencet");
+		    	final String selected = combo.getItem(combo.getSelectionIndex());
+		    	PictogramElement pe = getSelectedPictogramElement();
+		    	Object ob = Graphiti.getLinkService()
+		                 .getBusinessObjectForLinkedPictogramElement(pe);
+		    	if(!(ob instanceof StandardNode))
+		    		return;
+		        final StandardNode node = (StandardNode) ob;
+		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Change behavior") {
+	    			protected void doExecute() {
+	    		    	BEModel model = GraphBTUtil.getBEModel(d);
+	        			Component c = GraphBTUtil.getComponentByRef(model, node.getComponentRef());
+	        			Behavior b = GraphBTUtil.getBehaviorFromComponent(c,selected);
+	        			node.setBehaviorRef(b.getBehaviorRef());
+	    		    }
+	    		};
+	    		ds.getEditingDomain().getCommandStack().execute(cmd);
+	    		
+				ContainerShape cs = (ContainerShape)pe;
+				Iterator<Shape> s = cs.getChildren().iterator();
+				while(s.hasNext()) {
+					Shape n = s.next();
+					
+					Object bo = Graphiti.getLinkService()
+			                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
+					if(bo instanceof Behavior)
+						updatePictogramElement(n);
+				}
+				refresh();
+		     }
+	     });
+        requirementCombo.addSelectionListener(new SelectionAdapter() {
+		    public void widgetSelected(SelectionEvent e) {
+		    	CCombo combo = (CCombo)e.widget;
+		    	System.out.println("Aduh.. requirement kepencet");
+		    	final String selected = combo.getItem(combo.getSelectionIndex());
+		    	PictogramElement pe = getSelectedPictogramElement();
+		    	Object ob = Graphiti.getLinkService()
+		                 .getBusinessObjectForLinkedPictogramElement(pe);
+		    	if(!(ob instanceof StandardNode))
+		    		return;
+		        final StandardNode node = (StandardNode) ob;
+		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+	    			protected void doExecute() {
+	    		    	BEModel model = GraphBTUtil.getBEModel(d);
+	    		    	
+	    		    	if(selected.equals(" ")) {
+	    		    		Requirement r = GraphBTUtil.getDefaultRequirement(d);
+    	        			node.setTraceabilityLink(r.getKey());
+	    		    	}
+	    		    	else {
+	    		    		Requirement r = GraphBTUtil.getRequirement(model, selected);
+    	        			node.setTraceabilityLink(r.getKey());
+	    		    	}
+	    		    }
+	    		};
+	    		
+	    		ds.getEditingDomain().getCommandStack().execute(cmd);
+	    	
+	    		if(!(pe instanceof ContainerShape))
+					return;
+				
+	    		ContainerShape cs = (ContainerShape)pe;
+				Iterator<Shape> s = cs.getChildren().iterator();
+				while(s.hasNext()) {
+					Shape n = s.next();
+					
+					Object bo = Graphiti.getLinkService()
+			                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
+					if(bo instanceof Requirement)
+						updatePictogramElement(n);
+				}
+				refresh();
+		     }
+	     });
+        
+        statusCombo.addSelectionListener(new SelectionAdapter() {
+		    public void widgetSelected(SelectionEvent e) {
+		    	CCombo combo = (CCombo)e.widget;
+		    	System.out.println("Aduh.. status kepencet");
+		    	final String selected = combo.getItem(combo.getSelectionIndex());
+		    	PictogramElement pe = getSelectedPictogramElement();
+		    	Object ob = Graphiti.getLinkService()
+		                 .getBusinessObjectForLinkedPictogramElement(pe);
+		    	if(!(ob instanceof StandardNode))
+		    		return;
+		        final StandardNode node = (StandardNode) ob;
+		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+	    			protected void doExecute() {
+	    				node.setTraceabilityStatus(TraceabilityStatus.getByName(selected).getLiteral());
+	    		    }
+	    		};
+	    		ds.getEditingDomain().getCommandStack().execute(cmd);
+	    		
+	    		if(!(pe instanceof ContainerShape))
+					return;
+	    		
+	    		final ContainerShape cs = (ContainerShape) pe;
+	    		
+		    	final Command cmd2 = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+	    			protected void doExecute() {
+	    				final Rectangle rectangle = (Rectangle) cs.getGraphicsAlgorithm();
+	    				
+	    				Edge edge = node.getEdge();
+	        			
+	        			if(edge != null && node.getOperator().equals(Operator.REVERSION.getLiteral())) {
+	        				rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ERROR_COLOR));
+	        				return;
+	        			}
+	        			
+    					if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.DELETED.getLiteral())) {
+	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
+	    	            }
+	    	            else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.IMPLIED.getLiteral())) {
+	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.IMPLIED_BEHAVIOR_COLOR));
+	    	            }
+	    	            else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.MISSING.getLiteral())) {
+	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.MISSING_BEHAVIOR_COLOR));
+	    	            }
+	    	            else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.UPDATED.getLiteral())) {
+	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.UPDATED_BEHAVIOR_COLOR));
+	    	            }
+	    	            else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.DESIGN_REFINEMENT.getLiteral())) {
+	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
+	    	            }
+	    	            else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.ORIGINAL.getLiteral())) {
+	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ORIGINAL_BEHAVIOR_COLOR));
+	    	            }
+	    		    }
+	    		};
+	    		ds.getEditingDomain().getCommandStack().execute(cmd2);
+	    		
+				Iterator<Shape> s = cs.getChildren().iterator();
+				while(s.hasNext()) {
+					Shape n = s.next();
+					
+					Object bo = Graphiti.getLinkService()
+			                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
+					if(bo instanceof TraceabilityStatusClass) {
+						updatePictogramElement(n);
+					}
+				}
+				refresh();
+		     }
+	     });
+        
+        operatorCombo.addSelectionListener(new SelectionAdapter() {
+		    public void widgetSelected(SelectionEvent e) {
+		    	CCombo combo = (CCombo)e.widget;
+		    	final String selected = combo.getItem(combo.getSelectionIndex());
+		    	System.out.println("Aduh.. operator kepencet");
+		    	PictogramElement pe = getSelectedPictogramElement();
+		    	Object ob = Graphiti.getLinkService()
+		                 .getBusinessObjectForLinkedPictogramElement(pe);
+		    	if(!(ob instanceof StandardNode))
+		    		return;
+		        final StandardNode node = (StandardNode) ob;
+		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+	    			protected void doExecute() {
+	        			node.setOperator(Operator.getByName(selected).getLiteral());
+	    		    }
+	    		};
+	    		
+	    		ds.getEditingDomain().getCommandStack().execute(cmd);
+	    		
+	    		if(!(pe instanceof ContainerShape))
+					return;
+				
+	    		final ContainerShape cs = (ContainerShape)pe;
+	    		
+	    		final Command cmd2 = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+	    			protected void doExecute() {
+	        			node.setOperator(Operator.getByName(selected).getLiteral());
+	        			
+	        			Edge edge = node.getEdge();
+	        			
+	        			final Rectangle rectangle = (Rectangle) cs.getGraphicsAlgorithm();
+	        			
+	        			if(edge != null && Operator.getByName(selected).getLiteral().equals(Operator.REVERSION.getLiteral())) {
+	        				rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ERROR_COLOR));
+	        				GraphBTUtil.errorNode.add(node);
+	        			}
+	        			else {
+	        				GraphBTUtil.errorNode.remove(node);
+	        				
+	        				if(node.getTraceabilityStatus().equals(TraceabilityStatus.DELETED.getLiteral())) {
+    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
+    	    	            }
+    	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.IMPLIED.getLiteral())) {
+    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.IMPLIED_BEHAVIOR_COLOR));
+    	    	            }
+    	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.MISSING.getLiteral())) {
+    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.MISSING_BEHAVIOR_COLOR));
+    	    	            }
+    	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.UPDATED.getLiteral())) {
+    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.UPDATED_BEHAVIOR_COLOR));
+    	    	            }
+    	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.DESIGN_REFINEMENT.getLiteral())) {
+    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
+    	    	            }
+    	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.ORIGINAL.getLiteral())) {
+    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ORIGINAL_BEHAVIOR_COLOR));
+    	    	            }
+	        			}
+	    		    }
+	    		};
+	    		ds.getEditingDomain().getCommandStack().execute(cmd2);
+	    		
+				Iterator<Shape> s = cs.getChildren().iterator();
+				while(s.hasNext()) {
+					Shape n = s.next();
+					
+					Object bo = Graphiti.getLinkService()
+			                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
+					if(bo instanceof OperatorClass)
+						updatePictogramElement(n);
+				}
+				refresh();
+		     }
+	     });
+        refresh();
     }
 
 	/**
@@ -266,253 +537,9 @@ public class BehaviorTreePropertySection extends GFPropertySection
             behaviorCombo.setText(behaviorString);
             statusCombo.setText(statusString);
             operatorCombo.setText(operatorString);
-
-
-            componentCombo.addSelectionListener(new SelectionAdapter() {
-    		    public void widgetSelected(SelectionEvent e) {
-    		    	CCombo combo = (CCombo)e.widget;
-    		    	final String selected = combo.getItem(combo.getSelectionIndex());
-    		    	
-    		    	final Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), selected);
-    		    	
-    		    	Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
-    	    			protected void doExecute() {
-    	    				node.setComponentRef(c.getComponentRef());
-    	    				String beh = c.getBehaviors().size()>0?c.getBehaviors().get(0).getBehaviorRef():"";
-    	    				node.setBehaviorRef(beh);
-    	    				behaviorCombo.setText(beh);
-    	    		    }
-    	    		};
-    	    		
-					PictogramElement pe = getSelectedPictogramElement();
-					if(!(pe instanceof ContainerShape))
-						return;
-					ContainerShape cs = (ContainerShape)pe;
-					Iterator<Shape> s = cs.getChildren().iterator();
-					while(s.hasNext()) {
-						Shape n = s.next();
-						
-						Object bo = Graphiti.getLinkService()
-				                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
-						if(bo instanceof Component||bo instanceof Behavior)
-							updatePictogramElement(n);
-					}
-    	    		
-    	    		TransactionalEditingDomain f = ds.getEditingDomain();
-    	    		f.getCommandStack().execute(cmd);
-    		    	behaviorCombo.removeAll();
-    		    	
-    		    	if(c!=null)
-    		    	for(Behavior behavior: c.getBehaviors()) {
-    			    	behaviorCombo.add(behavior.toString());
-    			    }
-    		    	
-    		     }
-    	     });
             
-            behaviorCombo.addSelectionListener(new SelectionAdapter() {
-    		    public void widgetSelected(SelectionEvent e) {
-    		    	CCombo combo = (CCombo)e.widget;
-    		    	final String selected = combo.getItem(combo.getSelectionIndex());
-    		    	
-    		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Change behavior") {
-    	    			protected void doExecute() {
-    	    		    	BEModel model = GraphBTUtil.getBEModel(d);
-    	        			Component c = GraphBTUtil.getComponentByRef(model, node.getComponentRef());
-    	        			Behavior b = GraphBTUtil.getBehaviorFromComponent(c,selected);
-    	        			node.setBehaviorRef(b.getBehaviorRef());
-    	    		    }
-    	    		};
-    	    		ds.getEditingDomain().getCommandStack().execute(cmd);
-    	    		
-    	    		PictogramElement pe = getSelectedPictogramElement();
-					if(!(pe instanceof ContainerShape))
-						return;
-					ContainerShape cs = (ContainerShape)pe;
-					Iterator<Shape> s = cs.getChildren().iterator();
-					while(s.hasNext()) {
-						Shape n = s.next();
-						
-						Object bo = Graphiti.getLinkService()
-				                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
-						if(bo instanceof Behavior)
-							updatePictogramElement(n);
-					}
-    		     }
-    	     });
+            System.out.println("The changed node" + node.getComponentRef()+" "+node.getBehaviorRef()+" "+node.getOperator()+" "+node.getTraceabilityStatus());
             
-            requirementCombo.addSelectionListener(new SelectionAdapter() {
-    		    public void widgetSelected(SelectionEvent e) {
-    		    	CCombo combo = (CCombo)e.widget;
-    		    	final String selected = combo.getItem(combo.getSelectionIndex());
-    		    	
-    		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
-    	    			protected void doExecute() {
-    	    		    	BEModel model = GraphBTUtil.getBEModel(d);
-    	    		    	
-    	    		    	if(selected.equals(" ")) {
-    	    		    		Requirement r = GraphBTUtil.getDefaultRequirement(d);
-        	        			node.setTraceabilityLink(r.getKey());
-    	    		    	}
-    	    		    	else {
-    	    		    		Requirement r = GraphBTUtil.getRequirement(model, selected);
-        	        			node.setTraceabilityLink(r.getKey());
-    	    		    	}
-    	    		    }
-    	    		};
-    	    		
-    	    		ds.getEditingDomain().getCommandStack().execute(cmd);
-    	    		PictogramElement pe = getSelectedPictogramElement();
-
-    	    		if(!(pe instanceof ContainerShape))
-						return;
-					
-    	    		ContainerShape cs = (ContainerShape)pe;
-					Iterator<Shape> s = cs.getChildren().iterator();
-					while(s.hasNext()) {
-						Shape n = s.next();
-						
-						Object bo = Graphiti.getLinkService()
-				                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
-						if(bo instanceof Requirement)
-							updatePictogramElement(n);
-					}
-    		     }
-    	     });
-            
-            statusCombo.addSelectionListener(new SelectionAdapter() {
-    		    public void widgetSelected(SelectionEvent e) {
-    		    	CCombo combo = (CCombo)e.widget;
-    		    	final String selected = combo.getItem(combo.getSelectionIndex());
-    		    	
-    		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
-    	    			protected void doExecute() {
-    	    				node.setTraceabilityStatus(TraceabilityStatus.getByName(selected).getLiteral());
-    	    		    }
-    	    		};
-    	    		ds.getEditingDomain().getCommandStack().execute(cmd);
-    	    		
-    	    		PictogramElement pe = getSelectedPictogramElement();
-
-    	    		if(!(pe instanceof ContainerShape))
-						return;
-    	    		
-    	    		final ContainerShape cs = (ContainerShape) pe;
-    	    		
-    		    	final Command cmd2 = new RecordingCommand(ds.getEditingDomain(), "Nope") {
-    	    			protected void doExecute() {
-    	    				final Rectangle rectangle = (Rectangle) cs.getGraphicsAlgorithm();
-    	    				
-    	    				Edge edge = node.getEdge();
-    	        			
-    	        			if(edge != null && node.getOperator().equals(Operator.REVERSION.getLiteral())) {
-    	        				rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ERROR_COLOR));
-    	        				return;
-    	        			}
-    	        			
-	    					if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.DELETED.getLiteral())) {
-    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
-    	    	            }
-    	    	            else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.IMPLIED.getLiteral())) {
-    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.IMPLIED_BEHAVIOR_COLOR));
-    	    	            }
-    	    	            else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.MISSING.getLiteral())) {
-    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.MISSING_BEHAVIOR_COLOR));
-    	    	            }
-    	    	            else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.UPDATED.getLiteral())) {
-    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.UPDATED_BEHAVIOR_COLOR));
-    	    	            }
-    	    	            else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.DESIGN_REFINEMENT.getLiteral())) {
-    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
-    	    	            }
-    	    	            else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.ORIGINAL.getLiteral())) {
-    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ORIGINAL_BEHAVIOR_COLOR));
-    	    	            }
-    	    		    }
-    	    		};
-    	    		ds.getEditingDomain().getCommandStack().execute(cmd2);
-    	    		
-					Iterator<Shape> s = cs.getChildren().iterator();
-					while(s.hasNext()) {
-						Shape n = s.next();
-						
-						Object bo = Graphiti.getLinkService()
-				                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
-						if(bo instanceof TraceabilityStatusClass) {
-							updatePictogramElement(n);
-						}
-					}
-    		     }
-    	     });
-            
-            operatorCombo.addSelectionListener(new SelectionAdapter() {
-    		    public void widgetSelected(SelectionEvent e) {
-    		    	CCombo combo = (CCombo)e.widget;
-    		    	final String selected = combo.getItem(combo.getSelectionIndex());
-    		    	
-    		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
-    	    			protected void doExecute() {
-    	        			node.setOperator(Operator.getByName(selected).getLiteral());
-    	    		    }
-    	    		};
-    	    		
-    	    		ds.getEditingDomain().getCommandStack().execute(cmd);
-    	    		PictogramElement pe = getSelectedPictogramElement();
-
-    	    		if(!(pe instanceof ContainerShape))
-						return;
-					
-    	    		final ContainerShape cs = (ContainerShape)pe;
-    	    		
-    	    		final Command cmd2 = new RecordingCommand(ds.getEditingDomain(), "Nope") {
-    	    			protected void doExecute() {
-    	        			node.setOperator(Operator.getByName(selected).getLiteral());
-    	        			
-    	        			Edge edge = node.getEdge();
-    	        			
-    	        			final Rectangle rectangle = (Rectangle) cs.getGraphicsAlgorithm();
-    	        			
-    	        			if(edge != null && Operator.getByName(selected).getLiteral().equals(Operator.REVERSION.getLiteral())) {
-    	        				rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ERROR_COLOR));
-    	        				GraphBTUtil.errorNode.add(node);
-    	        			}
-    	        			else {
-    	        				GraphBTUtil.errorNode.remove(node);
-    	        				
-    	        				if(node.getTraceabilityStatus().equals(TraceabilityStatus.DELETED.getLiteral())) {
-        	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
-        	    	            }
-        	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.IMPLIED.getLiteral())) {
-        	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.IMPLIED_BEHAVIOR_COLOR));
-        	    	            }
-        	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.MISSING.getLiteral())) {
-        	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.MISSING_BEHAVIOR_COLOR));
-        	    	            }
-        	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.UPDATED.getLiteral())) {
-        	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.UPDATED_BEHAVIOR_COLOR));
-        	    	            }
-        	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.DESIGN_REFINEMENT.getLiteral())) {
-        	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
-        	    	            }
-        	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.ORIGINAL.getLiteral())) {
-        	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ORIGINAL_BEHAVIOR_COLOR));
-        	    	            }
-    	        			}
-    	    		    }
-    	    		};
-    	    		ds.getEditingDomain().getCommandStack().execute(cmd2);
-    	    		
-					Iterator<Shape> s = cs.getChildren().iterator();
-					while(s.hasNext()) {
-						Shape n = s.next();
-						
-						Object bo = Graphiti.getLinkService()
-				                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
-						if(bo instanceof OperatorClass)
-							updatePictogramElement(n);
-					}
-    		     }
-    	     });
         }
     }
 }

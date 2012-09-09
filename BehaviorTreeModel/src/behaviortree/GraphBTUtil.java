@@ -175,6 +175,21 @@ public class GraphBTUtil {
 		//d.eResource().getContents().add(beModel);
 		try {
 			saveToModelFile(beModel,d);
+			
+			for(int i = 0; i < Operator.VALUES.size(); i++)
+			{
+				OperatorClass oc = getBEFactory().createOperatorClass();
+				oc.setOperatorLiteral(Operator.VALUES.get(i).getLiteral());
+				saveToModelFile(oc,d);
+			}
+			for(int i = 0; i < TraceabilityStatus.VALUES.size(); i++)
+			{
+				TraceabilityStatusClass oc = getBEFactory().createTraceabilityStatusClass();
+				oc.setTraceabilityStatusLiteral(TraceabilityStatus.VALUES.get(i).getLiteral());
+				saveToModelFile(oc,d);
+			}
+			//oc.setOperatorLiteral(literal);
+			
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -563,21 +578,21 @@ public class GraphBTUtil {
 	 */
 	public static OperatorClass getOperator(Diagram rs,String literal)
 	{
-		
-		Iterator<Resource> it = rs.eResource().getResourceSet().getResources().iterator();
-		while(it.hasNext()){
-			Resource res = it.next();
-			Iterator<EObject> i = res.getContents().iterator();
-			while(i.hasNext())
+		URI uri = rs.eResource().getURI();
+		uri = uri.trimFragment();
+		uri = uri.trimFileExtension();
+		uri = uri.appendFileExtension("model"); //$NON-NLS-1$
+		Iterator<EObject> it = rs.eResource().getResourceSet().getResource(uri,true).getContents().iterator();
+
+		while(it.hasNext())
+		{
+			Object e = it.next();
+			if(e instanceof OperatorClass)
 			{
-				Object e = i.next();
-				if(e instanceof OperatorClass)
+				OperatorClass oc = (OperatorClass)e;
+				if(oc.getOperatorLiteral().equals(literal))
 				{
-					OperatorClass oc = (OperatorClass)e;
-					if(oc.getOperatorLiteral().equals(literal))
-					{
-						return oc;
-					}
+					return oc;
 				}
 			}
 		}
@@ -604,22 +619,22 @@ public class GraphBTUtil {
 	 */
 	public static TraceabilityStatusClass getTraceabilityStatus(Diagram rs,String literal)
 	{
-		Iterator<Resource> it = rs.eResource().getResourceSet().getResources().iterator();
+		URI uri = rs.eResource().getURI();
+		uri = uri.trimFragment();
+		uri = uri.trimFileExtension();
+		uri = uri.appendFileExtension("model"); //$NON-NLS-1$
+		Iterator<EObject> it = rs.eResource().getResourceSet().getResource(uri,true).getContents().iterator();
 		while(it.hasNext()){
-			Resource res = it.next();
-			Iterator<EObject> i = res.getContents().iterator();
-			while(i.hasNext())
+			EObject res = it.next();
+			if(res instanceof TraceabilityStatusClass)
 			{
-				Object e = i.next();
-				if(e instanceof TraceabilityStatusClass)
+				TraceabilityStatusClass oc = (TraceabilityStatusClass)res;
+				if(oc.getTraceabilityStatusLiteral().equals(literal))
 				{
-					TraceabilityStatusClass oc = (TraceabilityStatusClass)e;
-					if(oc.getTraceabilityStatusLiteral().equals(literal))
-					{
-						return oc;
-					}
+					return oc;
 				}
 			}
+		
 		}
 		if(TraceabilityStatus.get(literal) != null)
 		{

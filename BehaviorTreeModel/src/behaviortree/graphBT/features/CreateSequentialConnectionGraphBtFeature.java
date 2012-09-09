@@ -244,7 +244,7 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
         StandardNode target = getStandardNode(context.getTargetPictogramElement());
         
         
-        if (source != null && target != null) {
+        if (source != null && target != null && target != source) {
             // create new business object
         	
             Edge edge = createEdge(source, target);
@@ -302,12 +302,14 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
         }
         else
         {
+        	System.out.println("Saya punya edge lhoo");
         	if(edge.getChildNode().contains(target))
         	{
         		return null;
         	}
-        	if(edge.getBranch() == null && edge.getChildNode().size()>0)
+        	if(edge.getChildNode().size()==1)
         	{
+        		System.out.println("Saya belum punya branch lhoo");
         		HashMap<Integer, String> map = new HashMap<Integer, String>();
             	WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
                         getActiveWorkbenchWindow().getShell(),

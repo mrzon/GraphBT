@@ -149,6 +149,7 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
             if (shape.getGraphicsAlgorithm() instanceof Text) {
                 Text text = (Text) shape.getGraphicsAlgorithm();
                 text.setValue(businessName);
+                link(shape, GraphBTUtil.getTraceabilityStatus(getDiagram(), businessName));
                 return true;
             }
         }

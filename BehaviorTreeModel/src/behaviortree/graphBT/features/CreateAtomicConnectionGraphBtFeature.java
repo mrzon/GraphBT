@@ -46,7 +46,7 @@ public class CreateAtomicConnectionGraphBtFeature
 		StandardNode source = getStandardNode(context.getSourceAnchor());
 		StandardNode target = getStandardNode(context.getTargetAnchor());
         
-		if (source != null && target != null && source != target) {
+		if (source != null && target != null && source != target && target != source) {
 			if(!target.isLeaf())
             return true;
         }
