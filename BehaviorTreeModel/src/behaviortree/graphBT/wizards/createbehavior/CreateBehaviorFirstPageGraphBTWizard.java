@@ -32,6 +32,7 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 	private Component c;
 	private Text behaviorNameText;
 	private Text behaviorRefText;
+	private Text behaviorDescText;
 	private Combo typeCombo;
 	
 	public CreateBehaviorFirstPageGraphBTWizard(HashMap<Integer,String> map, Component c) {
@@ -50,7 +51,7 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 		layout.numColumns = 2;
 
 		final Label typeLabel = new Label(container, SWT.NULL);
-		typeLabel.setText("Behavior Type");
+		typeLabel.setText("Behavior Type:");
 		
 		typeCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
 		typeCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -67,9 +68,10 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 		     }
 	    });
 	    final Label behaviorLabel = new Label(container, SWT.NULL);
-		behaviorLabel.setText("Behavior Name");
+		behaviorLabel.setText("Behavior Name:");
 		
 		behaviorNameText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		behaviorNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		behaviorNameText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				dialogChanged();
@@ -77,15 +79,32 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 		});
 		
 		final Label behaviorRefLabel = new Label(container, SWT.NULL);
-		behaviorRefLabel.setText("Behavior Ref");
+		behaviorRefLabel.setText("Behavior Ref:");
 		
 		behaviorRefText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		behaviorRefText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		behaviorRefText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				dialogChanged();
 			}
 		});
 		
+		final Label behaviorDescLabel = new Label(container, SWT.NULL);
+		behaviorDescLabel.setText("Description:");
+					   
+		behaviorDescText = new Text(container, SWT.WRAP
+		          | SWT.MULTI
+		          | SWT.BORDER
+		          | SWT.H_SCROLL
+		          | SWT.V_SCROLL);
+		GridData gridData =
+			      new GridData(
+			        GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
+			    gridData.horizontalSpan = 1;
+			    gridData.grabExcessVerticalSpace = true;
+			    
+		behaviorDescText.setLayoutData(gridData);
+			    
 		behaviorNameText.setText("");
 		
 		behaviorNameText.addModifyListener(new ModifyListener() {

@@ -28,6 +28,7 @@ public class CreateComponentFirstPageGraphBTWizard extends WizardPage {
 	private Diagram d;
 	private Text componentNameText;
 	private Text componentRefText;
+	private Text componentDescText;
 
 	  
 	public CreateComponentFirstPageGraphBTWizard(HashMap<Integer,String> map, Diagram d) {
@@ -82,6 +83,22 @@ public class CreateComponentFirstPageGraphBTWizard extends WizardPage {
 				map.put(Component.REF_VALUE, t.getText());
 			}
 	    });
+		
+		final Label componentDescLabel = new Label(container, SWT.NULL);
+		componentDescLabel.setText("Description:");
+					   
+		componentDescText = new Text(container, SWT.WRAP
+		          | SWT.MULTI
+		          | SWT.BORDER
+		          | SWT.H_SCROLL
+		          | SWT.V_SCROLL);
+		GridData gridData =
+			      new GridData(
+			        GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
+			    gridData.horizontalSpan = 1;
+			    gridData.grabExcessVerticalSpace = true;
+			    
+		componentDescText.setLayoutData(gridData);
 
 
 		//System.out.println("stringCarrier[0] " + stringCarrier[0]);
