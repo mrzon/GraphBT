@@ -63,12 +63,14 @@ import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
 import org.eclipse.graphiti.features.context.impl.DeleteContext;
+import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.PictogramLink;
+import org.eclipse.graphiti.platform.IDiagramEditor;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.tb.ContextButtonEntry;
 import org.eclipse.graphiti.tb.ContextEntryHelper;
@@ -94,25 +96,81 @@ import org.osgi.framework.Bundle;
 import behaviortree.editor.MultiPageEditor;
 
 public class GraphBTUtil {
-	public static final Set<StandardNode> errorNode = new HashSet<StandardNode>(); 
-    public static final IColorConstant ORIGINAL_BEHAVIOR_COLOR =
-            new ColorConstant("99FF66");
-        
-    public static final IColorConstant IMPLIED_BEHAVIOR_COLOR =
-            new ColorConstant("FFFF33");	//yellow
- 
-    public static final IColorConstant MISSING_BEHAVIOR_COLOR =
-            new ColorConstant("FF6666");	//red
-        
-    public static final IColorConstant UPDATED_BEHAVIOR_COLOR =
-                new ColorConstant("66CCFF");	//blue
-    
-    public static final IColorConstant DELETED_BEHAVIOR_COLOR =
-            new ColorConstant("FFFFFF");	//white
-    
-    public static final IColorConstant ERROR_COLOR =
-            new ColorConstant("D32121");	//red
-        
+	public static final Set<StandardNode> errorReversionNode = new HashSet<StandardNode>();
+	public static final List<StandardNode> reversionNode = new ArrayList<StandardNode>();
+
+	public static void updateReversionNode(IDiagramEditor ds)
+	{
+		final Diagram d = ds.getDiagramTypeProvider().getDiagram();
+		if(reversionNode.size()==0)
+		{
+			errorReversionNode.clear();
+		}
+		System.out.println("GraphBTUtil updateReversionNode "+ reversionNode.size());
+		Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+			protected void doExecute() {
+				for(int i = 0; i < reversionNode.size(); i++)
+				{
+					final StandardNode node = reversionNode.get(i);
+					final PictogramElement pe = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
+					Edge edge = node.getEdge();
+					System.out.println("Ada reversion woy... kyaa");
+					final Rectangle rectangle = (Rectangle) pe.getGraphicsAlgorithm();
+					if(edge != null) {
+						rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ERROR_COLOR));
+						GraphBTUtil.errorReversionNode.add(node);
+					}
+					else if(GraphBTUtil.getAncestor(node)==null)
+					{
+						rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ERROR_COLOR));
+						GraphBTUtil.errorReversionNode.add(node);
+					}
+					else
+					{
+						GraphBTUtil.errorReversionNode.remove(node);
+						if(node.getTraceabilityStatus().equals(TraceabilityStatus.DELETED.getLiteral())) {
+							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
+						}
+						else if(node.getTraceabilityStatus().equals(TraceabilityStatus.IMPLIED.getLiteral())) {
+							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.IMPLIED_BEHAVIOR_COLOR));
+						}
+						else if(node.getTraceabilityStatus().equals(TraceabilityStatus.MISSING.getLiteral())) {
+							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.MISSING_BEHAVIOR_COLOR));
+						}
+						else if(node.getTraceabilityStatus().equals(TraceabilityStatus.UPDATED.getLiteral())) {
+							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.UPDATED_BEHAVIOR_COLOR));
+						}
+						else if(node.getTraceabilityStatus().equals(TraceabilityStatus.DESIGN_REFINEMENT.getLiteral())) {
+							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
+						}
+						else if(node.getTraceabilityStatus().equals(TraceabilityStatus.ORIGINAL.getLiteral())) {
+							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ORIGINAL_BEHAVIOR_COLOR));
+						}
+					}
+				}
+			}
+		};
+		TransactionalEditingDomain f = ds.getEditingDomain();
+		f.getCommandStack().execute(cmd);
+	}
+	public static final IColorConstant ORIGINAL_BEHAVIOR_COLOR =
+			new ColorConstant("99FF66");
+
+	public static final IColorConstant IMPLIED_BEHAVIOR_COLOR =
+			new ColorConstant("FFFF33");	//yellow
+
+	public static final IColorConstant MISSING_BEHAVIOR_COLOR =
+			new ColorConstant("FF6666");	//red
+
+	public static final IColorConstant UPDATED_BEHAVIOR_COLOR =
+			new ColorConstant("66CCFF");	//blue
+
+	public static final IColorConstant DELETED_BEHAVIOR_COLOR =
+			new ColorConstant("FFFFFF");	//white
+
+	public static final IColorConstant ERROR_COLOR =
+			new ColorConstant("D32121");	//red
+
 	/**
 	 * This method is used to get the BE factory
 	 * @return instance of Behavior Tree Factory
@@ -121,8 +179,8 @@ public class GraphBTUtil {
 	{
 		return BehaviortreeFactory.eINSTANCE;
 	}
-	
-	
+
+
 	/**
 	 * This method is invoked in each package creation to initialize persistent model of the 
 	 * diagram
@@ -136,7 +194,7 @@ public class GraphBTUtil {
 		model.setName(packageName);
 		return model;
 	}
-	
+
 	public static BEModel getBEModel(final Diagram d)
 	{
 		URI uri = d.eResource().getURI();
@@ -156,7 +214,7 @@ public class GraphBTUtil {
 			}
 			createResource.setTrackingModification(true);
 		}
-		
+
 		Iterator<EObject> obj = d.eResource().getResourceSet().getResource(uri,true).getContents().iterator();
 		while(obj.hasNext())
 		{
@@ -175,7 +233,7 @@ public class GraphBTUtil {
 		//d.eResource().getContents().add(beModel);
 		try {
 			saveToModelFile(beModel,d);
-			
+
 			for(int i = 0; i < Operator.VALUES.size(); i++)
 			{
 				OperatorClass oc = getBEFactory().createOperatorClass();
@@ -189,7 +247,7 @@ public class GraphBTUtil {
 				saveToModelFile(oc,d);
 			}
 			//oc.setOperatorLiteral(literal);
-			
+
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -197,10 +255,10 @@ public class GraphBTUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return beModel;
 	}
-	
+
 	/**
 	 * Get diagram files from a project
 	 * @param p project instance
@@ -241,19 +299,19 @@ public class GraphBTUtil {
 		}
 		final Resource resource = rSet.getResource(uri, true);
 		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-        DiagramEditor ds;
-        if(page.getActiveEditor() instanceof DiagramEditor)
-        {
-        	 ds = (DiagramEditor)page.getActiveEditor();	
-        }
-        else
-        {
-        	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
-        }
-        Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+		DiagramEditor ds;
+		if(page.getActiveEditor() instanceof DiagramEditor)
+		{
+			ds = (DiagramEditor)page.getActiveEditor();	
+		}
+		else
+		{
+			ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+		}
+		Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 			protected void doExecute() {
-		resource.getContents().add(obj);
-		    }
+				resource.getContents().add(obj);
+			}
 		};
 		TransactionalEditingDomain f = ds.getEditingDomain();
 		f.getCommandStack().execute(cmd);
@@ -281,7 +339,7 @@ public class GraphBTUtil {
 		} catch (final CoreException e) {
 			e.printStackTrace();
 		}
-		
+
 		return ret;
 	}
 
@@ -311,7 +369,7 @@ public class GraphBTUtil {
 		} catch (final WrappedException e) {
 			e.printStackTrace();
 		}
-		
+
 
 		return null;
 	}
@@ -324,7 +382,7 @@ public class GraphBTUtil {
 		uri = uri.appendFileExtension("model"); //$NON-NLS-1$
 		return uri;
 	}
-	
+
 	/**
 	 * get file URI from a file based on a ResourceSet
 	 * @param file
@@ -337,7 +395,7 @@ public class GraphBTUtil {
 		resourceURI = resourceSet.getURIConverter().normalize(resourceURI);
 		return resourceURI;
 	}
-	
+
 	/**
 	 * get resourceset instance from a diagram
 	 * @param d
@@ -349,7 +407,7 @@ public class GraphBTUtil {
 		ResourceSet rSet = d.eResource().getResourceSet();
 		return rSet;
 	}
-	
+
 	/**
 	 * check whether the uri is exist in a resource set
 	 * @param rs the resourceset
@@ -369,7 +427,7 @@ public class GraphBTUtil {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * get a resource from a resourceset based on a uri
 	 * @param rs the resource set
@@ -381,14 +439,14 @@ public class GraphBTUtil {
 		Iterator<Resource> it = rs.getResources().iterator();
 		while(it.hasNext()){
 			Resource res = it.next();
-			
+
 			if(res.getURI().equals(uri)){
 				return res;
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Get component instance based on a model and its name
 	 * @param model bt model
@@ -400,36 +458,36 @@ public class GraphBTUtil {
 		Iterator<Component> it = model.getComponentList().getComponents().iterator();
 		while(it.hasNext()){
 			Component c = it.next();
-	
+
 			if(/*c.getComponentRef().equals(ref)||*/c.getComponentName().equals(name)) {
 				return c;
 			}
 		}
 		return null;
 	}
-	
-//<<<<<<< HEAD
+
+	//<<<<<<< HEAD
 	/**
 	 * Get component instance from a model and based on its reference string
 	 * @param model
 	 * @param ref
 	 * @return
 	 */
-//=======
-//>>>>>>> refs/remotes/origin/master4
+	//=======
+	//>>>>>>> refs/remotes/origin/master4
 	public static Component getComponentByRef(BEModel model, String ref)
 	{
 		Iterator<Component> it = model.getComponentList().getComponents().iterator();
 		while(it.hasNext()){
 			Component c = it.next();
-	
+
 			if(c.getComponentRef().equals(ref)/*||c.getComponentName().equals(ref)*/) {
 				return c;
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Create new component in a model
 	 * @param model the model instance
@@ -441,7 +499,7 @@ public class GraphBTUtil {
 		Iterator<Component> it = model.getComponentList().getComponents().iterator();
 		while(it.hasNext()){
 			Component c = it.next();
-	
+
 			if(c.getComponentRef().equals(ref)/*||c.getComponentName().equals(ref)*/) {
 				model.getComponentList().getComponents().remove(c);
 				return;
@@ -449,7 +507,7 @@ public class GraphBTUtil {
 		}
 		return;
 	}
-	
+
 	public static boolean createNewComponent(BEModel model, Component com)
 	{
 		if(getComponent(model, com.getComponentName())!=null)
@@ -459,7 +517,7 @@ public class GraphBTUtil {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * get behavior instance from a component based on its tostring
 	 * @param component
@@ -473,14 +531,14 @@ public class GraphBTUtil {
 		Iterator<Behavior> it = component.getBehaviors().iterator();
 		while(it.hasNext()){
 			Behavior b = it.next();
-	
+
 			if(b.toString().equals(ref)) {
 				return b;
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * get behavior instance from a component based on its reference string
 	 * @param component
@@ -492,14 +550,14 @@ public class GraphBTUtil {
 		Iterator<Behavior> it = component.getBehaviors().iterator();
 		while(it.hasNext()){
 			Behavior b = it.next();
-	
+
 			if(b.getBehaviorRef().equals(ref)) {
 				return b;
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * get requirement
 	 * @param model
@@ -511,27 +569,27 @@ public class GraphBTUtil {
 		Iterator<Behavior> it = component.getBehaviors().iterator();
 		while(it.hasNext()){
 			Behavior b = it.next();
-	
+
 			if(b.getBehaviorRef().equals(ref)) {
 				component.getBehaviors().remove(b);
 				return;
 			}
 		}
 	}
-	
+
 	public static Requirement getRequirement(BEModel model,
 			String key) {
 		Iterator<Requirement> it = model.getRequirementList().getRequirements().iterator();
 		while(it.hasNext()){
 			Requirement res = it.next();
-	
+
 			if(res.getKey().equals(key)) {
 				return res;
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * get standardnode roots from a resourceset
 	 * @param rs
@@ -542,14 +600,14 @@ public class GraphBTUtil {
 		Iterator<Requirement> it = model.getRequirementList().getRequirements().iterator();
 		while(it.hasNext()){
 			Requirement res = it.next();
-	
+
 			if(res.getKey().equals(key)) {
 				model.getRequirementList().getRequirements().remove(res);
 				return;
 			}
 		}
 	}
-	
+
 	public static List<StandardNode> getRoots(ResourceSet rs)
 	{
 		List<StandardNode> l=new ArrayList<StandardNode>();
@@ -566,10 +624,10 @@ public class GraphBTUtil {
 				}
 			}
 		}
-		
+
 		return l;
 	}
-	
+
 	/**
 	 * get operator class
 	 * @param rs
@@ -610,7 +668,7 @@ public class GraphBTUtil {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * get traceability status 
 	 * @param rs
@@ -634,7 +692,7 @@ public class GraphBTUtil {
 					return oc;
 				}
 			}
-		
+
 		}
 		if(TraceabilityStatus.get(literal) != null)
 		{
@@ -650,7 +708,7 @@ public class GraphBTUtil {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * get list of formula
 	 * @return
@@ -664,7 +722,7 @@ public class GraphBTUtil {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * get default requirement
 	 * @param d
@@ -702,7 +760,7 @@ public class GraphBTUtil {
 		}
 		return r;
 	}
-	
+
 	/**
 	 * looks whether target node is ancestor of source node
 	 * @param src source node
@@ -715,7 +773,7 @@ public class GraphBTUtil {
 		collect(src, n);
 		return n.contains(target);
 	}
-	
+
 	/**
 	 * collect node list to a set
 	 * @param src
@@ -740,7 +798,7 @@ public class GraphBTUtil {
 			}
 		}
 	}
-	
+
 	/**
 	 * check whether a diagram is valid or not
 	 * @param d 
@@ -750,37 +808,37 @@ public class GraphBTUtil {
 	{
 		List<StandardNode> listNode = GraphBTUtil.getRoots(d.eResource().getResourceSet()); //get all roots from the model 
 		StandardNode node = listNode.get(0); 
-		
+
 		checkReversion(node); //check 
-		
+
 		if(listNode.size() != 1)
 			return 1;
-		if(errorNode.size() > 0) {
+		if(errorReversionNode.size() > 0) {
 			return 2;
 		}
-		
+
 		return 0;
 	}
-	
-//	static boolean checkReversion(StandardNode node) {
-//		if(node.getEdge() != null && node.getOperator().equals(Operator.REVERSION.getLiteral())) {
-//			return false;
-//		}
-//		else if(node.getEdge() == null) {
-//			return true;
-//		}
-//		else {
-//			List<Node> nodes = node.getEdge().getChildNode();
-//			for(Node node1 : nodes) {
-//				checkReversion((StandardNode) node1);
-//			}
-//		}
-//		return true;
-//	}
-	
+
+	//	static boolean checkReversion(StandardNode node) {
+	//		if(node.getEdge() != null && node.getOperator().equals(Operator.REVERSION.getLiteral())) {
+	//			return false;
+	//		}
+	//		else if(node.getEdge() == null) {
+	//			return true;
+	//		}
+	//		else {
+	//			List<Node> nodes = node.getEdge().getChildNode();
+	//			for(Node node1 : nodes) {
+	//				checkReversion((StandardNode) node1);
+	//			}
+	//		}
+	//		return true;
+	//	}
+
 	static void checkReversion(StandardNode node) {
 		if(node.getEdge() != null && node.getOperator().equals(Operator.REVERSION.getLiteral())) {
-			errorNode.add(node);
+			errorReversionNode.add(node);
 		}
 		else if(node.getEdge() != null && !node.getOperator().equals(Operator.REVERSION.getLiteral())){
 			List<Node> nodes = node.getEdge().getChildNode();
@@ -792,7 +850,7 @@ public class GraphBTUtil {
 			return;
 		}
 	}
-	
+
 	/**
 	 * generate from bt file
 	 * @param f bt file
@@ -856,7 +914,7 @@ public class GraphBTUtil {
 		setChild(root,rootbt, de);
 		return root;
 	}
-	
+
 	/**
 	 * create instance of StandardNode node
 	 * @param node
@@ -866,13 +924,13 @@ public class GraphBTUtil {
 	private static void setNode(final StandardNode node, org.be.textbe.bt.textbt.AbstractNode nodebt, final DiagramEditor de)
 	{
 		final Diagram d = de.getDiagramTypeProvider().getDiagram();
-		
+
 		node.setComponentRef(nodebt.getComponentRef());
 		node.setBehaviorRef(nodebt.getBehaviorRef());
 		node.setLabel(nodebt.getLabel()+""+System.currentTimeMillis());
 		System.out.println("operatornya "+nodebt.getOperator());
 		node.setOperator(nodebt.getOperator()==null?"":nodebt.getOperator());
-		
+
 		node.setTraceabilityStatus("");
 		AddContext addContext = new AddContext();
 		addContext.setNewObject(node);
@@ -889,7 +947,7 @@ public class GraphBTUtil {
 		de.getDiagramTypeProvider().getFeatureProvider().addIfPossible(addContext);
 		System.out.println("GraphBTUtil setNode nodebt: "+node.toBTText()+" PEnya: "+Graphiti.getLinkService().getPictogramElements(d, node).size());
 	}
-	
+
 	/**
 	 * create connection between standardnode s and standardnode t named edge e
 	 * @param de
@@ -906,20 +964,20 @@ public class GraphBTUtil {
 		CreateConnectionContext context = new CreateConnectionContext();
 		context.setSourcePictogramElement(peS);
 		context.setTargetPictogramElement(peC);
-		
+
 		Anchor source = Graphiti.getPeService().getChopboxAnchor((ContainerShape) peS);
 		if(source == null)
 			return;
 		Anchor target = Graphiti.getPeService().getChopboxAnchor((ContainerShape) peC);
 		if(target == null)
 			return;
-        AddConnectionContext addContext =
-                new AddConnectionContext(source, target);
-        addContext.setNewObject(e);
-        Connection connection = (Connection)de.getDiagramTypeProvider().getFeatureProvider().addIfPossible(addContext);
-        //d.getConnections().add(connection);
+		AddConnectionContext addContext =
+				new AddConnectionContext(source, target);
+		addContext.setNewObject(e);
+		Connection connection = (Connection)de.getDiagramTypeProvider().getFeatureProvider().addIfPossible(addContext);
+		//d.getConnections().add(connection);
 	}
-	
+
 	/**
 	 * set child
 	 * @param node
@@ -942,7 +1000,7 @@ public class GraphBTUtil {
 		{
 			_childNode = ((org.be.textbe.bt.textbt.SequentialNode)nodebt).getChildNode();
 		}
-		
+
 		if(_childNode==null)
 			return;
 		if(_childNode instanceof SequentialNode)
@@ -1001,9 +1059,9 @@ public class GraphBTUtil {
 				setChild(childSN,childNode, de);
 			}
 		}
-		
+
 	}
-	
+
 	private static ComponentList getComponentList(TextBT bt, Diagram d)
 	{
 		//System.out.print("GraphBTUtil getComponentList ");
@@ -1081,7 +1139,7 @@ public class GraphBTUtil {
 				}
 				System.out.print("behavior ke "+j+": "+b.toString()+" "+abbt.toString());
 			}
-			
+
 			try {
 				saveToModelFile(cp,d);
 			} catch (CoreException e) {
@@ -1095,8 +1153,25 @@ public class GraphBTUtil {
 		//System.out.println();
 		return cl;
 	}
-	
-	
+
+	public static StandardNode getAncestor(StandardNode node)
+	{
+		StandardNode parent = getAncestor(node.getParent(), node);
+		return parent;
+	}
+	private static StandardNode getAncestor(StandardNode parent,
+			StandardNode node) {
+		if(parent==null)
+			return null;
+		if(parent.getBehaviorRef().equals(node.getBehaviorRef())&&parent.getComponentRef().equals(node.getComponentRef()))
+		{
+			return parent;
+		}
+		// TODO Auto-generated method stub
+		return getAncestor(parent.getParent(),node);
+	}
+
+
 	public static File getXMLFromBT(IFile file){	
 		IInjector injector = null;
 		IExtractor extractor = null;
@@ -1134,16 +1209,14 @@ public class GraphBTUtil {
 			ILauncher launcher = null;
 			launcher = CoreService.getLauncher("EMF-specific VM");
 			launcher.initialize(Collections.<String, Object> emptyMap());
-
 			// Creating Models
 			IModel inputModel = factory.newModel(inMetamodel);
 			outputModel = factory.newModel(outMetamodel);
-
 			// Loading Existing Model
 			injector.inject(inputModel, file.getFullPath().toPortableString());
 
 			target = File.createTempFile("tempbt2sal", ".textbt", null);
-			
+
 			IWorkbenchPart workbenchPart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart(); 
 			IFile fileRaw = (IFile) workbenchPart.getSite().getPage().getActiveEditor().getEditorInput().getAdapter(IFile.class);
 			if (fileRaw == null)
@@ -1159,7 +1232,6 @@ public class GraphBTUtil {
 			path1 = path1+".xml";
 			File f1 = new File(path1);
 			System.out.println("path Init: " + path1);
-
 			// DEBUG - Dump Input Model
 			//extractor.extract(inputModel, filetest.getName());
 			extractor.extract(inputModel, target.toURI().toString());
@@ -1168,7 +1240,6 @@ public class GraphBTUtil {
 			// Launching
 			launcher.addOutModel(outputModel, "GV", "OUT");
 			launcher.addInModel(inputModel, "TEXTBT", "IN");
-
 			// Saving Model
 			extractor.extract(outputModel, "outputModel.gv");
 		} catch (Exception e1) {
@@ -1176,7 +1247,7 @@ public class GraphBTUtil {
 		} 
 		return target;
 	}
-	
+
 	/**
 	 * get bt text from a diagram
 	 * @param d
@@ -1193,7 +1264,7 @@ public class GraphBTUtil {
 		}
 		return content;
 	}
-	
+
 	/**
 	 * generate bt file from diagram file
 	 * @param diag
@@ -1212,9 +1283,9 @@ public class GraphBTUtil {
 		uri = uri.trimFragment();
 		uri = uri.trimFileExtension();
 		uri = uri.appendFileExtension("bt");
-		
+
 		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-		
+
 		IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
 		{
 			Path path = new Path(uri.toPlatformString(true));
@@ -1234,25 +1305,25 @@ public class GraphBTUtil {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * apply layout to a diagram
 	 * @param d
 	 */
 	public static void applyTreeLayout(Diagram d)
 	{
-//<<<<<<< HEAD
+		//<<<<<<< HEAD
 		List<StandardNode> roots = getRoots(d.eResource().getResourceSet());
-//=======
+		//=======
 		if(isValid(d) > 1)
 		{
 			return;
 		}
 		StandardNode root = getRoots(d.eResource().getResourceSet()).get(0);
-//>>>>>>> branch 'master' of https://github.com/mrzon/GraphBT.git
+		//>>>>>>> branch 'master' of https://github.com/mrzon/GraphBT.git
 		HashMap<StandardNode,Integer> widthMap = new HashMap<StandardNode,Integer>();
 		HashMap<Integer,Integer> heightMap = new HashMap<Integer,Integer>();
 		int currentY = 0;
@@ -1261,7 +1332,7 @@ public class GraphBTUtil {
 		{
 			int width = getWidth(d,roots.get(i),widthMap);
 			int height = getHeight(d,roots.get(i),heightMap,0);
-			
+
 			applyTreeLayout(d,roots.get(i),currentX,currentY,widthMap,heightMap,0);
 			currentX+=width+hSpace;
 			currentY=0;
@@ -1269,7 +1340,7 @@ public class GraphBTUtil {
 	}
 	private static int hSpace = 20;
 	private static int vSpace = 30;
-	
+
 	/**
 	 * apply tree layout
 	 * @param d
@@ -1286,57 +1357,57 @@ public class GraphBTUtil {
 		int currentHeight = rootP.getGraphicsAlgorithm().getHeight();
 		System.out.println("level: "+level+"; height: "+height);
 		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-        final DiagramEditor ds;
-        if(page.getActiveEditor() instanceof DiagramEditor)
-        {
-        	 ds = (DiagramEditor)page.getActiveEditor();	
-        }
-        else
-        {
-        	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
-        }
-        currentY = currentY + vSpace;
-        if(node.getParent()==null || node.getParent()!=null && node.getParent().getEdge().getComposition().getValue()==Composition.SEQUENTIAL_VALUE)
+		final DiagramEditor ds;
+		if(page.getActiveEditor() instanceof DiagramEditor)
 		{
-        	if(node.getEdge()!=null && node.getEdge().getComposition().getValue()==Composition.ATOMIC_VALUE)
-        	{
-        		PictogramElement rootP1 = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
-        		currentHeight=rootP1.getGraphicsAlgorithm().getHeight();
-    			StandardNode child = node;
-    			while (child.getEdge()!=null && child.getEdge().getComposition().getValue()==Composition.ATOMIC_VALUE)
-    			{
-    				rootP1 = Graphiti.getLinkService().getPictogramElements(d, child).get(0);
-    				currentHeight+=rootP1.getGraphicsAlgorithm().getHeight();
-    				child = (StandardNode) child.getEdge().getChildNode().get(0);
-    			}
-    			currentY=currentY+height/2-currentHeight/2;
-    			child = (StandardNode) node;
-    			while (child.getEdge()!=null && child.getEdge().getComposition().getValue()==Composition.ATOMIC_VALUE)
-    			{
-    				final PictogramElement rootP11 = Graphiti.getLinkService().getPictogramElements(d, child).get(0);
-    				final int cX = currentX;
-    				final int cY = currentY;
-    				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Move Node") {
-    					protected void doExecute() {
-    						rootP11.getGraphicsAlgorithm().setX(cX+width/2);
-    						rootP11.getGraphicsAlgorithm().setY(cY);
-    					}
-    				};
-    				currentY+=rootP11.getGraphicsAlgorithm().getHeight();
-    				ds.getEditingDomain().getCommandStack().execute(cmd);
-    				child = (StandardNode) child.getEdge().getChildNode().get(0);
-    				System.out.println("pas layouting saya keprint terus nih");
-    			}
-    			node=child;
-    		}
-        	else
-        	{
-        		currentY=currentY+height/2-currentHeight/2;
-        	}
+			ds = (DiagramEditor)page.getActiveEditor();	
 		}
-        
-        final PictogramElement rootP1 = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
-        final int cX = currentX;
+		else
+		{
+			ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+		}
+		currentY = currentY + vSpace;
+		if(node.getParent()==null || node.getParent()!=null && node.getParent().getEdge().getComposition().getValue()==Composition.SEQUENTIAL_VALUE)
+		{
+			if(node.getEdge()!=null && node.getEdge().getComposition().getValue()==Composition.ATOMIC_VALUE)
+			{
+				PictogramElement rootP1 = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
+				currentHeight=rootP1.getGraphicsAlgorithm().getHeight();
+				StandardNode child = node;
+				while (child.getEdge()!=null && child.getEdge().getComposition().getValue()==Composition.ATOMIC_VALUE)
+				{
+					rootP1 = Graphiti.getLinkService().getPictogramElements(d, child).get(0);
+					currentHeight+=rootP1.getGraphicsAlgorithm().getHeight();
+					child = (StandardNode) child.getEdge().getChildNode().get(0);
+				}
+				currentY=currentY+height/2-currentHeight/2;
+				child = (StandardNode) node;
+				while (child.getEdge()!=null && child.getEdge().getComposition().getValue()==Composition.ATOMIC_VALUE)
+				{
+					final PictogramElement rootP11 = Graphiti.getLinkService().getPictogramElements(d, child).get(0);
+					final int cX = currentX;
+					final int cY = currentY;
+					final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Move Node") {
+						protected void doExecute() {
+							rootP11.getGraphicsAlgorithm().setX(cX+width/2);
+							rootP11.getGraphicsAlgorithm().setY(cY);
+						}
+					};
+					currentY+=rootP11.getGraphicsAlgorithm().getHeight();
+					ds.getEditingDomain().getCommandStack().execute(cmd);
+					child = (StandardNode) child.getEdge().getChildNode().get(0);
+					System.out.println("pas layouting saya keprint terus nih");
+				}
+				node=child;
+			}
+			else
+			{
+				currentY=currentY+height/2-currentHeight/2;
+			}
+		}
+
+		final PictogramElement rootP1 = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
+		final int cX = currentX;
 		final int cY = currentY;
 		final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Move Node") {
 			protected void doExecute() {
@@ -1346,7 +1417,7 @@ public class GraphBTUtil {
 		};
 		currentY+=rootP1.getGraphicsAlgorithm().getHeight()+vSpace;
 		ds.getEditingDomain().getCommandStack().execute(cmd);
-		
+
 		if(node.getEdge()==null)
 		{
 			return;
@@ -1362,7 +1433,7 @@ public class GraphBTUtil {
 			}
 		}
 	}
-	
+
 	/**
 	 * get subtree width
 	 * @param d
@@ -1378,7 +1449,7 @@ public class GraphBTUtil {
 			return rootP.getGraphicsAlgorithm().getWidth();
 		}
 		int width = getWidth(d, (StandardNode) node.getEdge().getChildNode().get(0), map);
-		
+
 		for(int i = 1; i < node.getEdge().getChildNode().size(); i++)
 		{
 			width=width+hSpace+getWidth(d, (StandardNode) node.getEdge().getChildNode().get(i),map);
@@ -1386,14 +1457,14 @@ public class GraphBTUtil {
 		map.put(node, width);
 		return width;
 	}
-	
+
 	private static int getHeight(Diagram d, StandardNode node, HashMap<Integer,Integer> map, int level)
 	{
-		
+
 		if(node==null)
 			return 0;
 		int height=Graphiti.getLinkService().getPictogramElements(d, node).get(0).getGraphicsAlgorithm().getHeight();
-		
+
 		if(node.getEdge()==null)
 		{
 			if(map.get(level)==null||map.get(level)!=null&&map.get(level)<height)
@@ -1434,10 +1505,10 @@ public class GraphBTUtil {
 		else
 			de = (DiagramEditor)ep;
 		final IDeleteFeature deleteFeature = featureProvider.getDeleteFeature(deleteContext);
-		
+
 		IContextButtonEntry ret = null;
 		System.out.println("GraphBTUtil createGraphBTDeleteContextButton");
-		
+
 		if (deleteFeature != null) {
 			ret = new ContextButtonEntry(deleteFeature, deleteContext){
 				@Override
@@ -1450,7 +1521,7 @@ public class GraphBTUtil {
 				public void execute() {
 					// TODO Auto-generated method stub
 					final StandardNode node = (StandardNode) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-					
+
 					de.getEditingDomain().getCommandStack().execute(new RecordingCommand(de.getEditingDomain(), "Remove Node object"){
 
 						@Override
@@ -1477,7 +1548,7 @@ public class GraphBTUtil {
 									child.setParent(null);
 									child.setLeaf(false);
 								}
-								
+
 								GraphBTUtil.getRoots(de.getDiagramTypeProvider().getDiagram().eResource().getResourceSet()).get(0).eResource().getContents().addAll(node.getEdge().getChildNode());
 								node.getEdge().getChildNode().clear();
 								node.setEdge(null);
@@ -1485,7 +1556,7 @@ public class GraphBTUtil {
 							System.out.println("GraphBTUtil createGraphBTDeleteContextButton jumlah root"+ GraphBTUtil.getRoots(de.getDiagramTypeProvider().getDiagram().eResource().getResourceSet()).size());
 							deleteFeature.delete(deleteContext);
 						}
-						
+
 					});
 				}
 			};

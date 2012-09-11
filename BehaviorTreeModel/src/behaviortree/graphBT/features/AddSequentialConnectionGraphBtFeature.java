@@ -14,6 +14,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
+import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
@@ -74,6 +75,7 @@ public class AddSequentialConnectionGraphBtFeature extends AbstractAddFeature im
 			createAlternativeIdentifier(cd2);
 		}
 		GraphBTUtil.applyTreeLayout(getDiagram());
+		GraphBTUtil.updateReversionNode((DiagramEditor) getDiagramEditor());
 		return connection;
 	}
 	

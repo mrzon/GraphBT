@@ -21,6 +21,7 @@ import org.eclipse.graphiti.util.IColorConstant;
 import behaviortree.Behavior;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
+import behaviortree.Operator;
 import behaviortree.OperatorClass;
 import behaviortree.Requirement;
 import behaviortree.StandardNode;
@@ -207,6 +208,9 @@ IAddFeature {
             gaService.setLocationAndSize(textOperator, 140, 5, 30, 20);
             OperatorClass oc = GraphBTUtil.getOperator(getDiagram(), node.getOperator());
             shapeOperator.setActive(false);
+            if(oc.getOperatorLiteral().equals(Operator.REVERSION.getLiteral())) {
+            	rectangle.setBackground(manageColor(GraphBTUtil.ERROR_COLOR));
+            }
             link(shapeOperator, oc);
         }
         
@@ -220,7 +224,11 @@ IAddFeature {
 //        boxAnchor.isUseAnchorLocationAsConnectionEndpoint();
         
         layoutPictogramElement(containerShape);
-        
+        if(node.getOperator().equals(Operator.REVERSION.getLiteral()))
+		{
+			//GraphBTUtil.reversionNode.add(node);
+			//GraphBTUtil.errorReversionNode.add(node);
+		}
 //        // create an additional box relative anchor at middle-right
 //        final BoxRelativeAnchor boxAnchor =
 //             peCreateService.createBoxRelativeAnchor(containerShape);

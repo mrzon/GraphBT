@@ -377,6 +377,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
 		    public void widgetSelected(SelectionEvent e) {
 		    	CCombo combo = (CCombo)e.widget;
 		    	final String selected = combo.getItem(combo.getSelectionIndex());
+		    	
 		    	System.out.println("Aduh.. operator kepencet");
 		    	PictogramElement pe = getSelectedPictogramElement();
 		    	Object ob = Graphiti.getLinkService()
@@ -384,53 +385,53 @@ public class BehaviorTreePropertySection extends GFPropertySection
 		    	if(!(ob instanceof StandardNode))
 		    		return;
 		        final StandardNode node = (StandardNode) ob;
+		        GraphBTUtil.reversionNode.remove(node);
+		        final String literal = Operator.getByName(selected).getLiteral();
+    			
+    			if(literal.equals(Operator.REVERSION.getLiteral()))
+    			{
+    				GraphBTUtil.reversionNode.add(node);
+    			}
 		    	final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 	    			protected void doExecute() {
-	        			node.setOperator(Operator.getByName(selected).getLiteral());
+	    				node.setOperator(literal);
 	    		    }
 	    		};
-	    		
 	    		ds.getEditingDomain().getCommandStack().execute(cmd);
 	    		
 	    		if(!(pe instanceof ContainerShape))
 					return;
 				
 	    		final ContainerShape cs = (ContainerShape)pe;
-	    		
 	    		final Command cmd2 = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 	    			protected void doExecute() {
-	        			node.setOperator(Operator.getByName(selected).getLiteral());
+	    				final Rectangle rectangle = (Rectangle) cs.getGraphicsAlgorithm();
+	    				
+	    				Edge edge = node.getEdge();
 	        			
-	        			Edge edge = node.getEdge();
-	        			
-	        			final Rectangle rectangle = (Rectangle) cs.getGraphicsAlgorithm();
-	        			
-	        			if(edge != null && Operator.getByName(selected).getLiteral().equals(Operator.REVERSION.getLiteral())) {
+	        			if(edge != null && node.getOperator().equals(Operator.REVERSION.getLiteral())) {
 	        				rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ERROR_COLOR));
-	        				GraphBTUtil.errorNode.add(node);
+	        				return;
 	        			}
-	        			else {
-	        				GraphBTUtil.errorNode.remove(node);
-	        				
-	        				if(node.getTraceabilityStatus().equals(TraceabilityStatus.DELETED.getLiteral())) {
-    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
-    	    	            }
-    	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.IMPLIED.getLiteral())) {
-    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.IMPLIED_BEHAVIOR_COLOR));
-    	    	            }
-    	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.MISSING.getLiteral())) {
-    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.MISSING_BEHAVIOR_COLOR));
-    	    	            }
-    	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.UPDATED.getLiteral())) {
-    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.UPDATED_BEHAVIOR_COLOR));
-    	    	            }
-    	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.DESIGN_REFINEMENT.getLiteral())) {
-    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
-    	    	            }
-    	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.ORIGINAL.getLiteral())) {
-    	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ORIGINAL_BEHAVIOR_COLOR));
-    	    	            }
-	        			}
+	        			
+    					if(node.getTraceabilityStatus().equals(TraceabilityStatus.DELETED.getLiteral())) {
+	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
+	    	            }
+	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.IMPLIED.getLiteral())) {
+	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.IMPLIED_BEHAVIOR_COLOR));
+	    	            }
+	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.MISSING.getLiteral())) {
+	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.MISSING_BEHAVIOR_COLOR));
+	    	            }
+	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.UPDATED.getLiteral())) {
+	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.UPDATED_BEHAVIOR_COLOR));
+	    	            }
+	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.DESIGN_REFINEMENT.getLiteral())) {
+	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
+	    	            }
+	    	            else if(node.getTraceabilityStatus().equals(TraceabilityStatus.ORIGINAL.getLiteral())) {
+	    	            	rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ORIGINAL_BEHAVIOR_COLOR));
+	    	            }
 	    		    }
 	    		};
 	    		ds.getEditingDomain().getCommandStack().execute(cmd2);
@@ -476,7 +477,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
     @Override
     public void refresh() {
         PictogramElement pe = getSelectedPictogramElement();
-
+        
         if (pe != null) {
             Object bo = Graphiti.getLinkService()
                  .getBusinessObjectForLinkedPictogramElement(pe);
@@ -500,7 +501,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
             }
             
             final Diagram d = ds.getDiagramTypeProvider().getDiagram();
-            
+
             componentCombo.removeAll();
             for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()) {
     	    	componentCombo.add(component.getComponentName());
@@ -539,7 +540,11 @@ public class BehaviorTreePropertySection extends GFPropertySection
             operatorCombo.setText(operatorString);
             
             System.out.println("The changed node" + node.getComponentRef()+" "+node.getBehaviorRef()+" "+node.getOperator()+" "+node.getTraceabilityStatus());
-            
+            if(operatorString.equals("^")&&!GraphBTUtil.reversionNode.contains(node))
+            {
+            	GraphBTUtil.reversionNode.add(node);
+            }
+            GraphBTUtil.updateReversionNode(ds);
         }
     }
 }
