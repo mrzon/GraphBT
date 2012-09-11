@@ -58,57 +58,82 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 		container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
 		container.setLayout(layout);
-		layout.numColumns = 2;
+		layout.numColumns = 4;
+		GridData gridData;		
 		
+	    
+	    Button componentButton = new Button(container, SWT.NULL);
+	    componentButton.setText("Add New Component");
+	    
+	    Button behaviorButton = new Button(container, SWT.NULL);
+	    behaviorButton.setText("Add New Behavior");
+	    
+	    
+	    Button manageComponentsButton = new Button(container, SWT.NULL);
+	    manageComponentsButton.setText("Manage Components");	 
+	    
+	    Button requirementButton = new Button(container, SWT.NULL);
+	    requirementButton.setText("Add Requirement");
+
+			
 		Combo operatorCombo;
 		Combo traceabilityStatusCombo;
 		
-			
 		Label operatorLabel = new Label(container, SWT.NULL);
-		operatorLabel.setText("Operator Name");
+		operatorLabel.setText("Operator Name:");
 		
 	    operatorCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
-	    operatorCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
+	    gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = 3;		
+	    operatorCombo.setLayoutData(gridData);
+	    		
 	    for(Operator op : Operator.VALUES) {
 		    operatorCombo.add(op.getName());
 	    }
 	    
 	    Label traceabilityLinkLabel = new Label(container, SWT.NULL);
-	    traceabilityLinkLabel.setText("Traceability Link Name");
+	    traceabilityLinkLabel.setText("Traceability Link Name:");
 		
 	    traceabilityLinkCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
-	    traceabilityLinkCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
-	    for(Requirement ts : GraphBTUtil.getBEModel(d).getRequirementList().getRequirements()) {
+	    gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = 3;		
+		traceabilityLinkCombo.setLayoutData(gridData);
+	  
+		for(Requirement ts : GraphBTUtil.getBEModel(d).getRequirementList().getRequirements()) {
 	    	traceabilityLinkCombo.add(ts.getKey());
 	    }
 	
 	    Label traceabilityStatusLabel = new Label(container, SWT.NULL);
-	    traceabilityStatusLabel.setText("Traceability Status Name");
+	    traceabilityStatusLabel.setText("Traceability Status Name:");
 		
 	    traceabilityStatusCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
-	    traceabilityStatusCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
+	    gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = 3;		
+		traceabilityStatusCombo.setLayoutData(gridData);	    
+
 	    for(TraceabilityStatus ts : TraceabilityStatus.VALUES) {
 	    	traceabilityStatusCombo.add(ts.getName());
 	    }
 	    
 	    Label componentComboLabel = new Label(container, SWT.NULL);
-	    componentComboLabel.setText("Component Name");
+	    componentComboLabel.setText("Component Name:");
 		
 	    componentCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
-	    componentCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	    gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = 3;		
+		componentCombo.setLayoutData(gridData);	
 	    
 	    for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()){
 	    	componentCombo.add(component.getComponentName());
 	    }
 	    
 	    Label behaviorComboLabel = new Label(container, SWT.NULL);
-	    behaviorComboLabel.setText("Behavior Name");
+	    behaviorComboLabel.setText("Behavior Name:");
 		
 		behaviorCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
-		behaviorCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	    gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = 3;		
+		behaviorCombo.setLayoutData(gridData);	
 		
 		operatorCombo.addSelectionListener(new SelectionAdapter() {
 		    public void widgetSelected(SelectionEvent e) {
@@ -164,29 +189,6 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 		     }
 	     });
 
-	    Label fillerLabel1 = new Label(container, SWT.NULL);
-	    fillerLabel1.setText(" ");
-	    
-	    Button componentButton = new Button(container, SWT.NULL);
-	    componentButton.setText("Add New Component");
-	    
-	    Label fillerLabel2 = new Label(container, SWT.NULL);
-	    fillerLabel2.setText(" ");
-	    
-	    Button behaviorButton = new Button(container, SWT.NULL);
-	    behaviorButton.setText("Add New Behavior");
-	    
-	    Label fillerLabel3 = new Label(container, SWT.NULL);
-	    fillerLabel3.setText(" ");
-	    
-	    Button manageComponentsButton = new Button(container, SWT.NULL);
-	    manageComponentsButton.setText("Manage Components");
-	    
-	    Label fillerLabel4 = new Label(container, SWT.NULL);
-	    fillerLabel4.setText(" ");
-	    
-	    Button requirementButton = new Button(container, SWT.NULL);
-	    requirementButton.setText("Add Requirement");
 
 	    manageComponentsButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {

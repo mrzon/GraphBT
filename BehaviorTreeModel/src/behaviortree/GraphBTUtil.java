@@ -658,12 +658,17 @@ public class GraphBTUtil {
 		{
 			OperatorClass oc = getBEFactory().createOperatorClass();
 			oc.setOperatorLiteral(literal);
-			try {
-				GraphBTUtil.saveToModelFile(oc,rs);
-			} catch (CoreException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
+				try {
+					GraphBTUtil.saveToModelFile(oc,rs);
+				} catch (CoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			return oc;
 		}
 		return null;
@@ -698,12 +703,17 @@ public class GraphBTUtil {
 		{
 			TraceabilityStatusClass oc = getBEFactory().createTraceabilityStatusClass();
 			oc.setTraceabilityStatusLiteral(literal);
-			try {
-				GraphBTUtil.saveToModelFile(oc,rs);
-			} catch (CoreException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
+				try {
+					GraphBTUtil.saveToModelFile(oc,rs);
+				} catch (CoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			return oc;
 		}
 		return null;

@@ -54,13 +54,12 @@ public class BTProjectWizardPage extends WizardPage {
 		GridLayout layout = new GridLayout();
 		container.setLayout(layout);
 		layout.numColumns = 2;
-		layout.verticalSpacing = 9;
-		Label label = new Label(container, SWT.NULL);
 
-		label = new Label(container, SWT.NULL);
-		label.setText("&File name:");
+	    final Label fileNameLabel = new Label(container, SWT.NULL);
+	    fileNameLabel.setText("File Name:");
 
 		fileText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		fileText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		fileText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				dialogChanged();
