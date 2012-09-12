@@ -573,13 +573,22 @@ public interface BehaviortreePackage extends EPackage {
 	int COMPONENT__COMPONENT_REF = 7;
 
 	/**
+	 * The feature id for the '<em><b>Component Desc</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__COMPONENT_DESC = 8;
+
+	/**
 	 * The number of structural features of the '<em>Component</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_FEATURE_COUNT = 8;
+	int COMPONENT_FEATURE_COUNT = 9;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.impl.AttributeImpl <em>Attribute</em>}' class.
@@ -813,13 +822,22 @@ public interface BehaviortreePackage extends EPackage {
 	int BEHAVIOR__BEHAVIOR_REF = 2;
 
 	/**
+	 * The feature id for the '<em><b>Behavior Desc</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR__BEHAVIOR_DESC = 3;
+
+	/**
 	 * The number of structural features of the '<em>Behavior</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BEHAVIOR_FEATURE_COUNT = 3;
+	int BEHAVIOR_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.impl.ComponentListImpl <em>Component List</em>}' class.
@@ -1504,6 +1522,17 @@ public interface BehaviortreePackage extends EPackage {
 	EAttribute getComponent_ComponentRef();
 
 	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.Component#getComponentDesc <em>Component Desc</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Component Desc</em>'.
+	 * @see behaviortree.Component#getComponentDesc()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EAttribute getComponent_ComponentDesc();
+
+	/**
 	 * Returns the meta object for class '{@link behaviortree.Attribute <em>Attribute</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1716,6 +1745,17 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getBehavior_BehaviorRef();
+
+	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.Behavior#getBehaviorDesc <em>Behavior Desc</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Behavior Desc</em>'.
+	 * @see behaviortree.Behavior#getBehaviorDesc()
+	 * @see #getBehavior()
+	 * @generated
+	 */
+	EAttribute getBehavior_BehaviorDesc();
 
 	/**
 	 * Returns the meta object for class '{@link behaviortree.ComponentList <em>Component List</em>}'.
@@ -2280,6 +2320,14 @@ public interface BehaviortreePackage extends EPackage {
 		EAttribute COMPONENT__COMPONENT_REF = eINSTANCE.getComponent_ComponentRef();
 
 		/**
+		 * The meta object literal for the '<em><b>Component Desc</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPONENT__COMPONENT_DESC = eINSTANCE.getComponent_ComponentDesc();
+
+		/**
 		 * The meta object literal for the '{@link behaviortree.impl.AttributeImpl <em>Attribute</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2450,6 +2498,14 @@ public interface BehaviortreePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute BEHAVIOR__BEHAVIOR_REF = eINSTANCE.getBehavior_BehaviorRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Behavior Desc</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BEHAVIOR__BEHAVIOR_DESC = eINSTANCE.getBehavior_BehaviorDesc();
 
 		/**
 		 * The meta object literal for the '{@link behaviortree.impl.ComponentListImpl <em>Component List</em>}' class.

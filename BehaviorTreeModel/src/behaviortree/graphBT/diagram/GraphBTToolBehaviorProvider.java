@@ -175,7 +175,7 @@ public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 			strBuff.append(". ");
 			strBuff.append(com.getComponentName());
 			strBuff.append('\n');
-			strBuff.append("Default description");
+			strBuff.append(com.getComponentDesc()==null?"":com.getComponentDesc());
 			return strBuff.toString();
 		}
 		if(bo instanceof Behavior) {
@@ -184,10 +184,9 @@ public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 			strBuff.append(". ");
 			strBuff.append(beh.getBehaviorName());
 			strBuff.append('\n');
-			strBuff.append("Default description");
+			strBuff.append(beh.getBehaviorDesc()==null?"":beh.getBehaviorDesc());
 			return strBuff.toString();
 		}
-		
 		return super.getToolTip(ga);
 	}
 }

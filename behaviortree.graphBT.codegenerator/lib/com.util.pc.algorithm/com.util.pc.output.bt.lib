@@ -1,0 +1,3 @@
+#C StandardOutput
+#D This component can be used to send standard output to the environment
+#S print print(data)

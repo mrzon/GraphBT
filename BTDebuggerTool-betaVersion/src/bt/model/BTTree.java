@@ -81,7 +81,8 @@ public class BTTree {
     	stack.add(this.rootNode);
     	while(!stack.isEmpty()){
     		BTNode node = stack.pop();
-    		
+    		if(node==null)
+    			return;
     		node.setNodeNumberForBTT(start);
     		start++;
     		ArrayList<BTNode> childs = null;

@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link behaviortree.impl.BehaviorImpl#getBehaviorType <em>Behavior Type</em>}</li>
  *   <li>{@link behaviortree.impl.BehaviorImpl#getBehaviorName <em>Behavior Name</em>}</li>
  *   <li>{@link behaviortree.impl.BehaviorImpl#getBehaviorRef <em>Behavior Ref</em>}</li>
+ *   <li>{@link behaviortree.impl.BehaviorImpl#getBehaviorDesc <em>Behavior Desc</em>}</li>
  * </ul>
  * </p>
  *
@@ -92,6 +93,26 @@ public class BehaviorImpl extends EObjectImpl implements Behavior {
 	 * @ordered
 	 */
 	protected String behaviorRef = BEHAVIOR_REF_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getBehaviorDesc() <em>Behavior Desc</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBehaviorDesc()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String BEHAVIOR_DESC_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getBehaviorDesc() <em>Behavior Desc</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBehaviorDesc()
+	 * @generated
+	 * @ordered
+	 */
+	protected String behaviorDesc = BEHAVIOR_DESC_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -180,6 +201,27 @@ public class BehaviorImpl extends EObjectImpl implements Behavior {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getBehaviorDesc() {
+		return behaviorDesc;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setBehaviorDesc(String newBehaviorDesc) {
+		String oldBehaviorDesc = behaviorDesc;
+		behaviorDesc = newBehaviorDesc;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.BEHAVIOR__BEHAVIOR_DESC, oldBehaviorDesc, behaviorDesc));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -189,6 +231,8 @@ public class BehaviorImpl extends EObjectImpl implements Behavior {
 				return getBehaviorName();
 			case BehaviortreePackage.BEHAVIOR__BEHAVIOR_REF:
 				return getBehaviorRef();
+			case BehaviortreePackage.BEHAVIOR__BEHAVIOR_DESC:
+				return getBehaviorDesc();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -209,6 +253,9 @@ public class BehaviorImpl extends EObjectImpl implements Behavior {
 				return;
 			case BehaviortreePackage.BEHAVIOR__BEHAVIOR_REF:
 				setBehaviorRef((String)newValue);
+				return;
+			case BehaviortreePackage.BEHAVIOR__BEHAVIOR_DESC:
+				setBehaviorDesc((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -231,6 +278,9 @@ public class BehaviorImpl extends EObjectImpl implements Behavior {
 			case BehaviortreePackage.BEHAVIOR__BEHAVIOR_REF:
 				setBehaviorRef(BEHAVIOR_REF_EDEFAULT);
 				return;
+			case BehaviortreePackage.BEHAVIOR__BEHAVIOR_DESC:
+				setBehaviorDesc(BEHAVIOR_DESC_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -249,6 +299,8 @@ public class BehaviorImpl extends EObjectImpl implements Behavior {
 				return BEHAVIOR_NAME_EDEFAULT == null ? behaviorName != null : !BEHAVIOR_NAME_EDEFAULT.equals(behaviorName);
 			case BehaviortreePackage.BEHAVIOR__BEHAVIOR_REF:
 				return BEHAVIOR_REF_EDEFAULT == null ? behaviorRef != null : !BEHAVIOR_REF_EDEFAULT.equals(behaviorRef);
+			case BehaviortreePackage.BEHAVIOR__BEHAVIOR_DESC:
+				return BEHAVIOR_DESC_EDEFAULT == null ? behaviorDesc != null : !BEHAVIOR_DESC_EDEFAULT.equals(behaviorDesc);
 		}
 		return super.eIsSet(featureID);
 	}

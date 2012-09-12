@@ -46,6 +46,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link behaviortree.impl.ComponentImpl#getRelatedTo <em>Related To</em>}</li>
  *   <li>{@link behaviortree.impl.ComponentImpl#getBehaviors <em>Behaviors</em>}</li>
  *   <li>{@link behaviortree.impl.ComponentImpl#getComponentRef <em>Component Ref</em>}</li>
+ *   <li>{@link behaviortree.impl.ComponentImpl#getComponentDesc <em>Component Desc</em>}</li>
  * </ul>
  * </p>
  *
@@ -161,6 +162,26 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	 * @ordered
 	 */
 	protected String componentRef = COMPONENT_REF_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getComponentDesc() <em>Component Desc</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComponentDesc()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String COMPONENT_DESC_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getComponentDesc() <em>Component Desc</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComponentDesc()
+	 * @generated
+	 * @ordered
+	 */
+	protected String componentDesc = COMPONENT_DESC_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -335,6 +356,27 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getComponentDesc() {
+		return componentDesc;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setComponentDesc(String newComponentDesc) {
+		String oldComponentDesc = componentDesc;
+		componentDesc = newComponentDesc;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.COMPONENT__COMPONENT_DESC, oldComponentDesc, componentDesc));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -371,6 +413,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 				return getBehaviors();
 			case BehaviortreePackage.COMPONENT__COMPONENT_REF:
 				return getComponentRef();
+			case BehaviortreePackage.COMPONENT__COMPONENT_DESC:
+				return getComponentDesc();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -412,6 +456,9 @@ public class ComponentImpl extends EObjectImpl implements Component {
 			case BehaviortreePackage.COMPONENT__COMPONENT_REF:
 				setComponentRef((String)newValue);
 				return;
+			case BehaviortreePackage.COMPONENT__COMPONENT_DESC:
+				setComponentDesc((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -448,6 +495,9 @@ public class ComponentImpl extends EObjectImpl implements Component {
 			case BehaviortreePackage.COMPONENT__COMPONENT_REF:
 				setComponentRef(COMPONENT_REF_EDEFAULT);
 				return;
+			case BehaviortreePackage.COMPONENT__COMPONENT_DESC:
+				setComponentDesc(COMPONENT_DESC_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -476,6 +526,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 				return behaviors != null && !behaviors.isEmpty();
 			case BehaviortreePackage.COMPONENT__COMPONENT_REF:
 				return COMPONENT_REF_EDEFAULT == null ? componentRef != null : !COMPONENT_REF_EDEFAULT.equals(componentRef);
+			case BehaviortreePackage.COMPONENT__COMPONENT_DESC:
+				return COMPONENT_DESC_EDEFAULT == null ? componentDesc != null : !COMPONENT_DESC_EDEFAULT.equals(componentDesc);
 		}
 		return super.eIsSet(featureID);
 	}

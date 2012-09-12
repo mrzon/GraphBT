@@ -146,6 +146,8 @@ public class BTParser extends DefaultHandler
         
         private void assignPC(BTNode node,String pc)
         {
+        	if(node==null)
+        		return;
             node.setPC(pc);
             for(int i = 0; i < node.getChilds().size(); i++)
             {

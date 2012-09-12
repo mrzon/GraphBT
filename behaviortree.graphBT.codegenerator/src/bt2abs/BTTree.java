@@ -94,6 +94,8 @@ public class BTTree {
     }
     public String toStringABS(BTNode root)
     {
+    	if(root==null)
+    		return "";
         if(root.getComponent()!=null && root.getComponent().isPrimitive())
         {
             return toStringABS(root.getChilds().get(0));

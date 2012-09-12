@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link behaviortree.Behavior#getBehaviorType <em>Behavior Type</em>}</li>
  *   <li>{@link behaviortree.Behavior#getBehaviorName <em>Behavior Name</em>}</li>
  *   <li>{@link behaviortree.Behavior#getBehaviorRef <em>Behavior Ref</em>}</li>
+ *   <li>{@link behaviortree.Behavior#getBehaviorDesc <em>Behavior Desc</em>}</li>
  * </ul>
  * </p>
  *
@@ -107,6 +108,31 @@ public interface Behavior extends EObject {
 	 * @generated
 	 */
 	void setBehaviorRef(String value);
+	/**
+	 * Returns the value of the '<em><b>Behavior Desc</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Behavior Desc</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Behavior Desc</em>' attribute.
+	 * @see #setBehaviorDesc(String)
+	 * @see behaviortree.BehaviortreePackage#getBehavior_BehaviorDesc()
+	 * @model
+	 * @generated
+	 */
+	String getBehaviorDesc();
+
+	/**
+	 * Sets the value of the '{@link behaviortree.Behavior#getBehaviorDesc <em>Behavior Desc</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Behavior Desc</em>' attribute.
+	 * @see #getBehaviorDesc()
+	 * @generated
+	 */
+	void setBehaviorDesc(String value);
 	static final int NAME_VALUE = 0x11;
 	static final int REF_VALUE = 0x10;
 	static final int DESC_VALUE = 0x0F;

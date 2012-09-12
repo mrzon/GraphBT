@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link behaviortree.Component#getRelatedTo <em>Related To</em>}</li>
  *   <li>{@link behaviortree.Component#getBehaviors <em>Behaviors</em>}</li>
  *   <li>{@link behaviortree.Component#getComponentRef <em>Component Ref</em>}</li>
+ *   <li>{@link behaviortree.Component#getComponentDesc <em>Component Desc</em>}</li>
  * </ul>
  * </p>
  *
@@ -201,6 +202,32 @@ public interface Component extends EObject {
 	 * @generated
 	 */
 	void setComponentRef(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Component Desc</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Component Desc</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Component Desc</em>' attribute.
+	 * @see #setComponentDesc(String)
+	 * @see behaviortree.BehaviortreePackage#getComponent_ComponentDesc()
+	 * @model
+	 * @generated
+	 */
+	String getComponentDesc();
+
+	/**
+	 * Sets the value of the '{@link behaviortree.Component#getComponentDesc <em>Component Desc</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Component Desc</em>' attribute.
+	 * @see #getComponentDesc()
+	 * @generated
+	 */
+	void setComponentDesc(String value);
 
 	static final int NAME_VALUE = 0x12;
 	static final int REF_VALUE = 0x13;

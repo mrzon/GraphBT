@@ -583,7 +583,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 		{
 			if(e.getBranch().getValue()==Branch.ALTERNATIVE_VALUE)
 			{
-				str += " #A{\n";
+				str += " #N{\n";
 			}
 			else
 			{

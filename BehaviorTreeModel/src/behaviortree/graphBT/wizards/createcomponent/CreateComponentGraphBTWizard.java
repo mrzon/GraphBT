@@ -69,6 +69,7 @@ public class CreateComponentGraphBTWizard extends Wizard {
 				//if(map.get(Component.COMPONENT_NAME)!=null||map.get(Component.COMPONENT_NAME)!="")
 				c.setComponentName(map.get(Component.NAME_VALUE));
 				c.setComponentRef(map.get(Component.REF_VALUE));
+				c.setComponentDesc(map.get(Component.DESC_VALUE));
 				
 				be.getComponentList().getComponents().add(c);		
 				//if(!c.getComponentName().equals("")&&c.getComponentName()!=null)

@@ -120,33 +120,30 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 				map.put(Behavior.REF_VALUE, t.getText());
 			}
 	    });
+		behaviorDescText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				Text t= (Text) e.widget;
+				map.put(Behavior.DESC_VALUE, t.getText());
+			}
+	    });
 
 		// Required to avoid an error in the system
 		setControl(container);
 	}
 	
 	private void dialogChanged() {
-		
 		if (behaviorNameText.getText().length() == 0) {
 			updateStatus("Behavior name must be specified");
 			return;
 		}
-		
 		if (behaviorRefText.getText().length() == 0) {
 			updateStatus("Behavior reference must be specified");
 			return;
 		}
-		
 		if (GraphBTUtil.getBehaviorFromComponentByRef(c, behaviorRefText.getText()) != null) {
 			updateStatus("Behavior reference is already exist");
 			return;
-		}
-
-		if (!(behaviorRefText.getText().matches("[0-9]+"))) {
-			updateStatus("Format of behavior reference should be number");
-			return;
-		}
-		
+		}		
 		updateStatus(null);
 	}
 	

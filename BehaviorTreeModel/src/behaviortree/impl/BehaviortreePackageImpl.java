@@ -674,6 +674,15 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getComponent_ComponentDesc() {
+		return (EAttribute)componentEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAttribute() {
 		return attributeEClass;
 	}
@@ -847,6 +856,15 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 */
 	public EAttribute getBehavior_BehaviorRef() {
 		return (EAttribute)behaviorEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBehavior_BehaviorDesc() {
+		return (EAttribute)behaviorEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1096,6 +1114,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		createEReference(componentEClass, COMPONENT__RELATED_TO);
 		createEReference(componentEClass, COMPONENT__BEHAVIORS);
 		createEAttribute(componentEClass, COMPONENT__COMPONENT_REF);
+		createEAttribute(componentEClass, COMPONENT__COMPONENT_DESC);
 
 		attributeEClass = createEClass(ATTRIBUTE);
 		createEAttribute(attributeEClass, ATTRIBUTE__TYPE);
@@ -1122,6 +1141,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		createEAttribute(behaviorEClass, BEHAVIOR__BEHAVIOR_TYPE);
 		createEAttribute(behaviorEClass, BEHAVIOR__BEHAVIOR_NAME);
 		createEAttribute(behaviorEClass, BEHAVIOR__BEHAVIOR_REF);
+		createEAttribute(behaviorEClass, BEHAVIOR__BEHAVIOR_DESC);
 
 		componentListEClass = createEClass(COMPONENT_LIST);
 		createEReference(componentListEClass, COMPONENT_LIST__COMPONENTS);
@@ -1231,6 +1251,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		initEReference(getComponent_RelatedTo(), this.getComponent(), null, "relatedTo", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_Behaviors(), this.getBehavior(), null, "behaviors", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponent_ComponentRef(), ecorePackage.getEString(), "componentRef", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getComponent_ComponentDesc(), ecorePackage.getEString(), "componentDesc", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(attributeEClass, Attribute.class, "Attribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAttribute_Type(), ecorePackage.getEString(), "type", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1257,6 +1278,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		initEAttribute(getBehavior_BehaviorType(), this.getBehaviorType(), "behaviorType", null, 0, 1, Behavior.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBehavior_BehaviorName(), ecorePackage.getEString(), "behaviorName", null, 0, 1, Behavior.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBehavior_BehaviorRef(), ecorePackage.getEString(), "behaviorRef", null, 0, 1, Behavior.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBehavior_BehaviorDesc(), ecorePackage.getEString(), "behaviorDesc", null, 0, 1, Behavior.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(componentListEClass, ComponentList.class, "ComponentList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getComponentList_Components(), this.getComponent(), null, "components", null, 1, -1, ComponentList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -101,6 +101,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	private IFile btIFile;
 	private Action clearDiagram;
 	private Action generateSALCode;
+	private Action manageLibrary;
 	/**
 	 * Creates a multi-page contributor.
 	 */
@@ -565,6 +566,20 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		generateSALCode.setText("BT to SAL Translator");
 		generateSALCode.setToolTipText("Generate the SAL Code");
 		generateSALCode.setImageDescriptor(getImageDescriptor("icons/generateSALCode.gif"));
+		manageLibrary = new Action() {
+			public void run() {
+				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
+				if(activeEditorPart instanceof DiagramEditor)
+				{
+					Diagram d = ((DiagramEditor)activeEditorPart).getDiagramTypeProvider().getDiagram();
+					
+					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
+				}
+			}
+		};
+		manageLibrary.setText("Manage Library");
+		manageLibrary.setToolTipText("Manage the library that is used within the model");
+		manageLibrary.setImageDescriptor(getImageDescriptor("icons/sample.gif"));
 		
 	}
 	

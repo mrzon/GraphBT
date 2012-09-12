@@ -101,6 +101,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Component/relatedTo"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Component/behaviors"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Component/componentRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Component/componentDesc"/>
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//Attribute">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Attribute/type"/>
@@ -126,6 +127,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Behavior/behaviorType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Behavior/behaviorName"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Behavior/behaviorRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Behavior/behaviorDesc"/>
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//ComponentList">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//ComponentList/components"/>

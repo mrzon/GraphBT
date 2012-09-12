@@ -90,7 +90,6 @@ public class CreateComponentFirstPageGraphBTWizard extends WizardPage {
 		componentDescText = new Text(container, SWT.WRAP
 		          | SWT.MULTI
 		          | SWT.BORDER
-		          | SWT.H_SCROLL
 		          | SWT.V_SCROLL);
 		GridData gridData =
 			      new GridData(
@@ -99,7 +98,12 @@ public class CreateComponentFirstPageGraphBTWizard extends WizardPage {
 			    gridData.grabExcessVerticalSpace = true;
 			    
 		componentDescText.setLayoutData(gridData);
-
+		componentDescText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				Text t= (Text) e.widget;
+				map.put(Component.DESC_VALUE, t.getText());
+			}
+	    });
 
 		//System.out.println("stringCarrier[0] " + stringCarrier[0]);
 		System.out.println("stringCarrier[0].getText() " + componentNameText.getText());
