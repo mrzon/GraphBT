@@ -11,6 +11,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 
 public class Helper {
 	public static URL getURL(String path)
@@ -21,24 +22,16 @@ public class Helper {
 		
 		try {
 			URL ul = FileLocator.toFileURL(base);
-			System.out.println(ul);
-			System.out.println("getPath "+ul.getPath());
-			System.out.println("toFromExternal "+ul.toURI().toString());
-			System.out.println("toString "+ul.toString());
+			
 			return ul;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			File f = FileLocator.getBundleFile(Platform.getBundle("behaviortree.graphBT.codegenerator"));
 			//System.out.println("Lokasi pluginnya "+f.+file);
-			java.nio.file.Path p = f.toPath();
 			
-			System.out.println("Lokasi pluginnya "+f.toURI().toURL().getPath()+file.getPath());
 			URL ul = new URL(f.toURI().getPath()+file.getPath());
 			return ul;
 		} catch (IOException e1) {

@@ -35,7 +35,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link behaviortree.impl.LibraryImpl#getName <em>Name</em>}</li>
  *   <li>{@link behaviortree.impl.LibraryImpl#getText <em>Text</em>}</li>
- *   <li>{@link behaviortree.impl.LibraryImpl#getImport <em>Import</em>}</li>
+ *   <li>{@link behaviortree.impl.LibraryImpl#getDesc <em>Desc</em>}</li>
+ *   <li>{@link behaviortree.impl.LibraryImpl#getLocation <em>Location</em>}</li>
  * </ul>
  * </p>
  *
@@ -83,14 +84,44 @@ public class LibraryImpl extends EObjectImpl implements Library {
 	protected String text = TEXT_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getImport() <em>Import</em>}' containment reference list.
+	 * The default value of the '{@link #getDesc() <em>Desc</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getImport()
+	 * @see #getDesc()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<StandardNode> import_;
+	protected static final String DESC_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getDesc() <em>Desc</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDesc()
+	 * @generated
+	 * @ordered
+	 */
+	protected String desc = DESC_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getLocation() <em>Location</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLocation()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String LOCATION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getLocation() <em>Location</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLocation()
+	 * @generated
+	 * @ordered
+	 */
+	protected String location = LOCATION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -158,11 +189,8 @@ public class LibraryImpl extends EObjectImpl implements Library {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<StandardNode> getImport() {
-		if (import_ == null) {
-			import_ = new EObjectContainmentEList<StandardNode>(StandardNode.class, this, BehaviortreePackage.LIBRARY__IMPORT);
-		}
-		return import_;
+	public String getDesc() {
+		return desc;
 	}
 
 	/**
@@ -170,13 +198,32 @@ public class LibraryImpl extends EObjectImpl implements Library {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case BehaviortreePackage.LIBRARY__IMPORT:
-				return ((InternalEList<?>)getImport()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
+	public void setDesc(String newDesc) {
+		String oldDesc = desc;
+		desc = newDesc;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.LIBRARY__DESC, oldDesc, desc));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLocation() {
+		return location;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLocation(String newLocation) {
+		String oldLocation = location;
+		location = newLocation;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.LIBRARY__LOCATION, oldLocation, location));
 	}
 
 	/**
@@ -191,8 +238,10 @@ public class LibraryImpl extends EObjectImpl implements Library {
 				return getName();
 			case BehaviortreePackage.LIBRARY__TEXT:
 				return getText();
-			case BehaviortreePackage.LIBRARY__IMPORT:
-				return getImport();
+			case BehaviortreePackage.LIBRARY__DESC:
+				return getDesc();
+			case BehaviortreePackage.LIBRARY__LOCATION:
+				return getLocation();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -212,9 +261,11 @@ public class LibraryImpl extends EObjectImpl implements Library {
 			case BehaviortreePackage.LIBRARY__TEXT:
 				setText((String)newValue);
 				return;
-			case BehaviortreePackage.LIBRARY__IMPORT:
-				getImport().clear();
-				getImport().addAll((Collection<? extends StandardNode>)newValue);
+			case BehaviortreePackage.LIBRARY__DESC:
+				setDesc((String)newValue);
+				return;
+			case BehaviortreePackage.LIBRARY__LOCATION:
+				setLocation((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -234,8 +285,11 @@ public class LibraryImpl extends EObjectImpl implements Library {
 			case BehaviortreePackage.LIBRARY__TEXT:
 				setText(TEXT_EDEFAULT);
 				return;
-			case BehaviortreePackage.LIBRARY__IMPORT:
-				getImport().clear();
+			case BehaviortreePackage.LIBRARY__DESC:
+				setDesc(DESC_EDEFAULT);
+				return;
+			case BehaviortreePackage.LIBRARY__LOCATION:
+				setLocation(LOCATION_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -253,8 +307,10 @@ public class LibraryImpl extends EObjectImpl implements Library {
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case BehaviortreePackage.LIBRARY__TEXT:
 				return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
-			case BehaviortreePackage.LIBRARY__IMPORT:
-				return import_ != null && !import_.isEmpty();
+			case BehaviortreePackage.LIBRARY__DESC:
+				return DESC_EDEFAULT == null ? desc != null : !DESC_EDEFAULT.equals(desc);
+			case BehaviortreePackage.LIBRARY__LOCATION:
+				return LOCATION_EDEFAULT == null ? location != null : !LOCATION_EDEFAULT.equals(location);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -273,6 +329,10 @@ public class LibraryImpl extends EObjectImpl implements Library {
 		result.append(name);
 		result.append(", text: ");
 		result.append(text);
+		result.append(", desc: ");
+		result.append(desc);
+		result.append(", location: ");
+		result.append(location);
 		result.append(')');
 		return result.toString();
 	}

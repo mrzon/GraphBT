@@ -20,7 +20,8 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link behaviortree.Library#getName <em>Name</em>}</li>
  *   <li>{@link behaviortree.Library#getText <em>Text</em>}</li>
- *   <li>{@link behaviortree.Library#getImport <em>Import</em>}</li>
+ *   <li>{@link behaviortree.Library#getDesc <em>Desc</em>}</li>
+ *   <li>{@link behaviortree.Library#getLocation <em>Location</em>}</li>
  * </ul>
  * </p>
  *
@@ -82,19 +83,55 @@ public interface Library extends EObject {
 	void setText(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Import</b></em>' containment reference list.
-	 * The list contents are of type {@link behaviortree.StandardNode}.
+	 * Returns the value of the '<em><b>Desc</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Import</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Desc</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Import</em>' containment reference list.
-	 * @see behaviortree.BehaviortreePackage#getLibrary_Import()
-	 * @model containment="true"
+	 * @return the value of the '<em>Desc</em>' attribute.
+	 * @see #setDesc(String)
+	 * @see behaviortree.BehaviortreePackage#getLibrary_Desc()
+	 * @model
 	 * @generated
 	 */
-	EList<StandardNode> getImport();
+	String getDesc();
+
+	/**
+	 * Sets the value of the '{@link behaviortree.Library#getDesc <em>Desc</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Desc</em>' attribute.
+	 * @see #getDesc()
+	 * @generated
+	 */
+	void setDesc(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Location</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Location</em>' attribute.
+	 * @see #setLocation(String)
+	 * @see behaviortree.BehaviortreePackage#getLibrary_Location()
+	 * @model
+	 * @generated
+	 */
+	String getLocation();
+
+	/**
+	 * Sets the value of the '{@link behaviortree.Library#getLocation <em>Location</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Location</em>' attribute.
+	 * @see #getLocation()
+	 * @generated
+	 */
+	void setLocation(String value);
 
 } // Library

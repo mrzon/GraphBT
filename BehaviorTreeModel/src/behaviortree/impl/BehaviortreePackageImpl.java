@@ -359,6 +359,15 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getBEModel_Import() {
+		return (EReference)beModelEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBehaviorTree() {
 		return behaviorTreeEClass;
 	}
@@ -773,8 +782,17 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLibrary_Import() {
-		return (EReference)libraryEClass.getEStructuralFeatures().get(2);
+	public EAttribute getLibrary_Desc() {
+		return (EAttribute)libraryEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLibrary_Location() {
+		return (EAttribute)libraryEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1072,6 +1090,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		createEReference(beModelEClass, BE_MODEL__COMPONENT_LIST);
 		createEReference(beModelEClass, BE_MODEL__REQUIREMENT_LIST);
 		createEReference(beModelEClass, BE_MODEL__FORMULA_LIST);
+		createEReference(beModelEClass, BE_MODEL__IMPORT);
 
 		behaviorTreeEClass = createEClass(BEHAVIOR_TREE);
 		createEReference(behaviorTreeEClass, BEHAVIOR_TREE__ROOT_NODE);
@@ -1129,7 +1148,8 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		libraryEClass = createEClass(LIBRARY);
 		createEAttribute(libraryEClass, LIBRARY__NAME);
 		createEAttribute(libraryEClass, LIBRARY__TEXT);
-		createEReference(libraryEClass, LIBRARY__IMPORT);
+		createEAttribute(libraryEClass, LIBRARY__DESC);
+		createEAttribute(libraryEClass, LIBRARY__LOCATION);
 
 		requirementEClass = createEClass(REQUIREMENT);
 		createEAttribute(requirementEClass, REQUIREMENT__KEY);
@@ -1209,6 +1229,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		initEReference(getBEModel_ComponentList(), this.getComponentList(), null, "componentList", null, 1, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBEModel_RequirementList(), this.getRequirementList(), null, "requirementList", null, 1, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBEModel_FormulaList(), this.getFormulaList(), null, "formulaList", null, 1, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBEModel_Import(), this.getLibrary(), null, "import", null, 0, -1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(behaviorTreeEClass, BehaviorTree.class, "BehaviorTree", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBehaviorTree_RootNode(), this.getNode(), null, "rootNode", null, 1, 1, BehaviorTree.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1266,7 +1287,8 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		initEClass(libraryEClass, Library.class, "Library", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLibrary_Name(), ecorePackage.getEString(), "name", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLibrary_Text(), ecorePackage.getEString(), "text", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getLibrary_Import(), this.getStandardNode(), null, "import", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLibrary_Desc(), ecorePackage.getEString(), "desc", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLibrary_Location(), ecorePackage.getEString(), "location", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(requirementEClass, Requirement.class, "Requirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRequirement_Key(), ecorePackage.getEString(), "Key", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

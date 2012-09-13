@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link behaviortree.BEModel#getComponentList <em>Component List</em>}</li>
  *   <li>{@link behaviortree.BEModel#getRequirementList <em>Requirement List</em>}</li>
  *   <li>{@link behaviortree.BEModel#getFormulaList <em>Formula List</em>}</li>
+ *   <li>{@link behaviortree.BEModel#getImport <em>Import</em>}</li>
  * </ul>
  * </p>
  *
@@ -159,5 +160,21 @@ public interface BEModel extends EObject {
 	 * @generated
 	 */
 	void setFormulaList(FormulaList value);
+
+	/**
+	 * Returns the value of the '<em><b>Import</b></em>' containment reference list.
+	 * The list contents are of type {@link behaviortree.Library}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Import</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Import</em>' containment reference list.
+	 * @see behaviortree.BehaviortreePackage#getBEModel_Import()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Library> getImport();
 
 } // BEModel

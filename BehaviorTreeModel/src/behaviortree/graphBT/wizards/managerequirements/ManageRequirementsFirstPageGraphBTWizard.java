@@ -40,6 +40,7 @@ import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
 import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard;
 import behaviortree.graphBT.wizards.createrequirement.CreateRequirementGraphBTWizard;
+import behaviortree.graphBT.wizards.requirementCompactView.RequirementCompactViewGraphBTWizard;
 
 /**
  * Class to define the contents of manage requirement wizard
@@ -128,13 +129,23 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 		nameLabel.setLayoutData(gridData);		
 		nameLabel.setText("");
 
-		final Label descLabel = new Label(group, SWT.NULL);		
-		gridData = new GridData(GridData.FILL_HORIZONTAL);
+
+		
+		final Text descLabel = new Text(group, SWT.WRAP
+				| SWT.MULTI
+				| SWT.BORDER
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL);
+		gridData =
+				new GridData(
+						GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
 		gridData.horizontalSpan = 1;
+		gridData.minimumHeight = 50;
 		gridData.grabExcessVerticalSpace = true;
-		gridData.verticalAlignment = GridData.BEGINNING;
 		descLabel.setLayoutData(gridData);
-		descLabel.setText("");
+		descLabel.setEditable(false);
+		descLabel.setVisible(false);
+		
 		
 		final Group innerGroup = new Group(group, SWT.SHADOW_ETCHED_IN);
 		innerGroup.setText("");
@@ -148,24 +159,38 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 		final Button editRequirementButton = new Button(innerGroup, SWT.NULL);
 		editRequirementButton.setText("Edit Requirement");
 		gridData = new GridData();
-//				new GridData(
-//						GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
 		gridData.horizontalSpan = 1;
 		gridData.horizontalAlignment = GridData.END;
-//		gridData.verticalAlignment = GridData.END;
 		editRequirementButton.setLayoutData(gridData);
 		editRequirementButton.setVisible(false);
 		
 		final Button removeRequirementButton = new Button(innerGroup, SWT.NULL);
 		removeRequirementButton.setText("Remove Requirement");
 		gridData = new GridData();
-//				new GridData(
-//						GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
 		gridData.horizontalSpan = 1;
 		gridData.horizontalAlignment = GridData.BEGINNING;
-//		gridData.verticalAlignment = GridData.END;
 		removeRequirementButton.setLayoutData(gridData);
 		removeRequirementButton.setVisible(false);
+		
+		/*
+		 * Requirement Compact View
+		 */
+		Button compactViewButton = new Button(container, SWT.NULL);
+		compactViewButton.setText("Requirement Compact View");
+		
+		compactViewButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				HashMap <Integer,String> map = new HashMap<Integer, String>();
+				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+						getActiveWorkbenchWindow().getShell(),
+						new RequirementCompactViewGraphBTWizard(map, d));				
+				if(wizardDialog.open() != Window.OK)
+				{
+					return;
+				}
+				
+			}
+		});
 
 		/*
 		 * Edit Label
@@ -218,6 +243,8 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 		gridData.horizontalAlignment = GridData.END;
 		saveRequirementButton.setLayoutData(gridData);
 		saveRequirementButton.setVisible(false);				
+		
+		
 
 		/*
 		 * Action
@@ -255,6 +282,7 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 				if(r !=  null) {
 					nameLabel.setText(r.getKey() + " " + r.getRequirement());
 					descLabel.setText(r.getDescription());
+					descLabel.setVisible(true);
 					editRequirementNameText.setText(r.getRequirement());
 					requirementRefText.setText(r.getKey());
 					editRequirementDescText.setText(r.getDescription());
@@ -296,6 +324,7 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 				editRequirementDescText.setVisible(false);
 				nameLabel.setText(r.getKey() + " " + r.getRequirement());
 				descLabel.setText(r.getDescription());
+				descLabel.setVisible(true);
 				group.setVisible(true);
 			}
 		});
@@ -330,6 +359,7 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 				editRequirementDescText.setVisible(false);
 				nameLabel.setText("");
 				descLabel.setText("");
+				descLabel.setVisible(false);
 				group.setVisible(true);
 				removeRequirementButton.setVisible(false);
 				editRequirementButton.setVisible(false);

@@ -116,13 +116,22 @@ public interface BehaviortreePackage extends EPackage {
 	int BE_MODEL__FORMULA_LIST = 4;
 
 	/**
+	 * The feature id for the '<em><b>Import</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BE_MODEL__IMPORT = 5;
+
+	/**
 	 * The number of structural features of the '<em>BE Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BE_MODEL_FEATURE_COUNT = 5;
+	int BE_MODEL_FEATURE_COUNT = 6;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.impl.BehaviorTreeImpl <em>Behavior Tree</em>}' class.
@@ -712,13 +721,22 @@ public interface BehaviortreePackage extends EPackage {
 	int LIBRARY__TEXT = 1;
 
 	/**
-	 * The feature id for the '<em><b>Import</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Desc</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__IMPORT = 2;
+	int LIBRARY__DESC = 2;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__LOCATION = 3;
 
 	/**
 	 * The number of structural features of the '<em>Library</em>' class.
@@ -727,7 +745,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY_FEATURE_COUNT = 3;
+	int LIBRARY_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.impl.RequirementImpl <em>Requirement</em>}' class.
@@ -1142,6 +1160,17 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getBEModel_FormulaList();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link behaviortree.BEModel#getImport <em>Import</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Import</em>'.
+	 * @see behaviortree.BEModel#getImport()
+	 * @see #getBEModel()
+	 * @generated
+	 */
+	EReference getBEModel_Import();
 
 	/**
 	 * Returns the meta object for class '{@link behaviortree.BehaviorTree <em>Behavior Tree</em>}'.
@@ -1639,15 +1668,26 @@ public interface BehaviortreePackage extends EPackage {
 	EAttribute getLibrary_Text();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link behaviortree.Library#getImport <em>Import</em>}'.
+	 * Returns the meta object for the attribute '{@link behaviortree.Library#getDesc <em>Desc</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Import</em>'.
-	 * @see behaviortree.Library#getImport()
+	 * @return the meta object for the attribute '<em>Desc</em>'.
+	 * @see behaviortree.Library#getDesc()
 	 * @see #getLibrary()
 	 * @generated
 	 */
-	EReference getLibrary_Import();
+	EAttribute getLibrary_Desc();
+
+	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.Library#getLocation <em>Location</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Location</em>'.
+	 * @see behaviortree.Library#getLocation()
+	 * @see #getLibrary()
+	 * @generated
+	 */
+	EAttribute getLibrary_Location();
 
 	/**
 	 * Returns the meta object for class '{@link behaviortree.Requirement <em>Requirement</em>}'.
@@ -2024,6 +2064,14 @@ public interface BehaviortreePackage extends EPackage {
 		 * @generated
 		 */
 		EReference BE_MODEL__FORMULA_LIST = eINSTANCE.getBEModel_FormulaList();
+
+		/**
+		 * The meta object literal for the '<em><b>Import</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BE_MODEL__IMPORT = eINSTANCE.getBEModel_Import();
 
 		/**
 		 * The meta object literal for the '{@link behaviortree.impl.BehaviorTreeImpl <em>Behavior Tree</em>}' class.
@@ -2416,12 +2464,20 @@ public interface BehaviortreePackage extends EPackage {
 		EAttribute LIBRARY__TEXT = eINSTANCE.getLibrary_Text();
 
 		/**
-		 * The meta object literal for the '<em><b>Import</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Desc</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference LIBRARY__IMPORT = eINSTANCE.getLibrary_Import();
+		EAttribute LIBRARY__DESC = eINSTANCE.getLibrary_Desc();
+
+		/**
+		 * The meta object literal for the '<em><b>Location</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LIBRARY__LOCATION = eINSTANCE.getLibrary_Location();
 
 		/**
 		 * The meta object literal for the '{@link behaviortree.impl.RequirementImpl <em>Requirement</em>}' class.

@@ -78,6 +78,7 @@ import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard
 import behaviortree.graphBT.wizards.createrequirement.CreateRequirementGraphBTWizard;
 import behaviortree.graphBT.wizards.createstandardnode.CreateStandardNodeGraphBTWizard;
 import behaviortree.graphBT.wizards.managecomponents.ManageComponentsGraphBTWizard;
+import behaviortree.graphBT.wizards.managelibrary.ManageLibraryGraphBTWizard;
 import behaviortree.graphBT.wizards.managerequirements.ManageRequirementsGraphBTWizard;
 import behaviortree.graphBT.wizards.verifymodel.VerifyModelGraphBTWizard;
 
@@ -92,6 +93,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	private Action addNewComponent;
 	private Action manageComponents;
 	private Action manageRequirements;
+	private Action manageLibrary;
 	private Action validateBT;
 	private Action debugBT;
 	private Action generateJavaCode;
@@ -101,7 +103,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	private IFile btIFile;
 	private Action clearDiagram;
 	private Action generateSALCode;
-	private Action manageLibrary;
 	/**
 	 * Creates a multi-page contributor.
 	 */
@@ -172,6 +173,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 
 	@SuppressWarnings("deprecation")
 	private void createActions() {
+		
 		generateBTCode = new Action() {
 			public void run(){
 				if(activeEditorPart instanceof DiagramEditor)
@@ -322,6 +324,41 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		manageRequirements.setToolTipText("Manage Requirements of The Model");
 		manageRequirements.setImageDescriptor(getImageDescriptor("icons/requirement.gif"));
 
+		manageLibrary = new Action(){
+			public void run() {
+				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
+				if(activeEditorPart instanceof DiagramEditor)
+				{
+					System.out.println("Diagramnya kebuka euy");
+					DiagramEditor de = (DiagramEditor)activeEditorPart;
+					// Get the currently selected file from the editor
+					Diagram d = de.getDiagramTypeProvider().getDiagram();
+					HashMap <Integer,String> map = new HashMap<Integer, String>();
+					//String ketemu="";
+					if(d!=null)
+					{
+						WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+								getActiveWorkbenchWindow().getShell(),
+								new ManageLibraryGraphBTWizard(map, d));
+						if(wizardDialog.open() != Window.OK)
+						{
+							return;
+						}
+						BEModel be = GraphBTUtil.getBEModel(d);
+
+
+						//System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
+
+					}
+					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
+				}
+			}
+		};
+
+		manageLibrary.setText("Manage Library");
+		manageLibrary.setToolTipText("Manage library");
+		manageLibrary.setImageDescriptor(getImageDescriptor("icons/manageLibrary.gif"));
+		
 		verifyModel = new Action() {
 			public void run() {
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
@@ -566,20 +603,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		generateSALCode.setText("BT to SAL Translator");
 		generateSALCode.setToolTipText("Generate the SAL Code");
 		generateSALCode.setImageDescriptor(getImageDescriptor("icons/generateSALCode.gif"));
-		manageLibrary = new Action() {
-			public void run() {
-				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
-				if(activeEditorPart instanceof DiagramEditor)
-				{
-					Diagram d = ((DiagramEditor)activeEditorPart).getDiagramTypeProvider().getDiagram();
-					
-					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
-				}
-			}
-		};
-		manageLibrary.setText("Manage Library");
-		manageLibrary.setToolTipText("Manage the library that is used within the model");
-		manageLibrary.setImageDescriptor(getImageDescriptor("icons/sample.gif"));
 		
 	}
 	
@@ -621,6 +644,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		menu.add(addNewComponent);
 		menu.add(manageComponents);
 		menu.add(manageRequirements);
+		menu.add(manageLibrary);
 		menu.add(verifyModel);
 		menu.add(validateBT);
 		menu.add(debugBT);
@@ -637,6 +661,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		manager.add(addNewComponent);
 		manager.add(manageComponents);
 		manager.add(manageRequirements);
+		manager.add(manageLibrary);
 		manager.add(new Separator());
 		manager.add(validateBT);
 		manager.add(verifyModel);

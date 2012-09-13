@@ -11,6 +11,7 @@ import behaviortree.BehaviorTree;
 import behaviortree.BehaviortreePackage;
 import behaviortree.ComponentList;
 import behaviortree.FormulaList;
+import behaviortree.Library;
 import behaviortree.RequirementList;
 import behaviortree.*;
 import java.util.Collection;
@@ -39,6 +40,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link behaviortree.impl.BEModelImpl#getComponentList <em>Component List</em>}</li>
  *   <li>{@link behaviortree.impl.BEModelImpl#getRequirementList <em>Requirement List</em>}</li>
  *   <li>{@link behaviortree.impl.BEModelImpl#getFormulaList <em>Formula List</em>}</li>
+ *   <li>{@link behaviortree.impl.BEModelImpl#getImport <em>Import</em>}</li>
  * </ul>
  * </p>
  *
@@ -104,6 +106,16 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * @ordered
 	 */
 	protected FormulaList formulaList;
+
+	/**
+	 * The cached value of the '{@link #getImport() <em>Import</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getImport()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Library> import_;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -317,6 +329,18 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Library> getImport() {
+		if (import_ == null) {
+			import_ = new EObjectContainmentEList<Library>(Library.class, this, BehaviortreePackage.BE_MODEL__IMPORT);
+		}
+		return import_;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -326,6 +350,8 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return basicSetComponentList(null, msgs);
 			case BehaviortreePackage.BE_MODEL__REQUIREMENT_LIST:
 				return basicSetRequirementList(null, msgs);
+			case BehaviortreePackage.BE_MODEL__IMPORT:
+				return ((InternalEList<?>)getImport()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -349,6 +375,8 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 			case BehaviortreePackage.BE_MODEL__FORMULA_LIST:
 				if (resolve) return getFormulaList();
 				return basicGetFormulaList();
+			case BehaviortreePackage.BE_MODEL__IMPORT:
+				return getImport();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -377,6 +405,10 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 			case BehaviortreePackage.BE_MODEL__FORMULA_LIST:
 				setFormulaList((FormulaList)newValue);
 				return;
+			case BehaviortreePackage.BE_MODEL__IMPORT:
+				getImport().clear();
+				getImport().addAll((Collection<? extends Library>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -404,6 +436,9 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 			case BehaviortreePackage.BE_MODEL__FORMULA_LIST:
 				setFormulaList((FormulaList)null);
 				return;
+			case BehaviortreePackage.BE_MODEL__IMPORT:
+				getImport().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -426,6 +461,8 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return requirementList != null;
 			case BehaviortreePackage.BE_MODEL__FORMULA_LIST:
 				return formulaList != null;
+			case BehaviortreePackage.BE_MODEL__IMPORT:
+				return import_ != null && !import_.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
