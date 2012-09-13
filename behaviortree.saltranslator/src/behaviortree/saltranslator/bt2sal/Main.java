@@ -32,8 +32,6 @@ public class Main
 		}
 		catch (Exception e)
         {
-			System.out.println(" caught a " + e.getClass() +
-				 "\n with message: " + e.getMessage());
 			e.printStackTrace();
 		}
 

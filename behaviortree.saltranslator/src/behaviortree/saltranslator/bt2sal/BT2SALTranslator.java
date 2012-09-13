@@ -50,7 +50,7 @@ public class BT2SALTranslator
 	public BT2SALTranslator(String title, List <Component> componentList, BehaviorTree bt, 
 			Map <String, Component> map, List<Integer> listPc, Map<String, SALVariable> salvarmap)
 	{
-		this.title = title;
+		this.title = "mysal";
 		this.listOfComponents = componentList;
 		this.bt = bt;
 		this.componentmap = map;

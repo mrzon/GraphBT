@@ -41,6 +41,7 @@ import behaviortree.BehaviorType;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.Library;
+import behaviortree.Requirement;
 import behaviortree.StandardNode;
 import behaviortree.graphBT.wizards.createbehavior.CreateBehaviorGraphBTWizard;
 import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard;
@@ -56,17 +57,32 @@ public class ManageLibraryFirstPageGraphBTWizard extends WizardPage {
 	private HashMap<Integer,String> map;
 	private Diagram d;
 	private Text filterText;
-
+	private String selectedAdd;
+	private BEModel model;
+	private String selectedRemove;
 	public ManageLibraryFirstPageGraphBTWizard(HashMap<Integer,String> map, Diagram d) {
 		super("Manage Library Wizard");
 		setTitle("Manage Library Wizard");
 		setDescription("Manage library of the project.");
 		this.map = map;
 		this.d=d;
+		model = GraphBTUtil.getBEModel(d);
 	}
 
 	@Override
 	public void createControl(Composite parent) {
+		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+        final DiagramEditor ds;
+        if(page.getActiveEditor() instanceof DiagramEditor)
+        {
+        	 ds = (DiagramEditor)page.getActiveEditor();	
+        }
+        else
+        {
+        	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+        }
+        
+		
 		container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout(3, false);
 		container.setLayout(layout);
@@ -75,18 +91,7 @@ public class ManageLibraryFirstPageGraphBTWizard extends WizardPage {
 		final ArrayList<String> usedLib = new ArrayList<String>();
 		Bundle bundle = Platform.getBundle("behaviortree.graphBT.codegenerator");
 		Enumeration<String> listLib = bundle.getEntryPaths("/lib");
-		while(listLib.hasMoreElements())
-		{
-			String po = listLib.nextElement();
-			if(!po.endsWith(".zip"))
-			{
-				continue;
-			}
-			Library l = GraphBTUtil.getBEFactory().createLibrary();
-			l.setName(po.substring(po.lastIndexOf("/")+1));
-			l.setLocation(po);
-			availableLib.add(l);
-		}
+		
 		
 		/*
 		 * Filter
@@ -118,11 +123,25 @@ public class ManageLibraryFirstPageGraphBTWizard extends WizardPage {
 		gridData.widthHint = 200;
 		//gridData.grabExcessVerticalSpace = true;		
 		listAvailable.setLayoutData(gridData);
-		
-//		for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()){
-//			listComponents.add(component.getComponentName());
-//		}		
-		
+		while(listLib.hasMoreElements())
+		{
+			String po = listLib.nextElement();
+			if(!po.endsWith(".zip"))
+			{
+				continue;
+			}
+			Library l = GraphBTUtil.getBEFactory().createLibrary();
+			l.setName(po.substring(po.lastIndexOf("/")+1));
+			l.setLocation(po);
+			availableLib.add(l);
+			listAvailable.add(l.getName());
+		}
+
+		listAvailable.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				selectedAdd = listAvailable.getItem(listAvailable.getSelectionIndex());
+			}
+		});
 		
 		/*
 		 * Right Button: ->
@@ -149,7 +168,16 @@ public class ManageLibraryFirstPageGraphBTWizard extends WizardPage {
 		//gridData.grabExcessVerticalSpace = true;
 		
 		listSelected.setLayoutData(gridData);
-		
+		listSelected.removeAll();
+		for(Library r:model.getImport())
+		{
+			listSelected.add(r.getName());
+		}
+		listSelected.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				selectedRemove = listSelected.getItem(listSelected.getSelectionIndex());
+			}
+		});
 		
 		/*
 		 * Left Button: <-			
@@ -178,10 +206,49 @@ public class ManageLibraryFirstPageGraphBTWizard extends WizardPage {
 		
 		leftButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
+				if(selectedRemove==null)
+				{
+					return;
+				}
+				
+				for(int i = 0; i < model.getImport().size(); i++){
+					if(selectedRemove.equals(model.getImport().get(i).getName()))
+					{
+						listSelected.remove(selectedRemove);
+						final Library sel = model.getImport().get(i);
+						final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+							protected void doExecute() {
+								model.getImport().remove(sel);
+						    }
+						};
+						ds.getEditingDomain().getCommandStack().execute(cmd);
+						break;
+					}
+				}
 			}
 		});
 		rightButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
+				if(selectedAdd==null)
+				{
+					return;
+				}
+				for(int i = 0; i < availableLib.size(); i++){
+					if(selectedAdd.equals(availableLib.get(i).getName())&&
+							!model.getImport().contains(availableLib.get(i)))
+					{
+						listSelected.add(availableLib.get(i).getName());
+						final Library sel = availableLib.get(i);
+						final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+							protected void doExecute() {
+								model.getImport().add(sel);
+						    }
+						};
+						ds.getEditingDomain().getCommandStack().execute(cmd);
+						break;
+						
+					}
+				}
 			}
 		});
 				

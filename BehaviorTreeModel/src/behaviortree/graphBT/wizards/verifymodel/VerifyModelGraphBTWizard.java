@@ -13,6 +13,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.codegen.ecore.templates.editor.HomeHTML;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.transaction.RecordingCommand;
@@ -20,6 +21,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
@@ -31,6 +33,9 @@ import behaviortree.Formula;
 import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
 import behaviortree.util.Log;
+import behaviortree.util.Util;
+
+import behaviortree.saltranslator.bt2sal.*;
 
 public class VerifyModelGraphBTWizard extends Wizard {
 
@@ -65,12 +70,15 @@ public class VerifyModelGraphBTWizard extends Wizard {
 	public boolean performFinish() {
 		String flagVerRes = map.get(ConstantsOfVerifyModel.REF_SELECTION_SAVE_VERIFICATION_RESULT);
 		String flagFormula = map.get(ConstantsOfVerifyModel.REF_SELECTION_SAVE_FORMULA);
-		if(flagVerRes != null && flagVerRes.equalsIgnoreCase("true")) {
-			translateAndSaveVerificationResult();
-		}
+		
+		/*if(flagVerRes != null && flagVerRes.equalsIgnoreCase("true")) {
+			
+		}*/
 		if(flagFormula != null && flagFormula.equalsIgnoreCase("true")) {
 			saveFormulaToFile();
 		}
+		
+		translateAndSaveVerificationResult();
 		
 	
 		return true;		
@@ -117,21 +125,26 @@ public class VerifyModelGraphBTWizard extends Wizard {
 					btIFile.setContents(in, false, false, null);
 				}	
 			} catch (CoreException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 	
 	/**
-	 * 
+	 * here is the work flow:
+	 * take the formulas, read .sal file, and merge formulas 
+	 * with .sal file.
 	 */
 	private void translateAndSaveVerificationResult() {
+		initPythonIntegrationFile();
+		String homeDrivePath = System.getProperty("user.home");
+		
+		// READ SAL FILE
+		StringBuffer salText = new StringBuffer();
 		URI uri = d.eResource().getURI();
 		uri = uri.trimFragment();
 		uri = uri.trimFileExtension();
-		uri = uri.appendFileExtension("model");
-		
+		uri = uri.appendFileExtension("sal");
 		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		
 		IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
@@ -143,19 +156,86 @@ public class VerifyModelGraphBTWizard extends Wizard {
 				InputStream is = btIFile.getContents();
 				BufferedReader in = new BufferedReader(new InputStreamReader(is));
 			    String inputLine;
-			    StringBuffer res = new StringBuffer();
 			 
 			    while ((inputLine = in.readLine()) != null) {
-			        Log.d(inputLine);
-			        res.append(inputLine);
+			        salText.append(inputLine + "\n");
 			    }
 			 
 			    in.close();
-			} catch(Exception e) {
-				
+			} catch(Exception e) { }
+		}
+		
+		// GET FORMULAS AND WRITE
+		StringBuffer formulasText = new StringBuffer();
+		final BEModel be = GraphBTUtil.getBEModel(d);
+		if(be.getFormulaList() != null) {
+			for(Formula formula : be.getFormulaList().getFormula()) {
+				formulasText.append("myth: THEOREM behavior |- " + 
+						formula.getFormulaName() + ";" + "\n");
 			}
 		}
+		Util.writeFileSystemEnv(homeDrivePath, "myth.txt", formulasText.toString());
+		
+		// COMBINE THEM AND WRITE
+		int idx = salText.indexOf("%end of module");
+		salText.insert(idx, "\n" + formulasText.toString());
+		Util.writeFileSystemEnv(homeDrivePath, "mysal.sal", salText.toString());
+
+		// JUST WRITE NODE REF
+		Util.writeFileSystemEnv(homeDrivePath, "mynode.ref", "");
+		
+		//Log.d(salText.toString());
+		//MessageDialog.openError(null, "Yay Error in validate BT", "The model should contain only one root!");	
+		
+		// TODO execute sal-script file (python code) for check modeling
+		
+		try {
 			
+			Process process = Runtime.getRuntime().exec(
+				"cmd /c start cmd.exe /c \"cd " 
+				+ homeDrivePath
+				+ " && sh sal-script mysal mynode myth\"");
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+		  Thread.currentThread().sleep(1000); //sleep for 1000 ms
+		}
+		catch(Exception e) {}
+		
+		// TODO read result in home drive path
+		String resultText = Util.readFileSystemEnv(homeDrivePath, "mysal_myth.btt");
+		Log.d(resultText);
+		
+		Util.writeFileToWorkspace(d, "result", resultText);
+	}
+
+	private void initPythonIntegrationFile() {
+		String homeDrivePath = System.getProperty("user.home");
+		StringBuffer eclFolderPath = new StringBuffer();
+		
+		String eclipseLaunchProp = System.getProperty("eclipse.launcher");
+		// System.out.println(eclipseProp);
+		String[] arrPath = eclipseLaunchProp.split("\\\\");
+		for(int i=0; i<arrPath.length-1; i++) {
+			eclFolderPath.append(arrPath[i] + "\\");
+		}
+		
+		// temp
+		String s = "";
+		
+		// move file from eclipse folder path to home drive path
+		s = Util.readFileSystemEnv(eclFolderPath.toString(), "sal-output-filter");
+		Util.writeFileSystemEnv(homeDrivePath, "sal-output-filter", s);
+		
+		s = Util.readFileSystemEnv(eclFolderPath.toString(), "sal-script");
+		Util.writeFileSystemEnv(homeDrivePath, "sal-script", s);
+		
+		s = Util.readFileSystemEnv(eclFolderPath.toString(), "sal-to-bttrace");
+		Util.writeFileSystemEnv(homeDrivePath, "sal-to-bttrace", s);
+		
+		
 		
 	}
 }

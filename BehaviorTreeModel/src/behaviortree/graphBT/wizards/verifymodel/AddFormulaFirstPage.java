@@ -25,6 +25,7 @@ import org.eclipse.ui.PlatformUI;
 
 import behaviortree.Behavior;
 import behaviortree.Component;
+import behaviortree.Formula;
 import behaviortree.GraphBTUtil;
 import behaviortree.Operator;
 import behaviortree.StandardNode;
@@ -41,11 +42,15 @@ public class AddFormulaFirstPage extends WizardPage {
 	
 	private Text textField;
 
-	
+	/**
+	 * constructor.
+	 * @param map
+	 * @param d
+	 */
 	public AddFormulaFirstPage(HashMap<Integer,String> map, Diagram d) {
-		super("Verify Model");
-		setTitle("Verify Model");
-		setDescription("Verify the model of behavior tree using LTL formula.");
+		super("Add Formula");
+		setTitle("Add Formula");
+		setDescription("Added LTL formula to check model of behavior tree.");
 		this.map = map;
 		this.d=d;
 	}
@@ -63,10 +68,11 @@ public class AddFormulaFirstPage extends WizardPage {
 	    
 	    // label ui
 	    Label label = new Label(container, SWT.LEFT);
-	    label.setText("Write your LTL Formula here:");
+	    label.setText("Write your LTL Formula below:");
 	    label = new Label(container, SWT.LEFT);
 	    // text area
-	    textField = new Text(container, SWT.MULTI | SWT.BORDER);
+	    textField = new Text(container, SWT.MULTI | SWT.BORDER 
+	    		| SWT.V_SCROLL | SWT.H_SCROLL);
 	    gridData = new GridData();
 	    gridData.horizontalAlignment = GridData.FILL;
 	    gridData.verticalAlignment = GridData.FILL;
@@ -77,28 +83,45 @@ public class AddFormulaFirstPage extends WizardPage {
 	    Composite composite = new Composite(
 	            container, SWT.NORMAL);
 	    gLayout = new GridLayout();
-	    gLayout.numColumns = 2;
+	    gLayout.numColumns = 3;
 	    composite.setLayout(gLayout);
 	    gridData = new GridData();
 	    gridData.horizontalAlignment = GridData.FILL;
 	    gridData.grabExcessHorizontalSpace = true;
 	    composite.setLayoutData(gridData);
 	    // button ui
-	    Button button;
 	    Button btnF = new Button(composite, SWT.PUSH);
+	    btnF.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	    btnF.setText("F");
 	    Button btnG = new Button(composite, SWT.PUSH);
+	    btnG.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	    btnG.setText("G");
 	    Button btnR = new Button(composite, SWT.PUSH);
+	    btnR.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	    btnR.setText("R");
 	    Button btnW = new Button(composite, SWT.PUSH);
+	    btnW.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	    btnW.setText("W");
 	    Button btnX = new Button(composite, SWT.PUSH);
+	    btnX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	    btnX.setText("X");
 	    Button btnU = new Button(composite, SWT.PUSH);
+	    btnU.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	    btnU.setText("U");
-	   /* Button btnC = new Button(composite, SWT.PUSH);
-	    btnC.setText("C");*/
+	    
+	    Button btnEquals = new Button(composite, SWT.PUSH);
+	    btnEquals.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	    btnEquals.setText("=");
+	    Button btnArrow = new Button(composite, SWT.PUSH);
+	    btnArrow.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	    btnArrow.setText("=>");
+	    Label btnEmpty1 = new Label(composite, SWT.LEFT); // empty
+	    Button btnAND = new Button(composite, SWT.PUSH);
+	    btnAND.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	    btnAND.setText("AND");
+	    Button btnOR = new Button(composite, SWT.PUSH);
+	    btnOR.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	    btnOR.setText("OR");
 	    
 	    // add listener
 	    /*btnC.addSelectionListener(new SelectionAdapter() {
@@ -125,7 +148,6 @@ public class AddFormulaFirstPage extends WizardPage {
 						text.substring(indexOfCursor));
 				textField.setFocus();
 			}
-			
 		});
 	    
 	    btnG.addSelectionListener(new SelectionAdapter() {
@@ -138,7 +160,6 @@ public class AddFormulaFirstPage extends WizardPage {
 						text.substring(indexOfCursor));
 				textField.setFocus();
 			}
-			
 		});
 	    
 	    btnR.addSelectionListener(new SelectionAdapter() {
@@ -151,7 +172,6 @@ public class AddFormulaFirstPage extends WizardPage {
 						text.substring(indexOfCursor));
 				textField.setFocus();
 			}
-			
 		});
 	    
 	    btnW.addSelectionListener(new SelectionAdapter() {
@@ -164,7 +184,6 @@ public class AddFormulaFirstPage extends WizardPage {
 						text.substring(indexOfCursor));
 				textField.setFocus();
 			}
-			
 		});
 	    
 	    btnX.addSelectionListener(new SelectionAdapter() {
@@ -177,7 +196,6 @@ public class AddFormulaFirstPage extends WizardPage {
 						text.substring(indexOfCursor));
 				textField.setFocus();
 			}
-			
 		});
 	    
 	    btnU.addSelectionListener(new SelectionAdapter() {
@@ -190,13 +208,60 @@ public class AddFormulaFirstPage extends WizardPage {
 						text.substring(indexOfCursor));
 				textField.setFocus();
 			}
-			
+		});
+	    
+	    btnEquals.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				int indexOfCursor = textField.getCaretPosition();
+				String text = textField.getText();
+				textField.setText(
+						text.substring(0, indexOfCursor) + 
+						"=" +
+						text.substring(indexOfCursor));
+				textField.setFocus();
+			}
+		});
+	    
+	    btnArrow.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				int indexOfCursor = textField.getCaretPosition();
+				String text = textField.getText();
+				textField.setText(
+						text.substring(0, indexOfCursor) + 
+						"=>" +
+						text.substring(indexOfCursor));
+				textField.setFocus();
+			}
+		});
+	    
+	    btnAND.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				int indexOfCursor = textField.getCaretPosition();
+				String text = textField.getText();
+				textField.setText(
+						text.substring(0, indexOfCursor) + 
+						"AND" +
+						text.substring(indexOfCursor));
+				textField.setFocus();
+			}
+		});
+	    
+	    btnOR.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				int indexOfCursor = textField.getCaretPosition();
+				String text = textField.getText();
+				textField.setText(
+						text.substring(0, indexOfCursor) + 
+						"OR" +
+						text.substring(indexOfCursor));
+				textField.setFocus();
+			}
 		});
 	    
 		textField.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				Text t = (Text) e.widget;
-				map.put(0, t.getText());
+				map.put(ConstantsOfVerifyModel.REF_ADD_FORMULA, t.getText());
 			}
 	    });
 		

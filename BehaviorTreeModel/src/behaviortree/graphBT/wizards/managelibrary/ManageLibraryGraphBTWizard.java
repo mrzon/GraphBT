@@ -37,10 +37,7 @@ public class ManageLibraryGraphBTWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		// Print the result to the console
-		//System.out.println(one.getText1());
-		//System.out.println(two.getText1());
-		
+		//menambahkan daftar behavior ke sana
 		
 		return true;
 		

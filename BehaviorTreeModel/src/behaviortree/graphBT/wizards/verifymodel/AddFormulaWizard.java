@@ -1,32 +1,39 @@
 package behaviortree.graphBT.wizards.verifymodel;
 
-import java.io.IOException;
 import java.util.HashMap;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
+
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
 import behaviortree.BEModel;
-import behaviortree.Behavior;
-import behaviortree.Component;
+import behaviortree.Formula;
 import behaviortree.GraphBTUtil;
-import behaviortree.StandardNode;
+import behaviortree.util.Log;
 
+/**
+ * this class handles add LTL formula page.
+ * @author alh
+ *
+ */
 public class AddFormulaWizard extends Wizard {
 
+	/**	add formula page */
 	protected AddFormulaFirstPage one;
+	
 	protected HashMap<Integer,String> map;
 	protected Diagram d;
-	//protected CreateStandardNodeSecondPageGraphBTWizard two;
 
+	/**
+	 * 
+	 * @param map
+	 * @param d
+	 */
 	public AddFormulaWizard(HashMap<Integer,String> map, Diagram d) {
 		super();
 		setNeedsProgressMonitor(true);
@@ -34,19 +41,50 @@ public class AddFormulaWizard extends Wizard {
 		this.d = d;
 	}
 
+	/**
+	 * add formula page.
+	 */
 	@Override
 	public void addPages() {
-		//one = new CreateStandardNodeFirstPageGraphBTWizard(node);
 		one = new AddFormulaFirstPage(map,d);
-		//two = new CreateStandardNodeSecondPageGraphBTWizard();
 		addPage(one);
-		//addPage(two);
 	}
 
+	/**
+	 * do this when finish button is executed.
+	 */
 	@Override
 	public boolean performFinish() {
+		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+        final DiagramEditor ds;
+        if(page.getActiveEditor() instanceof DiagramEditor)
+        {
+        	 ds = (DiagramEditor)page.getActiveEditor();	
+        }
+        else
+        {
+        	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+        }
+        d = ds.getDiagramTypeProvider().getDiagram();
+		final BEModel be = GraphBTUtil.getBEModel(d);
+		
+		// set to transaction
+		final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+			protected void doExecute() {
+				// create formula instance
+				Formula f = GraphBTUtil.getBEFactory().createFormula();
+				// set formula list
+				if(be.getFormulaList() == null) {
+					be.setFormulaList(GraphBTUtil.getBEFactory().createFormulaList());
+				}
+				// set formula name
+				f.setFormulaName(map.get(ConstantsOfVerifyModel.REF_ADD_FORMULA));
+				// add formula instance to list
+				be.getFormulaList().getFormula().add(f);
+		    }
+		};
+		ds.getEditingDomain().getCommandStack().execute(cmd);
 		
 		return true;
-		
 	}
 }

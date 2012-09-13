@@ -368,6 +368,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
 					HashMap <Integer,String> map = new HashMap<Integer, String>();
+					generateSALCode.run();
 					if(d!=null)
 					{
 						WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
