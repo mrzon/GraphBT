@@ -20,24 +20,8 @@ public class GraphBTDiagramEditor extends DiagramEditor{
 	
 	public void selectionChanged(IWorkbenchPart part, ISelection selection)
 	{
-		boolean editorIsActive = getSite().getPage().isPartVisible(this);
-		if (!editorIsActive) {
-			// Check if we are a page of the active multi page editor
-			IEditorPart activeEditor = getSite().getPage().getActiveEditor();
-			if (activeEditor != null) {
-				if (activeEditor instanceof MultiPageEditorPart) {
-					Object selectedPage = ((MultiPageEditorPart) activeEditor).getAdapter(DiagramEditor.class);
-					if (selectedPage instanceof DiagramEditor) {
-						// Editor is active and diagram sub editor is its active
-						// page
-						System.out.println("GraphBTDiagramEditor Terpanggil bro kyukyu");
-						editorIsActive = true;
-					}
-				}
-			}
-		}
 		super.selectionChanged(part, selection);
-		
+		updateActions(getSelectionActions());
 		System.out.println("GraphBTDiagramEditor Terpanggil bro");
 	}
 }
