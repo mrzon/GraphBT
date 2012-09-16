@@ -5,31 +5,39 @@ import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.ICopyFeature;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
+import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IFeature;
 import org.eclipse.graphiti.features.ILayoutFeature;
+import org.eclipse.graphiti.features.IMoveBendpointFeature;
 import org.eclipse.graphiti.features.IMoveShapeFeature;
 import org.eclipse.graphiti.features.IPasteFeature;
 import org.eclipse.graphiti.features.IReconnectionFeature;
+import org.eclipse.graphiti.features.IRemoveFeature;
 import org.eclipse.graphiti.features.IResizeShapeFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ICopyContext;
+import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.ILayoutContext;
+import org.eclipse.graphiti.features.context.IMoveBendpointContext;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.context.IPasteContext;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.features.context.IReconnectionContext;
+import org.eclipse.graphiti.features.context.IRemoveContext;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 
 import behaviortree.Behavior;
 import behaviortree.Component;
 import behaviortree.Composition;
 import behaviortree.Edge;
+import behaviortree.Link;
 import behaviortree.OperatorClass;
 import behaviortree.Requirement;
 import behaviortree.StandardNode;
@@ -42,6 +50,8 @@ import behaviortree.graphBT.features.CopyNodeGraphBtFeature;
 import behaviortree.graphBT.features.CreateAtomicConnectionGraphBtFeature;
 import behaviortree.graphBT.features.CreateGeneralBtNodeFeature;
 import behaviortree.graphBT.features.CreateSequentialConnectionGraphBtFeature;
+import behaviortree.graphBT.features.DeleteConnectionGraphBTFeature;
+import behaviortree.graphBT.features.DeleteNodeGraphBTFeature;
 import behaviortree.graphBT.features.LayoutGraphBtFeature;
 import behaviortree.graphBT.features.MoveGraphBtFeature;
 import behaviortree.graphBT.features.PasteNodeGraphBtFeature;
@@ -69,10 +79,10 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	@Override
 	public IAddFeature getAddFeature(IAddContext context) {
 		if (context instanceof IAddConnectionContext && 
-				context.getNewObject() instanceof Edge) {
-			Edge edge = (Edge) context.getNewObject();
+				context.getNewObject() instanceof Link) {
+			Link l = (Link) context.getNewObject();
 			
-			if(edge.getComposition().getLiteral().
+			if(l.getSource().getEdge().getComposition().getLiteral().
 					equals(Composition.ATOMIC.getLiteral())) {
 				return new AddAtomicConnectionGraphBtFeature(this);
 			}
@@ -146,6 +156,36 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	
 	public IReconnectionFeature getReconnectionFeature(IReconnectionContext context)
 	{
-		return new ConnectionReconnectGraphBTFeature(this);
+		return null;
+		//return new ConnectionReconnectGraphBTFeature(this);
+	}
+	
+	@Override
+	public IRemoveFeature getRemoveFeature(IRemoveContext context) {
+		return super.getRemoveFeature(context); // remove disabled for the UI  
+	}
+	
+	protected IRemoveFeature getRemoveFeatureEnabled(IRemoveContext context) {
+		return super.getRemoveFeature(context); // used where we enable remove (deleting...) 
+	}
+
+	@Override
+	public IDeleteFeature getDeleteFeature(IDeleteContext context) {
+		PictogramElement pe = context.getPictogramElement();
+		Object ob = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		if(ob instanceof StandardNode)
+		{
+			return new DeleteNodeGraphBTFeature(this);
+		}
+		if(ob instanceof Link)
+		{
+			return new DeleteConnectionGraphBTFeature(this);
+		}
+		return super.getDeleteFeature(context);
+	} 
+	@Override
+	public IMoveBendpointFeature getMoveBendpointFeature(IMoveBendpointContext context)
+	{
+		return null;
 	}
 }

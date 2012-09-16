@@ -13,6 +13,7 @@ import behaviortree.BehaviortreeFactory;
 import behaviortree.Composition;
 import behaviortree.Edge;
 import behaviortree.GraphBTUtil;
+import behaviortree.Link;
 import behaviortree.StandardNode;
 
 /**
@@ -64,8 +65,8 @@ public class CreateAtomicConnectionGraphBtFeature
 
         if (source != null && target != null) {
             // create new business object
-            Edge edge = createEdge(source, target);
-            if(edge==null)
+            Link l = createLink(source, target);
+            if(l==null)
             {
             	return null;
             }
@@ -73,7 +74,7 @@ public class CreateAtomicConnectionGraphBtFeature
             AddConnectionContext addContext =
                 new AddConnectionContext(context.getSourceAnchor(), 
                 		context.getTargetAnchor());
-            addContext.setNewObject(edge);
+            addContext.setNewObject(l);
             newConnection = (Connection) getFeatureProvider().
             		addIfPossible(addContext);
             
@@ -100,7 +101,7 @@ public class CreateAtomicConnectionGraphBtFeature
         return null;
     }
     
-    private Edge createEdge(StandardNode source, StandardNode target) {
+    private Link createLink(StandardNode source, StandardNode target) {
     	if(GraphBTUtil.isAncestor(target, source))
     	{
     		return null;
@@ -111,10 +112,14 @@ public class CreateAtomicConnectionGraphBtFeature
         	edge = BehaviortreeFactory.eINSTANCE.createEdge();
         	edge.setComposition(Composition.ATOMIC);
         	source.setEdge(edge);
+        	edge.setContainer(source);
         }
-        edge.getChildNode().add(target);
+        Link l = GraphBTUtil.getBEFactory().createLink();
+		l.setSource(source);
+		l.setTarget(target);
+		edge.getChildNode().add(l);
         target.setLeaf(true);
         target.setParent(source);
-        return edge;
+        return l;
    }
 }

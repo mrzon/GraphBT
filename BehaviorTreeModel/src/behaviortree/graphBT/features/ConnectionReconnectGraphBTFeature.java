@@ -12,6 +12,7 @@ import org.eclipse.graphiti.services.Graphiti;
 
 import behaviortree.Edge;
 import behaviortree.GraphBTUtil;
+import behaviortree.Link;
 import behaviortree.StandardNode;
 
 public class ConnectionReconnectGraphBTFeature extends DefaultReconnectionFeature {
@@ -23,8 +24,13 @@ public class ConnectionReconnectGraphBTFeature extends DefaultReconnectionFeatur
 
 	@Override
 	public boolean canReconnect(IReconnectionContext context) {
-		System.out.println("ConnectionReconnectGraphBTFeature canReconnect ndak?? "+ super.canReconnect(context));
-		return super.canReconnect(context);
+	//	System.out.println("ConnectionReconnectGraphBTFeature canReconnect ndak?? "+ super.canReconnect(context));
+		
+		if(super.canReconnect(context))
+		{
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -33,7 +39,7 @@ public class ConnectionReconnectGraphBTFeature extends DefaultReconnectionFeatur
 		if(context.getReconnectType().equals(ReconnectionContext.RECONNECT_SOURCE))
 		{
 			System.out.println("reconnect source "+context.toString()); 
-			PictogramElement newTarget = context.getNewAnchor().getLink().getPictogramElement();
+			PictogramElement newTarget = context.getNewAnchor().getGraphicsAlgorithm().getPictogramElement();
 			PictogramElement  oldChild = context.getConnection().getEnd().getLink().getPictogramElement();
 			Object ob = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(newTarget);
 			System.out.println("reconnect source "+newTarget.getLink().getBusinessObjects()); 
@@ -47,7 +53,10 @@ public class ConnectionReconnectGraphBTFeature extends DefaultReconnectionFeatur
 					parent.setEdge(e);
 				}
 				StandardNode nd = (StandardNode)Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(oldChild);
-				e.getChildNode().add(nd);
+				Link l = GraphBTUtil.getBEFactory().createLink();
+				l.setSource(parent);
+				l.setTarget(nd);
+				e.getChildNode().add(l);
 				StandardNode od =(StandardNode)Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getOldAnchor().getLink().getPictogramElement()); 
 				od.getEdge().getChildNode().remove(nd);
 				System.out.println("ConnectionReconnectGraphBTFeature preReconnect old Parent "+ od.toString());

@@ -62,9 +62,10 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge">
     <eStructuralFeatures xsi:type="ecore:EReference" name="childNode" lowerBound="1"
-        upperBound="-1" eType="#//Node" containment="true"/>
+        upperBound="-1" eType="#//Link" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="branch" eType="#//Branch"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="composition" eType="#//Composition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//Node"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SpecialEdge">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//SpecialEdgeEnum"/>
@@ -173,6 +174,11 @@
   <eClassifiers xsi:type="ecore:EClass" name="TraceabilityStatusClass">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="traceabilityStatusLiteral"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Link">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Node"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Node"/>
   </eClassifiers>
   <eSubpackages name="behaviortree" nsURI="defaultname" nsPrefix="be.behaviortree.model"/>
 </ecore:EPackage>

@@ -21,6 +21,7 @@ import org.eclipse.graphiti.util.IColorConstant;
 import behaviortree.Branch;
 import behaviortree.Edge;
 import behaviortree.GraphBTUtil;
+import behaviortree.Link;
 
 /**
  * Class AddSequentialConnectionGraphBtFeature is for adding sequential edge between
@@ -39,7 +40,7 @@ public class AddSequentialConnectionGraphBtFeature extends AbstractAddFeature im
 	public boolean canAdd(IAddContext context) {
 		
 		if (context instanceof IAddConnectionContext && 
-				context.getNewObject() instanceof Edge) {
+				context.getNewObject() instanceof Link) {
 			return true;
 		}
 		return false;
@@ -61,15 +62,14 @@ public class AddSequentialConnectionGraphBtFeature extends AbstractAddFeature im
 		
 		polyline.setForeground(manageColor(IColorConstant.BLACK));
 		
-		Edge addedEdge = (Edge) context.getNewObject();
-		link(connection, addedEdge);
+		Link addedLink = (Link) context.getNewObject();
+		link(connection, addedLink);
 		
 		ConnectionDecorator cd;
 		cd = peCreateService.createConnectionDecorator(connection, false, 1.0, true);
 		createArrow(cd);
 		
-		if(addedEdge.getBranch().getLiteral().equals(Branch.ALTERNATIVE.getLiteral())) {
-			System.out.println("herehereh");
+		if(addedLink.getSource().getEdge().getBranch().getLiteral().equals(Branch.ALTERNATIVE.getLiteral())) {
 			ConnectionDecorator cd2;
 			cd2 = peCreateService.createConnectionDecorator(connection, false, 0.0, true);
 			createAlternativeIdentifier(cd2);

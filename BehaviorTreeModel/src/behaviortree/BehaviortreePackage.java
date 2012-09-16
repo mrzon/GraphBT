@@ -263,13 +263,22 @@ public interface BehaviortreePackage extends EPackage {
 	int EDGE__COMPOSITION = 2;
 
 	/**
+	 * The feature id for the '<em><b>Container</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDGE__CONTAINER = 3;
+
+	/**
 	 * The number of structural features of the '<em>Edge</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EDGE_FEATURE_COUNT = 3;
+	int EDGE_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.impl.SpecialEdgeImpl <em>Special Edge</em>}' class.
@@ -1026,6 +1035,43 @@ public interface BehaviortreePackage extends EPackage {
 	int TRACEABILITY_STATUS_CLASS_FEATURE_COUNT = 1;
 
 	/**
+	 * The meta object id for the '{@link behaviortree.impl.LinkImpl <em>Link</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see behaviortree.impl.LinkImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getLink()
+	 * @generated
+	 */
+	int LINK = 20;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK__TARGET = 0;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK__SOURCE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Link</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK_FEATURE_COUNT = 2;
+
+	/**
 	 * The meta object id for the '{@link behaviortree.Composition <em>Composition</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1033,7 +1079,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getComposition()
 	 * @generated
 	 */
-	int COMPOSITION = 20;
+	int COMPOSITION = 21;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.Branch <em>Branch</em>}' enum.
@@ -1043,7 +1089,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getBranch()
 	 * @generated
 	 */
-	int BRANCH = 21;
+	int BRANCH = 22;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.Operator <em>Operator</em>}' enum.
@@ -1053,7 +1099,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 22;
+	int OPERATOR = 23;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.BehaviorType <em>Behavior Type</em>}' enum.
@@ -1063,7 +1109,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getBehaviorType()
 	 * @generated
 	 */
-	int BEHAVIOR_TYPE = 23;
+	int BEHAVIOR_TYPE = 24;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.EventType <em>Event Type</em>}' enum.
@@ -1073,7 +1119,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getEventType()
 	 * @generated
 	 */
-	int EVENT_TYPE = 24;
+	int EVENT_TYPE = 25;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.SpecialEdgeEnum <em>Special Edge Enum</em>}' enum.
@@ -1083,7 +1129,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getSpecialEdgeEnum()
 	 * @generated
 	 */
-	int SPECIAL_EDGE_ENUM = 25;
+	int SPECIAL_EDGE_ENUM = 26;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.TraceabilityStatus <em>Traceability Status</em>}' enum.
@@ -1093,7 +1139,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getTraceabilityStatus()
 	 * @generated
 	 */
-	int TRACEABILITY_STATUS = 26;
+	int TRACEABILITY_STATUS = 27;
 
 
 	/**
@@ -1300,6 +1346,17 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getEdge_Composition();
+
+	/**
+	 * Returns the meta object for the reference '{@link behaviortree.Edge#getContainer <em>Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Container</em>'.
+	 * @see behaviortree.Edge#getContainer()
+	 * @see #getEdge()
+	 * @generated
+	 */
+	EReference getEdge_Container();
 
 	/**
 	 * Returns the meta object for class '{@link behaviortree.SpecialEdge <em>Special Edge</em>}'.
@@ -1924,6 +1981,38 @@ public interface BehaviortreePackage extends EPackage {
 	EAttribute getTraceabilityStatusClass_TraceabilityStatusLiteral();
 
 	/**
+	 * Returns the meta object for class '{@link behaviortree.Link <em>Link</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Link</em>'.
+	 * @see behaviortree.Link
+	 * @generated
+	 */
+	EClass getLink();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link behaviortree.Link#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Target</em>'.
+	 * @see behaviortree.Link#getTarget()
+	 * @see #getLink()
+	 * @generated
+	 */
+	EReference getLink_Target();
+
+	/**
+	 * Returns the meta object for the reference '{@link behaviortree.Link#getSource <em>Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Source</em>'.
+	 * @see behaviortree.Link#getSource()
+	 * @see #getLink()
+	 * @generated
+	 */
+	EReference getLink_Source();
+
+	/**
 	 * Returns the meta object for enum '{@link behaviortree.Composition <em>Composition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2174,6 +2263,14 @@ public interface BehaviortreePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute EDGE__COMPOSITION = eINSTANCE.getEdge_Composition();
+
+		/**
+		 * The meta object literal for the '<em><b>Container</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EDGE__CONTAINER = eINSTANCE.getEdge_Container();
 
 		/**
 		 * The meta object literal for the '{@link behaviortree.impl.SpecialEdgeImpl <em>Special Edge</em>}' class.
@@ -2670,6 +2767,32 @@ public interface BehaviortreePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TRACEABILITY_STATUS_CLASS__TRACEABILITY_STATUS_LITERAL = eINSTANCE.getTraceabilityStatusClass_TraceabilityStatusLiteral();
+
+		/**
+		 * The meta object literal for the '{@link behaviortree.impl.LinkImpl <em>Link</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see behaviortree.impl.LinkImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getLink()
+		 * @generated
+		 */
+		EClass LINK = eINSTANCE.getLink();
+
+		/**
+		 * The meta object literal for the '<em><b>Target</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LINK__TARGET = eINSTANCE.getLink_Target();
+
+		/**
+		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LINK__SOURCE = eINSTANCE.getLink_Source();
 
 		/**
 		 * The meta object literal for the '{@link behaviortree.Composition <em>Composition</em>}' enum.

@@ -31,6 +31,7 @@ import behaviortree.EventType;
 import behaviortree.Formula;
 import behaviortree.FormulaList;
 import behaviortree.Library;
+import behaviortree.Link;
 import behaviortree.Node;
 import behaviortree.Operator;
 import behaviortree.OperatorClass;
@@ -189,6 +190,13 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * @generated
 	 */
 	private EClass traceabilityStatusClassEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass linkEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -469,6 +477,15 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 */
 	public EAttribute getEdge_Composition() {
 		return (EAttribute)edgeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getEdge_Container() {
+		return (EReference)edgeEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -998,6 +1015,33 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getLink() {
+		return linkEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getLink_Target() {
+		return (EReference)linkEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getLink_Source() {
+		return (EReference)linkEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getComposition() {
 		return compositionEEnum;
 	}
@@ -1106,6 +1150,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		createEReference(edgeEClass, EDGE__CHILD_NODE);
 		createEAttribute(edgeEClass, EDGE__BRANCH);
 		createEAttribute(edgeEClass, EDGE__COMPOSITION);
+		createEReference(edgeEClass, EDGE__CONTAINER);
 
 		specialEdgeEClass = createEClass(SPECIAL_EDGE);
 		createEAttribute(specialEdgeEClass, SPECIAL_EDGE__TYPE);
@@ -1181,6 +1226,10 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		traceabilityStatusClassEClass = createEClass(TRACEABILITY_STATUS_CLASS);
 		createEAttribute(traceabilityStatusClassEClass, TRACEABILITY_STATUS_CLASS__TRACEABILITY_STATUS_LITERAL);
 
+		linkEClass = createEClass(LINK);
+		createEReference(linkEClass, LINK__TARGET);
+		createEReference(linkEClass, LINK__SOURCE);
+
 		// Create enums
 		compositionEEnum = createEEnum(COMPOSITION);
 		branchEEnum = createEEnum(BRANCH);
@@ -1242,9 +1291,10 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		initEReference(getNode_SpecialE(), this.getSpecialEdge(), null, "specialE", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(edgeEClass, Edge.class, "Edge", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getEdge_ChildNode(), this.getNode(), null, "childNode", null, 1, -1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEdge_ChildNode(), this.getLink(), null, "childNode", null, 1, -1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEdge_Branch(), this.getBranch(), "branch", null, 0, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEdge_Composition(), this.getComposition(), "composition", null, 0, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEdge_Container(), this.getNode(), null, "container", null, 0, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(specialEdgeEClass, SpecialEdge.class, "SpecialEdge", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSpecialEdge_Type(), this.getSpecialEdgeEnum(), "type", null, 0, 1, SpecialEdge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1319,6 +1369,10 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 
 		initEClass(traceabilityStatusClassEClass, TraceabilityStatusClass.class, "TraceabilityStatusClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTraceabilityStatusClass_TraceabilityStatusLiteral(), ecorePackage.getEString(), "traceabilityStatusLiteral", null, 0, 1, TraceabilityStatusClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(linkEClass, Link.class, "Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getLink_Target(), this.getNode(), null, "target", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLink_Source(), this.getNode(), null, "source", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(compositionEEnum, Composition.class, "Composition");

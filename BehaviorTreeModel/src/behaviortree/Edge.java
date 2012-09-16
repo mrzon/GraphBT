@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link behaviortree.Edge#getChildNode <em>Child Node</em>}</li>
  *   <li>{@link behaviortree.Edge#getBranch <em>Branch</em>}</li>
  *   <li>{@link behaviortree.Edge#getComposition <em>Composition</em>}</li>
+ *   <li>{@link behaviortree.Edge#getContainer <em>Container</em>}</li>
  * </ul>
  * </p>
  *
@@ -30,7 +31,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface Edge extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Child Node</b></em>' containment reference list.
-	 * The list contents are of type {@link behaviortree.Node}.
+	 * The list contents are of type {@link behaviortree.Link}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Child Node</em>' containment reference isn't clear,
@@ -42,7 +43,7 @@ public interface Edge extends EObject {
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	EList<Node> getChildNode();
+	EList<Link> getChildNode();
 
 	/**
 	 * Returns the value of the '<em><b>Branch</b></em>' attribute.
@@ -101,5 +102,31 @@ public interface Edge extends EObject {
 	 * @generated
 	 */
 	void setComposition(Composition value);
+
+	/**
+	 * Returns the value of the '<em><b>Container</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Container</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Container</em>' reference.
+	 * @see #setContainer(Node)
+	 * @see behaviortree.BehaviortreePackage#getEdge_Container()
+	 * @model
+	 * @generated
+	 */
+	Node getContainer();
+
+	/**
+	 * Sets the value of the '{@link behaviortree.Edge#getContainer <em>Container</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Container</em>' reference.
+	 * @see #getContainer()
+	 * @generated
+	 */
+	void setContainer(Node value);
 
 } // Edge

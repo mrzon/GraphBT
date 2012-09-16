@@ -149,13 +149,8 @@ public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 			System.out.println("getContextMenu "+customFeatures[i].canExecute(context));
 			retList.add(new ContextMenuEntry(customFeature, context));
 		}
-		try {
-			throw new Exception();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return ret;
+		System.out.println("Context menu");
+		return NO_CONTEXT_MENU_ENTRIES;
 	}
 	
 	@Override

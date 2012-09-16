@@ -10,6 +10,7 @@ import behaviortree.BehaviortreePackage;
 import behaviortree.Branch;
 import behaviortree.Composition;
 import behaviortree.Edge;
+import behaviortree.Link;
 import behaviortree.Node;
 
 import java.util.Collection;
@@ -35,6 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link behaviortree.impl.EdgeImpl#getChildNode <em>Child Node</em>}</li>
  *   <li>{@link behaviortree.impl.EdgeImpl#getBranch <em>Branch</em>}</li>
  *   <li>{@link behaviortree.impl.EdgeImpl#getComposition <em>Composition</em>}</li>
+ *   <li>{@link behaviortree.impl.EdgeImpl#getContainer <em>Container</em>}</li>
  * </ul>
  * </p>
  *
@@ -49,7 +51,7 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Node> childNode;
+	protected EList<Link> childNode;
 
 	/**
 	 * The default value of the '{@link #getBranch() <em>Branch</em>}' attribute.
@@ -92,6 +94,16 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	protected Composition composition = COMPOSITION_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getContainer() <em>Container</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getContainer()
+	 * @generated
+	 * @ordered
+	 */
+	protected Node container;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -115,9 +127,9 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Node> getChildNode() {
+	public EList<Link> getChildNode() {
 		if (childNode == null) {
-			childNode = new EObjectContainmentEList<Node>(Node.class, this, BehaviortreePackage.EDGE__CHILD_NODE);
+			childNode = new EObjectContainmentEList<Link>(Link.class, this, BehaviortreePackage.EDGE__CHILD_NODE);
 		}
 		return childNode;
 	}
@@ -169,6 +181,44 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Node getContainer() {
+		if (container != null && container.eIsProxy()) {
+			InternalEObject oldContainer = (InternalEObject)container;
+			container = (Node)eResolveProxy(oldContainer);
+			if (container != oldContainer) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BehaviortreePackage.EDGE__CONTAINER, oldContainer, container));
+			}
+		}
+		return container;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Node basicGetContainer() {
+		return container;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setContainer(Node newContainer) {
+		Node oldContainer = container;
+		container = newContainer;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.EDGE__CONTAINER, oldContainer, container));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -192,6 +242,9 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 				return getBranch();
 			case BehaviortreePackage.EDGE__COMPOSITION:
 				return getComposition();
+			case BehaviortreePackage.EDGE__CONTAINER:
+				if (resolve) return getContainer();
+				return basicGetContainer();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -207,13 +260,16 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 		switch (featureID) {
 			case BehaviortreePackage.EDGE__CHILD_NODE:
 				getChildNode().clear();
-				getChildNode().addAll((Collection<? extends Node>)newValue);
+				getChildNode().addAll((Collection<? extends Link>)newValue);
 				return;
 			case BehaviortreePackage.EDGE__BRANCH:
 				setBranch((Branch)newValue);
 				return;
 			case BehaviortreePackage.EDGE__COMPOSITION:
 				setComposition((Composition)newValue);
+				return;
+			case BehaviortreePackage.EDGE__CONTAINER:
+				setContainer((Node)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -236,6 +292,9 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 			case BehaviortreePackage.EDGE__COMPOSITION:
 				setComposition(COMPOSITION_EDEFAULT);
 				return;
+			case BehaviortreePackage.EDGE__CONTAINER:
+				setContainer((Node)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -254,6 +313,8 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 				return branch != BRANCH_EDEFAULT;
 			case BehaviortreePackage.EDGE__COMPOSITION:
 				return composition != COMPOSITION_EDEFAULT;
+			case BehaviortreePackage.EDGE__CONTAINER:
+				return container != null;
 		}
 		return super.eIsSet(featureID);
 	}

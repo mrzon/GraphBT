@@ -177,6 +177,7 @@ import behaviortree.Branch;
 import behaviortree.Composition;
 import behaviortree.Edge;
 import behaviortree.GraphBTUtil;
+import behaviortree.Link;
 import behaviortree.StandardNode;
 import behaviortree.graphBT.wizards.manageBranch.ManageBranchWizardGraphBtFeature;
 
@@ -247,8 +248,8 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
         if (source != null && target != null && target != source) {
             // create new business object
         	
-            Edge edge = createEdge(source, target);
-            if (edge==null)
+            Link l = createLink(source, target);
+            if (l==null)
             {
             	return null;
             }
@@ -256,7 +257,7 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
             // add connection for business object
             AddConnectionContext addContext =
                 new AddConnectionContext(context.getSourceAnchor(), context.getTargetAnchor());
-            addContext.setNewObject(edge);
+            addContext.setNewObject(l);
             newConnection = (Connection) getFeatureProvider().addIfPossible(addContext);
             
             PictogramElement pes = context.getSourcePictogramElement();
@@ -285,7 +286,7 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
     }
     
     
-    private Edge createEdge(StandardNode source, StandardNode target) {
+    private Link createLink(StandardNode source, StandardNode target) {
     	if(GraphBTUtil.isAncestor(target, source)) {
     		return null;
     	}
@@ -299,13 +300,18 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
         	edge = BehaviortreeFactory.eINSTANCE.createEdge();
         	edge.setComposition(Composition.SEQUENTIAL);
         	source.setEdge(edge);
+        	edge.setContainer(source);
         }
         else
         {
         	System.out.println("Saya punya edge lhoo");
-        	if(edge.getChildNode().contains(target))
+        	
+        	for(int i = 0; i < edge.getChildNode().size();i++)
         	{
-        		return null;
+        		if(edge.getChildNode().get(i).getTarget()==(target))
+            	{
+            		return null;
+            	}
         	}
         	if(edge.getChildNode().size()==1)
         	{
@@ -323,9 +329,12 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
         		System.out.println("branch: " + edge.getBranch().getLiteral());
         	}
         }
-        edge.getChildNode().add(target);
+        Link l = GraphBTUtil.getBEFactory().createLink();
+		l.setSource(source);
+		l.setTarget(target);
+		edge.getChildNode().add(l);
         target.setParent(source);
         target.setLeaf(true);
-        return edge;
+        return l;
    }
 }

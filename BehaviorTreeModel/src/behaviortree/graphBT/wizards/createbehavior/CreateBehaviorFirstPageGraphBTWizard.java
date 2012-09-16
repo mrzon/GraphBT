@@ -141,7 +141,7 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 			return;
 		}
 		if (!behaviorRefText.getText().matches("[0-9]+")) {
-			updateStatus("Behavior reference must be specified");
+			updateStatus("Behavior reference must be integer");
 			return;
 		}
 		if (GraphBTUtil.getBehaviorFromComponentByRef(c, behaviorRefText.getText()) != null) {

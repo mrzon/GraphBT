@@ -75,6 +75,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Edge/childNode"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Edge/branch"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Edge/composition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Edge/container"/>
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//SpecialEdge">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//SpecialEdge/type"/>
@@ -148,6 +149,10 @@
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//TraceabilityStatusClass">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//TraceabilityStatusClass/traceabilityStatusLiteral"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//Link">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Link/target"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Link/source"/>
     </genClasses>
     <nestedGenPackages prefix="Behaviortree" basePackage="behaviortree" disposableProviderFactory="true"
         ecorePackage="DefaultName.ecore#//behaviortree"/>

@@ -15,6 +15,7 @@ import org.eclipse.graphiti.util.IColorConstant;
 
 import behaviortree.Edge;
 import behaviortree.GraphBTUtil;
+import behaviortree.Link;
 
 /**
  * Class AddAtomicConnectionGraphBtFeature is for adding atomic edge between
@@ -33,7 +34,7 @@ public class AddAtomicConnectionGraphBtFeature extends AbstractAddFeature implem
 	public boolean canAdd(IAddContext context) {
 		
 		if (context instanceof IAddConnectionContext && 
-				context.getNewObject() instanceof Edge) {
+				context.getNewObject() instanceof Link) {
 			return true;
 		}
 		return false;
@@ -54,8 +55,8 @@ public class AddAtomicConnectionGraphBtFeature extends AbstractAddFeature implem
 		gaService.setLocation(polyline, addConContext.getX(), addConContext.getY());
 		polyline.setForeground(manageColor(IColorConstant.BLACK));
 
-		Edge addedEdge = (Edge) context.getNewObject();
-		link(connection, addedEdge);
+		Link addedLink = (Link) context.getNewObject();
+		link(connection, addedLink);
 		GraphBTUtil.applyTreeLayout(getDiagram());
 		return connection;
 	}

@@ -589,10 +589,10 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 			{
 				str += " #P{\n";
 			}
-			Iterator<Node> i = e.getChildNode().iterator();
+			Iterator<Link> i = e.getChildNode().iterator();
 			while(i.hasNext())
 			{
-				str+=toBTText(i.next())+"\n";
+				str+=toBTText(i.next().getTarget())+"\n";
 			}
 			str+="}\n";
 			return str;
@@ -607,7 +607,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 			{
 				str+= ";";
 			}
-			return str+toBTText(e.getChildNode().get(0));
+			return str+toBTText(e.getChildNode().get(0).getSource());
 		}
 		return null;
 	}
