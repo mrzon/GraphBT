@@ -28,6 +28,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.gef.MouseWheelHandler;
+import org.eclipse.gef.MouseWheelZoomHandler;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -78,7 +80,7 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		    Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		    Map<String, Object> m = reg.getExtensionToFactoryMap();
 		    m.put("model", new XMIResourceFactoryImpl());
-			
+			//editor.getGraphicalViewer().setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1), MouseWheelZoomHandler.SINGLETON);
 		} catch (PartInitException e) {
 			ErrorDialog.openError(
 				getSite().getShell(),
@@ -177,6 +179,7 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		if (!(editorInput instanceof IFileEditorInput))
 			throw new PartInitException("Invalid Input: Must be IFileEditorInput");
 		super.init(site, editorInput);
+		
 
 	}
 	/* (non-Javadoc)

@@ -19,10 +19,10 @@ public class ManageComponentsGraphBTWizard extends Wizard {
 	protected Diagram d;
 	//protected CreateStandardNodeSecondPageGraphBTWizard two;
 
-	public ManageComponentsGraphBTWizard(HashMap<Integer,String> map, Diagram d) {
+	public ManageComponentsGraphBTWizard(Diagram d) {
 		super();
 		setNeedsProgressMonitor(true);
-		this.map = map;
+		this.map =  new HashMap<Integer, String>();;
 		this.d = d;
 	}
 

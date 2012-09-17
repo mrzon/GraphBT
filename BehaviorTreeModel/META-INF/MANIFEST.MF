@@ -39,3 +39,4 @@ Import-Package: org.be.textbe.bt.textbt,
  org.eclipse.ui.forms.widgets,
  org.eclipse.ui.views.contentoutline,
  org.eclipse.ui.views.properties.tabbed
+Export-Package: behaviortree.graphBT

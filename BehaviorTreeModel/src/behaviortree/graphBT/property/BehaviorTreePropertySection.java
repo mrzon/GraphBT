@@ -17,6 +17,8 @@ import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
@@ -42,6 +44,7 @@ import behaviortree.Requirement;
 import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
 import behaviortree.TraceabilityStatusClass;
+import behaviortree.graphBT.wizards.managecomponents.ManageComponentsGraphBTWizard;
 
 /**
  * Class for managing the property section of BT node
@@ -199,9 +202,24 @@ public class BehaviorTreePropertySection extends GFPropertySection
 	    				String beh = c.getBehaviors().size()>0?c.getBehaviors().get(0).getBehaviorRef():"";
 	    				node.setBehaviorRef(beh);
 	    				behaviorCombo.setText(beh);
+	    				try{
+	    				refresh();
+	    				}
+	    				catch(RuntimeException re)
+	    				{
+	    					
+	    					WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+									getActiveWorkbenchWindow().getShell(),
+									new ManageComponentsGraphBTWizard(d));
+							if(wizardDialog.open() != Window.OK)
+							{
+								return;
+							}
+	    				}
 	    		    }
 	    		};
-	    		
+	    		TransactionalEditingDomain f = ds.getEditingDomain();
+	    		f.getCommandStack().execute(cmd);
 				ContainerShape cs = (ContainerShape)pe;
 				Iterator<Shape> s = cs.getChildren().iterator();
 				while(s.hasNext()) {
@@ -213,15 +231,14 @@ public class BehaviorTreePropertySection extends GFPropertySection
 						updatePictogramElement(n);
 				}
 	    		
-	    		TransactionalEditingDomain f = ds.getEditingDomain();
-	    		f.getCommandStack().execute(cmd);
+	    		
 		    	behaviorCombo.removeAll();
 		    	
 		    	if(c!=null)
 		    	for(Behavior behavior: c.getBehaviors()) {
 			    	behaviorCombo.add(behavior.toString());
 			    }
-		    	refresh();
+		    	
 		     }
 	     });
         behaviorCombo.addSelectionListener(new SelectionAdapter() {
@@ -475,7 +492,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
 	}
     
     @Override
-    public void refresh() {
+    public void refresh() throws RuntimeException{
         PictogramElement pe = getSelectedPictogramElement();
         
         if (pe != null) {
@@ -522,6 +539,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
 		    }
             String componentString = com.getComponentName(); 
             String behaviorString =  GraphBTUtil.getBehaviorFromComponentByRef(com, node.getBehaviorRef()).toString();
+            
             Requirement rr = GraphBTUtil.getRequirement(model, node.getTraceabilityLink());
             if(rr != null) {
             	String requirementString = GraphBTUtil.getRequirement(model, node.getTraceabilityLink()).getKey();

@@ -35,6 +35,11 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.GEFActionConstants;
+import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
+import org.eclipse.gef.ui.actions.ZoomInRetargetAction;
+import org.eclipse.gef.ui.actions.ZoomOutRetargetAction;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor;
@@ -56,9 +61,11 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.actions.RetargetAction;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 import org.eclipse.ui.dialogs.FileSelectionDialog;
 import org.eclipse.ui.ide.IDE;
@@ -103,6 +110,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	private IFile btIFile;
 	private Action clearDiagram;
 	private Action generateSALCode;
+	private ActionRegistry registry = new ActionRegistry();
 	/**
 	 * Creates a multi-page contributor.
 	 */
@@ -173,7 +181,9 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 
 	@SuppressWarnings("deprecation")
 	private void createActions() {
-		
+
+		addRetargetAction(new ZoomInRetargetAction());
+		addRetargetAction(new ZoomOutRetargetAction());
 		generateBTCode = new Action() {
 			public void run(){
 				if(activeEditorPart instanceof DiagramEditor)
@@ -260,13 +270,12 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
 					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
-					HashMap <Integer,String> map = new HashMap<Integer, String>();
 					//String ketemu="";
 					if(d!=null)
 					{
 						WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 								getActiveWorkbenchWindow().getShell(),
-								new ManageComponentsGraphBTWizard(map, d));
+								new ManageComponentsGraphBTWizard(d));
 						if(wizardDialog.open() != Window.OK)
 						{
 							return;
@@ -655,6 +664,9 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		menu.add(correctLayout);
 		menu.add(extractFromBTFile);
 	}
+	private IAction getAction(String str) {
+		return this.registry.getAction(str);
+	}
 	public void contributeToToolBar(IToolBarManager manager) {
 		manager.add(new Separator());
 		manager.add(clearDiagram);
@@ -672,6 +684,12 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		manager.add(generateSALCode);
 		manager.add(new Separator());
 		manager.add(correctLayout);
+		manager.add(new Separator());
+		//manager.add(getAction(GEFActionConstants.ZOOM_OUT));
+		//manager.add(getAction(GEFActionConstants.ZOOM_IN));
+		
+		ZoomComboContributionItem zoomCombo = new ZoomComboContributionItem(getPage());
+		manager.add(zoomCombo);
 	}
 	
 	private void clearDiagram(final DiagramEditor d)
@@ -703,4 +721,40 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 			}
 		});
 	}
+	
+	/**
+	 * Adds the given action to the action registry.
+	 * 
+	 * @param action
+	 *            the action to add
+	 */
+	protected void addAction(IAction action) {
+		registry.registerAction(action);
+	}
+	
+	/**
+	 * Adds the specified RetargetAction to this contributors
+	 * <code>ActionRegistry</code>. The RetargetAction is also added as a
+	 * <code>IPartListener</code> of the contributor's page. Also, the retarget
+	 * action's ID is flagged as a global action key, by calling
+	 * {@link #addGlobalActionKey(String)}.
+	 * 
+	 * @param action
+	 *            the retarget action being added
+	 */
+	protected void addRetargetAction(RetargetAction action) {
+		addAction(action);
+		getPage().addPartListener(action);
+	}
+
+    /**
+     * Returns this contributor's workbench page.
+     *
+     * @return the workbench page
+     */
+    public IWorkbenchPage getPage() {
+    	IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+    	
+        return page;
+    }
 }

@@ -192,10 +192,9 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 
 	    manageComponentsButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				HashMap <Integer,String> map = new HashMap<Integer, String>();
 				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 		                getActiveWorkbenchWindow().getShell(),
-		    		new ManageComponentsGraphBTWizard(map, d));
+		    		new ManageComponentsGraphBTWizard(d));
 				if(wizardDialog.open() != Window.OK)
 				{
 					return;
