@@ -182,8 +182,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	@SuppressWarnings("deprecation")
 	private void createActions() {
 
-		addRetargetAction(new ZoomInRetargetAction());
-		addRetargetAction(new ZoomOutRetargetAction());
 		generateBTCode = new Action() {
 			public void run(){
 				if(activeEditorPart instanceof DiagramEditor)
@@ -722,39 +720,4 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		});
 	}
 	
-	/**
-	 * Adds the given action to the action registry.
-	 * 
-	 * @param action
-	 *            the action to add
-	 */
-	protected void addAction(IAction action) {
-		registry.registerAction(action);
-	}
-	
-	/**
-	 * Adds the specified RetargetAction to this contributors
-	 * <code>ActionRegistry</code>. The RetargetAction is also added as a
-	 * <code>IPartListener</code> of the contributor's page. Also, the retarget
-	 * action's ID is flagged as a global action key, by calling
-	 * {@link #addGlobalActionKey(String)}.
-	 * 
-	 * @param action
-	 *            the retarget action being added
-	 */
-	protected void addRetargetAction(RetargetAction action) {
-		addAction(action);
-		getPage().addPartListener(action);
-	}
-
-    /**
-     * Returns this contributor's workbench page.
-     *
-     * @return the workbench page
-     */
-    public IWorkbenchPage getPage() {
-    	IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-    	
-        return page;
-    }
 }
