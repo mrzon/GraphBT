@@ -40,6 +40,7 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 	private Composite container;
 	private HashMap<Integer, String> map;
 	private Diagram d;
+	private Button behaviorButton;
 	Combo componentCombo;
 	Combo behaviorCombo;
 	Combo traceabilityLinkCombo;
@@ -65,8 +66,9 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 	    Button componentButton = new Button(container, SWT.NULL);
 	    componentButton.setText("Add New Component");
 	    
-	    Button behaviorButton = new Button(container, SWT.NULL);
+	    final Button behaviorButton = new Button(container, SWT.NULL);
 	    behaviorButton.setText("Add New Behavior");
+	    behaviorButton.setEnabled(false);
 	    
 	    
 	    Button manageComponentsButton = new Button(container, SWT.NULL);
@@ -156,6 +158,7 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 	    
 		componentCombo.addSelectionListener(new SelectionAdapter() {
 		    public void widgetSelected(SelectionEvent e) {
+		    	behaviorButton.setEnabled(true);
 		    	Combo combo = (Combo)e.widget;
 		    	String selected = combo.getItem(combo.getSelectionIndex());
 		    	map.put(StandardNode.COMPONENT_VALUE, selected );

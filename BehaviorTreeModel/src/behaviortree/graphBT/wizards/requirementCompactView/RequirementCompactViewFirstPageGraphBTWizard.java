@@ -1,3 +1,4 @@
+
 package behaviortree.graphBT.wizards.requirementCompactView;
 
 import java.util.HashMap;
@@ -5,6 +6,7 @@ import java.util.HashMap;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.ModifyEvent;
@@ -45,38 +47,26 @@ public class RequirementCompactViewFirstPageGraphBTWizard extends WizardPage {
 		container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout(1, false);
 		container.setLayout(layout);
-		GridData gridData;	   	    
-	    
-		requirementText = new StyledText(container, SWT.WRAP
+		GridData gridData;	   	    	    
+		
+		final Browser browser = new Browser(container, SWT.WRAP
 				| SWT.MULTI
-				| SWT.BORDER
-				| SWT.H_SCROLL
-				| SWT.V_SCROLL);
-		//requirementText.setBounds(10, 10, 200, 200);
+				| SWT.BORDER);
+		
 		gridData = new GridData ( GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL);
 		gridData.heightHint = 200;
 		gridData.widthHint = 400;
-		requirementText.setLayoutData(gridData);
-		requirementText.setEditable(false);
+		browser.setLayoutData(gridData);
 		
-		 StyleRange style = new StyleRange();
-		 style.foreground = container.getDisplay().getSystemColor(SWT.COLOR_RED);
-		 requirementText.setStyleRange(style);
-		    
-//		StyleRange style = new StyleRange();
-//	    style.background = getShell().getDisplay().getSystemColor(SWT.COLOR_RED);
-//	    requirementText.setStyleRange(style);
-	    
 		for(Requirement requirement: GraphBTUtil.getBEModel(d).getRequirementList().getRequirements()){
+			text += "<p>";									
+			text += "<font color='red'>" + requirement.getKey() + " </font>" + requirement.getDescription() + "</p>";
 			
-			//text += requirement.getKey() + " " + requirement.getDescription() + "\n\n";
+			//requirementText.setText(requirementText.getText() + requirement.getKey() + " " + requirement.getDescription() + "\n\n");					
+		}
 			
-			requirementText.setText(requirementText.getText() + requirement.getKey() + " " + requirement.getDescription() + "\n\n");					
-		}		
+		browser.setText(text);
 		
-		
-//		requirementText.setText(text);
-
 		setControl(container);
 	}
 	

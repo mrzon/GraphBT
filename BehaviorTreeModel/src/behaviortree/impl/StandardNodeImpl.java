@@ -607,7 +607,7 @@ public class StandardNodeImpl extends NodeImpl implements StandardNode {
 			{
 				str+= ";";
 			}
-			return str+toBTText(e.getChildNode().get(0).getSource());
+			return str+toBTText(e.getChildNode().get(0).getTarget());
 		}
 		return null;
 	}

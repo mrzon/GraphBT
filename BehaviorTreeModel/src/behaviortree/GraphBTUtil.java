@@ -180,7 +180,22 @@ public class GraphBTUtil {
 		return BehaviortreeFactory.eINSTANCE;
 	}
 
-
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static DiagramEditor getDiagramEditor()
+	{
+		IEditorPart page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		if(page!=null)
+		{
+			return page instanceof DiagramEditor?(DiagramEditor)page:null;
+		}
+		return null;
+	}
+	
+	
 	/**
 	 * This method is invoked in each package creation to initialize persistent model of the 
 	 * diagram

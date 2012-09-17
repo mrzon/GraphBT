@@ -10,7 +10,9 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
@@ -19,6 +21,8 @@ import behaviortree.Behavior;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
+import behaviortree.graphBT.wizards.createbehavior.CreateBehaviorGraphBTWizard;
+import behaviortree.graphBT.wizards.detailcomponent.DetailComponentGraphBTWizard;
 
 public class CreateComponentGraphBTWizard extends Wizard {
 
@@ -75,6 +79,15 @@ public class CreateComponentGraphBTWizard extends Wizard {
 				//if(!c.getComponentName().equals("")&&c.getComponentName()!=null)
 				try {
 					GraphBTUtil.saveToModelFile(c, d);
+					
+					WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+							getActiveWorkbenchWindow().getShell(),
+							new DetailComponentGraphBTWizard(c));
+					if(wizardDialog.open() != Window.OK)
+					{
+						return;
+					}
+					
 				} catch (CoreException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

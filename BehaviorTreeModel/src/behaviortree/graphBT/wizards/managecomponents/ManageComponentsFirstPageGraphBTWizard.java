@@ -128,7 +128,8 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		Button behaviorButton = new Button(container, SWT.NULL);
 		gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);		
 		behaviorButton.setLayoutData(gridData);
-		behaviorButton.setText("+");				
+		behaviorButton.setText("+");
+		behaviorButton.setEnabled(false);
 		
 		Button deleteComponentButton = new Button(container, SWT.NULL);
 		gridData = new GridData();

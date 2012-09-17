@@ -108,9 +108,11 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
        	StandardNode node = (StandardNode) oSN;
 
         if (bo instanceof Component) {
-        	businessName = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram()), node.getComponentRef()).getComponentName();
+        	Component comp = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram()), node.getComponentRef()); 
+        	businessName = comp.getComponentName();
             Shape shape = (Shape) pictogramElement;
-            
+            pictogramElement.getLink().getBusinessObjects().clear();
+            pictogramElement.getLink().getBusinessObjects().add(comp);
             if (shape.getGraphicsAlgorithm() instanceof Text) {
                 Text text = (Text) shape.getGraphicsAlgorithm();
                 text.setValue(businessName);
@@ -118,9 +120,12 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
              }
         }
         if (bo instanceof Behavior) {
-        	businessName = GraphBTUtil.getBehaviorFromComponentByRef(GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram()), node.getComponentRef()), node.getBehaviorRef()).toString();
+        	Behavior beh = GraphBTUtil.getBehaviorFromComponentByRef(GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram()), node.getComponentRef()), node.getBehaviorRef());
+        	businessName = beh.toString();
             Shape shape = (Shape) pictogramElement;
-    
+
+            pictogramElement.getLink().getBusinessObjects().clear();
+            pictogramElement.getLink().getBusinessObjects().add(beh);
             if (shape.getGraphicsAlgorithm() instanceof Text) {
                 Text text = (Text) shape.getGraphicsAlgorithm();
                 text.setValue(businessName);

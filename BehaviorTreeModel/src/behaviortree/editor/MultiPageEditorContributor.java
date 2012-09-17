@@ -512,7 +512,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						{
 							return;
 						}
-						
 					}
 					if(filePath.endsWith(".bt"))
 					{
