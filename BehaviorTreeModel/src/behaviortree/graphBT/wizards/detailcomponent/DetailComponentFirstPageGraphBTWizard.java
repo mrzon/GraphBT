@@ -91,7 +91,7 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 		gridData.grabExcessVerticalSpace = true;
 		componentDescText.setLayoutData(gridData);
 		componentDescText.setEditable(false);
-		componentDescText.setText("Description");
+		componentDescText.setText(c.getComponentDesc());
 		
 		final Label listBehaviorLabel = new Label(container, SWT.NULL);				
 		gridData = new GridData(GridData.FILL_HORIZONTAL);		

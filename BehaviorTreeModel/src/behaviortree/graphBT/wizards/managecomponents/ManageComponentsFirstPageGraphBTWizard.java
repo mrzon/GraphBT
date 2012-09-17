@@ -49,6 +49,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 	private String componentRefTemp;
 	private String behaviorRefTemp;
 	private Text editComponentNameText;
+	private Button behaviorButton;
 	private Button saveComponentButton;
 	private Text editBehaviorNameText; 
 	private Text editComponentDescText;
@@ -125,7 +126,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		
 		listBehaviors.setLayoutData(gridData);
 		
-		Button behaviorButton = new Button(container, SWT.NULL);
+		behaviorButton = new Button(container, SWT.NULL);
 		gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);		
 		behaviorButton.setLayoutData(gridData);
 		behaviorButton.setText("+");
@@ -341,7 +342,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		gridData.horizontalSpan = 1;
 		gridData.minimumHeight = 50;
 		gridData.grabExcessVerticalSpace = true;
-		editComponentDescText.setLayoutData(gridData);
+		editComponentDescText.setLayoutData(gridData);		
 		editComponentDescText.setVisible(false);
 		
 		
@@ -372,6 +373,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 			
 				editComponentNameText.setText(c.getComponentName());
 				componentRefText.setText(c.getComponentRef());
+				editComponentDescText.setText(c.getComponentDesc());
 				
 				editComponentGroup.setVisible(true);				
 				editComponentLabel.setVisible(true);
@@ -447,6 +449,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 						listBehaviors.add(behavior.toString());
 					}
 					
+					group.setVisible(true);
 					groupBehavior.setVisible(false);
 					editBehaviorGroup.setVisible(false);
 					editComponentGroup.setVisible(false);
@@ -456,7 +459,8 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 					cRefLabel.setText("Reference: " +c.getComponentRef());
 					descComponentLabel.setVisible(true);
 					componentDescText.setVisible(true);
-					componentDescText.setText("This is desciprion");
+					componentDescText.setText(c.getComponentDesc());
+					behaviorButton.setEnabled(true);
 					
 				}
 				
@@ -488,7 +492,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 					bTypeLabel.setText("Type: " + b.getBehaviorType().getName());
 					descBehaviorLabel.setVisible(true);
 					behaviorDescText.setVisible(true);
-					behaviorDescText.setText("this is description");
+					behaviorDescText.setText(b.getBehaviorDesc());
 				}
 				behaviorRefTemp = b.getBehaviorRef();
 				//System.out.println("komponen = " + componentRefTemp);
@@ -555,6 +559,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 					protected void doExecute() {
 						c.setComponentName(editComponentNameText.getText());
+						c.setComponentDesc(editComponentDescText.getText());
 						cNameLabel.setText("Name: " + editComponentNameText.getText());
 					}
 				};
@@ -565,6 +570,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				editComponentLabel.setVisible(false);
 				editComponentNameText.setVisible(false);
 				saveComponentButton.setVisible(false);				
+				group.setVisible(false);
 				
 				listComponents.removeAll();
 				listBehaviors.removeAll();
@@ -678,6 +684,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				
 				editBehaviorNameText.setText(b.getBehaviorName());
 				typeCombo.setText(b.getBehaviorType().getName());
+				editBehaviorDescText.setText(b.getBehaviorDesc());
 				
 				editBehaviorGroup.setVisible(true);
 				typeLabel.setVisible(true);
@@ -758,6 +765,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 					protected void doExecute() {
 						b.setBehaviorName(editBehaviorNameText.getText());
 						b.setBehaviorType(BehaviorType.getByName(typeCombo.getItem(typeCombo.getSelectionIndex())));
+						b.setBehaviorDesc(editBehaviorDescText.getText());
 					}
 				};
 				ds.getEditingDomain().getCommandStack().execute(cmd);
@@ -772,6 +780,8 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				for(Behavior behavior: c.getBehaviors()){
 					listBehaviors.add(behavior.toString());
 				}
+				
+				groupBehavior.setVisible(false);
 			}
 		});
 		

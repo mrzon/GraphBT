@@ -49,6 +49,7 @@ public class CreateBehaviorGraphBTWizard extends Wizard {
 		}
 		final Behavior b = GraphBTUtil.getBEFactory().createBehavior();
 		b.setBehaviorName(map.get(Behavior.NAME_VALUE));
+		b.setBehaviorDesc(map.get(Behavior.DESC_VALUE));
 		b.setBehaviorRef(map.get(Behavior.REF_VALUE));
 		b.setBehaviorType(BehaviorType.getByName(map.get(Behavior.TYPE_VALUE)));
 		IWorkbenchPage page=PlatformUI.getWorkbench().
