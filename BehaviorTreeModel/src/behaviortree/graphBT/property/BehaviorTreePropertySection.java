@@ -61,6 +61,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
 	private CCombo operatorCombo;
 	private CCombo statusCombo;
 	private CCombo branchCombo;
+	private CLabel branchLabel;
 
     @Override
     public void createControls(Composite parent, 
@@ -181,12 +182,12 @@ public class BehaviorTreePropertySection extends GFPropertySection
         branchData.top = new FormAttachment(statusCombo, VSPACE);
         branchCombo.setLayoutData(branchData);
         
-        CLabel valueLabel6 = factory.createCLabel(composite, "Branch Type");
+        branchLabel = factory.createCLabel(composite, "Branch Type");
         branchData = new FormData();
         branchData.left = new FormAttachment(0, 0);
         branchData.right = new FormAttachment(branchCombo, -HSPACE);
         branchData.top = new FormAttachment(branchCombo, 0, SWT.CENTER);
-        valueLabel6.setLayoutData(branchData);
+        branchLabel.setLayoutData(branchData);
         
         /***/
         PictogramElement pe = getSelectedPictogramElement();
@@ -560,7 +561,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
     
     @Override
     public void refresh() throws RuntimeException{
-        PictogramElement pe = getSelectedPictogramElement();
+    	PictogramElement pe = getSelectedPictogramElement();
         
         if (pe != null) {
             Object bo = Graphiti.getLinkService()
@@ -574,6 +575,27 @@ public class BehaviorTreePropertySection extends GFPropertySection
             }
             
             final StandardNode node = (StandardNode) bo;
+            
+            StandardNode sn = (StandardNode) bo;
+            Edge edge = sn.getEdge();
+            if(edge == null) {
+            	branchCombo.setVisible(false);
+            	branchLabel.setVisible(false);
+            }
+            else {
+            	Branch branch = edge.getBranch(); 
+                if(branch != null && edge.getChildNode().size()>1) {
+                	System.out.println("sn.getEdge().getBranch() != null");
+                	branchCombo.setVisible(true);
+                	branchLabel.setVisible(true);
+                }
+                else {
+                	System.out.println("else sn.getEdge().getBranch() != null");
+                	branchCombo.setVisible(false);
+                	branchLabel.setVisible(false);
+                }
+            }
+            
             IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
             final DiagramEditor ds;
             

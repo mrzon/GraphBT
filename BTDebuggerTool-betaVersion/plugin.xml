@@ -266,12 +266,6 @@
                priorityLevel="activePartId">
          </variable>
       </sourceProvider>
-      <sourceProvider provider="com.eclipse_tips.rcp.app.SessionSourceProvider">
-        <variable 
-             name="com.eclipse-tips.rcp.app.sessionState"
-             priorityLevel="workbench">
-        </variable>
-    </sourceProvider>
    </extension>
 
 </plugin>

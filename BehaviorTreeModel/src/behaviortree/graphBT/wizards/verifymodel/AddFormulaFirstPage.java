@@ -32,6 +32,7 @@ import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
 import behaviortree.graphBT.wizards.createbehavior.CreateBehaviorGraphBTWizard;
 import behaviortree.graphBT.wizards.managecomponents.ManageComponentsGraphBTWizard;
+import behaviortree.util.Log;
 
 
 public class AddFormulaFirstPage extends WizardPage {
@@ -253,7 +254,21 @@ public class AddFormulaFirstPage extends WizardPage {
 				if(wizardDialog.open() != Window.OK) {
 					return;
 				}
-				//masterList.add(map.get(ConstantsOfVerifyModel.REF_ADD_FORMULA));
+				
+				String comp = map.get(ConstantsOfVerifyModel.REF_PICK_LTL_VARIABLE_COMPONENT);
+				String behavior = map.get(ConstantsOfVerifyModel.REF_PICK_LTL_VARIABLE_BEHAVIOR);
+				String res = "";
+				if(comp != null && behavior != null) {
+					res = comp.toLowerCase() + "=" + comp.toLowerCase() + "_" + behavior.toLowerCase();
+				}
+				
+				int indexOfCursor = textField.getCaretPosition();
+				String text = textField.getText();
+				textField.setText(
+						text.substring(0, indexOfCursor) + 
+						res +
+						text.substring(indexOfCursor));
+				textField.setFocus();
 			}
 		});
 	    

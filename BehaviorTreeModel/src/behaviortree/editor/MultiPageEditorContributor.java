@@ -27,6 +27,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
@@ -323,9 +324,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				}
 			}
 		};
-
-
-		
 		//System.out.println("Filenya "+ip.toString());
 		manageRequirements.setText("Manage Requirements");
 		manageRequirements.setToolTipText("Manage Requirements of The Model");
@@ -494,16 +492,38 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					String filePath = handleBrowse();
 					File f = new File(filePath);
 					IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+					
 					IPath path = Path.fromOSString(URI.createFileURI(f.getAbsolutePath()).devicePath());
-					final IFile file = root.getFileForLocation(path);
+					
+					
+					IFile file = root.getFileForLocation(path);
 					final DiagramEditor d = ((DiagramEditor)activeEditorPart);
-					//System.out.println("file pathnya "+f.getAbsolutePath()+" ");
+					URI uri = d.getDiagramTypeProvider().getDiagram().eResource().getURI();
+					uri.trimFragment();
+					uri.trimFileExtension();
+					uri.appendFileExtension("model");
+					IResource res = root.findMember(uri.toPlatformString(true));
+					System.out.println("file pathnya "+f.getAbsolutePath()+" "+path);
+					
 					if(filePath == null)
 						return;
-					if(file == null)
+					
+					if(file==null)
 					{
-						return;
+						IPath copy = Path.fromPortableString("/"+res.getProject().getName()+"/rbt/"+f.getName());
+						file = root.getFile(copy);
+						try {
+							file.create(new java.io.FileInputStream(f), true, null);
+							
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (CoreException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
+					
 					BEModel mod = GraphBTUtil.getBEModel(d.getDiagramTypeProvider().getDiagram());
 					if(d.getDiagramTypeProvider().getDiagram().getChildren().size() > 0 || mod.getComponentList().getComponents().size() > 0 || mod.getRequirementList().getRequirements().size() > 0)
 					{
@@ -521,6 +541,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 								BEModel mod = GraphBTUtil.getBEModel(d.getDiagramTypeProvider().getDiagram());
 								mod.setComponentList(GraphBTUtil.getBEFactory().createComponentList());
 								mod.setRequirementList(GraphBTUtil.getBEFactory().createRequirementList());
+								GraphBTUtil.reversionNode.clear();
+								GraphBTUtil.errorReversionNode.clear();
 								Diagram diag = d.getDiagramTypeProvider().getDiagram(); 
 								diag.getChildren().clear();
 								diag.getConnections().clear();
@@ -629,7 +651,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	
 	private ImageDescriptor getImageDescriptor(String imgPath)
 	{
-		Bundle bundle = Platform.getBundle("BehaviorTreeModel");
+		Bundle bundle = Platform.getBundle("behaviortree.graphBT");
 		IPath path = new Path(imgPath);
 
 		URL fileURL = FileLocator.find(bundle, path, null);
@@ -715,6 +737,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						res.getContents().remove(ob);
 					}
 				}
+				GraphBTUtil.errorReversionNode.clear();
+				GraphBTUtil.reversionNode.clear();
 			}
 		});
 	}

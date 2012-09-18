@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: CreateNewBTDiagram
-Bundle-SymbolicName: CreateNewBTDiagram;singleton:=true
+Bundle-SymbolicName: behaviortree.graphBT.createnewbtdiagram;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: behaviortree.ui.newdiagram.Activator
 Require-Bundle: org.eclipse.ui,

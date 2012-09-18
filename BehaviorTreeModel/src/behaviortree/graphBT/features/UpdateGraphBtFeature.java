@@ -152,12 +152,15 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         }
         if (bo instanceof Requirement) {
         	Requirement r = GraphBTUtil.getRequirement(GraphBTUtil.getBEModel(getDiagram()), node.getTraceabilityLink());
+        	Shape shape = (Shape) pictogramElement;
+            pictogramElement.getLink().getBusinessObjects().clear();
+            pictogramElement.getLink().getBusinessObjects().add(r);
+            
         	if(r != null)
         		businessName = r.getKey();
         	else
         		businessName = "";
         	
-            Shape shape = (Shape) pictogramElement;
         
             if (shape.getGraphicsAlgorithm() instanceof Text) {
                 Text text = (Text) shape.getGraphicsAlgorithm();
