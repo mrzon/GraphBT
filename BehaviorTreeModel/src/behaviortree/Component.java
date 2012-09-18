@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link behaviortree.Component#getBehaviors <em>Behaviors</em>}</li>
  *   <li>{@link behaviortree.Component#getComponentRef <em>Component Ref</em>}</li>
  *   <li>{@link behaviortree.Component#getComponentDesc <em>Component Desc</em>}</li>
+ *   <li>{@link behaviortree.Component#isEnumerated <em>Enumerated</em>}</li>
  * </ul>
  * </p>
  *
@@ -229,8 +230,35 @@ public interface Component extends EObject {
 	 */
 	void setComponentDesc(String value);
 
+	/**
+	 * Returns the value of the '<em><b>Enumerated</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Enumerated</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Enumerated</em>' attribute.
+	 * @see #setEnumerated(boolean)
+	 * @see behaviortree.BehaviortreePackage#getComponent_Enumerated()
+	 * @model
+	 * @generated
+	 */
+	boolean isEnumerated();
+
+	/**
+	 * Sets the value of the '{@link behaviortree.Component#isEnumerated <em>Enumerated</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Enumerated</em>' attribute.
+	 * @see #isEnumerated()
+	 * @generated
+	 */
+	void setEnumerated(boolean value);
+
 	static final int NAME_VALUE = 0x12;
 	static final int REF_VALUE = 0x13;
 	static final int DESC_VALUE = 0x14;
+	static final int ENUM_VALUE = 0x15;
 	
 } // Component

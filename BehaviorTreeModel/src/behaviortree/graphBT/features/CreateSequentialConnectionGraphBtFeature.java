@@ -159,19 +159,27 @@
 package behaviortree.graphBT.features;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
+import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
+import behaviortree.AlternativeClass;
 import behaviortree.BehaviortreeFactory;
 import behaviortree.Branch;
 import behaviortree.Composition;
@@ -179,6 +187,7 @@ import behaviortree.Edge;
 import behaviortree.GraphBTUtil;
 import behaviortree.Link;
 import behaviortree.StandardNode;
+import behaviortree.TraceabilityStatusClass;
 import behaviortree.graphBT.wizards.manageBranch.ManageBranchWizardGraphBtFeature;
 
 
@@ -286,6 +295,21 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
     }
     
     
+    protected void updatePictogramElement(PictogramElement pe) {
+		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+        DiagramEditor ds;
+        
+        if(page.getActiveEditor() instanceof DiagramEditor) {
+        	 ds = (DiagramEditor)page.getActiveEditor();	
+        }
+        else {
+        	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+        }
+
+		UpdateContext context = new UpdateContext(pe);
+		ds.getDiagramTypeProvider().getFeatureProvider().updateIfPossible(context);
+	}
+    
     private Link createLink(StandardNode source, StandardNode target) {
     	if(GraphBTUtil.isAncestor(target, source)) {
     		return null;
@@ -326,6 +350,30 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
         		}
         		
         		edge.setBranch(Branch.get(map.get(1)));
+        		
+        		StandardNode sn = (StandardNode) edge.getChildNode().get(0).getTarget();
+        		
+        		ContainerShape cs = null;
+        		
+        		for(PictogramElement pe : Graphiti.getLinkService().getPictogramElements(getDiagram(), sn.getParent())) {
+        			if(pe instanceof ContainerShape) {
+        				cs = (ContainerShape) pe;
+        			}
+        		}
+//        		ContainerShape cs = (ContainerShape) pe;
+        		
+        		Iterator<Shape> s = cs.getChildren().iterator();
+				while(s.hasNext()) {
+					Shape n = s.next();
+					
+					Object bo = Graphiti.getLinkService()
+			                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
+					if(bo instanceof AlternativeClass) {
+						System.out.println("bo instanceof AlternativeClass");
+						updatePictogramElement(n);
+					}
+				}
+				
         		System.out.println("branch: " + edge.getBranch().getLiteral());
         	}
         }

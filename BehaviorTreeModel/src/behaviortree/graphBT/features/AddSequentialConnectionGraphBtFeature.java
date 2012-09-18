@@ -6,6 +6,7 @@ import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddFeature;
 import org.eclipse.graphiti.mm.GraphicsAlgorithmContainer;
+import org.eclipse.graphiti.mm.algorithms.Ellipse;
 import org.eclipse.graphiti.mm.algorithms.Polygon;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.pictograms.Connection;
@@ -72,7 +73,10 @@ public class AddSequentialConnectionGraphBtFeature extends AbstractAddFeature im
 		if(addedLink.getSource().getEdge().getBranch().getLiteral().equals(Branch.ALTERNATIVE.getLiteral())) {
 			ConnectionDecorator cd2;
 			cd2 = peCreateService.createConnectionDecorator(connection, false, 0.0, true);
-			createAlternativeIdentifier(cd2);
+//			createAlternativeIdentifier(cd2);
+//			createIdentifier(cd2);
+			
+			
 		}
 		GraphBTUtil.applyTreeLayout(getDiagram());
 		GraphBTUtil.updateReversionNode((DiagramEditor) getDiagramEditor());
@@ -91,5 +95,16 @@ public class AddSequentialConnectionGraphBtFeature extends AbstractAddFeature im
 		polygon.setForeground(manageColor(new ColorConstant(0, 0, 0)));
 		polygon.setLineWidth(1);
 		return polygon;
+	}
+	
+	private Ellipse createIdentifier(GraphicsAlgorithmContainer gaContainer) {
+//		Polygon polygon = Graphiti.getGaCreateService().createPlainPolygon(gaContainer, new int[] { -5, 5, 5, 5, 5, -5, -5, -5, -5, 5 });
+//		polygon.setBackground(manageColor(new ColorConstant(0, 255, 0)));
+//		polygon.setForeground(manageColor(new ColorConstant(0, 0, 0)));
+//		polygon.setLineWidth(1);
+		Ellipse ellipse = Graphiti.getGaCreateService().createEllipse(gaContainer);
+		ellipse.setHeight(10);
+		ellipse.setWidth(10);
+		return ellipse;
 	}
 }

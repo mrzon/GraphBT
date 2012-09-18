@@ -404,6 +404,10 @@
         <element xmi:type="ecore:EAttribute" href="DefaultName.ecore#//Component/componentDesc"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_CFu8cfy3EeGdSNI3IeFNFw"/>
       </children>
+      <children xmi:type="notation:Node" xmi:id="_tTcbYf_6EeG2g9OVpczkBg" type="2001">
+        <element xmi:type="ecore:EAttribute" href="DefaultName.ecore#//Component/enumerated"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_tTcbYv_6EeG2g9OVpczkBg"/>
+      </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_b9dAgpKMEeGjCcMKQlqTfg"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_b9dAg5KMEeGjCcMKQlqTfg"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_b9dAhJKMEeGjCcMKQlqTfg"/>

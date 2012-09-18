@@ -42,6 +42,14 @@ public class DeleteConnectionGraphBTFeature extends DefaultDeleteFeature{
 		GraphBTUtil.getRoots(getDiagram().eResource().getResourceSet()).get(0).eResource().getContents().add(node);
 		
 		link.getSource().getEdge().getChildNode().remove(link);
+		if(link.getSource().getEdge().getChildNode().size()==0)
+		{
+			link.getSource().setEdge(null);
+		}
+		else if(link.getSource().getEdge().getChildNode().size()==1)
+		{
+			link.getSource().getEdge().setBranch(null);
+		}
 		link.setSource(null);
 		link.setTarget(null);
 		System.out.println("URI dari standardnodenya "+GraphBTUtil.getRoots(getDiagram().eResource().getResourceSet()).get(0).eResource().getURI().toString());

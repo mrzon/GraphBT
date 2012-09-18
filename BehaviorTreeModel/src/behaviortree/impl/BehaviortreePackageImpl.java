@@ -6,6 +6,7 @@
  */
 package behaviortree.impl;
 
+import behaviortree.AlternativeClass;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -197,6 +198,13 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * @generated
 	 */
 	private EClass linkEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass alternativeClassEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -709,6 +717,15 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getComponent_Enumerated() {
+		return (EAttribute)componentEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAttribute() {
 		return attributeEClass;
 	}
@@ -1042,6 +1059,24 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAlternativeClass() {
+		return alternativeClassEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAlternativeClass_AlternativeAttribute() {
+		return (EAttribute)alternativeClassEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getComposition() {
 		return compositionEEnum;
 	}
@@ -1179,6 +1214,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		createEReference(componentEClass, COMPONENT__BEHAVIORS);
 		createEAttribute(componentEClass, COMPONENT__COMPONENT_REF);
 		createEAttribute(componentEClass, COMPONENT__COMPONENT_DESC);
+		createEAttribute(componentEClass, COMPONENT__ENUMERATED);
 
 		attributeEClass = createEClass(ATTRIBUTE);
 		createEAttribute(attributeEClass, ATTRIBUTE__TYPE);
@@ -1229,6 +1265,9 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		linkEClass = createEClass(LINK);
 		createEReference(linkEClass, LINK__TARGET);
 		createEReference(linkEClass, LINK__SOURCE);
+
+		alternativeClassEClass = createEClass(ALTERNATIVE_CLASS);
+		createEAttribute(alternativeClassEClass, ALTERNATIVE_CLASS__ALTERNATIVE_ATTRIBUTE);
 
 		// Create enums
 		compositionEEnum = createEEnum(COMPOSITION);
@@ -1323,6 +1362,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		initEReference(getComponent_Behaviors(), this.getBehavior(), null, "behaviors", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponent_ComponentRef(), ecorePackage.getEString(), "componentRef", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponent_ComponentDesc(), ecorePackage.getEString(), "componentDesc", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getComponent_Enumerated(), ecorePackage.getEBoolean(), "enumerated", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(attributeEClass, Attribute.class, "Attribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAttribute_Type(), ecorePackage.getEString(), "type", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1373,6 +1413,9 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		initEClass(linkEClass, Link.class, "Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLink_Target(), this.getNode(), null, "target", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLink_Source(), this.getNode(), null, "source", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(alternativeClassEClass, AlternativeClass.class, "AlternativeClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAlternativeClass_AlternativeAttribute(), ecorePackage.getEString(), "alternativeAttribute", null, 0, 1, AlternativeClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(compositionEEnum, Composition.class, "Composition");

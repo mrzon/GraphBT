@@ -33,8 +33,10 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
+import behaviortree.AlternativeClass;
 import behaviortree.BEModel;
 import behaviortree.Behavior;
+import behaviortree.Branch;
 import behaviortree.Component;
 import behaviortree.Edge;
 import behaviortree.GraphBTUtil;
@@ -58,6 +60,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
 	private CCombo requirementCombo;
 	private CCombo operatorCombo;
 	private CCombo statusCombo;
+	private CCombo branchCombo;
 
     @Override
     public void createControls(Composite parent, 
@@ -72,6 +75,8 @@ public class BehaviorTreePropertySection extends GFPropertySection
         FormData requirementData;
         FormData operatorData;
         FormData statusData;
+        FormData branchData;
+        
         IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         final DiagramEditor ds;
         if(page.getActiveEditor() instanceof DiagramEditor) {
@@ -90,6 +95,10 @@ public class BehaviorTreePropertySection extends GFPropertySection
         requirementCombo = factory.createCCombo(composite);
         operatorCombo = factory.createCCombo(composite);
         statusCombo = factory.createCCombo(composite);
+        branchCombo = factory.createCCombo(composite);
+        for(Branch branch : Branch.VALUES) {
+        	branchCombo.add(branch.getName());
+        }
         
         
         
@@ -165,6 +174,19 @@ public class BehaviorTreePropertySection extends GFPropertySection
         statusData.right = new FormAttachment(statusCombo, -HSPACE);
         statusData.top = new FormAttachment(statusCombo, 0, SWT.CENTER);
         valueLabel5.setLayoutData(statusData);
+        
+        branchData = new FormData();
+        branchData.left = new FormAttachment(0, STANDARD_LABEL_WIDTH * 2);
+        branchData.right = new FormAttachment(100, 0);
+        branchData.top = new FormAttachment(statusCombo, VSPACE);
+        branchCombo.setLayoutData(branchData);
+        
+        CLabel valueLabel6 = factory.createCLabel(composite, "Branch Type");
+        branchData = new FormData();
+        branchData.left = new FormAttachment(0, 0);
+        branchData.right = new FormAttachment(branchCombo, -HSPACE);
+        branchData.top = new FormAttachment(branchCombo, 0, SWT.CENTER);
+        valueLabel6.setLayoutData(branchData);
         
         /***/
         PictogramElement pe = getSelectedPictogramElement();
@@ -385,6 +407,51 @@ public class BehaviorTreePropertySection extends GFPropertySection
 					if(bo instanceof TraceabilityStatusClass) {
 						updatePictogramElement(n);
 					}
+				}
+				refresh();
+		     }
+	     });
+        
+        branchCombo.addSelectionListener(new SelectionAdapter() {
+		    public void widgetSelected(SelectionEvent e) {
+		    	CCombo combo = (CCombo)e.widget;
+
+		    	final String selected = combo.getItem(combo.getSelectionIndex());
+		    	PictogramElement pe = getSelectedPictogramElement();
+		    	
+		    	Object ob = Graphiti.getLinkService()
+		                 .getBusinessObjectForLinkedPictogramElement(pe);
+		    	
+		    	if(!(ob instanceof StandardNode))
+		    		return;
+		    	
+		        final StandardNode node = (StandardNode) ob;
+		        final Edge edge = node.getEdge();
+		        
+		        if(edge == null) {
+		        	return;
+		        }
+		        
+		        if(!(pe instanceof ContainerShape))
+					return;
+				
+	    		final ContainerShape cs = (ContainerShape)pe;
+		        
+		        final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+	    			protected void doExecute() {
+	    				edge.setBranch(Branch.getByName(selected));
+	    		    }
+	    		};
+	    		ds.getEditingDomain().getCommandStack().execute(cmd);
+	    		
+	    		Iterator<Shape> s = cs.getChildren().iterator();
+				while(s.hasNext()) {
+					Shape n = s.next();
+					
+					Object bo = Graphiti.getLinkService()
+			                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
+					if(bo instanceof AlternativeClass)
+						updatePictogramElement(n);
 				}
 				refresh();
 		     }

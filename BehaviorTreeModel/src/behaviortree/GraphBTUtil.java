@@ -688,6 +688,42 @@ public class GraphBTUtil {
 		}
 		return null;
 	}
+	
+	public static AlternativeClass getAlternativeClass(Diagram rs,String literal)
+	{
+		URI uri = rs.eResource().getURI();
+		uri = uri.trimFragment();
+		uri = uri.trimFileExtension();
+		uri = uri.appendFileExtension("model"); //$NON-NLS-1$
+		Iterator<EObject> it = rs.eResource().getResourceSet().getResource(uri,true).getContents().iterator();
+
+		while(it.hasNext())
+		{
+			Object e = it.next();
+			if(e instanceof AlternativeClass)
+			{
+				AlternativeClass oc = (AlternativeClass) e;
+				if(oc.getAlternativeAttribute().equals(literal))
+				{
+					return oc;
+				}
+			}
+		}
+		AlternativeClass oc = getBEFactory().createAlternativeClass();
+		oc.setAlternativeAttribute(literal);
+		
+			try {
+				GraphBTUtil.saveToModelFile(oc,rs);
+			} catch (CoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		return oc;
+	}
 
 	/**
 	 * get traceability status 
@@ -1352,10 +1388,10 @@ public class GraphBTUtil {
 		//<<<<<<< HEAD
 		List<StandardNode> roots = getRoots(d.eResource().getResourceSet());
 		//=======
-		if(isValid(d) > 1)
-		{
-			return;
-		}
+		//if(isValid(d) > 1)
+		//{
+		//	return;
+		//}
 		StandardNode root = getRoots(d.eResource().getResourceSet()).get(0);
 		//>>>>>>> branch 'master' of https://github.com/mrzon/GraphBT.git
 		HashMap<StandardNode,Integer> widthMap = new HashMap<StandardNode,Integer>();
@@ -1476,6 +1512,8 @@ public class GraphBTUtil {
 	 * @return
 	 */
 	private static int getWidth(Diagram d, StandardNode node, HashMap<StandardNode,Integer> map) {
+		if(node==null)
+			return 0;
 		if(node.getEdge() == null||node.getEdge()!=null&&node.getEdge().getChildNode().size()==0)
 		{
 			PictogramElement rootP = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
@@ -1567,7 +1605,7 @@ public class GraphBTUtil {
 								{
 									if(parent.getEdge().getChildNode().get(i).getTarget()==node)
 									{
-										parent.getEdge().getChildNode().remove(node);
+										parent.getEdge().getChildNode().remove(parent.getEdge().getChildNode().get(i));
 										break;
 									}
 								}

@@ -89,6 +89,24 @@ public class AddFormulaFirstPage extends WizardPage {
 	    gridData.horizontalAlignment = GridData.FILL;
 	    gridData.grabExcessHorizontalSpace = true;
 	    composite.setLayoutData(gridData);
+	    
+	    //
+	    Label titleSelectComponent = new Label(composite, SWT.LEFT);
+	    gridData = new GridData();
+	    gridData.horizontalAlignment = GridData.FILL;
+	    gridData.horizontalSpan = 3;
+	    titleSelectComponent.setLayoutData(gridData);
+	    titleSelectComponent.setText("Select component and its behavior:");
+	    
+	    Button btnPickComponent = new Button(composite, SWT.PUSH);
+	    btnPickComponent.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	    btnPickComponent.setText("Pick variable");
+	    new Label(composite, SWT.LEFT); new Label(composite, SWT.LEFT);
+	    
+	    Label titleFormulaOperator = new Label(composite, SWT.LEFT);
+	    titleFormulaOperator.setLayoutData(gridData);
+	    titleFormulaOperator.setText("Here is LTL operators:");
+	    
 	    // button ui
 	    Button btnF = new Button(composite, SWT.PUSH);
 	    btnF.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -109,34 +127,15 @@ public class AddFormulaFirstPage extends WizardPage {
 	    btnU.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	    btnU.setText("U");
 	    
-	    Button btnEquals = new Button(composite, SWT.PUSH);
-	    btnEquals.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-	    btnEquals.setText("=");
-	    Button btnArrow = new Button(composite, SWT.PUSH);
-	    btnArrow.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-	    btnArrow.setText("=>");
-	    Label btnEmpty1 = new Label(composite, SWT.LEFT); // empty
 	    Button btnAND = new Button(composite, SWT.PUSH);
 	    btnAND.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	    btnAND.setText("AND");
 	    Button btnOR = new Button(composite, SWT.PUSH);
 	    btnOR.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	    btnOR.setText("OR");
-	    
-	    // add listener
-	    /*btnC.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-				HashMap <Integer,String> map = new HashMap<Integer, String>();
-				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
-		                getActiveWorkbenchWindow().getShell(),
-		    		new SearchComponentBehaviorWizard(map, d));
-				if(wizardDialog.open() != Window.OK)
-				{
-					return;
-				}
-			}
-			
-		});*/
+	    Button btnArrow = new Button(composite, SWT.PUSH);
+	    btnArrow.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	    btnArrow.setText("=>");
 	    
 	    btnF.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
@@ -210,18 +209,6 @@ public class AddFormulaFirstPage extends WizardPage {
 			}
 		});
 	    
-	    btnEquals.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-				int indexOfCursor = textField.getCaretPosition();
-				String text = textField.getText();
-				textField.setText(
-						text.substring(0, indexOfCursor) + 
-						"=" +
-						text.substring(indexOfCursor));
-				textField.setFocus();
-			}
-		});
-	    
 	    btnArrow.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				int indexOfCursor = textField.getCaretPosition();
@@ -255,6 +242,18 @@ public class AddFormulaFirstPage extends WizardPage {
 						"OR" +
 						text.substring(indexOfCursor));
 				textField.setFocus();
+			}
+		});
+	    
+	    btnPickComponent.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+		                getActiveWorkbenchWindow().getShell(),
+		    		new SearchComponentBehaviorWizard(map, d));
+				if(wizardDialog.open() != Window.OK) {
+					return;
+				}
+				//masterList.add(map.get(ConstantsOfVerifyModel.REF_ADD_FORMULA));
 			}
 		});
 	    

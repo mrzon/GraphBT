@@ -7,8 +7,11 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -29,6 +32,7 @@ public class CreateComponentFirstPageGraphBTWizard extends WizardPage {
 	private Text componentNameText;
 	private Text componentRefText;
 	private Text componentDescText;
+	private Button checkEnumerate;
 
 	  
 	public CreateComponentFirstPageGraphBTWizard(HashMap<Integer,String> map, Diagram d) {
@@ -104,6 +108,23 @@ public class CreateComponentFirstPageGraphBTWizard extends WizardPage {
 				map.put(Component.DESC_VALUE, t.getText());
 			}
 	    });
+		
+		checkEnumerate = new Button(container, SWT.CHECK);
+		checkEnumerate.setText("Enumerate");
+		checkEnumerate.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		checkEnumerate.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Called!" + checkEnumerate.getSelection());
+				if(checkEnumerate.getSelection() == true) {
+					map.put(Component.ENUM_VALUE, "true");
+				}
+				else {
+					map.put(Component.ENUM_VALUE, "false");
+				}
+			}
+		}); 
 
 		//System.out.println("stringCarrier[0] " + stringCarrier[0]);
 		System.out.println("stringCarrier[0].getText() " + componentNameText.getText());

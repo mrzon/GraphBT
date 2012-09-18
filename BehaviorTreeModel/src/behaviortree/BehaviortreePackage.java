@@ -600,13 +600,22 @@ public interface BehaviortreePackage extends EPackage {
 	int COMPONENT__COMPONENT_DESC = 8;
 
 	/**
+	 * The feature id for the '<em><b>Enumerated</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__ENUMERATED = 9;
+
+	/**
 	 * The number of structural features of the '<em>Component</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_FEATURE_COUNT = 9;
+	int COMPONENT_FEATURE_COUNT = 10;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.impl.AttributeImpl <em>Attribute</em>}' class.
@@ -1072,6 +1081,34 @@ public interface BehaviortreePackage extends EPackage {
 	int LINK_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link behaviortree.impl.AlternativeClassImpl <em>Alternative Class</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see behaviortree.impl.AlternativeClassImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getAlternativeClass()
+	 * @generated
+	 */
+	int ALTERNATIVE_CLASS = 21;
+
+	/**
+	 * The feature id for the '<em><b>Alternative Attribute</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALTERNATIVE_CLASS__ALTERNATIVE_ATTRIBUTE = 0;
+
+	/**
+	 * The number of structural features of the '<em>Alternative Class</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALTERNATIVE_CLASS_FEATURE_COUNT = 1;
+
+	/**
 	 * The meta object id for the '{@link behaviortree.Composition <em>Composition</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1079,7 +1116,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getComposition()
 	 * @generated
 	 */
-	int COMPOSITION = 21;
+	int COMPOSITION = 22;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.Branch <em>Branch</em>}' enum.
@@ -1089,7 +1126,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getBranch()
 	 * @generated
 	 */
-	int BRANCH = 22;
+	int BRANCH = 23;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.Operator <em>Operator</em>}' enum.
@@ -1099,7 +1136,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 23;
+	int OPERATOR = 24;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.BehaviorType <em>Behavior Type</em>}' enum.
@@ -1109,7 +1146,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getBehaviorType()
 	 * @generated
 	 */
-	int BEHAVIOR_TYPE = 24;
+	int BEHAVIOR_TYPE = 25;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.EventType <em>Event Type</em>}' enum.
@@ -1119,7 +1156,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getEventType()
 	 * @generated
 	 */
-	int EVENT_TYPE = 25;
+	int EVENT_TYPE = 26;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.SpecialEdgeEnum <em>Special Edge Enum</em>}' enum.
@@ -1129,7 +1166,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getSpecialEdgeEnum()
 	 * @generated
 	 */
-	int SPECIAL_EDGE_ENUM = 26;
+	int SPECIAL_EDGE_ENUM = 27;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.TraceabilityStatus <em>Traceability Status</em>}' enum.
@@ -1139,7 +1176,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getTraceabilityStatus()
 	 * @generated
 	 */
-	int TRACEABILITY_STATUS = 27;
+	int TRACEABILITY_STATUS = 28;
 
 
 	/**
@@ -1619,6 +1656,17 @@ public interface BehaviortreePackage extends EPackage {
 	EAttribute getComponent_ComponentDesc();
 
 	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.Component#isEnumerated <em>Enumerated</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Enumerated</em>'.
+	 * @see behaviortree.Component#isEnumerated()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EAttribute getComponent_Enumerated();
+
+	/**
 	 * Returns the meta object for class '{@link behaviortree.Attribute <em>Attribute</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2011,6 +2059,27 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getLink_Source();
+
+	/**
+	 * Returns the meta object for class '{@link behaviortree.AlternativeClass <em>Alternative Class</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Alternative Class</em>'.
+	 * @see behaviortree.AlternativeClass
+	 * @generated
+	 */
+	EClass getAlternativeClass();
+
+	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.AlternativeClass#getAlternativeAttribute <em>Alternative Attribute</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Alternative Attribute</em>'.
+	 * @see behaviortree.AlternativeClass#getAlternativeAttribute()
+	 * @see #getAlternativeClass()
+	 * @generated
+	 */
+	EAttribute getAlternativeClass_AlternativeAttribute();
 
 	/**
 	 * Returns the meta object for enum '{@link behaviortree.Composition <em>Composition</em>}'.
@@ -2473,6 +2542,14 @@ public interface BehaviortreePackage extends EPackage {
 		EAttribute COMPONENT__COMPONENT_DESC = eINSTANCE.getComponent_ComponentDesc();
 
 		/**
+		 * The meta object literal for the '<em><b>Enumerated</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPONENT__ENUMERATED = eINSTANCE.getComponent_Enumerated();
+
+		/**
 		 * The meta object literal for the '{@link behaviortree.impl.AttributeImpl <em>Attribute</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2793,6 +2870,24 @@ public interface BehaviortreePackage extends EPackage {
 		 * @generated
 		 */
 		EReference LINK__SOURCE = eINSTANCE.getLink_Source();
+
+		/**
+		 * The meta object literal for the '{@link behaviortree.impl.AlternativeClassImpl <em>Alternative Class</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see behaviortree.impl.AlternativeClassImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getAlternativeClass()
+		 * @generated
+		 */
+		EClass ALTERNATIVE_CLASS = eINSTANCE.getAlternativeClass();
+
+		/**
+		 * The meta object literal for the '<em><b>Alternative Attribute</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ALTERNATIVE_CLASS__ALTERNATIVE_ATTRIBUTE = eINSTANCE.getAlternativeClass_AlternativeAttribute();
 
 		/**
 		 * The meta object literal for the '{@link behaviortree.Composition <em>Composition</em>}' enum.

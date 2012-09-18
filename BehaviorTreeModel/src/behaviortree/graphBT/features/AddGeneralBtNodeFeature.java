@@ -1,5 +1,7 @@
 package behaviortree.graphBT.features;
 
+import java.awt.Color;
+
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
@@ -8,8 +10,11 @@ import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
+import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
+import org.eclipse.graphiti.mm.pictograms.ChopboxAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.FixPointAnchor;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
@@ -18,7 +23,9 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
+import behaviortree.AlternativeClass;
 import behaviortree.Behavior;
+import behaviortree.Branch;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.Operator;
@@ -214,8 +221,40 @@ IAddFeature {
             link(shapeOperator, oc);
         }
         
+        // SHAPE WITH TEXT FOR ALT
+        {  	
+        	Shape shapeAlt = peCreateService.createShape(containerShape, true);
+            
+        	Text textOperator;
+        	if(node.getEdge() != null && node.getEdge().getBranch() != null) {
+        		if(node.getEdge().getBranch().equals(Branch.ALTERNATIVE)) {
+        			textOperator = gaService.createText(shapeAlt, "A");
+        		}
+        		else {
+        			textOperator = gaService.createText(shapeAlt, "");
+        		}
+        		
+        	}
+        	else {
+        		textOperator = gaService.createText(shapeAlt, "");
+        	}
+        	
+            System.out.println("textOperator :" + textOperator.getValue());
+            textOperator.setForeground(manageColor(new ColorConstant("000000")));
+            textOperator.setBackground(manageColor(new ColorConstant("000000")));
+            textOperator.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+            textOperator.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
+            
+            gaService.setLocationAndSize(textOperator, 150, 60, 20, 25);
+            AlternativeClass ac = GraphBTUtil.getAlternativeClass(getDiagram(), "");
+            link(shapeAlt, ac);
+        }
+        
         peCreateService.createChopboxAnchor(containerShape);
         
+//        ChopboxAnchor chop = (ChopboxAnchor) containerShape.getAnchors().get(0);
+//        chop.getGraphicsAlgorithm().setX(width/2);
+//        chop.getGraphicsAlgorithm().setY(height);
         // create an additional box relative anchor at middle-right
 //        final FixPointAnchor boxAnchor =
 //             peCreateService.createFixPointAnchor(containerShape);

@@ -33,6 +33,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 
+import behaviortree.AlternativeClass;
 import behaviortree.Behavior;
 import behaviortree.Component;
 import behaviortree.Composition;
@@ -117,6 +118,10 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	    if (bo instanceof TraceabilityStatusClass) {
 			return new UpdateGraphBtFeature(this);
 		}
+	    if (bo instanceof AlternativeClass) {
+			return new UpdateGraphBtFeature(this);
+		}
+	    
 	   return super.getUpdateFeature(context);
 	 } 
 	

@@ -44,7 +44,7 @@ public class ManageBranchFirstPageWizardGraphBtFeature extends WizardPage {
 		layout.numColumns = 2;
 
 	    final Label componentLabel = new Label(container, SWT.NULL);
-		componentLabel.setText("Component Name");
+		componentLabel.setText("Select Branch");
 		
 		chooseBranchTypeCombo = new CCombo(container, SWT.NULL);
 		chooseBranchTypeCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));

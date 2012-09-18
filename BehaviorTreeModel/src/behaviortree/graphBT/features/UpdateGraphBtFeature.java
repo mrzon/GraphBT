@@ -9,7 +9,9 @@ import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
+import behaviortree.AlternativeClass;
 import behaviortree.Behavior;
+import behaviortree.Branch;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.OperatorClass;
@@ -35,7 +37,7 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
     	Object bo = getBusinessObjectForPictogramElement(pictogramElement);
         
         return ((bo instanceof Component)|| (bo instanceof Behavior)|| (bo instanceof OperatorClass) ||
-        		(bo instanceof Requirement) || (bo instanceof TraceabilityStatusClass));
+        		(bo instanceof Requirement) || (bo instanceof TraceabilityStatusClass) || (bo instanceof AlternativeClass));
     }
  
     public IReason updateNeeded(IUpdateContext context) {
@@ -82,6 +84,22 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
 		}
 		else if (bo instanceof OperatorClass) {
 			businessName = node.getOperator();
+		}
+		else if(bo instanceof AlternativeClass) {
+			if(node.getEdge() == null) {
+				return Reason.createFalseReason();
+			}
+			else if(node.getEdge().getBranch() == null) {
+				return Reason.createFalseReason();				
+			}
+			else if(node.getEdge().getBranch() != null) {
+				if(node.getEdge().getBranch().getName().equals(Branch.ALTERNATIVE.getName())) {
+					businessName = "A";
+				}
+				else {
+					businessName = "";
+				}
+			}
 		}
 
 		if(((Shape)pictogramElement).getGraphicsAlgorithm() instanceof Text) {
@@ -168,6 +186,23 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
                 return true;
             }
         }
+        if (bo instanceof AlternativeClass) {
+        	if(node.getEdge().getBranch()!=null && node.getEdge().getBranch().equals(Branch.ALTERNATIVE)) {
+        		businessName = "A";
+        	}
+        	else {
+        		businessName = "";
+        	}
+        	
+            Shape shape = (Shape) pictogramElement;
+        
+            if (shape.getGraphicsAlgorithm() instanceof Text) {
+                Text text = (Text) shape.getGraphicsAlgorithm();
+                text.setValue(businessName);
+                return true;
+            }
+        }
+        
         return false;
     }
 }

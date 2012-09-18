@@ -47,6 +47,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link behaviortree.impl.ComponentImpl#getBehaviors <em>Behaviors</em>}</li>
  *   <li>{@link behaviortree.impl.ComponentImpl#getComponentRef <em>Component Ref</em>}</li>
  *   <li>{@link behaviortree.impl.ComponentImpl#getComponentDesc <em>Component Desc</em>}</li>
+ *   <li>{@link behaviortree.impl.ComponentImpl#isEnumerated <em>Enumerated</em>}</li>
  * </ul>
  * </p>
  *
@@ -182,6 +183,26 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	 * @ordered
 	 */
 	protected String componentDesc = COMPONENT_DESC_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isEnumerated() <em>Enumerated</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isEnumerated()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean ENUMERATED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isEnumerated() <em>Enumerated</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isEnumerated()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean enumerated = ENUMERATED_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -377,6 +398,27 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isEnumerated() {
+		return enumerated;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEnumerated(boolean newEnumerated) {
+		boolean oldEnumerated = enumerated;
+		enumerated = newEnumerated;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.COMPONENT__ENUMERATED, oldEnumerated, enumerated));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -415,6 +457,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 				return getComponentRef();
 			case BehaviortreePackage.COMPONENT__COMPONENT_DESC:
 				return getComponentDesc();
+			case BehaviortreePackage.COMPONENT__ENUMERATED:
+				return isEnumerated();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -459,6 +503,9 @@ public class ComponentImpl extends EObjectImpl implements Component {
 			case BehaviortreePackage.COMPONENT__COMPONENT_DESC:
 				setComponentDesc((String)newValue);
 				return;
+			case BehaviortreePackage.COMPONENT__ENUMERATED:
+				setEnumerated((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -498,6 +545,9 @@ public class ComponentImpl extends EObjectImpl implements Component {
 			case BehaviortreePackage.COMPONENT__COMPONENT_DESC:
 				setComponentDesc(COMPONENT_DESC_EDEFAULT);
 				return;
+			case BehaviortreePackage.COMPONENT__ENUMERATED:
+				setEnumerated(ENUMERATED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -528,6 +578,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 				return COMPONENT_REF_EDEFAULT == null ? componentRef != null : !COMPONENT_REF_EDEFAULT.equals(componentRef);
 			case BehaviortreePackage.COMPONENT__COMPONENT_DESC:
 				return COMPONENT_DESC_EDEFAULT == null ? componentDesc != null : !COMPONENT_DESC_EDEFAULT.equals(componentDesc);
+			case BehaviortreePackage.COMPONENT__ENUMERATED:
+				return enumerated != ENUMERATED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

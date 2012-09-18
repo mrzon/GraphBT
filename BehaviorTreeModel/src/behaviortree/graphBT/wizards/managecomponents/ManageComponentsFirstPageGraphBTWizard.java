@@ -51,6 +51,10 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 	private Text editComponentNameText;
 	private Button behaviorButton;
 	private Button saveComponentButton;
+//<<<<<<< HEAD
+	private Button checkButton;
+//=======
+//>>>>>>> refs/remotes/origin/master3wizard
 	private Text editBehaviorNameText; 
 	private Text editComponentDescText;
 	private Text componentDescText;
@@ -345,6 +349,25 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		editComponentDescText.setLayoutData(gridData);		
 		editComponentDescText.setVisible(false);
 		
+//<<<<<<< HEAD
+		checkButton = new Button(editComponentGroup, SWT.CHECK);
+		checkButton.setText("Enumerate");
+		checkButton.setVisible(false);
+
+		checkButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Called!" + checkButton.getSelection());
+			}
+		}); 
+		
+		final Label editAdditionalLabel = new Label(editComponentGroup, SWT.NULL);
+		gridData = new GridData();		
+		gridData.horizontalSpan = 1;
+		editAdditionalLabel.setLayoutData(gridData);	
+		editAdditionalLabel.setText("");
+		editAdditionalLabel.setVisible(false);
+//=======
 		
 		
 		saveComponentButton = new Button(editComponentGroup, SWT.NULL);
@@ -383,6 +406,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				saveComponentButton.setVisible(true);
 				cancelEditComponentButton.setVisible(true);
 				editBehaviorGroup.setVisible(false);
+				checkButton.setVisible(true);
 			}
 
 		});
