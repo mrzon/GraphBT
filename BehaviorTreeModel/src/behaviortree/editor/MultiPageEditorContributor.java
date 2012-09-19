@@ -112,6 +112,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	private Action clearDiagram;
 	private Action generateSALCode;
 	private ActionRegistry registry = new ActionRegistry();
+	private Action runCode;
 	/**
 	 * Creates a multi-page contributor.
 	 */
@@ -633,6 +634,35 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		generateSALCode.setToolTipText("Generate the SAL Code");
 		generateSALCode.setImageDescriptor(getImageDescriptor("icons/generateSALCode.gif"));
 		
+		runCode = new Action() {
+			public void run() {
+				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
+				if(activeEditorPart instanceof DiagramEditor)
+				{
+					Diagram d = ((DiagramEditor)activeEditorPart).getDiagramTypeProvider().getDiagram();
+					if(GraphBTUtil.isValid(d)>0)
+					{
+						MessageDialog.openError(null, "Run error", "The model is not valid, validate the model first to check error");
+						return;
+					}
+				
+					try {
+						IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+						String homeDrivePath = root.getRawLocation().toOSString();
+						Process process = Runtime.getRuntime().exec(
+							"cmd /c start cmd.exe /k \"c: && cd " 
+							+ homeDrivePath);
+					}catch (IOException e) {
+						e.printStackTrace();
+					}
+					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
+				}
+			}
+		};
+		runCode.setText("Run the code");
+		runCode.setToolTipText("Run the generated Code");
+		runCode.setImageDescriptor(getImageDescriptor("icons/run.gif"));
+		
 	}
 	
 	private String handleBrowse() {
@@ -682,6 +712,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		menu.add(new Separator());
 		menu.add(correctLayout);
 		menu.add(extractFromBTFile);
+
+		menu.add(runCode);
 	}
 	private IAction getAction(String str) {
 		return this.registry.getAction(str);
@@ -703,6 +735,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		manager.add(generateSALCode);
 		manager.add(new Separator());
 		manager.add(correctLayout);
+		manager.add(runCode);
 		manager.add(new Separator());
 		//manager.add(getAction(GEFActionConstants.ZOOM_OUT));
 		//manager.add(getAction(GEFActionConstants.ZOOM_IN));
