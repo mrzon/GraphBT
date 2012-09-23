@@ -30,24 +30,62 @@
       <import plugin="org.eclipse.ui.editors"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.gef" version="3.7.1" match="greaterOrEqual"/>
-      <import plugin="org.be.textbe.bt.model.editor" version="0.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.m2m.atl.core"/>
+      <import plugin="org.be.textbe.bt.model"/>
+      <import plugin="org.be.textbe.bt.model.editor"/>
       <import plugin="org.eclipse.emf.ecore.edit"/>
       <import plugin="org.eclipse.emf.edit.ui"/>
       <import plugin="org.eclipse.emf.workspace"/>
       <import plugin="org.eclipse.graphiti.examples.common"/>
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.ui.views.properties.tabbed"/>
+      <import plugin="org.eclipse.core.expressions" version="3.4.300" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.resources" version="3.7.101" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.zest.core" version="1.3.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.zest.layouts" version="1.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.console" version="3.5.100" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.ide" version="3.7.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
-         id="BehaviorTreeModel"
+         id="behaviortree.graphBT"
+         os="win32"
+         ws="win32"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="CreateNewBTDiagram"
+         id="behaviortree.graphBT.btdebuggertool"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="behaviortree.graphBT.codegenerator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="behaviortree.graphBT.createnewbtdiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="behaviortree.graphBT.createnewbtproject"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="behaviortree.saltranslator"
          download-size="0"
          install-size="0"
          version="0.0.0"

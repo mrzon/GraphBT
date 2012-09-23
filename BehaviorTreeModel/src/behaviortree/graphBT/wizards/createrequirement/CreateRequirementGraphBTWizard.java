@@ -18,6 +18,7 @@ import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.Requirement;
 import behaviortree.StandardNode;
+import behaviortree.graphBT.editors.MultiPageEditor;
 
 public class CreateRequirementGraphBTWizard extends Wizard {
 
@@ -53,7 +54,7 @@ public class CreateRequirementGraphBTWizard extends Wizard {
         }
         else
         {
-        	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+        	ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
         }
         d = ds.getDiagramTypeProvider().getDiagram();
 		final BEModel be = GraphBTUtil.getBEModel(d);
@@ -66,12 +67,7 @@ public class CreateRequirementGraphBTWizard extends Wizard {
 		
 		final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 			protected void doExecute() {
-				//System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
-				
-				//if(!c.getComponentName().equals("")&&c.getComponentName()!=null)
-			
 					be.getRequirementList().getRequirements().add(r);
-						//String name = GraphBTUtil.getBehaviorFromComponentByRef(c, node.getBehaviorRef()).toString();
 		    }
 		};
 		ds.getEditingDomain().getCommandStack().execute(cmd);

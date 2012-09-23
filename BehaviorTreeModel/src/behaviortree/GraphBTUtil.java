@@ -17,7 +17,7 @@ package behaviortree;
  * </copyright>
  *
  *******************************************************************************/
-
+import behaviortree.graphBT.editors.*;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -93,7 +93,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
 import org.osgi.framework.Bundle;
 
-import behaviortree.editor.MultiPageEditor;
 
 public class GraphBTUtil {
 	public static final Set<StandardNode> errorReversionNode = new HashSet<StandardNode>();
@@ -321,7 +320,7 @@ public class GraphBTUtil {
 		}
 		else
 		{
-			ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+			ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
 		}
 		Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 			protected void doExecute() {
@@ -1434,7 +1433,7 @@ public class GraphBTUtil {
 		}
 		else
 		{
-			ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+			ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
 		}
 		currentY = currentY + vSpace;
 		if(node.getParent()==null || node.getParent()!=null && node.getParent().getEdge().getComposition().getValue()==Composition.SEQUENTIAL_VALUE)
@@ -1572,7 +1571,7 @@ public class GraphBTUtil {
 		final IDeleteContext deleteContext = new DeleteContext(pe);
 		IEditorPart ep = (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor());
 		final DiagramEditor de;
-		if(ep instanceof MultiPageEditor)
+		if(ep instanceof behaviortree.graphBT.editors.MultiPageEditor)
 			de = ((MultiPageEditor)ep).getDiagramEditor();
 		else
 			de = (DiagramEditor)ep;

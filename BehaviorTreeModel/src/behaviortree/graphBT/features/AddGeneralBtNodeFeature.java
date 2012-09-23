@@ -85,7 +85,6 @@ IAddFeature {
 		
     	StandardNode node = (StandardNode) context.getNewObject();
 		Diagram targetDiagram = (Diagram) context.getTargetContainer();
-		System.out.println("AddGeneralBtNodeFeature add "+node.toBTText());
 		return createPENode(targetDiagram, node,context.getX(),context.getY());
     }
     public PictogramElement createPENode(Diagram targetDiagram, StandardNode node, int x, int y){
@@ -207,7 +206,6 @@ IAddFeature {
         	Shape shapeOperator = peCreateService.createShape(containerShape, true);
         	 
             Text textOperator = gaService.createText(shapeOperator, node.getOperator());
-            System.out.println("textOperator :" + textOperator.getValue());
             textOperator.setForeground(manageColor(E_CLASS_TEXT_FOREGROUND));
             textOperator.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER); 
             textOperator.setFont(gaService.manageDefaultFont(getDiagram(), false, false));
@@ -239,7 +237,6 @@ IAddFeature {
         		textOperator = gaService.createText(shapeAlt, "");
         	}
         	
-            System.out.println("textOperator :" + textOperator.getValue());
             textOperator.setForeground(manageColor(new ColorConstant("000000")));
             textOperator.setBackground(manageColor(new ColorConstant("000000")));
             textOperator.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);

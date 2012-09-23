@@ -19,6 +19,7 @@ import behaviortree.Behavior;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
+import behaviortree.graphBT.editors.MultiPageEditor;
 
 public class SearchComponentBehaviorWizard extends Wizard {
 
@@ -56,7 +57,7 @@ public class SearchComponentBehaviorWizard extends Wizard {
         }
         else
         {
-        	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+        	ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
         }
         d = ds.getDiagramTypeProvider().getDiagram();
 		final BEModel be = GraphBTUtil.getBEModel(d);

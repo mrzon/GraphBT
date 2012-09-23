@@ -12,12 +12,12 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="behaviortree.editor.MultiPageEditor"
-            contributorClass="behaviortree.editor.MultiPageEditorContributor"
+            class="behaviortree.graphBT.editors.MultiPageEditor"
+            contributorClass="behaviortree.graphBT.editors.MultiPageEditorContributor"
             default="true"
             extensions="btdiagram"
             icon="icons/sample.gif"
-            id="behaviortree.editor.MultiPageEditor"
+            id="behaviortree.graphBTeditor.editors.MultiPageEditor"
             name="BT Diagram">
       </editor>
    </extension>

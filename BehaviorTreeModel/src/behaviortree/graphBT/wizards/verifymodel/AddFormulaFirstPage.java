@@ -280,7 +280,5 @@ public class AddFormulaFirstPage extends WizardPage {
 	    });
 		
 		setControl(container);
-		
-		
 	}
 }

@@ -188,6 +188,7 @@ import behaviortree.GraphBTUtil;
 import behaviortree.Link;
 import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatusClass;
+import behaviortree.graphBT.editors.MultiPageEditor;
 import behaviortree.graphBT.wizards.manageBranch.ManageBranchWizardGraphBtFeature;
 
 
@@ -248,7 +249,6 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
 	@Override
 	public Connection create(ICreateConnectionContext context) {
 		Connection newConnection = null; 
-		System.out.println("Kepanggil woi.."+context.getSourcePictogramElement()+" "+context.getTargetPictogramElement());
         // get EClasses which should be connected
         StandardNode source = getStandardNode(context.getSourcePictogramElement());
         StandardNode target = getStandardNode(context.getTargetPictogramElement());
@@ -303,7 +303,7 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
         	 ds = (DiagramEditor)page.getActiveEditor();	
         }
         else {
-        	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+        	ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
         }
 
 		UpdateContext context = new UpdateContext(pe);
@@ -318,8 +318,6 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
     		return null;
     	}
     	Edge edge = source.getEdge();
-    	System.out.println("Ini edgenya "+edge);
-    	
         if(edge == null) {
         	edge = BehaviortreeFactory.eINSTANCE.createEdge();
         	edge.setComposition(Composition.SEQUENTIAL);
@@ -328,8 +326,6 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
         }
         else
         {
-        	System.out.println("Saya punya edge lhoo");
-        	
         	for(int i = 0; i < edge.getChildNode().size();i++)
         	{
         		if(edge.getChildNode().get(i).getTarget()==(target))
@@ -339,7 +335,6 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
         	}
         	if(edge.getChildNode().size()==1)
         	{
-        		System.out.println("Saya belum punya branch lhoo");
         		HashMap<Integer, String> map = new HashMap<Integer, String>();
             	WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
                         getActiveWorkbenchWindow().getShell(),
@@ -369,12 +364,9 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
 					Object bo = Graphiti.getLinkService()
 			                 .getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
 					if(bo instanceof AlternativeClass) {
-						System.out.println("bo instanceof AlternativeClass");
 						updatePictogramElement(n);
 					}
 				}
-				
-        		System.out.println("branch: " + edge.getBranch().getLiteral());
         	}
         }
         Link l = GraphBTUtil.getBEFactory().createLink();

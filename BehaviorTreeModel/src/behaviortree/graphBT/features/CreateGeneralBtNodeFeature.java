@@ -90,7 +90,6 @@ ICreateFeature {
 			c.setComponentRef("DefaultComponent");
 		}
 		else {
-			System.out.println("awuoo wuoooo"+map.get(StandardNode.COMPONENT_VALUE));
 			c = GraphBTUtil.getComponent(beModel, map.get(StandardNode.COMPONENT_VALUE));
 		}
 		

@@ -15,12 +15,11 @@
  *
  *******************************************************************************/
 
-package behaviortree.editor;
+package behaviortree.graphBT.editors;
 
 
 import java.util.Map;
 
-import org.be.textbe.bt.textbt.presentation.TextbtEditor;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -28,8 +27,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.gef.MouseWheelHandler;
-import org.eclipse.gef.MouseWheelZoomHandler;
+import org.eclipse.emf.validation.internal.util.Log;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -46,21 +44,17 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.part.MultiPageEditorPart;
 
 import behaviortree.GraphBTUtil;
 
-public class MultiPageEditor extends FormEditor implements IResourceChangeListener {
+public class MultiPageEditor extends MultiPageEditorPart implements IResourceChangeListener {
 
 	/** The text editor used in page 0. */
 	private DiagramEditor editor;
-	private TextEditor editor2;
-	private TextbtEditor editor3;
-	private String strRep;
-
 	/**
 	 * Creates a multi-page editor example.
 	 */
@@ -112,24 +106,23 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	/**
 	 * Creates page 1 of the multi-page editor,
 	 * which allows you to change the font used in page 2.
-	 */
+	
 	void createPage2() {
 
 		try {
-			editor3 = new TextbtEditor();
-			int index = addPage(editor3, getEditorInput());
+			//editor3 = new TextbtEditor();
+			//int index = addPage(editor3, getEditorInput());
 
-			setPageText(index, "Textual");
+		//	setPageText(index, "Textual");
 		} catch (PartInitException e) {
 			ErrorDialog.openError(getSite().getShell(), "Error creating nested text editor", null, e.getStatus());
 		}
-	}
+	} */
 
 	/**
 	 * Creates the pages of the multi-page editor.
 	 */
-	@SuppressWarnings("deprecation")
-	protected void addPages() {
+	protected void createPages() {
 		createPage0();
 		createPage1();
 		//createPage2();
@@ -195,15 +188,16 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		super.pageChange(newPageIndex);
 		switch (newPageIndex)
 		{
-		 case 0: System.out.println("editor 0 nih"); 
+		 case 0:  //case in editor 0
 
 		 break;
-		 case 1: System.out.println("editor 1 nih");
-		 //IEditorInput ii = new IEditorInput();
+		 case 1: //case in editor 1
+		 /**
+		  * set the text in getBTText
+		  */
 		 text.setText(GraphBTUtil.getBTText(((DiagramEditor)editor).getDiagramTypeProvider().getDiagram()));
+		 
 		 break;
-		 case 2: System.out.println("editor 2 nih");break;
-		 case 3: System.out.println("editor 3 nih");break;
 		}
 	}
 

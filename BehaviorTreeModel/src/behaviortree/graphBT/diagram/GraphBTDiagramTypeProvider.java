@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package behaviortree.graphBT.diagram;
 
 import org.eclipse.graphiti.dt.AbstractDiagramTypeProvider;

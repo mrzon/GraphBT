@@ -15,4 +15,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7,
  JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.ui.actions
-Export-Package: codegenerator.commandHandler
+Export-Package: codegenerator.commandHandler,
+ codegenerator.helper

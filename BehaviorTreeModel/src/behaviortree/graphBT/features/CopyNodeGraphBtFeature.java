@@ -17,13 +17,10 @@ public class CopyNodeGraphBtFeature extends AbstractCopyFeature {
 
 	public CopyNodeGraphBtFeature(IFeatureProvider fp) {
 		super(fp);
-		System.out.println("so, this is not even called too?! That's preposterous!");
 	}
 	
 	@Override
 	public boolean canCopy(ICopyContext context) {
-		System.out.println("in the can copy method.");
-		
 		final PictogramElement[] pes = context.getPictogramElements();
 		if (pes == null || pes.length == 0) { // nothing selected
 			return false;
@@ -33,11 +30,9 @@ public class CopyNodeGraphBtFeature extends AbstractCopyFeature {
 		for (PictogramElement pe : pes) {
 			final Object bo = getBusinessObjectForPictogramElement(pe);
 			if (!(bo instanceof StandardNode)) {
-				System.out.println("one of these pictograms cannot be copied.");
 				return false;
 			}
 		}
-		System.out.println("this standard node can be copied.");
 		return true;
 	}
 
@@ -50,8 +45,6 @@ public class CopyNodeGraphBtFeature extends AbstractCopyFeature {
             bos[i] = getBusinessObjectForPictogramElement(pe);
             
         }
-        
-        System.out.println("in the copy method");
         // put all business objects to the clipboard
         putToClipboard(bos);
 	}

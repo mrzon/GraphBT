@@ -14,6 +14,7 @@ import org.eclipse.ui.PlatformUI;
 import behaviortree.BEModel;
 import behaviortree.Formula;
 import behaviortree.GraphBTUtil;
+import behaviortree.graphBT.editors.MultiPageEditor;
 import behaviortree.util.Log;
 
 /**
@@ -63,7 +64,7 @@ public class AddFormulaWizard extends Wizard {
         }
         else
         {
-        	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+        	ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
         }
         d = ds.getDiagramTypeProvider().getDiagram();
 		final BEModel be = GraphBTUtil.getBEModel(d);

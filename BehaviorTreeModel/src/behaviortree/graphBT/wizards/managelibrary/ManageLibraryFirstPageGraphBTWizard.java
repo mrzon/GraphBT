@@ -45,7 +45,7 @@ import behaviortree.Requirement;
 import behaviortree.StandardNode;
 import behaviortree.graphBT.wizards.createbehavior.CreateBehaviorGraphBTWizard;
 import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard;
-
+import behaviortree.graphBT.editors.*;
 /**
  * Class to define the contents of manage component wizard
  * @author GraphBT Team
@@ -79,7 +79,7 @@ public class ManageLibraryFirstPageGraphBTWizard extends WizardPage {
         }
         else
         {
-        	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+        	ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
         }
         
 		

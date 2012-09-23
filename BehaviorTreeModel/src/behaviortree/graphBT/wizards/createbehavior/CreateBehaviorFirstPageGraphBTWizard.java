@@ -132,15 +132,19 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 	}
 	
 	private void dialogChanged() {
-		if (behaviorNameText.getText().length() == 0) {
+		if (behaviorNameText.getText().trim().length() == 0) {
 			updateStatus("Behavior name must be specified");
 			return;
 		}
-		if (behaviorRefText.getText().length() == 0) {
+		if (behaviorNameText.getText().trim().contains(" ")) {
+			updateStatus("Space character is illegal");
+			return;
+		}
+		if (behaviorRefText.getText().trim().length() == 0) {
 			updateStatus("Behavior reference must be specified");
 			return;
 		}
-		if (!behaviorRefText.getText().matches("[0-9]+")) {
+		if (!behaviorRefText.getText().trim().matches("[0-9]+")) {
 			updateStatus("Behavior reference must be integer");
 			return;
 		}

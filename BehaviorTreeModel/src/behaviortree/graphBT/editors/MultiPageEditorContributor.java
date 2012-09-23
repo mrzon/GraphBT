@@ -1,49 +1,32 @@
-package behaviortree.editor;
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
+package behaviortree.graphBT.editors;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import btdebuggertool.commandHandler.*;
-import javax.swing.text.html.HTMLDocument.Iterator;
 import behaviortree.saltranslator.bt2sal.*;
 //import org.be.textbe.bt.textbt.presentation.TextbtEditor;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
-import org.eclipse.gef.ui.actions.ActionRegistry;
-import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
-import org.eclipse.gef.ui.actions.ZoomInRetargetAction;
-import org.eclipse.gef.ui.actions.ZoomOutRetargetAction;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
-import org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
@@ -54,21 +37,13 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.actions.RetargetAction;
-import org.eclipse.ui.dialogs.ContainerSelectionDialog;
-import org.eclipse.ui.dialogs.FileSelectionDialog;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.ide.IDEActionFactory;
 import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
@@ -77,14 +52,9 @@ import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.osgi.framework.Bundle;
 
 import behaviortree.BEModel;
-import behaviortree.BehaviorTree;
-import behaviortree.Component;
 import behaviortree.GraphBTUtil;
-import behaviortree.RequirementList;
 import behaviortree.StandardNode;
 import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard;
-import behaviortree.graphBT.wizards.createrequirement.CreateRequirementGraphBTWizard;
-import behaviortree.graphBT.wizards.createstandardnode.CreateStandardNodeGraphBTWizard;
 import behaviortree.graphBT.wizards.managecomponents.ManageComponentsGraphBTWizard;
 import behaviortree.graphBT.wizards.managelibrary.ManageLibraryGraphBTWizard;
 import behaviortree.graphBT.wizards.managerequirements.ManageRequirementsGraphBTWizard;
@@ -111,7 +81,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	private IFile btIFile;
 	private Action clearDiagram;
 	private Action generateSALCode;
-	private ActionRegistry registry = new ActionRegistry();
 	private Action runCode;
 	/**
 	 * Creates a multi-page contributor.
@@ -181,7 +150,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private void createActions() {
 
 		generateBTCode = new Action() {
@@ -233,7 +201,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor)
 				{
-					System.out.println("Diagramnya kebuka euy");
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
 					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
@@ -247,12 +214,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					{
 						return;
 					}
-
-
-					//System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
-
-
-					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
 			}
 		};
@@ -266,7 +227,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor)
 				{
-					System.out.println("Diagramnya kebuka euy");
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
 					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
@@ -280,13 +240,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						{
 							return;
 						}
-						BEModel be = GraphBTUtil.getBEModel(d);
-
-
-						//System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
-
 					}
-					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
 			}
 		};
@@ -300,7 +254,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor)
 				{
-					System.out.println("Diagramnya kebuka euy");
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
 					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
@@ -315,17 +268,11 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						{
 							return;
 						}
-						BEModel be = GraphBTUtil.getBEModel(d);
-
-
-						//System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
-
+						GraphBTUtil.getBEModel(d);
 					}
-					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
 			}
 		};
-		//System.out.println("Filenya "+ip.toString());
 		manageRequirements.setText("Manage Requirements");
 		manageRequirements.setToolTipText("Manage Requirements of The Model");
 		manageRequirements.setImageDescriptor(getImageDescriptor("icons/requirement.gif"));
@@ -335,7 +282,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor)
 				{
-					System.out.println("Diagramnya kebuka euy");
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
 					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
@@ -350,13 +296,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						{
 							return;
 						}
-						BEModel be = GraphBTUtil.getBEModel(d);
-
-
-						//System.out.println("jumlah komponen so far: "+be.getComponentList().getComponents().size());
-
+						GraphBTUtil.getBEModel(d);
 					}
-					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
 			}
 		};
@@ -384,7 +325,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						{
 							return;
 						}
-						BEModel be = GraphBTUtil.getBEModel(d);
+						GraphBTUtil.getBEModel(d);
 					}
 					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
@@ -504,7 +445,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					uri.trimFileExtension();
 					uri.appendFileExtension("model");
 					IResource res = root.findMember(uri.toPlatformString(true));
-					System.out.println("file pathnya "+f.getAbsolutePath()+" "+path);
 					
 					if(filePath == null)
 						return;
@@ -605,7 +545,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						MessageDialog.openError(null, "SAL generation error", "The model is not valid, validate the model first to check error");
 						return;
 					}
-					codegenerator.commandHandler.StartPointParseXML debugger = new codegenerator.commandHandler.StartPointParseXML ();
+					new codegenerator.commandHandler.StartPointParseXML ();
 					generateBTCode.run(); //generate the bt code first
 					URI uri = d.eResource().getURI();
 					uri = uri.trimFragment();
@@ -649,9 +589,12 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					try {
 						IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 						String homeDrivePath = root.getRawLocation().toOSString();
-						Process process = Runtime.getRuntime().exec(
+						String project =  d.eResource().getURI().toPlatformString(true);
+						IResource res = root.findMember(project);
+						URL url = codegenerator.helper.Helper.getURL("lib/absfrontend.jar");
+						Runtime.getRuntime().exec(
 							"cmd /c start cmd.exe /k \"c: && cd " 
-							+ homeDrivePath);
+							+ homeDrivePath+"&& java -cp "+res.getProject().getName()+"/src/;"+url.getPath()+" "+res.getProject().getName()+".Main");
 					}catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -666,7 +609,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	}
 	
 	private String handleBrowse() {
-		@SuppressWarnings("deprecation")
 		FileDialog dialog = new FileDialog(
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 		dialog.setFilterExtensions(new String [] {"*.bt"});
@@ -714,9 +656,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		menu.add(extractFromBTFile);
 
 		menu.add(runCode);
-	}
-	private IAction getAction(String str) {
-		return this.registry.getAction(str);
 	}
 	public void contributeToToolBar(IToolBarManager manager) {
 		manager.add(new Separator());

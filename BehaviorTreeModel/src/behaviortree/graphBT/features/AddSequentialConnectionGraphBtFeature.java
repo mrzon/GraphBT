@@ -53,7 +53,7 @@ public class AddSequentialConnectionGraphBtFeature extends AbstractAddFeature im
 		IAddConnectionContext addConContext = (IAddConnectionContext) context;
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
 		IGaService gaService = Graphiti.getGaService();
-		System.out.println("AddSequentialConnection add: "+addConContext.getSourceAnchor()+" "+addConContext.getTargetAnchor());
+		//System.out.println("AddSequentialConnection add: "+addConContext.getSourceAnchor()+" "+addConContext.getTargetAnchor());
 		Connection connection = peCreateService.createFreeFormConnection(getDiagram());
 		connection.setStart(addConContext.getSourceAnchor());
 		connection.setEnd(addConContext.getTargetAnchor());

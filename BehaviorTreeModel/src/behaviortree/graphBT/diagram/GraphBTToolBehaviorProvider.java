@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package behaviortree.graphBT.diagram;
 
 /*******************************************************************************
@@ -142,14 +145,11 @@ public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 	{
 		IContextMenuEntry[] ret = NO_CONTEXT_MENU_ENTRIES;
 		List<IContextMenuEntry> retList = new ArrayList<IContextMenuEntry>();
-		System.out.println("Aku kepencet.. kyaa~~");
 		ICustomFeature[] customFeatures = getFeatureProvider().getCustomFeatures(context);
 		for (int i = 0; i < customFeatures.length; i++) {
 			ICustomFeature customFeature = customFeatures[i];
-			System.out.println("getContextMenu "+customFeatures[i].canExecute(context));
 			retList.add(new ContextMenuEntry(customFeature, context));
 		}
-		System.out.println("Context menu");
 		return NO_CONTEXT_MENU_ENTRIES;
 	}
 	

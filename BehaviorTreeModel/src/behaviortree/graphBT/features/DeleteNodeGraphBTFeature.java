@@ -8,7 +8,6 @@ import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.impl.DeleteContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.tb.ContextButtonEntry;
 import org.eclipse.graphiti.tb.ContextEntryHelper;
 import org.eclipse.graphiti.tb.IContextButtonEntry;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
@@ -18,7 +17,6 @@ import org.eclipse.ui.PlatformUI;
 
 import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
-import behaviortree.editor.MultiPageEditor;
 
 public class DeleteNodeGraphBTFeature extends DefaultDeleteFeature {
 

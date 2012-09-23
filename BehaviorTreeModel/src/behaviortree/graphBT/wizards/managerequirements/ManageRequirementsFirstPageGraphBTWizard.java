@@ -39,6 +39,7 @@ import behaviortree.Operator;
 import behaviortree.Requirement;
 import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
+import behaviortree.graphBT.editors.MultiPageEditor;
 import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard;
 import behaviortree.graphBT.wizards.createrequirement.CreateRequirementGraphBTWizard;
 import behaviortree.graphBT.wizards.requirementCompactView.RequirementCompactViewGraphBTWizard;
@@ -302,7 +303,7 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 					ds = (DiagramEditor)page.getActiveEditor();	
 				}
 				else {
-					ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+					ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
 				}
 				
 				d = ds.getDiagramTypeProvider().getDiagram();
@@ -345,7 +346,7 @@ public class ManageRequirementsFirstPageGraphBTWizard extends WizardPage {
 					ds = (DiagramEditor)page.getActiveEditor();	
 				}
 				else {
-					ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+					ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
 				}
 				d = ds.getDiagramTypeProvider().getDiagram();
 				final BEModel be = GraphBTUtil.getBEModel(d);

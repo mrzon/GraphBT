@@ -18,8 +18,6 @@ public class DeleteConnectionGraphBTFeature extends DefaultDeleteFeature{
 	public DeleteConnectionGraphBTFeature(
 			IFeatureProvider fp) {
 		super(fp);
-		System.out.println("Delete Connection Graph BT Feature");
-		// TODO Auto-generated constructor stub
 	}
 	public boolean canDelete(IDeleteContext context) {
 		PictogramElement pe = context.getPictogramElement();
@@ -52,6 +50,5 @@ public class DeleteConnectionGraphBTFeature extends DefaultDeleteFeature{
 		}
 		link.setSource(null);
 		link.setTarget(null);
-		System.out.println("URI dari standardnodenya "+GraphBTUtil.getRoots(getDiagram().eResource().getResourceSet()).get(0).eResource().getURI().toString());
 	}
 }

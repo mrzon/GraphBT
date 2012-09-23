@@ -116,7 +116,6 @@ public class CreateComponentFirstPageGraphBTWizard extends WizardPage {
 		checkEnumerate.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Called!" + checkEnumerate.getSelection());
 				if(checkEnumerate.getSelection() == true) {
 					map.put(Component.ENUM_VALUE, "true");
 				}
@@ -134,17 +133,26 @@ public class CreateComponentFirstPageGraphBTWizard extends WizardPage {
 	
 	private void dialogChanged() {
 		
-		if (componentNameText.getText().length() == 0) {
+		if (componentNameText.getText().trim().length() == 0) {
 			updateStatus("Component name must be specified");
 			return;
 		}
+		if (componentNameText.getText().trim().contains(" ")) {
+			updateStatus("Space character is illegal");
+			return;
+		}
 		
-		if (componentRefText.getText().length() == 0) {
+		if (componentRefText.getText().trim().length() == 0) {
 			updateStatus("Component reference must be specified");
 			return;
 		}
 		
 		if (GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefText.getText()) != null) {
+			updateStatus("Component reference is already exist");
+			return;
+		}
+		
+		if (GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), componentNameText.getText().trim()) != null) {
 			updateStatus("Component reference is already exist");
 			return;
 		}

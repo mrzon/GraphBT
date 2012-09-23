@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BTDebuggerTool
-Bundle-SymbolicName: BTDebuggerTool;singleton:=true
+Bundle-SymbolicName: behaviortree.graphBT.btdebuggertool;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: btdebuggertool.Activator
 Bundle-Vendor: Agung Pratama

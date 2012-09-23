@@ -47,7 +47,7 @@ import behaviortree.StandardNode;
 import behaviortree.TraceabilityStatus;
 import behaviortree.TraceabilityStatusClass;
 import behaviortree.graphBT.wizards.managecomponents.ManageComponentsGraphBTWizard;
-
+import behaviortree.graphBT.editors.*;
 /**
  * Class for managing the property section of BT node
  * @author GraphBT Team
@@ -67,7 +67,6 @@ public class BehaviorTreePropertySection extends GFPropertySection
     public void createControls(Composite parent, 
     		TabbedPropertySheetPage tabbedPropertySheetPage) {
 		super.createControls(parent, tabbedPropertySheetPage);
-		System.out.println("Sekali dibuat ini");
         TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
         Composite composite = factory.createFlatFormComposite(parent);
 
@@ -84,7 +83,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
         	 ds = (DiagramEditor)page.getActiveEditor();	
         }
         else {
-        	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+        	ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
         }
         
         final Diagram d = ds.getDiagramTypeProvider().getDiagram();
@@ -212,7 +211,6 @@ public class BehaviorTreePropertySection extends GFPropertySection
 		    	if(!(ob instanceof StandardNode))
 		    		return;
 		        final StandardNode node = (StandardNode) ob;
-		    	System.out.println("Aduh.. komponen kepencet");
 		    	
 		    	CCombo combo = (CCombo)e.widget;
 		    	final String selected = combo.getItem(combo.getSelectionIndex());
@@ -267,7 +265,6 @@ public class BehaviorTreePropertySection extends GFPropertySection
         behaviorCombo.addSelectionListener(new SelectionAdapter() {
 		    public void widgetSelected(SelectionEvent e) {
 		    	CCombo combo = (CCombo)e.widget;
-		    	System.out.println("Aduh.. behavior kepencet");
 		    	final String selected = combo.getItem(combo.getSelectionIndex());
 		    	PictogramElement pe = getSelectedPictogramElement();
 		    	Object ob = Graphiti.getLinkService()
@@ -301,7 +298,6 @@ public class BehaviorTreePropertySection extends GFPropertySection
         requirementCombo.addSelectionListener(new SelectionAdapter() {
 		    public void widgetSelected(SelectionEvent e) {
 		    	CCombo combo = (CCombo)e.widget;
-		    	System.out.println("Aduh.. requirement kepencet");
 		    	final String selected = combo.getItem(combo.getSelectionIndex());
 		    	PictogramElement pe = getSelectedPictogramElement();
 		    	Object ob = Graphiti.getLinkService()
@@ -346,7 +342,6 @@ public class BehaviorTreePropertySection extends GFPropertySection
         statusCombo.addSelectionListener(new SelectionAdapter() {
 		    public void widgetSelected(SelectionEvent e) {
 		    	CCombo combo = (CCombo)e.widget;
-		    	System.out.println("Aduh.. status kepencet");
 		    	final String selected = combo.getItem(combo.getSelectionIndex());
 		    	PictogramElement pe = getSelectedPictogramElement();
 		    	Object ob = Graphiti.getLinkService()
@@ -462,8 +457,6 @@ public class BehaviorTreePropertySection extends GFPropertySection
 		    public void widgetSelected(SelectionEvent e) {
 		    	CCombo combo = (CCombo)e.widget;
 		    	final String selected = combo.getItem(combo.getSelectionIndex());
-		    	
-		    	System.out.println("Aduh.. operator kepencet");
 		    	PictogramElement pe = getSelectedPictogramElement();
 		    	Object ob = Graphiti.getLinkService()
 		                 .getBusinessObjectForLinkedPictogramElement(pe);
@@ -551,7 +544,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
         	 ds = (DiagramEditor)page.getActiveEditor();	
         }
         else {
-        	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+        	ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
         }
 
 		UpdateContext context = new UpdateContext(pe);
@@ -585,12 +578,10 @@ public class BehaviorTreePropertySection extends GFPropertySection
             else {
             	Branch branch = edge.getBranch(); 
                 if(branch != null && edge.getChildNode().size()>1) {
-                	System.out.println("sn.getEdge().getBranch() != null");
                 	branchCombo.setVisible(true);
                 	branchLabel.setVisible(true);
                 }
                 else {
-                	System.out.println("else sn.getEdge().getBranch() != null");
                 	branchCombo.setVisible(false);
                 	branchLabel.setVisible(false);
                 }
@@ -603,7 +594,7 @@ public class BehaviorTreePropertySection extends GFPropertySection
             	 ds = (DiagramEditor)page.getActiveEditor();	
             }
             else {
-            	ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+            	ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
             }
             
             final Diagram d = ds.getDiagramTypeProvider().getDiagram();
@@ -641,12 +632,10 @@ public class BehaviorTreePropertySection extends GFPropertySection
             String statusString = GraphBTUtil.getTraceabilityStatus(d, node.getTraceabilityStatus()).getTraceabilityStatusLiteral();
             
             componentCombo.setText(componentString);
-            System.out.println("componentCombo.setText(componentString) " + componentString);
             behaviorCombo.setText(behaviorString);
             statusCombo.setText(statusString);
             operatorCombo.setText(operatorString);
             
-            System.out.println("The changed node" + node.getComponentRef()+" "+node.getBehaviorRef()+" "+node.getOperator()+" "+node.getTraceabilityStatus());
             if(operatorString.equals("^")&&!GraphBTUtil.reversionNode.contains(node))
             {
             	GraphBTUtil.reversionNode.add(node);

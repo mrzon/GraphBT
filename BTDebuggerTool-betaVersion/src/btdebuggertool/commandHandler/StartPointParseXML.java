@@ -217,7 +217,7 @@ public class StartPointParseXML extends AbstractHandler implements IHandler {
 		URL stASMURL;
 		ModelFactory factory = null;	
 		try {
-			Bundle bundle = Platform.getBundle("BTDebuggerTool");
+			Bundle bundle = Platform.getBundle("behaviortree.graphBT.btdebuggertool");
 			btASMURL = bundle.getEntry("transformations/textBT2GV.asm");
 			ctASMURL = null;
 			stASMURL = null;

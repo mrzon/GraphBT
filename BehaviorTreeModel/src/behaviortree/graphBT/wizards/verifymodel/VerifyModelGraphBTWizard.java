@@ -234,8 +234,5 @@ public class VerifyModelGraphBTWizard extends Wizard {
 		
 		s = Util.readFileSystemEnv(eclFolderPath.toString(), "sal-to-bttrace");
 		Util.writeFileSystemEnv(homeDrivePath, "sal-to-bttrace", s);
-		
-		
-		
 	}
 }

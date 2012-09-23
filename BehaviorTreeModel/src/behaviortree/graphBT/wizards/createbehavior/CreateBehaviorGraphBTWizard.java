@@ -14,7 +14,7 @@ import behaviortree.Behavior;
 import behaviortree.BehaviorType;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
-
+import behaviortree.graphBT.editors.*;
 /**
  * Class for mananing the create behavior wizard
  * @author GraphBT Team
@@ -59,7 +59,7 @@ public class CreateBehaviorGraphBTWizard extends Wizard {
         	 ds = (DiagramEditor)page.getActiveEditor();	
         }
         else {
-        	ds = ((behaviortree.editor.MultiPageEditor)page.
+        	ds = ((MultiPageEditor)page.
         			getActiveEditor()).getDiagramEditor();
         }
 

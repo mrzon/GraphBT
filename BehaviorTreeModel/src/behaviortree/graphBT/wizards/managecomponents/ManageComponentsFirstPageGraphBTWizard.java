@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
-
+import behaviortree.graphBT.editors.*;
 import behaviortree.BEModel;
 import behaviortree.Behavior;
 import behaviortree.BehaviorType;
@@ -422,7 +422,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 					ds = (DiagramEditor)page.getActiveEditor();	
 				}
 				else {
-					ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+					ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
 				}
 				d = ds.getDiagramTypeProvider().getDiagram();
 				
@@ -483,7 +483,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 					cRefLabel.setText("Reference: " +c.getComponentRef());
 					descComponentLabel.setVisible(true);
 					componentDescText.setVisible(true);
-					componentDescText.setText(c.getComponentDesc());
+					componentDescText.setText(c.getComponentDesc()==null?"":c.getComponentDesc());
 					behaviorButton.setEnabled(true);
 					
 				}
@@ -516,7 +516,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 					bTypeLabel.setText("Type: " + b.getBehaviorType().getName());
 					descBehaviorLabel.setVisible(true);
 					behaviorDescText.setVisible(true);
-					behaviorDescText.setText(b.getBehaviorDesc());
+					behaviorDescText.setText(b.getBehaviorDesc()==null?"":b.getBehaviorDesc());
 				}
 				behaviorRefTemp = b.getBehaviorRef();
 				//System.out.println("komponen = " + componentRefTemp);
@@ -572,7 +572,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 					ds = (DiagramEditor)page.getActiveEditor();	
 				}
 				else {
-					ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+					ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
 				}
 				d = ds.getDiagramTypeProvider().getDiagram();
 				
@@ -708,7 +708,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				
 				editBehaviorNameText.setText(b.getBehaviorName());
 				typeCombo.setText(b.getBehaviorType().getName());
-				editBehaviorDescText.setText(b.getBehaviorDesc());
+				editBehaviorDescText.setText(b.getBehaviorDesc()==null?"":b.getBehaviorDesc());
 				
 				editBehaviorGroup.setVisible(true);
 				typeLabel.setVisible(true);
@@ -733,7 +733,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 					ds = (DiagramEditor)page.getActiveEditor();	
 				}
 				else {
-					ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+					ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
 				}
 				d = ds.getDiagramTypeProvider().getDiagram();
 				
@@ -778,7 +778,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				}
 				else
 				{
-					ds = ((behaviortree.editor.MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+					ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
 				}
 				d = ds.getDiagramTypeProvider().getDiagram();
 				final BEModel be = GraphBTUtil.getBEModel(d);
