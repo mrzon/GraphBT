@@ -13,12 +13,15 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
+import codegenerator.Activator;
+
 public class Helper {
 	public static URL getURL(String path)
 	{
-		final URL file = FileLocator.find(Platform.getBundle("behaviortree.graphBT.codegenerator"), new Path(path),
+		Bundle b = Activator.getDefault().getBundle();
+		final URL file = FileLocator.find(b, new Path(path),
 				null);
-		URL base = Platform.getBundle("behaviortree.graphBT.codegenerator").getEntry(path); 
+		URL base = b.getEntry(path); 
 		
 		try {
 			URL ul = FileLocator.toFileURL(base);
@@ -29,7 +32,7 @@ public class Helper {
 			e.printStackTrace();
 		}
 		try {
-			File f = FileLocator.getBundleFile(Platform.getBundle("behaviortree.graphBT.codegenerator"));
+			File f = FileLocator.getBundleFile(b);
 			//System.out.println("Lokasi pluginnya "+f.+file);
 			
 			URL ul = new URL(f.toURI().getPath()+file.getPath());
@@ -42,10 +45,11 @@ public class Helper {
 	}
 	public static URL getWorkSpaceURL(String path)
 	{
+		Bundle b = Activator.getDefault().getBundle();
 		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		//workspaceRoot.get
 		
-		final URL file = FileLocator.find(Platform.getBundle("behaviortree.graphBT.codegenerator"), new Path(path),
+		final URL file = FileLocator.find(b, new Path(path),
 				null);
 		return file;
 	}

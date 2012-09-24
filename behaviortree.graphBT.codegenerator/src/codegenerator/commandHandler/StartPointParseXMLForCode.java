@@ -28,6 +28,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
+import org.eclipse.core.internal.content.Activator;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -75,7 +76,7 @@ import bt2abs.ABSForeign;
 import bt2abs.ABSModule;
 import bt2abs.BTParser;
 
-public class StartPointParseXML extends AbstractHandler implements IHandler {
+public class StartPointParseXMLForCode extends AbstractHandler implements IHandler {
 	//private static final String DEBUGGER_PERSPECTIVE_ID = "btdebuggertool.perspective.DebuggerPerspective";
 
 
@@ -269,7 +270,7 @@ public class StartPointParseXML extends AbstractHandler implements IHandler {
 		URL stASMURL;
 		ModelFactory factory = null;	
 		try {
-			Bundle bundle = Platform.getBundle("BTDebuggerTool");
+			Bundle bundle = codegenerator.Activator.getDefault().getBundle();
 			btASMURL = bundle.getEntry("transformations/textBT2GV.asm");
 			ctASMURL = null;
 			stASMURL = null;

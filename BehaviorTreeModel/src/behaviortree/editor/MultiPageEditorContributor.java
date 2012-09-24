@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import btdebuggertool.commandHandler.*;
 import javax.swing.text.html.HTMLDocument.Iterator;
+import btdebuggertool.commandHandler.*;
 import behaviortree.saltranslator.bt2sal.*;
 //import org.be.textbe.bt.textbt.presentation.TextbtEditor;
 import org.eclipse.core.resources.IFile;
@@ -75,6 +75,8 @@ import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.osgi.framework.Bundle;
+
+import codegenerator.commandHandler.StartPointParseXMLForCode;
 
 import behaviortree.BEModel;
 import behaviortree.BehaviorTree;
@@ -436,7 +438,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						MessageDialog.openError(null, "Debug error", "The model is not valid, validate the model first to check error");
 						return;
 					}
-					StartPointParseXML debugger = new StartPointParseXML ();
+					
+					btdebuggertool.commandHandler.StartPointParseXML debugger = new btdebuggertool.commandHandler.StartPointParseXML();
 					generateBTCode.run(); //generate the bt code first
 					debugger.showDebugger(btIFile, PlatformUI.getWorkbench().getActiveWorkbenchWindow());
 					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
@@ -458,7 +461,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						MessageDialog.openError(null, "Code generation error", "The model is not valid, validate the model first to check error");
 						return;
 					}
-					codegenerator.commandHandler.StartPointParseXML debugger = new codegenerator.commandHandler.StartPointParseXML ();
+					codegenerator.commandHandler.StartPointParseXMLForCode debugger = new codegenerator.commandHandler.StartPointParseXMLForCode ();
 					generateBTCode.run(); //generate the bt code first
 					debugger.generateCodeFromBT(btIFile);
 					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
@@ -605,7 +608,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						MessageDialog.openError(null, "SAL generation error", "The model is not valid, validate the model first to check error");
 						return;
 					}
-					codegenerator.commandHandler.StartPointParseXML debugger = new codegenerator.commandHandler.StartPointParseXML ();
+					codegenerator.commandHandler.StartPointParseXMLForCode debugger = new codegenerator.commandHandler.StartPointParseXMLForCode ();
 					generateBTCode.run(); //generate the bt code first
 					URI uri = d.eResource().getURI();
 					uri = uri.trimFragment();

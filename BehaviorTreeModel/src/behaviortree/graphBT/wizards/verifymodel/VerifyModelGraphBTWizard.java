@@ -35,7 +35,6 @@ import behaviortree.StandardNode;
 import behaviortree.util.Log;
 import behaviortree.util.Util;
 
-import behaviortree.saltranslator.bt2sal.*;
 
 public class VerifyModelGraphBTWizard extends Wizard {
 

@@ -40,14 +40,42 @@
    </requires>
 
    <plugin
-         id="BehaviorTreeModel"
+         id="behaviortree.graphBT"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="CreateNewBTDiagram"
+         id="behaviortree.graphBT.codegenerator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="behaviortree.graphBT.createnewbtdiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="behaviortree.graphBT.createnewbtproject"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="behaviortree.graphBT.debuggertool"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="behaviortree.saltranslator"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -20,7 +20,6 @@ package behaviortree.editor;
 
 import java.util.Map;
 
-import org.be.textbe.bt.textbt.presentation.TextbtEditor;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -58,7 +57,6 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	/** The text editor used in page 0. */
 	private DiagramEditor editor;
 	private TextEditor editor2;
-	private TextbtEditor editor3;
 	private String strRep;
 
 	/**
@@ -108,21 +106,6 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 //			editor2 = new TextEditor();
 //			int index = addPage(editor2, getEditorInput()); 
 		setPageText(index, "Textual");
-	}
-	/**
-	 * Creates page 1 of the multi-page editor,
-	 * which allows you to change the font used in page 2.
-	 */
-	void createPage2() {
-
-		try {
-			editor3 = new TextbtEditor();
-			int index = addPage(editor3, getEditorInput());
-
-			setPageText(index, "Textual");
-		} catch (PartInitException e) {
-			ErrorDialog.openError(getSite().getShell(), "Error creating nested text editor", null, e.getStatus());
-		}
 	}
 
 	/**
