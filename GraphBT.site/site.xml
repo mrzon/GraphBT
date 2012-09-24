@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/behaviortree.graphBT.feature_1.0.0.201209241958.jar" id="behaviortree.graphBT.feature" version="1.0.0.201209241958" patch="true">
+      <category name="GraphBT"/>
+   </feature>
+   <category-def name="GraphBT" label="GraphBT Update Site"/>
+</site>
