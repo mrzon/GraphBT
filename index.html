@@ -31,35 +31,51 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>Welcome to GitHub Pages.</h3>
+<!--        <h3>Welcome to GitHub Pages.</h3>   -->
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<h1>Background & Development</h1>
+<p>Research and development of Behavior Engineering (BE) is done by the works of University of Queensland and Griffith University. Universitas Indonesia through Formal Method and Software Engineering (FMSE) Laboratory of Faculty of Computer Science also cooperate to build practical solution of BE process. BE is a process to analyse and to break down a complex requirement which may contains ambiguity and uncomplete information into a set of  Behavior Tree (BT). The set of BT then processed and merged to an Intergrated BT (IBT) that can be simulated, model checked, and also implemented.
+Research that conducted in FMSE lab includes SAL translator and model checker integration tool, code generation tool, and debugger and simulation tools. All of the tools are built as an Eclipse plugin and separated to each other. In April 2012, a group was granted a funding to integrate all of the works that conducted in FMSE lab plus some additional work to create the graphical editor of BT. This project produced a tool which called GraphBT.</p>
 
+<!--
 <pre><code>$ cd your_repo_root/repo_name
 $ git fetch origin
 $ git checkout gh-pages
 </code></pre>
 
+
 <p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
 
 <h3>Designer Templates</h3>
-
 <p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
 <h3>Rather Drive Stick?</h3>
-
 <p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
 
 <h3>Authors and Contributors</h3>
 
 <p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
 <h3>Support or Contact</h3>
-
 <p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and weâ€™ll help you sort it out.</p>
       </section>
     </div>
+-->
 
+<h1>Tool Development</h1>
+<p>
+The initial tool development was started in April and ended in September 2012. The tool is build as an Eclipse plugin. Eclipse is the most growing open source project and already has a big community. This tool utilizes many Eclipse frameworks such as Eclipse Modeling Framework (EMF) to modeling its object, ATL to extract model from a certain code, and Graphiti to create the diagram editor of BT. The tool is released as an open source project and dedicated for BE Group. 
+Eventhough the project was started in April, many works are already built before. First is the development of Code Generator as an Eclipse plug-in to produce generated Java code from a given BT code that is conducted in September – December 2011 and also the development of Debugger and BT Execution Simulator that conducted in February 2012 – June 2012.
+</p>
+
+<h1>Application Information</h1>
+<p>
+The project is maintained using Github (<a href="https://github.com/mrzon/GraphBT">https://github.com/mrzon/GraphBT</a>). 
+Before start contributing, the list of prerequisite action can be accessed at <a href="https://github.com/mrzon/GraphBT/wiki/Installing-Guide">https://github.com/mrzon/GraphBT/wiki/Installing-Guide</a>. 
+The documentation of the tool is still on progress and will be evolved as long as the code is improved. 
+However, it can be accessed at <a href="http://mrzon.github.com/GraphBT/doc">http://mrzon.github.com/GraphBT/doc</a>. 
+The wiki page is containing important information to gaining more knowledge of the tool and can be accessed at <a href="https://github.com/mrzon/GraphBT/wiki">https://github.com/mrzon/GraphBT/wiki</a>. The application project page is available at <a href="http://mrzon.github.com/GraphBT">http://mrzon.github.com/GraphBT</a>. 
+The information of the tool is available from there. The tool is also available as an executable plugin through this following update site: <a href="http://mrzon.github.com/GraphBT/update-site">http://mrzon.github.com/GraphBT/update-site</a>. 
+
+</p>
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
