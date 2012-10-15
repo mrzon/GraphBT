@@ -61,7 +61,7 @@ public class DeleteNodeGraphBTFeature extends DefaultDeleteFeature {
 		{
 			for(int i = 0; i < node.getEdge().getChildNode().size(); i++)
 			{
-				StandardNode child = (StandardNode) node.getEdge().getChildNode().get(i);
+				StandardNode child = (StandardNode) node.getEdge().getChildNode().get(i).getTarget();
 				child.setParent(null);
 				child.setLeaf(false);
 			}
