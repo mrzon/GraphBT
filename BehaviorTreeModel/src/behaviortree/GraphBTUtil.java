@@ -181,8 +181,8 @@ public class GraphBTUtil {
 
 	
 	/**
-	 * 
-	 * @return
+	 * get active DiagramEditor instance
+	 * @return the active DiagramEditor or null if there is no active DiagramEditor
 	 */
 	public static DiagramEditor getDiagramEditor()
 	{
@@ -209,6 +209,12 @@ public class GraphBTUtil {
 		return model;
 	}
 
+	
+	/**
+	 * get BEModel from a Diagram
+	 * @param d the diagram
+	 * @return existing model or new model if no existing found
+	 */
 	public static BEModel getBEModel(final Diagram d)
 	{
 		URI uri = d.eResource().getURI();
@@ -273,6 +279,7 @@ public class GraphBTUtil {
 		return beModel;
 	}
 
+	
 	/**
 	 * Get diagram files from a project
 	 * @param p project instance
@@ -291,6 +298,7 @@ public class GraphBTUtil {
 		return diagramList;
 	}
 
+	
 	/**
 	 * Save an object to a corresponding diagram
 	 * @param obj object that want to added
@@ -331,6 +339,7 @@ public class GraphBTUtil {
 		f.getCommandStack().execute(cmd);
 	}
 
+	
 	/**
 	 * get list of file which contain diagram instance from a folder 
 	 * @param folder instance of folder
@@ -357,6 +366,7 @@ public class GraphBTUtil {
 		return ret;
 	}
 
+	
 	/**
 	 * get diagram instance from a file
 	 * @param file instance of file
@@ -388,6 +398,7 @@ public class GraphBTUtil {
 		return null;
 	}
 
+	
 	public static URI getDiagramModelURI(Diagram d)
 	{
 		URI uri = d.eResource().getURI();
@@ -397,6 +408,7 @@ public class GraphBTUtil {
 		return uri;
 	}
 
+	
 	/**
 	 * get file URI from a file based on a ResourceSet
 	 * @param file
@@ -410,6 +422,7 @@ public class GraphBTUtil {
 		return resourceURI;
 	}
 
+	
 	/**
 	 * get resourceset instance from a diagram
 	 * @param d
@@ -422,6 +435,7 @@ public class GraphBTUtil {
 		return rSet;
 	}
 
+	
 	/**
 	 * check whether the uri is exist in a resource set
 	 * @param rs the resourceset
@@ -442,6 +456,7 @@ public class GraphBTUtil {
 		return false;
 	}
 
+	
 	/**
 	 * get a resource from a resourceset based on a uri
 	 * @param rs the resource set
@@ -460,6 +475,7 @@ public class GraphBTUtil {
 		}
 		return null;
 	}
+	
 
 	/**
 	 * Get component instance based on a model and its name
@@ -480,15 +496,13 @@ public class GraphBTUtil {
 		return null;
 	}
 
-	//<<<<<<< HEAD
+	
 	/**
 	 * Get component instance from a model and based on its reference string
 	 * @param model
 	 * @param ref
 	 * @return
 	 */
-	//=======
-	//>>>>>>> refs/remotes/origin/master4
 	public static Component getComponentByRef(BEModel model, String ref)
 	{
 		Iterator<Component> it = model.getComponentList().getComponents().iterator();
@@ -502,6 +516,7 @@ public class GraphBTUtil {
 		return null;
 	}
 
+	
 	/**
 	 * Create new component in a model
 	 * @param model the model instance
@@ -522,21 +537,12 @@ public class GraphBTUtil {
 		return;
 	}
 
-	public static boolean createNewComponent(BEModel model, Component com)
-	{
-		if(getComponent(model, com.getComponentName())!=null)
-		{
-			model.getComponentList().getComponents().add(com);
-			return true;
-		}
-		return false;
-	}
-
+	
 	/**
 	 * get behavior instance from a component based on its tostring
 	 * @param component
 	 * @param ref
-	 * @return
+	 * @return behavior instance, null if there is no such behavior with the given tostring
 	 */
 	public static Behavior getBehaviorFromComponent(Component component,
 			String ref) {
@@ -557,7 +563,7 @@ public class GraphBTUtil {
 	 * get behavior instance from a component based on its reference string
 	 * @param component
 	 * @param ref
-	 * @return
+	 * @return behavior instance, null if there is no such behavior
 	 */
 	public static Behavior getBehaviorFromComponentByRef(Component component,
 			String ref) {
@@ -571,12 +577,12 @@ public class GraphBTUtil {
 		}
 		return null;
 	}
+	
 
 	/**
-	 * get requirement
-	 * @param model
-	 * @param key
-	 * @return
+	 * removes behavior from component based on its reference
+	 * @param component the component
+	 * @param ref the reference
 	 */
 	public static void removeBehaviorFromComponentByRef(Component component,
 			String ref) {
@@ -591,6 +597,13 @@ public class GraphBTUtil {
 		}
 	}
 
+	
+	/**
+	 * get requirement from a model based on the key
+	 * @param model
+	 * @param key
+	 * @return
+	 */
 	public static Requirement getRequirement(BEModel model,
 			String key) {
 		Iterator<Requirement> it = model.getRequirementList().getRequirements().iterator();
@@ -605,9 +618,9 @@ public class GraphBTUtil {
 	}
 
 	/**
-	 * get standardnode roots from a resourceset
-	 * @param rs
-	 * @return
+	 * Removes a requirement from model based on its key
+	 * @param model the BEModel
+	 * @param key the requirement key
 	 */
 	public static void removeRequirement(BEModel model,
 			String key) {
@@ -622,6 +635,13 @@ public class GraphBTUtil {
 		}
 	}
 
+	
+	/**
+	 * getRoots will return a list of available roots in the model. Root 
+	 * node is a node which has no parent. 
+	 * @param rs
+	 * @return
+	 */
 	public static List<StandardNode> getRoots(ResourceSet rs)
 	{
 		List<StandardNode> l=new ArrayList<StandardNode>();
@@ -724,6 +744,7 @@ public class GraphBTUtil {
 		return oc;
 	}
 
+	
 	/**
 	 * get traceability status 
 	 * @param rs
@@ -880,23 +901,12 @@ public class GraphBTUtil {
 		return 0;
 	}
 
-	//	static boolean checkReversion(StandardNode node) {
-	//		if(node.getEdge() != null && node.getOperator().equals(Operator.REVERSION.getLiteral())) {
-	//			return false;
-	//		}
-	//		else if(node.getEdge() == null) {
-	//			return true;
-	//		}
-	//		else {
-	//			List<Node> nodes = node.getEdge().getChildNode();
-	//			for(Node node1 : nodes) {
-	//				checkReversion((StandardNode) node1);
-	//			}
-	//		}
-	//		return true;
-	//	}
-
-	static void checkReversion(StandardNode node) {
+	
+	/**
+	 * check error from reversion node
+	 * @param node 
+	 */
+	public static void checkReversion(StandardNode node) {
 		if(node.getEdge() != null && node.getOperator().equals(Operator.REVERSION.getLiteral())) {
 			errorReversionNode.add(node);
 		}
@@ -976,7 +986,7 @@ public class GraphBTUtil {
 	}
 
 	/**
-	 * create instance of StandardNode node
+	 * create instance of StandardNode node from which in TextBE model
 	 * @param node
 	 * @param nodebt
 	 * @param de
@@ -1131,6 +1141,13 @@ public class GraphBTUtil {
 
 	}
 
+	
+	/**
+	 * get GraphBT's component list from TextBE model
+	 * @param bt 
+	 * @param d
+	 * @return
+	 */
 	private static ComponentList getComponentList(TextBT bt, Diagram d)
 	{
 		//System.out.print("GraphBTUtil getComponentList ");
@@ -1223,11 +1240,19 @@ public class GraphBTUtil {
 		return cl;
 	}
 
+	
+	/**
+	 * return ancestor of a reversion node
+	 * @param node
+	 * @return
+	 */
 	public static StandardNode getAncestor(StandardNode node)
 	{
 		StandardNode parent = getAncestor(node.getParent(), node);
 		return parent;
 	}
+	
+	
 	private static StandardNode getAncestor(StandardNode parent,
 			StandardNode node) {
 		if(parent==null)
@@ -1240,22 +1265,23 @@ public class GraphBTUtil {
 		return getAncestor(parent.getParent(),node);
 	}
 
-
+	
+	/**
+	 * getXMLFromBT is used to get the file representation of XML 
+	 * representation of a BT file. The implementation used the existing
+	 * model that already defined in TextBE plugin. 
+	 * @param file instance of BT file 
+	 * @return File instance of the XML file, null is no XML file produced
+	 */
 	public static File getXMLFromBT(IFile file){	
 		IInjector injector = null;
 		IExtractor extractor = null;
 		IReferenceModel inMetamodel;
 		IReferenceModel outMetamodel;
 		File target = null;
-		URL btASMURL;
-		URL ctASMURL;
-		URL stASMURL;
 		ModelFactory factory = null;	
 		try {
-			Bundle bundle = Platform.getBundle("BTDebuggerTool");
-			btASMURL = bundle.getEntry("transformations/textBT2GV.asm");
-			ctASMURL = null;
-			stASMURL = null;
+			
 
 			injector = CoreService.getInjector("EMF"); //$NON-NLS-1$
 			extractor = CoreService.getExtractor("EMF"); //$NON-NLS-1$
@@ -1317,10 +1343,11 @@ public class GraphBTUtil {
 		return target;
 	}
 
+	
 	/**
 	 * get bt text from a diagram
-	 * @param d
-	 * @return
+	 * @param d the diagram representation
+	 * @return TextBE text
 	 */
 	public static String getBTText(Diagram d)
 	{
@@ -1334,6 +1361,7 @@ public class GraphBTUtil {
 		return content;
 	}
 
+	
 	/**
 	 * generate bt file from diagram file
 	 * @param diag
@@ -1378,21 +1406,15 @@ public class GraphBTUtil {
 		return true;
 	}
 
+	
 	/**
 	 * apply layout to a diagram
 	 * @param d
 	 */
 	public static void applyTreeLayout(Diagram d)
 	{
-		//<<<<<<< HEAD
 		List<StandardNode> roots = getRoots(d.eResource().getResourceSet());
-		//=======
-		//if(isValid(d) > 1)
-		//{
-		//	return;
-		//}
 		StandardNode root = getRoots(d.eResource().getResourceSet()).get(0);
-		//>>>>>>> branch 'master' of https://github.com/mrzon/GraphBT.git
 		HashMap<StandardNode,Integer> widthMap = new HashMap<StandardNode,Integer>();
 		HashMap<Integer,Integer> heightMap = new HashMap<Integer,Integer>();
 		int currentY = 0;
@@ -1410,6 +1432,7 @@ public class GraphBTUtil {
 	private static int hSpace = 20;
 	private static int vSpace = 30;
 
+	
 	/**
 	 * apply tree layout
 	 * @param d
@@ -1503,6 +1526,7 @@ public class GraphBTUtil {
 		}
 	}
 
+	
 	/**
 	 * get subtree width
 	 * @param d
@@ -1529,6 +1553,15 @@ public class GraphBTUtil {
 		return width;
 	}
 
+	
+	/**
+	 * get subtree height
+	 * @param d
+	 * @param node
+	 * @param map
+	 * @param level
+	 * @return
+	 */
 	private static int getHeight(Diagram d, StandardNode node, HashMap<Integer,Integer> map, int level)
 	{
 
@@ -1567,6 +1600,14 @@ public class GraphBTUtil {
 		}
 		return 0;
 	}
+	
+	
+	/**
+	 * create GraphBTDeleteContextButton 
+	 * @param featureProvider
+	 * @param pe
+	 * @return
+	 */
 	public static IContextButtonEntry createGraphBtDeleteContextButton(IFeatureProvider featureProvider, final PictogramElement pe) {
 		final IDeleteContext deleteContext = new DeleteContext(pe);
 		IEditorPart ep = (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor());

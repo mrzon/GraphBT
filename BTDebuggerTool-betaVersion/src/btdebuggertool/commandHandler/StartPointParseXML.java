@@ -48,6 +48,8 @@ import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.osgi.framework.Bundle;
 
+import btdebuggertool.Activator;
+
 import bt.model.BTParser;
 import bt.model.BTTree;
 import btdebuggertool.perspective.DebuggerPerspective;
@@ -217,7 +219,7 @@ public class StartPointParseXML extends AbstractHandler implements IHandler {
 		URL stASMURL;
 		ModelFactory factory = null;	
 		try {
-			Bundle bundle = Platform.getBundle("behaviortree.graphBT.btdebuggertool");
+			Bundle bundle = btdebuggertool.Activator.getDefault().getBundle();
 			btASMURL = bundle.getEntry("transformations/textBT2GV.asm");
 			ctASMURL = null;
 			stASMURL = null;

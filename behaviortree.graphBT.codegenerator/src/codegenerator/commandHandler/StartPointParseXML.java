@@ -69,6 +69,7 @@ import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.osgi.framework.Bundle;
 
+import codegenerator.Activator;
 import codegenerator.helper.Helper;
 
 import bt2abs.ABSForeign;
@@ -269,7 +270,7 @@ public class StartPointParseXML extends AbstractHandler implements IHandler {
 		URL stASMURL;
 		ModelFactory factory = null;	
 		try {
-			Bundle bundle = Platform.getBundle("BTDebuggerTool");
+			Bundle bundle = Activator.getDefault().getBundle();
 			btASMURL = bundle.getEntry("transformations/textBT2GV.asm");
 			ctASMURL = null;
 			stASMURL = null;
