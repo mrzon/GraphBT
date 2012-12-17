@@ -1109,6 +1109,71 @@ public interface BehaviortreePackage extends EPackage {
 	int ALTERNATIVE_CLASS_FEATURE_COUNT = 1;
 
 	/**
+	 * The meta object id for the '{@link behaviortree.impl.AdditionalInformationImpl <em>Additional Information</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see behaviortree.impl.AdditionalInformationImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getAdditionalInformation()
+	 * @generated
+	 */
+	int ADDITIONAL_INFORMATION = 22;
+
+	/**
+	 * The feature id for the '<em><b>Info</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDITIONAL_INFORMATION__INFO = 0;
+
+	/**
+	 * The number of structural features of the '<em>Additional Information</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDITIONAL_INFORMATION_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link behaviortree.impl.InformationImpl <em>Information</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see behaviortree.impl.InformationImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getInformation()
+	 * @generated
+	 */
+	int INFORMATION = 23;
+
+	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INFORMATION__KEY = 0;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INFORMATION__VALUE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Information</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INFORMATION_FEATURE_COUNT = 2;
+
+	/**
 	 * The meta object id for the '{@link behaviortree.Composition <em>Composition</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1116,7 +1181,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getComposition()
 	 * @generated
 	 */
-	int COMPOSITION = 22;
+	int COMPOSITION = 24;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.Branch <em>Branch</em>}' enum.
@@ -1126,7 +1191,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getBranch()
 	 * @generated
 	 */
-	int BRANCH = 23;
+	int BRANCH = 25;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.Operator <em>Operator</em>}' enum.
@@ -1136,7 +1201,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 24;
+	int OPERATOR = 26;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.BehaviorType <em>Behavior Type</em>}' enum.
@@ -1146,7 +1211,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getBehaviorType()
 	 * @generated
 	 */
-	int BEHAVIOR_TYPE = 25;
+	int BEHAVIOR_TYPE = 27;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.EventType <em>Event Type</em>}' enum.
@@ -1156,7 +1221,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getEventType()
 	 * @generated
 	 */
-	int EVENT_TYPE = 26;
+	int EVENT_TYPE = 28;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.SpecialEdgeEnum <em>Special Edge Enum</em>}' enum.
@@ -1166,7 +1231,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getSpecialEdgeEnum()
 	 * @generated
 	 */
-	int SPECIAL_EDGE_ENUM = 27;
+	int SPECIAL_EDGE_ENUM = 29;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.TraceabilityStatus <em>Traceability Status</em>}' enum.
@@ -1176,7 +1241,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getTraceabilityStatus()
 	 * @generated
 	 */
-	int TRACEABILITY_STATUS = 28;
+	int TRACEABILITY_STATUS = 30;
 
 
 	/**
@@ -2082,6 +2147,59 @@ public interface BehaviortreePackage extends EPackage {
 	EAttribute getAlternativeClass_AlternativeAttribute();
 
 	/**
+	 * Returns the meta object for class '{@link behaviortree.AdditionalInformation <em>Additional Information</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Additional Information</em>'.
+	 * @see behaviortree.AdditionalInformation
+	 * @generated
+	 */
+	EClass getAdditionalInformation();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link behaviortree.AdditionalInformation#getInfo <em>Info</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Info</em>'.
+	 * @see behaviortree.AdditionalInformation#getInfo()
+	 * @see #getAdditionalInformation()
+	 * @generated
+	 */
+	EReference getAdditionalInformation_Info();
+
+	/**
+	 * Returns the meta object for class '{@link behaviortree.Information <em>Information</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Information</em>'.
+	 * @see behaviortree.Information
+	 * @generated
+	 */
+	EClass getInformation();
+
+	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.Information#getKey <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Key</em>'.
+	 * @see behaviortree.Information#getKey()
+	 * @see #getInformation()
+	 * @generated
+	 */
+	EAttribute getInformation_Key();
+
+	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.Information#getValue <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see behaviortree.Information#getValue()
+	 * @see #getInformation()
+	 * @generated
+	 */
+	EAttribute getInformation_Value();
+
+	/**
 	 * Returns the meta object for enum '{@link behaviortree.Composition <em>Composition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2888,6 +3006,50 @@ public interface BehaviortreePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ALTERNATIVE_CLASS__ALTERNATIVE_ATTRIBUTE = eINSTANCE.getAlternativeClass_AlternativeAttribute();
+
+		/**
+		 * The meta object literal for the '{@link behaviortree.impl.AdditionalInformationImpl <em>Additional Information</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see behaviortree.impl.AdditionalInformationImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getAdditionalInformation()
+		 * @generated
+		 */
+		EClass ADDITIONAL_INFORMATION = eINSTANCE.getAdditionalInformation();
+
+		/**
+		 * The meta object literal for the '<em><b>Info</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ADDITIONAL_INFORMATION__INFO = eINSTANCE.getAdditionalInformation_Info();
+
+		/**
+		 * The meta object literal for the '{@link behaviortree.impl.InformationImpl <em>Information</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see behaviortree.impl.InformationImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getInformation()
+		 * @generated
+		 */
+		EClass INFORMATION = eINSTANCE.getInformation();
+
+		/**
+		 * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INFORMATION__KEY = eINSTANCE.getInformation_Key();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INFORMATION__VALUE = eINSTANCE.getInformation_Value();
 
 		/**
 		 * The meta object literal for the '{@link behaviortree.Composition <em>Composition</em>}' enum.

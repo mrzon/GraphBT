@@ -158,6 +158,13 @@
     <genClasses ecoreClass="DefaultName.ecore#//AlternativeClass">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//AlternativeClass/alternativeAttribute"/>
     </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//AdditionalInformation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//AdditionalInformation/info"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//Information">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Information/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Information/value"/>
+    </genClasses>
     <nestedGenPackages prefix="Behaviortree" basePackage="behaviortree" disposableProviderFactory="true"
         ecorePackage="DefaultName.ecore#//behaviortree"/>
   </genPackages>

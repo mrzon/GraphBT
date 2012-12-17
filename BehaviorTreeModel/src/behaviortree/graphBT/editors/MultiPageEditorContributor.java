@@ -1,16 +1,27 @@
 package behaviortree.graphBT.editors;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import javax.swing.filechooser.FileFilter;
+
 import btdebuggertool.commandHandler.*;
 import behaviortree.saltranslator.bt2sal.*;
 //import org.be.textbe.bt.textbt.presentation.TextbtEditor;
+import org.be.textbe.bt.textbt.TextBT;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -20,9 +31,18 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.BasicEMap;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreEMap;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
@@ -51,14 +71,19 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.osgi.framework.Bundle;
 
+import behaviortree.AdditionalInformation;
 import behaviortree.BEModel;
+import behaviortree.ComponentList;
 import behaviortree.GraphBTUtil;
+import behaviortree.Information;
+import behaviortree.Library;
 import behaviortree.StandardNode;
 import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard;
 import behaviortree.graphBT.wizards.managecomponents.ManageComponentsGraphBTWizard;
 import behaviortree.graphBT.wizards.managelibrary.ManageLibraryGraphBTWizard;
 import behaviortree.graphBT.wizards.managerequirements.ManageRequirementsGraphBTWizard;
 import behaviortree.graphBT.wizards.verifymodel.VerifyModelGraphBTWizard;
+import behaviortree.impl.AdditionalInformationImpl;
 
 /**
  * Manages the installation/deinstallation of global actions for multi-page editors.
@@ -108,10 +133,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		if (activeEditorPart == part)
 			return;
 
-		/*if(activeEditorPart instanceof DiagramEditor && part instanceof TextbtEditor)
-		{
-
-		}*/
 		activeEditorPart = part;
 
 		IActionBars actionBars = getActionBars();
@@ -156,7 +177,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 			public void run(){
 				if(activeEditorPart instanceof DiagramEditor)
 				{
-					Diagram d = ((DiagramEditor)activeEditorPart).getDiagramTypeProvider().getDiagram();
+					final Diagram d = ((DiagramEditor)activeEditorPart).getDiagramTypeProvider().getDiagram();
 					if(GraphBTUtil.isValid(d)>0)
 					{
 						MessageDialog.openError(null, "BT generation error", "The model is not valid, validate the model first to check error");
@@ -168,7 +189,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					uri = uri.trimFileExtension();
 					uri = uri.appendFileExtension("bt");
 					final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-
+					//extract the .bt text
 					IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
 					{
 						Path path = new Path(uri.toPlatformString(true));
@@ -186,6 +207,132 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						} catch (CoreException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
+						}
+					}
+					
+					//extract additional info
+					URI uri2 = uri.trimFragment();
+					uri2 = uri2.trimFileExtension();
+					uri2 = uri2.appendFileExtension("info");	
+					//System.out.println(uri2);
+					file = workspaceRoot.findMember(uri2.toPlatformString(true));
+					{
+						final Resource poResource = new XMLResourceFactoryImpl().createResource(uri2);
+						final BEModel bem = GraphBTUtil.getBEModel(d);
+
+						final AdditionalInformation info = GraphBTUtil.getBEFactory().createAdditionalInformation();//new EMap<String,String> ();
+						
+						for(int i = 0; i < bem.getRequirementList().getRequirements().size(); i++)
+						{
+							behaviortree.Requirement r = bem.getRequirementList().getRequirements().get(i);
+							//System.out.println(r.getKey());
+							if(r.getRequirement()!=null)
+							{
+								Information inf = GraphBTUtil.getBEFactory().createInformation();
+								inf.setKey(r.getKey()+".name");
+								inf.setValue(r.getRequirement());
+								info.getInfo().add(inf);
+							}
+							if(r.getDescription()!=null)
+							{
+								Information inf = GraphBTUtil.getBEFactory().createInformation();
+								inf.setKey(r.getKey()+".desc");
+								inf.setValue(r.getDescription());
+								info.getInfo().add(inf);
+							}
+						}
+						ComponentList cpl = bem.getComponentList();
+						for(int i = 0; i < cpl.getComponents().size(); i++)
+						{
+							behaviortree.Component c = cpl.getComponents().get(i);
+							//System.out.println(c.getComponentRef());
+							if(c.getComponentDesc()!=null)
+							{
+								Information inf = GraphBTUtil.getBEFactory().createInformation();
+								inf.setKey(c.getComponentRef()+".desc");
+								inf.setValue(c.getComponentDesc());
+								info.getInfo().add(inf);
+							}
+							for(int j = 0; j < c.getBehaviors().size(); j++)
+							{
+								behaviortree.Behavior b = c.getBehaviors().get(j);
+								if(b.getBehaviorDesc()!=null)
+								{
+									Information inf = GraphBTUtil.getBEFactory().createInformation();
+									inf.setKey(c.getComponentRef()+"."+b.getBehaviorRef()+".desc");
+									inf.setValue(b.getBehaviorDesc());
+									info.getInfo().add(inf);
+								}
+							}
+						}
+						EList<Library> libs = bem.getImport();
+						for(int i = 0; i < libs.size(); i++)
+						{
+							behaviortree.Library c = libs.get(i);
+							//System.out.println(c.getComponentRef());
+							if(c.getDesc()!=null)
+							{
+								Information inf = GraphBTUtil.getBEFactory().createInformation();
+								inf.setKey(c.getName()+".desc");
+								inf.setValue(c.getDesc());
+								info.getInfo().add(inf);
+							}
+							if(c.getLocation()!=null)
+							{
+								Information inf = GraphBTUtil.getBEFactory().createInformation();
+								inf.setKey(c.getName()+".loc");
+								inf.setValue(c.getLocation());
+								info.getInfo().add(inf);
+							}
+							if(c.getText()!=null)
+							{
+								Information inf = GraphBTUtil.getBEFactory().createInformation();
+								inf.setKey(c.getName()+".text");
+								inf.setValue(c.getText());
+								info.getInfo().add(inf);
+							}
+						}
+						/*
+						FileOutputStream fos;
+						try {
+							fos = new FileOutputStream("C:\\MyFile.zip");
+						
+			    		ZipOutputStream zos = new ZipOutputStream(fos);
+			    		ZipEntry ze= new ZipEntry("spy.log");
+			    		zos.putNextEntry(ze);
+			    		FileInputStream in = new FileInputStream("C:\\spy.log");
+			 
+			    		int len;
+			    		byte buffer[] = new byte [1024];
+			    		while ((len = in.read(buffer)) > 0) {
+			    			zos.write(buffer, 0, len);
+			    		}
+			 
+			    		in.close();
+			    		zos.closeEntry();
+			 
+			    		//remember close it
+			    		zos.close();
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}*/
+						((DiagramEditor)activeEditorPart).getEditingDomain().getCommandStack().execute(new RecordingCommand(((DiagramEditor)activeEditorPart).getEditingDomain(),"clear diagram editor"){
+							@Override
+							protected void doExecute() {
+								//poResource.getContents().add();
+								poResource.getContents().add(info);
+							}
+						});
+						
+						try {
+							poResource.save(null);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
 					}
 				}}
@@ -431,7 +578,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor)
 				{
-					String filePath = handleBrowse();
+					final String filePath = handleBrowse();
 					File f = new File(filePath);
 					IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 					
@@ -476,6 +623,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					}
 					if(filePath.endsWith(".bt"))
 					{
+						final IFile ffTemp = file;
 						d.getEditingDomain().getCommandStack().execute(new RecordingCommand(d.getEditingDomain(),"clear diagram editor"){
 							@Override
 							protected void doExecute() {
@@ -495,9 +643,77 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 								uri = uri.trimFileExtension();
 								uri = uri.appendFileExtension("model");
 								diag.eResource().getResourceSet().getResource(uri, true).getContents().clear();
+								GraphBTUtil.generateFromBTFile(ffTemp, d);
+								String infoName = filePath.substring(0,filePath.lastIndexOf("."))+".info";
+								//System.out.println("AdditionalInfo file name: "+infoName);
+								File fTemp = new File(infoName);
+								//apply additional information
+								if(fTemp.exists())
+								{
+									//System.out.println("AdditionalInformation do existed");
+									
+									URI ur = URI.createFileURI(fTemp.getAbsolutePath());
+									ResourceSet rs = new ResourceSetImpl();
+									Resource resource = rs.getResource(ur, true);
+									Iterator<EObject> i = resource.getAllContents();
+									AdditionalInformation temp = null;
+									BEModel model = GraphBTUtil.getBEModel(d.getDiagramTypeProvider().getDiagram());
+									HashMap<String,String> information = new HashMap<String,String>();
+									while(i.hasNext())
+									{
+										EObject e = i.next();
+										if(e instanceof AdditionalInformation)
+										{
+											temp = (AdditionalInformation) e;
+											break;
+										}
+									}
+									if(temp==null)
+										return;
+									for(int ik = 0; ik < temp.getInfo().size(); ik++){
+										information.put(temp.getInfo().get(ik).getKey(), temp.getInfo().get(ik).getValue());
+									}
+									//assert the sum of the requirements in the model and in the temp is the same
+									for(int i1 = 0; i1 < model.getRequirementList().getRequirements().size(); i1++)
+									{
+										//System.out.println("AdditionalInformation extracting: Requirement");
+										behaviortree.Requirement r = model.getRequirementList().getRequirements().get(i1);
+										if(information.get(r.getKey()+".desc")!=null)
+										{	
+											r.setDescription(information.get(r.getKey()+".desc"));
+										}
+										if(information.get(r.getKey()+".name")!=null)
+										{	
+											r.setDescription(information.get(r.getKey()+".name"));
+										}
+										
+									}
+									//assert the sum of the components in the model and in the temp is the same
+									for(int i1 = 0; i1 < model.getComponentList().getComponents().size(); i1++)
+									{
+										//System.out.println("AdditionalInformation extracting: Components");
+										behaviortree.Component c = model.getComponentList().getComponents().get(i1);
+										if(information.get(c.getComponentRef()+".desc")!=null)
+										{	
+											c.setComponentDesc(information.get(c.getComponentRef()+".desc"));
+										}
+										
+										for(int j = 0; j < c.getBehaviors().size();j++)
+										{
+											//System.out.println("AdditionalInformation extracting: Behavior");
+											behaviortree.Behavior b = c.getBehaviors().get(j);
+											if(information.get(c.getComponentRef()+b.getBehaviorRef()+".desc")!=null)
+											{
+												information.get(c.getComponentRef()+b.getBehaviorRef()+".desc");
+											}
+										}
+									}
+								}
 							}
 						});
-						GraphBTUtil.generateFromBTFile(file, d);
+						
+						
+						
 					}
 					else if(!filePath.endsWith(".bt"))
 					{

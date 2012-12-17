@@ -6,6 +6,7 @@
  */
 package behaviortree.impl;
 
+import behaviortree.AdditionalInformation;
 import behaviortree.AlternativeClass;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -31,6 +32,7 @@ import behaviortree.EmptyNode;
 import behaviortree.EventType;
 import behaviortree.Formula;
 import behaviortree.FormulaList;
+import behaviortree.Information;
 import behaviortree.Library;
 import behaviortree.Link;
 import behaviortree.Node;
@@ -205,6 +207,20 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * @generated
 	 */
 	private EClass alternativeClassEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass additionalInformationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass informationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1077,6 +1093,51 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAdditionalInformation() {
+		return additionalInformationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAdditionalInformation_Info() {
+		return (EReference)additionalInformationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getInformation() {
+		return informationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getInformation_Key() {
+		return (EAttribute)informationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getInformation_Value() {
+		return (EAttribute)informationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getComposition() {
 		return compositionEEnum;
 	}
@@ -1269,6 +1330,13 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		alternativeClassEClass = createEClass(ALTERNATIVE_CLASS);
 		createEAttribute(alternativeClassEClass, ALTERNATIVE_CLASS__ALTERNATIVE_ATTRIBUTE);
 
+		additionalInformationEClass = createEClass(ADDITIONAL_INFORMATION);
+		createEReference(additionalInformationEClass, ADDITIONAL_INFORMATION__INFO);
+
+		informationEClass = createEClass(INFORMATION);
+		createEAttribute(informationEClass, INFORMATION__KEY);
+		createEAttribute(informationEClass, INFORMATION__VALUE);
+
 		// Create enums
 		compositionEEnum = createEEnum(COMPOSITION);
 		branchEEnum = createEEnum(BRANCH);
@@ -1416,6 +1484,13 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 
 		initEClass(alternativeClassEClass, AlternativeClass.class, "AlternativeClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAlternativeClass_AlternativeAttribute(), ecorePackage.getEString(), "alternativeAttribute", null, 0, 1, AlternativeClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(additionalInformationEClass, AdditionalInformation.class, "AdditionalInformation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAdditionalInformation_Info(), this.getInformation(), null, "info", null, 0, -1, AdditionalInformation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(informationEClass, Information.class, "Information", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getInformation_Key(), ecorePackage.getEString(), "key", null, 0, 1, Information.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getInformation_Value(), ecorePackage.getEString(), "value", null, 0, 1, Information.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(compositionEEnum, Composition.class, "Composition");

@@ -224,6 +224,24 @@ public interface BehaviortreeFactory extends EFactory {
 	AlternativeClass createAlternativeClass();
 
 	/**
+	 * Returns a new object of class '<em>Additional Information</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Additional Information</em>'.
+	 * @generated
+	 */
+	AdditionalInformation createAdditionalInformation();
+
+	/**
+	 * Returns a new object of class '<em>Information</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Information</em>'.
+	 * @generated
+	 */
+	Information createInformation();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

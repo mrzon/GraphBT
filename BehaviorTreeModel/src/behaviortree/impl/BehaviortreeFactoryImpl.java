@@ -83,6 +83,8 @@ public class BehaviortreeFactoryImpl extends EFactoryImpl implements Behaviortre
 			case BehaviortreePackage.TRACEABILITY_STATUS_CLASS: return createTraceabilityStatusClass();
 			case BehaviortreePackage.LINK: return createLink();
 			case BehaviortreePackage.ALTERNATIVE_CLASS: return createAlternativeClass();
+			case BehaviortreePackage.ADDITIONAL_INFORMATION: return createAdditionalInformation();
+			case BehaviortreePackage.INFORMATION: return createInformation();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -360,6 +362,26 @@ public class BehaviortreeFactoryImpl extends EFactoryImpl implements Behaviortre
 	public AlternativeClass createAlternativeClass() {
 		AlternativeClassImpl alternativeClass = new AlternativeClassImpl();
 		return alternativeClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AdditionalInformation createAdditionalInformation() {
+		AdditionalInformationImpl additionalInformation = new AdditionalInformationImpl();
+		return additionalInformation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Information createInformation() {
+		InformationImpl information = new InformationImpl();
+		return information;
 	}
 
 	/**

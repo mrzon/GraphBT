@@ -25,7 +25,8 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.7.0,4.0.0)",
  org.eclipse.gef;bundle-version="3.7.1",
  org.eclipse.m2m.atl.core
 Bundle-Version: 1.0.0.qualifier
-Import-Package: behaviortree.graphBT.editors,
+Import-Package: behaviortree,
+ behaviortree.graphBT.editors,
  behaviortree.saltranslator.bt2sal,
  btdebuggertool.commandHandler,
  codegenerator.commandHandler,
