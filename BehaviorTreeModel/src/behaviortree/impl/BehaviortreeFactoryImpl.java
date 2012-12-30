@@ -85,6 +85,12 @@ public class BehaviortreeFactoryImpl extends EFactoryImpl implements Behaviortre
 			case BehaviortreePackage.ALTERNATIVE_CLASS: return createAlternativeClass();
 			case BehaviortreePackage.ADDITIONAL_INFORMATION: return createAdditionalInformation();
 			case BehaviortreePackage.INFORMATION: return createInformation();
+			case BehaviortreePackage.INPUT_TYPE: return createInputType();
+			case BehaviortreePackage.OUTPUT_TYPE: return createOutputType();
+			case BehaviortreePackage.GUI_IMPLEMENTABLE: return createGUIImplementable();
+			case BehaviortreePackage.GUI: return createGUI();
+			case BehaviortreePackage.INPUT_GUI: return createInputGUI();
+			case BehaviortreePackage.OUTPUT_GUI: return createOutputGUI();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -382,6 +388,66 @@ public class BehaviortreeFactoryImpl extends EFactoryImpl implements Behaviortre
 	public Information createInformation() {
 		InformationImpl information = new InformationImpl();
 		return information;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public InputType createInputType() {
+		InputTypeImpl inputType = new InputTypeImpl();
+		return inputType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OutputType createOutputType() {
+		OutputTypeImpl outputType = new OutputTypeImpl();
+		return outputType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GUIImplementable createGUIImplementable() {
+		GUIImplementableImpl guiImplementable = new GUIImplementableImpl();
+		return guiImplementable;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GUI createGUI() {
+		GUIImpl gui = new GUIImpl();
+		return gui;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public InputGUI createInputGUI() {
+		InputGUIImpl inputGUI = new InputGUIImpl();
+		return inputGUI;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OutputGUI createOutputGUI() {
+		OutputGUIImpl outputGUI = new OutputGUIImpl();
+		return outputGUI;
 	}
 
 	/**

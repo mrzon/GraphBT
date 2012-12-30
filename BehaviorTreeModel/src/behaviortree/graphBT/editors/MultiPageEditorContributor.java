@@ -4,24 +4,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-import javax.swing.filechooser.FileFilter;
-
 import btdebuggertool.commandHandler.*;
 import behaviortree.saltranslator.bt2sal.*;
-//import org.be.textbe.bt.textbt.presentation.TextbtEditor;
-import org.be.textbe.bt.textbt.TextBT;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -31,17 +22,12 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.common.util.BasicEMap;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreEMap;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
@@ -71,6 +57,8 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.osgi.framework.Bundle;
 
+
+
 import behaviortree.AdditionalInformation;
 import behaviortree.BEModel;
 import behaviortree.ComponentList;
@@ -83,8 +71,7 @@ import behaviortree.graphBT.wizards.managecomponents.ManageComponentsGraphBTWiza
 import behaviortree.graphBT.wizards.managelibrary.ManageLibraryGraphBTWizard;
 import behaviortree.graphBT.wizards.managerequirements.ManageRequirementsGraphBTWizard;
 import behaviortree.graphBT.wizards.verifymodel.VerifyModelGraphBTWizard;
-import behaviortree.impl.AdditionalInformationImpl;
-
+import behaviortree.common.*;
 /**
  * Manages the installation/deinstallation of global actions for multi-page editors.
  * Responsible for the redirection of global actions to the active editor.
@@ -107,6 +94,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	private Action clearDiagram;
 	private Action generateSALCode;
 	private Action runCode;
+	private Action generateDocument;
+	
 	/**
 	 * Creates a multi-page contributor.
 	 */
@@ -805,6 +794,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					try {
 						IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 						String homeDrivePath = root.getRawLocation().toOSString();
+						
 						String project =  d.eResource().getURI().toPlatformString(true);
 						IResource res = root.findMember(project);
 						URL url = codegenerator.helper.Helper.getURL("lib/absfrontend.jar");
@@ -821,6 +811,32 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		runCode.setText("Run the code");
 		runCode.setToolTipText("Run the generated Code");
 		runCode.setImageDescriptor(getImageDescriptor("icons/run.gif"));
+		
+		generateDocument = new Action() {
+			public void run() {
+				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
+				if(activeEditorPart instanceof DiagramEditor)
+				{
+					Diagram d = ((DiagramEditor)activeEditorPart).getDiagramTypeProvider().getDiagram();
+					if(GraphBTUtil.isValid(d)>0)
+					{
+						MessageDialog.openError(null, "Generate document error", "The model is not valid, validate the model first to check error");
+						return;
+					}
+				
+					try {
+						//ProjectDocumentation.generate("doc.html");
+						throw new IOException();
+					}catch (IOException e) {
+						e.printStackTrace();
+					}
+					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
+				}
+			}
+		};
+		generateDocument.setText("Generate document");
+		generateDocument.setToolTipText("Generate a word document for this project");
+		generateDocument.setImageDescriptor(getImageDescriptor("icons/generateDocument.gif"));
 		
 	}
 	
@@ -870,7 +886,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		menu.add(new Separator());
 		menu.add(correctLayout);
 		menu.add(extractFromBTFile);
-
+		menu.add(generateDocument);
 		menu.add(runCode);
 	}
 	public void contributeToToolBar(IToolBarManager manager) {
@@ -888,6 +904,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		manager.add(generateBTCode);
 		manager.add(generateJavaCode);
 		manager.add(generateSALCode);
+		manager.add(generateDocument);
 		manager.add(new Separator());
 		manager.add(correctLayout);
 		manager.add(runCode);

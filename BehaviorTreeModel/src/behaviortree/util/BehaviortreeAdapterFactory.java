@@ -168,6 +168,30 @@ public class BehaviortreeAdapterFactory extends AdapterFactoryImpl {
 				return createInformationAdapter();
 			}
 			@Override
+			public Adapter caseInputType(InputType object) {
+				return createInputTypeAdapter();
+			}
+			@Override
+			public Adapter caseOutputType(OutputType object) {
+				return createOutputTypeAdapter();
+			}
+			@Override
+			public Adapter caseGUIImplementable(GUIImplementable object) {
+				return createGUIImplementableAdapter();
+			}
+			@Override
+			public Adapter caseGUI(GUI object) {
+				return createGUIAdapter();
+			}
+			@Override
+			public Adapter caseInputGUI(InputGUI object) {
+				return createInputGUIAdapter();
+			}
+			@Override
+			public Adapter caseOutputGUI(OutputGUI object) {
+				return createOutputGUIAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -520,6 +544,90 @@ public class BehaviortreeAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createInformationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link behaviortree.InputType <em>Input Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see behaviortree.InputType
+	 * @generated
+	 */
+	public Adapter createInputTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link behaviortree.OutputType <em>Output Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see behaviortree.OutputType
+	 * @generated
+	 */
+	public Adapter createOutputTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link behaviortree.GUIImplementable <em>GUI Implementable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see behaviortree.GUIImplementable
+	 * @generated
+	 */
+	public Adapter createGUIImplementableAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link behaviortree.GUI <em>GUI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see behaviortree.GUI
+	 * @generated
+	 */
+	public Adapter createGUIAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link behaviortree.InputGUI <em>Input GUI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see behaviortree.InputGUI
+	 * @generated
+	 */
+	public Adapter createInputGUIAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link behaviortree.OutputGUI <em>Output GUI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see behaviortree.OutputGUI
+	 * @generated
+	 */
+	public Adapter createOutputGUIAdapter() {
 		return null;
 	}
 

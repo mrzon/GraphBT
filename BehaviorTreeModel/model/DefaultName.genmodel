@@ -132,6 +132,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Behavior/behaviorName"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Behavior/behaviorRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Behavior/behaviorDesc"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Behavior/technicalDetail"/>
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//ComponentList">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//ComponentList/components"/>
@@ -165,6 +166,15 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Information/key"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Information/value"/>
     </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//InputType"/>
+    <genClasses ecoreClass="DefaultName.ecore#//OutputType"/>
+    <genClasses ecoreClass="DefaultName.ecore#//GUIImplementable"/>
+    <genClasses ecoreClass="DefaultName.ecore#//GUI">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//GUI/identifier"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//GUI/codeImplementation"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//InputGUI"/>
+    <genClasses ecoreClass="DefaultName.ecore#//OutputGUI"/>
     <nestedGenPackages prefix="Behaviortree" basePackage="behaviortree" disposableProviderFactory="true"
         ecorePackage="DefaultName.ecore#//behaviortree"/>
   </genPackages>

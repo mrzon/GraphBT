@@ -27,6 +27,11 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface Attribute extends EObject {
+	Integer NAME_VALUE = 0x0FF;
+	Integer VAL_VALUE = 0xFE;
+	Integer DESC_VALUE = 0xFD;
+	Integer TYPE_VALUE = 0xFC;
+
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -105,4 +110,5 @@ public interface Attribute extends EObject {
 	 */
 	void setValue(String value);
 
+	String getDefaultValue(String string);
 } // Attribute

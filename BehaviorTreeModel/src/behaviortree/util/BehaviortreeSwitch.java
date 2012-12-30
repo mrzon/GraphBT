@@ -216,6 +216,46 @@ public class BehaviortreeSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case BehaviortreePackage.INPUT_TYPE: {
+				InputType inputType = (InputType)theEObject;
+				T result = caseInputType(inputType);
+				if (result == null) result = caseGUIImplementable(inputType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BehaviortreePackage.OUTPUT_TYPE: {
+				OutputType outputType = (OutputType)theEObject;
+				T result = caseOutputType(outputType);
+				if (result == null) result = caseGUIImplementable(outputType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BehaviortreePackage.GUI_IMPLEMENTABLE: {
+				GUIImplementable guiImplementable = (GUIImplementable)theEObject;
+				T result = caseGUIImplementable(guiImplementable);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BehaviortreePackage.GUI: {
+				GUI gui = (GUI)theEObject;
+				T result = caseGUI(gui);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BehaviortreePackage.INPUT_GUI: {
+				InputGUI inputGUI = (InputGUI)theEObject;
+				T result = caseInputGUI(inputGUI);
+				if (result == null) result = caseGUI(inputGUI);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case BehaviortreePackage.OUTPUT_GUI: {
+				OutputGUI outputGUI = (OutputGUI)theEObject;
+				T result = caseOutputGUI(outputGUI);
+				if (result == null) result = caseGUI(outputGUI);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -577,6 +617,96 @@ public class BehaviortreeSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseInformation(Information object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Input Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Input Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInputType(InputType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Output Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Output Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOutputType(OutputType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>GUI Implementable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>GUI Implementable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGUIImplementable(GUIImplementable object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>GUI</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>GUI</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGUI(GUI object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Input GUI</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Input GUI</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInputGUI(InputGUI object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Output GUI</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Output GUI</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOutputGUI(OutputGUI object) {
 		return null;
 	}
 

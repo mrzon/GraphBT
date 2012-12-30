@@ -7,12 +7,16 @@ import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -35,6 +39,7 @@ import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
 import behaviortree.graphBT.wizards.createbehavior.CreateBehaviorGraphBTWizard;
 import behaviortree.graphBT.wizards.createcomponent.CreateComponentGraphBTWizard;
+import behaviortree.graphBT.wizards.detailcomponent.DetailComponentGraphBTWizard;
 
 /**
  * Class to define the contents of manage component wizard
@@ -396,7 +401,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 			
 				editComponentNameText.setText(c.getComponentName());
 				componentRefText.setText(c.getComponentRef());
-				editComponentDescText.setText(c.getComponentDesc());
+				editComponentDescText.setText(c.getComponentDesc()==null?"":c.getComponentDesc());
 				
 				editComponentGroup.setVisible(true);				
 				editComponentLabel.setVisible(true);
@@ -493,7 +498,38 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				System.out.println("test awal= " + componentRefTemp);
 			}
 		});
-		
+		listComponents.addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				// TODO Auto-generated method stub
+				String selected = listComponents.getItem(listComponents.getSelectionIndex());
+				index = listComponents.getSelectionIndex();
+				System.out.println("index= " + index);
+				map.put(StandardNode.COMPONENT_VALUE, selected );
+				listBehaviors.removeAll();
+				Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), selected);
+				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+						getActiveWorkbenchWindow().getShell(),
+						new DetailComponentGraphBTWizard(c));
+				if(wizardDialog.open() != Window.OK)
+				{
+					return;
+				}
+			}
+
+			@Override
+			public void mouseDown(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseUp(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}}
+		);
 		listBehaviors.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 

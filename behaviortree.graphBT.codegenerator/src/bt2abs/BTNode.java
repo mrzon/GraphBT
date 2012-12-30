@@ -15,7 +15,7 @@ enum BTNodeType{
 }
 
 enum BTNodeOp{
-    REVERSION("^"),GOTO("=>"),SYNCRONIZATION("="),DEFAULT("");
+    REVERSION("^"),REFERENCE("=>"),SYNCRONIZATION("="),NOOPERATOR("");
     private String op="";
     BTNodeOp(String op)
     {
@@ -39,7 +39,7 @@ enum BTNodeOp{
     }
 }
 public class BTNode {
-    private BTNodeOp op = BTNodeOp.DEFAULT; 
+    private BTNodeOp op = BTNodeOp.NOOPERATOR; 
     private BTNodeType type = BTNodeType.SEQUENTIALNODE; 
     private BTComponent coRef = null;
     private BTBehavior beRef = null;
@@ -57,7 +57,7 @@ public class BTNode {
         beRef = b;
         //System.out.println(t);
         this.type = (t==null)?BTNodeType.SEQUENTIALNODE:Enum.valueOf(BTNodeType.class, (t.substring(t.indexOf(':')+1, t.length())).toUpperCase());
-        op = (f==null)? BTNodeOp.DEFAULT:BTNodeOp.fromString(f);
+        op = (f==null)? BTNodeOp.NOOPERATOR:BTNodeOp.fromString(f);
     }
     
     public BTNode(String t)

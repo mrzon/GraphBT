@@ -242,6 +242,60 @@ public interface BehaviortreeFactory extends EFactory {
 	Information createInformation();
 
 	/**
+	 * Returns a new object of class '<em>Input Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Input Type</em>'.
+	 * @generated
+	 */
+	InputType createInputType();
+
+	/**
+	 * Returns a new object of class '<em>Output Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Output Type</em>'.
+	 * @generated
+	 */
+	OutputType createOutputType();
+
+	/**
+	 * Returns a new object of class '<em>GUI Implementable</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>GUI Implementable</em>'.
+	 * @generated
+	 */
+	GUIImplementable createGUIImplementable();
+
+	/**
+	 * Returns a new object of class '<em>GUI</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>GUI</em>'.
+	 * @generated
+	 */
+	GUI createGUI();
+
+	/**
+	 * Returns a new object of class '<em>Input GUI</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Input GUI</em>'.
+	 * @generated
+	 */
+	InputGUI createInputGUI();
+
+	/**
+	 * Returns a new object of class '<em>Output GUI</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Output GUI</em>'.
+	 * @generated
+	 */
+	OutputGUI createOutputGUI();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

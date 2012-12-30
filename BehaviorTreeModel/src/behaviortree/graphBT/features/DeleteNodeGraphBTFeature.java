@@ -1,20 +1,10 @@
 package behaviortree.graphBT.features;
 
-import org.eclipse.emf.transaction.RecordingCommand;
-import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
-import org.eclipse.graphiti.features.context.impl.DeleteContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.tb.ContextEntryHelper;
-import org.eclipse.graphiti.tb.IContextButtonEntry;
-import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.PlatformUI;
-
 import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
 

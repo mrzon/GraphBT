@@ -32,12 +32,17 @@ import behaviortree.EmptyNode;
 import behaviortree.EventType;
 import behaviortree.Formula;
 import behaviortree.FormulaList;
+import behaviortree.GUIImplementable;
 import behaviortree.Information;
+import behaviortree.InputGUI;
+import behaviortree.InputType;
 import behaviortree.Library;
 import behaviortree.Link;
 import behaviortree.Node;
 import behaviortree.Operator;
 import behaviortree.OperatorClass;
+import behaviortree.OutputGUI;
+import behaviortree.OutputType;
 import behaviortree.Requirement;
 import behaviortree.RequirementList;
 import behaviortree.SpecialEdge;
@@ -221,6 +226,48 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * @generated
 	 */
 	private EClass informationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass inputTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass outputTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass guiImplementableEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass guiEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass inputGUIEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass outputGUIEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -940,6 +987,15 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getBehavior_TechnicalDetail() {
+		return (EAttribute)behaviorEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getComponentList() {
 		return componentListEClass;
 	}
@@ -1138,6 +1194,78 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getInputType() {
+		return inputTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getOutputType() {
+		return outputTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGUIImplementable() {
+		return guiImplementableEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGUI() {
+		return guiEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGUI_Identifier() {
+		return (EAttribute)guiEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGUI_CodeImplementation() {
+		return (EAttribute)guiEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getInputGUI() {
+		return inputGUIEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getOutputGUI() {
+		return outputGUIEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getComposition() {
 		return compositionEEnum;
 	}
@@ -1304,6 +1432,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		createEAttribute(behaviorEClass, BEHAVIOR__BEHAVIOR_NAME);
 		createEAttribute(behaviorEClass, BEHAVIOR__BEHAVIOR_REF);
 		createEAttribute(behaviorEClass, BEHAVIOR__BEHAVIOR_DESC);
+		createEAttribute(behaviorEClass, BEHAVIOR__TECHNICAL_DETAIL);
 
 		componentListEClass = createEClass(COMPONENT_LIST);
 		createEReference(componentListEClass, COMPONENT_LIST__COMPONENTS);
@@ -1336,6 +1465,20 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		informationEClass = createEClass(INFORMATION);
 		createEAttribute(informationEClass, INFORMATION__KEY);
 		createEAttribute(informationEClass, INFORMATION__VALUE);
+
+		inputTypeEClass = createEClass(INPUT_TYPE);
+
+		outputTypeEClass = createEClass(OUTPUT_TYPE);
+
+		guiImplementableEClass = createEClass(GUI_IMPLEMENTABLE);
+
+		guiEClass = createEClass(GUI);
+		createEAttribute(guiEClass, GUI__IDENTIFIER);
+		createEAttribute(guiEClass, GUI__CODE_IMPLEMENTATION);
+
+		inputGUIEClass = createEClass(INPUT_GUI);
+
+		outputGUIEClass = createEClass(OUTPUT_GUI);
 
 		// Create enums
 		compositionEEnum = createEEnum(COMPOSITION);
@@ -1377,6 +1520,10 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		// Add supertypes to classes
 		emptyNodeEClass.getESuperTypes().add(this.getNode());
 		standardNodeEClass.getESuperTypes().add(this.getNode());
+		inputTypeEClass.getESuperTypes().add(this.getGUIImplementable());
+		outputTypeEClass.getESuperTypes().add(this.getGUIImplementable());
+		inputGUIEClass.getESuperTypes().add(this.getGUI());
+		outputGUIEClass.getESuperTypes().add(this.getGUI());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(beModelEClass, BEModel.class, "BEModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1459,6 +1606,7 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		initEAttribute(getBehavior_BehaviorName(), ecorePackage.getEString(), "behaviorName", null, 0, 1, Behavior.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBehavior_BehaviorRef(), ecorePackage.getEString(), "behaviorRef", null, 0, 1, Behavior.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBehavior_BehaviorDesc(), ecorePackage.getEString(), "behaviorDesc", null, 0, 1, Behavior.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBehavior_TechnicalDetail(), ecorePackage.getEString(), "technicalDetail", null, 0, 1, Behavior.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(componentListEClass, ComponentList.class, "ComponentList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getComponentList_Components(), this.getComponent(), null, "components", null, 1, -1, ComponentList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1491,6 +1639,20 @@ public class BehaviortreePackageImpl extends EPackageImpl implements Behaviortre
 		initEClass(informationEClass, Information.class, "Information", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getInformation_Key(), ecorePackage.getEString(), "key", null, 0, 1, Information.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getInformation_Value(), ecorePackage.getEString(), "value", null, 0, 1, Information.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(inputTypeEClass, InputType.class, "InputType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(outputTypeEClass, OutputType.class, "OutputType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(guiImplementableEClass, GUIImplementable.class, "GUIImplementable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(guiEClass, behaviortree.GUI.class, "GUI", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getGUI_Identifier(), ecorePackage.getEString(), "identifier", null, 0, 1, behaviortree.GUI.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGUI_CodeImplementation(), ecorePackage.getEString(), "codeImplementation", null, 0, 1, behaviortree.GUI.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(inputGUIEClass, InputGUI.class, "InputGUI", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(outputGUIEClass, OutputGUI.class, "OutputGUI", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(compositionEEnum, Composition.class, "Composition");

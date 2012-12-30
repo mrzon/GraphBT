@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link behaviortree.Behavior#getBehaviorName <em>Behavior Name</em>}</li>
  *   <li>{@link behaviortree.Behavior#getBehaviorRef <em>Behavior Ref</em>}</li>
  *   <li>{@link behaviortree.Behavior#getBehaviorDesc <em>Behavior Desc</em>}</li>
+ *   <li>{@link behaviortree.Behavior#getTechnicalDetail <em>Technical Detail</em>}</li>
  * </ul>
  * </p>
  *
@@ -133,6 +134,31 @@ public interface Behavior extends EObject {
 	 * @generated
 	 */
 	void setBehaviorDesc(String value);
+	/**
+	 * Returns the value of the '<em><b>Technical Detail</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Technical Detail</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Technical Detail</em>' attribute.
+	 * @see #setTechnicalDetail(String)
+	 * @see behaviortree.BehaviortreePackage#getBehavior_TechnicalDetail()
+	 * @model
+	 * @generated
+	 */
+	String getTechnicalDetail();
+
+	/**
+	 * Sets the value of the '{@link behaviortree.Behavior#getTechnicalDetail <em>Technical Detail</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Technical Detail</em>' attribute.
+	 * @see #getTechnicalDetail()
+	 * @generated
+	 */
+	void setTechnicalDetail(String value);
 	static final int NAME_VALUE = 0x11;
 	static final int REF_VALUE = 0x10;
 	static final int DESC_VALUE = 0x0F;

@@ -116,7 +116,7 @@ public class BTTree {
         String type = root.getType()==null?"":root.getType().toString();
         String qtype = root.getBehavior()==null?"":root.getBehavior().getType().toString();
         String op = root.getOp()==null?"":root.getOp().toString();
-        temp = "N node"+root.getPC()+" = new Node("+comp+",\""+beh+"\",\""+type+"\",\""+qtype+"\",\""+op+"\",\""+root.getPC()+"\");";
+        temp = "N node"+root.getPC()+" = new Node("+comp+",\""+beh+"\",\""+type+","+qtype+","+op+","+root.getPC()+"\");";
         for(int i = 0; i < root.getChilds().size(); i++)
         {
             temp+="\n"+toStringABS(root.getChilds().get(i));

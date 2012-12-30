@@ -261,15 +261,25 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (type: ");
-		result.append(type);
-		result.append(", name: ");
+		StringBuffer result = new StringBuffer();
 		result.append(name);
-		result.append(", value: ");
+		result.append(" : ");
+		result.append(type);
+		result.append(" (");
 		result.append(value);
 		result.append(')');
 		return result.toString();
+	}
+
+	public String getDefaultValue(String string) {
+		// TODO Auto-generated method stub
+		if(string.equals("String"))
+			return "\"\"";
+		if(string.equals("Int"))
+			return "0";
+		if(string.equals("Bool"))
+			return "False";
+		return "";
 	}
 
 } //AttributeImpl

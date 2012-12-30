@@ -21,11 +21,13 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import behaviortree.Attribute;
 import behaviortree.Behavior;
 import behaviortree.BehaviorType;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
+import behaviortree.graphBT.wizards.createattribute.CreateAttributeGraphBTWizard;
 import behaviortree.graphBT.wizards.createbehavior.CreateBehaviorGraphBTWizard;
 
 /**
@@ -41,7 +43,8 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 	private Text behaviorNameText;
 	private Text behaviorRefText;
 	private Text behaviorDescText;
-	private Combo typeCombo;
+	private Text attributeNameText;
+	
 	
 	public DetailComponentFirstPageGraphBTWizard(HashMap<Integer,String> map, Component c) {
 		super("Detail Component Wizard");
@@ -63,14 +66,14 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 		gridData = new GridData(GridData.FILL_HORIZONTAL);		
 		gridData.horizontalSpan = 2;
 		cNameLabel.setLayoutData(gridData);		
-		cNameLabel.setText("Name: " + c.getComponentName());
+		cNameLabel.setText("Name: " + c.getComponentName()==null?"":c.getComponentName());
 		
 		final Label cRefLabel = new Label(container, SWT.NULL);				
 		gridData = new GridData(GridData.FILL_HORIZONTAL);		
 		gridData.horizontalSpan = 2;
 		gridData.verticalAlignment = GridData.BEGINNING;
 		cRefLabel.setLayoutData(gridData);		
-		cRefLabel.setText("Reference: " + c.getComponentRef());
+		cRefLabel.setText("Reference: " + c.getComponentRef()==null?"":c.getComponentRef());
 		
 		final Label descComponentLabel = new Label(container, SWT.NULL);
 		gridData = new GridData();		
@@ -88,10 +91,10 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 		gridData.horizontalSpan = 2;
 		gridData.heightHint = 150;
 		gridData.widthHint = 200;
-		gridData.grabExcessVerticalSpace = true;
 		componentDescText.setLayoutData(gridData);
 		componentDescText.setEditable(false);
-		componentDescText.setText(c.getComponentDesc());
+		
+		componentDescText.setText(c.getComponentDesc()==null?"":c.getComponentDesc());
 		
 		final Label listBehaviorLabel = new Label(container, SWT.NULL);				
 		gridData = new GridData(GridData.FILL_HORIZONTAL);		
@@ -100,7 +103,7 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 		listBehaviorLabel .setLayoutData(gridData);		
 		listBehaviorLabel .setText("List Behaviors:");
 		
-		final List listBehaviors = new List(container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		final List listBehaviors = new List(container, SWT.BORDER | SWT.V_SCROLL);
 		gridData =
 				new GridData(
 						GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
@@ -119,7 +122,34 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 		gridData = new GridData();		
 		behaviorButton.setLayoutData(gridData);
 		behaviorButton.setText("Add Behavior");
-									
+		
+		final Label listAttributeLabel = new Label(container, SWT.NULL);				
+		gridData = new GridData(GridData.FILL_HORIZONTAL);		
+		gridData.horizontalSpan = 2;
+		gridData.verticalAlignment = GridData.BEGINNING;
+		listAttributeLabel .setLayoutData(gridData);		
+		listAttributeLabel .setText("List Behaviors:");
+		
+		final List listAttributes = new List(container, SWT.BORDER | SWT.V_SCROLL);
+		gridData =
+				new GridData(
+						GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
+		gridData.horizontalSpan = 1;
+		gridData.verticalSpan = 3;
+		gridData.heightHint = 150;
+		gridData.widthHint = 200;
+		//gridData.grabExcessVerticalSpace = true;
+		
+		listAttributes.setLayoutData(gridData);
+		for(Attribute att: c.getAttributes()){
+			listAttributes.add(att.toString());
+		}
+		
+		final Button addAttributeButton = new Button(container, SWT.NULL);
+		gridData = new GridData();		
+		addAttributeButton.setLayoutData(gridData);
+		addAttributeButton.setText("Add Attribute");
+		
 
 		behaviorButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {				
@@ -130,9 +160,24 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 				{
 					return;
 				}
-				listBehaviors.removeAll();
+				listAttributes.removeAll();
 				for(Behavior behavior: c.getBehaviors()){
-					listBehaviors.add(behavior.toString());
+					listAttributes.add(behavior.toString());
+				}
+			}
+		});
+		addAttributeButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {				
+				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+						getActiveWorkbenchWindow().getShell(),
+						new CreateAttributeGraphBTWizard(c));
+				if(wizardDialog.open() != Window.OK)
+				{
+					return;
+				}
+				listAttributes.removeAll();
+				for(Attribute att: c.getAttributes()){
+					listAttributes.add(att.toString());
 				}
 			}
 		});

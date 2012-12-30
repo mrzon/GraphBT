@@ -867,13 +867,22 @@ public interface BehaviortreePackage extends EPackage {
 	int BEHAVIOR__BEHAVIOR_DESC = 3;
 
 	/**
+	 * The feature id for the '<em><b>Technical Detail</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR__TECHNICAL_DETAIL = 4;
+
+	/**
 	 * The number of structural features of the '<em>Behavior</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BEHAVIOR_FEATURE_COUNT = 4;
+	int BEHAVIOR_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.impl.ComponentListImpl <em>Component List</em>}' class.
@@ -1174,6 +1183,174 @@ public interface BehaviortreePackage extends EPackage {
 	int INFORMATION_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link behaviortree.impl.GUIImplementableImpl <em>GUI Implementable</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see behaviortree.impl.GUIImplementableImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getGUIImplementable()
+	 * @generated
+	 */
+	int GUI_IMPLEMENTABLE = 26;
+
+	/**
+	 * The number of structural features of the '<em>GUI Implementable</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GUI_IMPLEMENTABLE_FEATURE_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link behaviortree.impl.InputTypeImpl <em>Input Type</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see behaviortree.impl.InputTypeImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getInputType()
+	 * @generated
+	 */
+	int INPUT_TYPE = 24;
+
+	/**
+	 * The number of structural features of the '<em>Input Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INPUT_TYPE_FEATURE_COUNT = GUI_IMPLEMENTABLE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link behaviortree.impl.OutputTypeImpl <em>Output Type</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see behaviortree.impl.OutputTypeImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getOutputType()
+	 * @generated
+	 */
+	int OUTPUT_TYPE = 25;
+
+	/**
+	 * The number of structural features of the '<em>Output Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUTPUT_TYPE_FEATURE_COUNT = GUI_IMPLEMENTABLE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link behaviortree.impl.GUIImpl <em>GUI</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see behaviortree.impl.GUIImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getGUI()
+	 * @generated
+	 */
+	int GUI = 27;
+
+	/**
+	 * The feature id for the '<em><b>Identifier</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GUI__IDENTIFIER = 0;
+
+	/**
+	 * The feature id for the '<em><b>Code Implementation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GUI__CODE_IMPLEMENTATION = 1;
+
+	/**
+	 * The number of structural features of the '<em>GUI</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GUI_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link behaviortree.impl.InputGUIImpl <em>Input GUI</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see behaviortree.impl.InputGUIImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getInputGUI()
+	 * @generated
+	 */
+	int INPUT_GUI = 28;
+
+	/**
+	 * The feature id for the '<em><b>Identifier</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INPUT_GUI__IDENTIFIER = GUI__IDENTIFIER;
+
+	/**
+	 * The feature id for the '<em><b>Code Implementation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INPUT_GUI__CODE_IMPLEMENTATION = GUI__CODE_IMPLEMENTATION;
+
+	/**
+	 * The number of structural features of the '<em>Input GUI</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INPUT_GUI_FEATURE_COUNT = GUI_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link behaviortree.impl.OutputGUIImpl <em>Output GUI</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see behaviortree.impl.OutputGUIImpl
+	 * @see behaviortree.impl.BehaviortreePackageImpl#getOutputGUI()
+	 * @generated
+	 */
+	int OUTPUT_GUI = 29;
+
+	/**
+	 * The feature id for the '<em><b>Identifier</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUTPUT_GUI__IDENTIFIER = GUI__IDENTIFIER;
+
+	/**
+	 * The feature id for the '<em><b>Code Implementation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUTPUT_GUI__CODE_IMPLEMENTATION = GUI__CODE_IMPLEMENTATION;
+
+	/**
+	 * The number of structural features of the '<em>Output GUI</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUTPUT_GUI_FEATURE_COUNT = GUI_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link behaviortree.Composition <em>Composition</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1181,7 +1358,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getComposition()
 	 * @generated
 	 */
-	int COMPOSITION = 24;
+	int COMPOSITION = 30;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.Branch <em>Branch</em>}' enum.
@@ -1191,7 +1368,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getBranch()
 	 * @generated
 	 */
-	int BRANCH = 25;
+	int BRANCH = 31;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.Operator <em>Operator</em>}' enum.
@@ -1201,7 +1378,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 26;
+	int OPERATOR = 32;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.BehaviorType <em>Behavior Type</em>}' enum.
@@ -1211,7 +1388,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getBehaviorType()
 	 * @generated
 	 */
-	int BEHAVIOR_TYPE = 27;
+	int BEHAVIOR_TYPE = 33;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.EventType <em>Event Type</em>}' enum.
@@ -1221,7 +1398,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getEventType()
 	 * @generated
 	 */
-	int EVENT_TYPE = 28;
+	int EVENT_TYPE = 34;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.SpecialEdgeEnum <em>Special Edge Enum</em>}' enum.
@@ -1231,7 +1408,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getSpecialEdgeEnum()
 	 * @generated
 	 */
-	int SPECIAL_EDGE_ENUM = 29;
+	int SPECIAL_EDGE_ENUM = 35;
 
 	/**
 	 * The meta object id for the '{@link behaviortree.TraceabilityStatus <em>Traceability Status</em>}' enum.
@@ -1241,7 +1418,7 @@ public interface BehaviortreePackage extends EPackage {
 	 * @see behaviortree.impl.BehaviortreePackageImpl#getTraceabilityStatus()
 	 * @generated
 	 */
-	int TRACEABILITY_STATUS = 30;
+	int TRACEABILITY_STATUS = 36;
 
 
 	/**
@@ -1968,6 +2145,17 @@ public interface BehaviortreePackage extends EPackage {
 	EAttribute getBehavior_BehaviorDesc();
 
 	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.Behavior#getTechnicalDetail <em>Technical Detail</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Technical Detail</em>'.
+	 * @see behaviortree.Behavior#getTechnicalDetail()
+	 * @see #getBehavior()
+	 * @generated
+	 */
+	EAttribute getBehavior_TechnicalDetail();
+
+	/**
 	 * Returns the meta object for class '{@link behaviortree.ComponentList <em>Component List</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2198,6 +2386,88 @@ public interface BehaviortreePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getInformation_Value();
+
+	/**
+	 * Returns the meta object for class '{@link behaviortree.InputType <em>Input Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Input Type</em>'.
+	 * @see behaviortree.InputType
+	 * @generated
+	 */
+	EClass getInputType();
+
+	/**
+	 * Returns the meta object for class '{@link behaviortree.OutputType <em>Output Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Output Type</em>'.
+	 * @see behaviortree.OutputType
+	 * @generated
+	 */
+	EClass getOutputType();
+
+	/**
+	 * Returns the meta object for class '{@link behaviortree.GUIImplementable <em>GUI Implementable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>GUI Implementable</em>'.
+	 * @see behaviortree.GUIImplementable
+	 * @generated
+	 */
+	EClass getGUIImplementable();
+
+	/**
+	 * Returns the meta object for class '{@link behaviortree.GUI <em>GUI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>GUI</em>'.
+	 * @see behaviortree.GUI
+	 * @generated
+	 */
+	EClass getGUI();
+
+	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.GUI#getIdentifier <em>Identifier</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Identifier</em>'.
+	 * @see behaviortree.GUI#getIdentifier()
+	 * @see #getGUI()
+	 * @generated
+	 */
+	EAttribute getGUI_Identifier();
+
+	/**
+	 * Returns the meta object for the attribute '{@link behaviortree.GUI#getCodeImplementation <em>Code Implementation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Code Implementation</em>'.
+	 * @see behaviortree.GUI#getCodeImplementation()
+	 * @see #getGUI()
+	 * @generated
+	 */
+	EAttribute getGUI_CodeImplementation();
+
+	/**
+	 * Returns the meta object for class '{@link behaviortree.InputGUI <em>Input GUI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Input GUI</em>'.
+	 * @see behaviortree.InputGUI
+	 * @generated
+	 */
+	EClass getInputGUI();
+
+	/**
+	 * Returns the meta object for class '{@link behaviortree.OutputGUI <em>Output GUI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Output GUI</em>'.
+	 * @see behaviortree.OutputGUI
+	 * @generated
+	 */
+	EClass getOutputGUI();
 
 	/**
 	 * Returns the meta object for enum '{@link behaviortree.Composition <em>Composition</em>}'.
@@ -2856,6 +3126,14 @@ public interface BehaviortreePackage extends EPackage {
 		EAttribute BEHAVIOR__BEHAVIOR_DESC = eINSTANCE.getBehavior_BehaviorDesc();
 
 		/**
+		 * The meta object literal for the '<em><b>Technical Detail</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BEHAVIOR__TECHNICAL_DETAIL = eINSTANCE.getBehavior_TechnicalDetail();
+
+		/**
 		 * The meta object literal for the '{@link behaviortree.impl.ComponentListImpl <em>Component List</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3050,6 +3328,82 @@ public interface BehaviortreePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute INFORMATION__VALUE = eINSTANCE.getInformation_Value();
+
+		/**
+		 * The meta object literal for the '{@link behaviortree.impl.InputTypeImpl <em>Input Type</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see behaviortree.impl.InputTypeImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getInputType()
+		 * @generated
+		 */
+		EClass INPUT_TYPE = eINSTANCE.getInputType();
+
+		/**
+		 * The meta object literal for the '{@link behaviortree.impl.OutputTypeImpl <em>Output Type</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see behaviortree.impl.OutputTypeImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getOutputType()
+		 * @generated
+		 */
+		EClass OUTPUT_TYPE = eINSTANCE.getOutputType();
+
+		/**
+		 * The meta object literal for the '{@link behaviortree.impl.GUIImplementableImpl <em>GUI Implementable</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see behaviortree.impl.GUIImplementableImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getGUIImplementable()
+		 * @generated
+		 */
+		EClass GUI_IMPLEMENTABLE = eINSTANCE.getGUIImplementable();
+
+		/**
+		 * The meta object literal for the '{@link behaviortree.impl.GUIImpl <em>GUI</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see behaviortree.impl.GUIImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getGUI()
+		 * @generated
+		 */
+		EClass GUI = eINSTANCE.getGUI();
+
+		/**
+		 * The meta object literal for the '<em><b>Identifier</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GUI__IDENTIFIER = eINSTANCE.getGUI_Identifier();
+
+		/**
+		 * The meta object literal for the '<em><b>Code Implementation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GUI__CODE_IMPLEMENTATION = eINSTANCE.getGUI_CodeImplementation();
+
+		/**
+		 * The meta object literal for the '{@link behaviortree.impl.InputGUIImpl <em>Input GUI</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see behaviortree.impl.InputGUIImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getInputGUI()
+		 * @generated
+		 */
+		EClass INPUT_GUI = eINSTANCE.getInputGUI();
+
+		/**
+		 * The meta object literal for the '{@link behaviortree.impl.OutputGUIImpl <em>Output GUI</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see behaviortree.impl.OutputGUIImpl
+		 * @see behaviortree.impl.BehaviortreePackageImpl#getOutputGUI()
+		 * @generated
+		 */
+		EClass OUTPUT_GUI = eINSTANCE.getOutputGUI();
 
 		/**
 		 * The meta object literal for the '{@link behaviortree.Composition <em>Composition</em>}' enum.

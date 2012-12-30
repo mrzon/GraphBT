@@ -371,5 +371,4 @@ public enum BehaviorType implements Enumerator {
 	}
 		return null;
 	}
-	
 } //BehaviorType

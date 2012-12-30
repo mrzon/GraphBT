@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link behaviortree.impl.BehaviorImpl#getBehaviorName <em>Behavior Name</em>}</li>
  *   <li>{@link behaviortree.impl.BehaviorImpl#getBehaviorRef <em>Behavior Ref</em>}</li>
  *   <li>{@link behaviortree.impl.BehaviorImpl#getBehaviorDesc <em>Behavior Desc</em>}</li>
+ *   <li>{@link behaviortree.impl.BehaviorImpl#getTechnicalDetail <em>Technical Detail</em>}</li>
  * </ul>
  * </p>
  *
@@ -113,6 +114,26 @@ public class BehaviorImpl extends EObjectImpl implements Behavior {
 	 * @ordered
 	 */
 	protected String behaviorDesc = BEHAVIOR_DESC_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getTechnicalDetail() <em>Technical Detail</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTechnicalDetail()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TECHNICAL_DETAIL_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getTechnicalDetail() <em>Technical Detail</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTechnicalDetail()
+	 * @generated
+	 * @ordered
+	 */
+	protected String technicalDetail = TECHNICAL_DETAIL_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -222,6 +243,27 @@ public class BehaviorImpl extends EObjectImpl implements Behavior {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getTechnicalDetail() {
+		return technicalDetail;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTechnicalDetail(String newTechnicalDetail) {
+		String oldTechnicalDetail = technicalDetail;
+		technicalDetail = newTechnicalDetail;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviortreePackage.BEHAVIOR__TECHNICAL_DETAIL, oldTechnicalDetail, technicalDetail));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -233,6 +275,8 @@ public class BehaviorImpl extends EObjectImpl implements Behavior {
 				return getBehaviorRef();
 			case BehaviortreePackage.BEHAVIOR__BEHAVIOR_DESC:
 				return getBehaviorDesc();
+			case BehaviortreePackage.BEHAVIOR__TECHNICAL_DETAIL:
+				return getTechnicalDetail();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -256,6 +300,9 @@ public class BehaviorImpl extends EObjectImpl implements Behavior {
 				return;
 			case BehaviortreePackage.BEHAVIOR__BEHAVIOR_DESC:
 				setBehaviorDesc((String)newValue);
+				return;
+			case BehaviortreePackage.BEHAVIOR__TECHNICAL_DETAIL:
+				setTechnicalDetail((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -281,6 +328,9 @@ public class BehaviorImpl extends EObjectImpl implements Behavior {
 			case BehaviortreePackage.BEHAVIOR__BEHAVIOR_DESC:
 				setBehaviorDesc(BEHAVIOR_DESC_EDEFAULT);
 				return;
+			case BehaviortreePackage.BEHAVIOR__TECHNICAL_DETAIL:
+				setTechnicalDetail(TECHNICAL_DETAIL_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -301,6 +351,8 @@ public class BehaviorImpl extends EObjectImpl implements Behavior {
 				return BEHAVIOR_REF_EDEFAULT == null ? behaviorRef != null : !BEHAVIOR_REF_EDEFAULT.equals(behaviorRef);
 			case BehaviortreePackage.BEHAVIOR__BEHAVIOR_DESC:
 				return BEHAVIOR_DESC_EDEFAULT == null ? behaviorDesc != null : !BEHAVIOR_DESC_EDEFAULT.equals(behaviorDesc);
+			case BehaviortreePackage.BEHAVIOR__TECHNICAL_DETAIL:
+				return TECHNICAL_DETAIL_EDEFAULT == null ? technicalDetail != null : !TECHNICAL_DETAIL_EDEFAULT.equals(technicalDetail);
 		}
 		return super.eIsSet(featureID);
 	}
