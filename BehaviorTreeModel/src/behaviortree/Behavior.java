@@ -163,4 +163,5 @@ public interface Behavior extends EObject {
 	static final int REF_VALUE = 0x10;
 	static final int DESC_VALUE = 0x0F;
 	static final int TYPE_VALUE = 0x0E;
+	static final int DETAIL_VALUE = 0x0D;
 } // Behavior

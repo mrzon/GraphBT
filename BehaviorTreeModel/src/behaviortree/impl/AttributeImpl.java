@@ -255,19 +255,17 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer();
-		result.append(name);
-		result.append(" : ");
 		result.append(type);
-		result.append(" (");
-		result.append(value);
-		result.append(')');
+		result.append(" ");
+		result.append(name);
+		result.append(" = ");
+		result.append(value==null?getDefaultValue(type):value);
 		return result.toString();
 	}
 

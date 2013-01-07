@@ -528,7 +528,7 @@ public interface BehaviortreePackage extends EPackage {
 	int COMPONENT__COMPONENT_NAME = 0;
 
 	/**
-	 * The feature id for the '<em><b>Attributes</b></em>' reference list.
+	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1810,10 +1810,10 @@ public interface BehaviortreePackage extends EPackage {
 	EAttribute getComponent_ComponentName();
 
 	/**
-	 * Returns the meta object for the reference list '{@link behaviortree.Component#getAttributes <em>Attributes</em>}'.
+	 * Returns the meta object for the containment reference list '{@link behaviortree.Component#getAttributes <em>Attributes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Attributes</em>'.
+	 * @return the meta object for the containment reference list '<em>Attributes</em>'.
 	 * @see behaviortree.Component#getAttributes()
 	 * @see #getComponent()
 	 * @generated
@@ -2866,7 +2866,7 @@ public interface BehaviortreePackage extends EPackage {
 		EAttribute COMPONENT__COMPONENT_NAME = eINSTANCE.getComponent_ComponentName();
 
 		/**
-		 * The meta object literal for the '<em><b>Attributes</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Attributes</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

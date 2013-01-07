@@ -25,17 +25,24 @@ public class CreateBehaviorGraphBTWizard extends Wizard {
 	protected CreateBehaviorFirstPageGraphBTWizard one;
 	protected HashMap<Integer,String> map;
 	protected Component c;
-
+	private Behavior b = null;
 	public CreateBehaviorGraphBTWizard(Component c) {
 		super();
 		setNeedsProgressMonitor(true);
 		this.map = new HashMap<Integer,String>();
 		this.c = c;
 	}
+	public CreateBehaviorGraphBTWizard(Component c, Behavior b) {
+		super();
+		setNeedsProgressMonitor(true);
+		this.map = new HashMap<Integer,String>();
+		this.c = c;
+		this.b = b;
+	}
 
 	@Override
 	public void addPages() {
-		one = new CreateBehaviorFirstPageGraphBTWizard(map,c);
+		one = new CreateBehaviorFirstPageGraphBTWizard(map,c,b);
 		addPage(one);
 	}
 
@@ -47,11 +54,6 @@ public class CreateBehaviorGraphBTWizard extends Wizard {
 				map.get(Behavior.REF_VALUE) == null) {
 			return false;
 		}
-		final Behavior b = GraphBTUtil.getBEFactory().createBehavior();
-		b.setBehaviorName(map.get(Behavior.NAME_VALUE));
-		b.setBehaviorDesc(map.get(Behavior.DESC_VALUE));
-		b.setBehaviorRef(map.get(Behavior.REF_VALUE));
-		b.setBehaviorType(BehaviorType.getByName(map.get(Behavior.TYPE_VALUE)));
 		IWorkbenchPage page=PlatformUI.getWorkbench().
 				getActiveWorkbenchWindow().getActivePage();
         DiagramEditor ds;
@@ -62,16 +64,33 @@ public class CreateBehaviorGraphBTWizard extends Wizard {
         	ds = ((MultiPageEditor)page.
         			getActiveEditor()).getDiagramEditor();
         }
-
-        Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
-			protected void doExecute() {
-				c.getBehaviors().add(b);
-		    }
-		};
-		
+		Command cmd;
+		if(this.b==null){
+			final Behavior b = GraphBTUtil.getBEFactory().createBehavior();
+			b.setBehaviorName(map.get(Behavior.NAME_VALUE));
+			b.setBehaviorDesc(map.get(Behavior.DESC_VALUE));
+			b.setBehaviorRef(map.get(Behavior.REF_VALUE));
+			b.setBehaviorType(BehaviorType.getByName(map.get(Behavior.TYPE_VALUE)));
+			b.setTechnicalDetail(map.get(Behavior.DETAIL_VALUE));
+			
+	        
+	        cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+				protected void doExecute() {
+					c.getBehaviors().add(b);
+			    }
+			};
+		}
+		else{
+			cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+				protected void doExecute() {
+					b.setBehaviorName(map.get(Behavior.NAME_VALUE));
+					b.setBehaviorDesc(map.get(Behavior.DESC_VALUE));
+					b.setTechnicalDetail(map.get(Behavior.DETAIL_VALUE));
+			    }
+			};
+		}
 		TransactionalEditingDomain f = ds.getEditingDomain();
 		f.getCommandStack().execute(cmd);
-		
 		return true;
 	}
 }

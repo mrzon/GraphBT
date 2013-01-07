@@ -9,6 +9,34 @@
 -->
 
 <plugin>
+
+  <extension
+      point = "org.eclipse.ui.preferencePages">
+	      <page
+	         id="behaviortree.graphBT.preference.Page2"
+	         class="behaviortree.graphBT.preference.GitAccountPreference"
+	         name="Git Account"
+	         category="behaviortree.graphBT.preference.Page1">
+	      </page>
+       <page
+             class="behaviortree.graphBT.preference.GraphBTPreference"
+             id="behaviortree.graphBT.preference.Page1"
+             name="GraphBT">
+       </page>
+       <page
+             category="behaviortree.graphBT.preference.Page1"
+             class="behaviortree.graphBT.preference.ManageLibrary"
+             id="behaviortree.graphBT.preference.Page3"
+             name="Manage Library">
+       </page>
+       <page
+             category="behaviortree.graphBT.preference.Page3"
+             class="behaviortree.graphBT.preference.AddLibraryPreference"
+             id="behaviortree.graphBT.addlibrary"
+             name="Add Library">
+       </page>
+	</extension>
+
    <extension
          point="org.eclipse.ui.editors">
       <editor
@@ -74,4 +102,5 @@
               </propertySection>
           </propertySections>
       </extension>
+    
 </plugin>

@@ -64,6 +64,7 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
 		else if (bo instanceof Behavior) {
 			if(node.getBehaviorRef() != null) {
 				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram()), node.getComponentRef());
+				if(GraphBTUtil.getBehaviorFromComponentByRef(c, node.getBehaviorRef())!=null)
 				businessName = GraphBTUtil.getBehaviorFromComponentByRef(c, node.getBehaviorRef()).toString();
 			}
 			else {

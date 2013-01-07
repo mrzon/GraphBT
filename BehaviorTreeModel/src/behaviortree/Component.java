@@ -63,7 +63,7 @@ public interface Component extends EObject {
 	void setComponentName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Attributes</b></em>' reference list.
+	 * Returns the value of the '<em><b>Attributes</b></em>' containment reference list.
 	 * The list contents are of type {@link behaviortree.Attribute}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -71,9 +71,9 @@ public interface Component extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Attributes</em>' reference list.
+	 * @return the value of the '<em>Attributes</em>' containment reference list.
 	 * @see behaviortree.BehaviortreePackage#getComponent_Attributes()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<Attribute> getAttributes();

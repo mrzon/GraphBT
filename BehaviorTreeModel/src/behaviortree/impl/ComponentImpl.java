@@ -75,7 +75,7 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	protected String componentName = COMPONENT_NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' reference list.
+	 * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getAttributes()
@@ -251,7 +251,7 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	 */
 	public EList<Attribute> getAttributes() {
 		if (attributes == null) {
-			attributes = new EObjectResolvingEList<Attribute>(Attribute.class, this, BehaviortreePackage.COMPONENT__ATTRIBUTES);
+			attributes = new EObjectContainmentEList<Attribute>(Attribute.class, this, BehaviortreePackage.COMPONENT__ATTRIBUTES);
 		}
 		return attributes;
 	}
@@ -422,6 +422,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case BehaviortreePackage.COMPONENT__ATTRIBUTES:
+				return ((InternalEList<?>)getAttributes()).basicRemove(otherEnd, msgs);
 			case BehaviortreePackage.COMPONENT__STATE:
 				return ((InternalEList<?>)getState()).basicRemove(otherEnd, msgs);
 			case BehaviortreePackage.COMPONENT__BEHAVIORS:

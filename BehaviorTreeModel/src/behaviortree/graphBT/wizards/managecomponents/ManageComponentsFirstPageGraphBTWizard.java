@@ -6,6 +6,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
+import org.eclipse.jface.dialogs.DialogPage;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -71,6 +72,10 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 	private Button saveBehaviorButton;
 	private Button cancelEditBehaviorButton;
 	private Button cancelEditComponentButton;
+	private Group groupBehavior;
+	private Label bNameLabel;
+	private Label bRefLabel;
+	private Label bTypeLabel;
 
 	public ManageComponentsFirstPageGraphBTWizard(HashMap<Integer,String> map, Diagram d) {
 		super("Manage Components Wizard");
@@ -101,7 +106,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		listBehaviorLabel.setLayoutData(gridData);
 		
 		
-		final List listComponents = new List(container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		final List listComponents = new List(container, SWT.BORDER | SWT.V_SCROLL);
 		gridData =
 				new GridData(
 						GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
@@ -123,7 +128,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		componentButton.setLayoutData(gridData);
 		componentButton.setText("+");
 		
-		final List listBehaviors = new List(container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		final List listBehaviors = new List(container, SWT.BORDER | SWT.V_SCROLL);
 		gridData =
 				new GridData(
 						GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
@@ -171,8 +176,8 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		/*
 		 * Group Details Component
 		 */
-		final Group group = new Group(container, SWT.SHADOW_ETCHED_IN);
-		group.setText("Details Components");				
+		final Group componentDetailsGroup = new Group(container, SWT.SHADOW_ETCHED_IN);
+		componentDetailsGroup.setText("Details Components");				
 		gridData =
 				new GridData( GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL );
 		gridData.horizontalSpan = 2;
@@ -180,34 +185,34 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		gridData.widthHint = 200;
 		//gridData.grabExcessVerticalSpace = true;
 		//gridData.grabExcessHorizontalSpace = true;
-		group.setLayoutData(gridData);
+		componentDetailsGroup.setLayoutData(gridData);
 		GridLayout groupLayout = new GridLayout(1, false);
-		group.setLayout(groupLayout);
+		componentDetailsGroup.setLayout(groupLayout);
 		
 		/*
 		 * Inside Group Component
 		 */
-		final Label cNameLabel = new Label(group, SWT.NULL);				
+		final Label cNameLabel = new Label(componentDetailsGroup, SWT.NULL);				
 		gridData = new GridData(GridData.FILL_HORIZONTAL);		
 		gridData.horizontalSpan = 1;
 		cNameLabel.setLayoutData(gridData);		
 		cNameLabel.setText("");
 		
-		final Label cRefLabel = new Label(group, SWT.NULL);				
+		final Label cRefLabel = new Label(componentDetailsGroup, SWT.NULL);				
 		gridData = new GridData(GridData.FILL_HORIZONTAL);		
 		gridData.horizontalSpan = 1;
 		gridData.verticalAlignment = GridData.BEGINNING;
 		cRefLabel.setLayoutData(gridData);		
 		cRefLabel.setText("");
 		
-		final Label descComponentLabel = new Label(group, SWT.NULL);
+		final Label descComponentLabel = new Label(componentDetailsGroup, SWT.NULL);
 		gridData = new GridData();		
 		gridData.horizontalSpan = 1;
 		descComponentLabel.setLayoutData(gridData);	
 		descComponentLabel.setText("Description:");
 		descComponentLabel.setVisible(false);
 		
-		componentDescText = new Text(group, SWT.WRAP
+		componentDescText = new Text(componentDetailsGroup, SWT.WRAP
 				| SWT.MULTI
 				| SWT.BORDER
 				| SWT.H_SCROLL
@@ -221,9 +226,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		componentDescText.setLayoutData(gridData);
 		componentDescText.setEditable(false);
 		componentDescText.setVisible(false);
-		
-		
-		/*
+		/**
 		 * Group Details Behavior
 		 */
 		final Group groupBehavior = new Group(container, SWT.SHADOW_ETCHED_IN);
@@ -241,19 +244,19 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		/*
 		 * Inside Group Behavior
 		 */
-		final Label bNameLabel = new Label(groupBehavior, SWT.NULL);				
+		bNameLabel = new Label(groupBehavior, SWT.NULL);				
 		gridData = new GridData(GridData.FILL_HORIZONTAL);		
 		gridData.horizontalSpan = 1;
 		bNameLabel.setLayoutData(gridData);		
 		bNameLabel.setText("");
 		
-		final Label bRefLabel = new Label(groupBehavior, SWT.NULL);				
+		bRefLabel = new Label(groupBehavior, SWT.NULL);				
 		gridData = new GridData(GridData.FILL_HORIZONTAL);		
 		gridData.horizontalSpan = 1;
 		bRefLabel.setLayoutData(gridData);		
 		bRefLabel.setText("");
 		
-		final Label bTypeLabel = new Label(groupBehavior, SWT.NULL);				
+		bTypeLabel = new Label(groupBehavior, SWT.NULL);				
 		gridData = new GridData(GridData.FILL_HORIZONTAL);		
 		gridData.horizontalSpan = 1;
 		gridData.verticalAlignment = GridData.BEGINNING;
@@ -265,7 +268,6 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		gridData.horizontalSpan = 1;
 		descBehaviorLabel.setLayoutData(gridData);	
 		descBehaviorLabel.setText("Description:");
-		descBehaviorLabel.setVisible(false);
 		
 		behaviorDescText = new Text(groupBehavior, SWT.WRAP
 				| SWT.MULTI
@@ -280,7 +282,6 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		gridData.grabExcessVerticalSpace = true;
 		behaviorDescText.setLayoutData(gridData);
 		behaviorDescText.setEditable(false);
-		behaviorDescText.setVisible(false);
 		
 		/*
 		 * Group Details Edit Component
@@ -478,7 +479,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 						listBehaviors.add(behavior.toString());
 					}
 					
-					group.setVisible(true);
+					componentDetailsGroup.setVisible(true);
 					groupBehavior.setVisible(false);
 					editBehaviorGroup.setVisible(false);
 					editComponentGroup.setVisible(false);
@@ -534,31 +535,49 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 			public void widgetSelected(SelectionEvent event) {
 
 				String selected = listBehaviors.getItem(listBehaviors.getSelectionIndex());
-				//map.put(StandardNode.STANDARDNODE_COMPONENT, selected );
-
-				System.out.println("komponen = " + componentRefTemp);
-				
 				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
 				Behavior b = GraphBTUtil.getBehaviorFromComponent(c, selected);
-
-				if(b != null) {
-				//editcomponentNameText.setText(c.getComponentName());
-					groupBehavior.setVisible(true);
-					bNameLabel.setVisible(true);
-					bNameLabel.setText("Name: " + b.getBehaviorName());
-					bRefLabel.setVisible(true);
-					bRefLabel.setText("Reference: " + b.getBehaviorRef());
-					bTypeLabel.setVisible(true);
-					bTypeLabel.setText("Type: " + b.getBehaviorType().getName());
-					descBehaviorLabel.setVisible(true);
-					behaviorDescText.setVisible(true);
-					behaviorDescText.setText(b.getBehaviorDesc()==null?"":b.getBehaviorDesc());
-				}
-				behaviorRefTemp = b.getBehaviorRef();
-				//System.out.println("komponen = " + componentRefTemp);
+				groupBehavior.setVisible(true);
+				updateBehaviorDetail(b);
 			}
 		});
-		
+		listBehaviors.addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int s = listBehaviors.getSelectionIndex();
+				String selected = listBehaviors.getItem(s);
+				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
+				Behavior b = GraphBTUtil.getBehaviorFromComponent(c, selected);
+				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+						getActiveWorkbenchWindow().getShell(),
+						new CreateBehaviorGraphBTWizard(c,b));
+				
+				if(wizardDialog.open() == Window.OK)
+				{
+					listBehaviors.removeAll();
+					for(Behavior behavior: c.getBehaviors()){
+						listBehaviors.add(behavior.toString());
+					}
+					listBehaviors.select(s);
+					updateBehaviorDetail(b);
+					return;
+				}
+			}
+
+			@Override
+			public void mouseDown(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseUp(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}}
+		);
 		componentButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				HashMap <Integer,String> map = new HashMap<Integer, String>();
@@ -630,7 +649,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				editComponentLabel.setVisible(false);
 				editComponentNameText.setVisible(false);
 				saveComponentButton.setVisible(false);				
-				group.setVisible(false);
+				componentDetailsGroup.setVisible(false);
 				
 				listComponents.removeAll();
 				listBehaviors.removeAll();
@@ -907,6 +926,24 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 
 		
 			updateStatus(null);
+	}
+	
+	private void updateBehaviorDetail(Behavior b)
+	{
+		if(b != null) {
+			//editcomponentNameText.setText(c.getComponentName());
+				bNameLabel.setText("Name: " + b.getBehaviorName());
+				bRefLabel.setText("Reference: " + b.getBehaviorRef());
+				bTypeLabel.setText("Type: " + b.getBehaviorType().getName());
+				behaviorDescText.setVisible(true);
+				behaviorDescText.setText(b.getBehaviorDesc()==null?"":b.getBehaviorDesc());
+			}
+			behaviorRefTemp = b.getBehaviorRef();
+	}
+	
+	private void updateComponentDetail()
+	{
+	//TODO add updateComponentImplementation
 	}
 	
 	private void updateStatusBehavior(String message) {
