@@ -1685,7 +1685,7 @@ public class GraphBTUtil {
 	}
 
 	/**
-	 * get behavior instance from a component based on its reference string
+	 * get Attribute instance from a component based on its reference string
 	 * @param component
 	 * @param ref
 	 * @return behavior instance, null if there is no such behavior
@@ -1696,6 +1696,24 @@ public class GraphBTUtil {
 			Attribute b = it.next();
 
 			if(b.getName().equals(text)) {
+				return b;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * get Attribute instance from a component based on its to string
+	 * @param component
+	 * @param ref
+	 * @return behavior instance, null if there is no such behavior
+	 */
+	public static Attribute getAttributeFromComponent(Component c, String text) {
+		Iterator<Attribute> it = c.getAttributes().iterator();
+		while(it.hasNext()){
+			Attribute b = it.next();
+
+			if(b.toString().equals(text)) {
 				return b;
 			}
 		}

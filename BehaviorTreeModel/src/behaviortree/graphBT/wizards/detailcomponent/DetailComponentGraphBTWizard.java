@@ -10,10 +10,12 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
+import behaviortree.Attribute;
 import behaviortree.Behavior;
 import behaviortree.BehaviorType;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
+import behaviortree.graphBT.editors.MultiPageEditor;
 import behaviortree.graphBT.wizards.createbehavior.CreateBehaviorFirstPageGraphBTWizard;
 
 /**
@@ -42,6 +44,24 @@ public class DetailComponentGraphBTWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {				
+		IWorkbenchPage page=PlatformUI.getWorkbench().
+				getActiveWorkbenchWindow().getActivePage();
+        DiagramEditor ds;
+        if(page.getActiveEditor() instanceof DiagramEditor) {
+        	 ds = (DiagramEditor)page.getActiveEditor();	
+        }
+        else {
+        	ds = ((MultiPageEditor)page.
+        			getActiveEditor()).getDiagramEditor();
+        }
+        Command cmd;
+		cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+			protected void doExecute() {
+				c.setComponentDesc(map.get(Component.DESC_VALUE));
+			}
+		};
+		TransactionalEditingDomain f = ds.getEditingDomain();
+		f.getCommandStack().execute(cmd);
 		return true;
 	}
 }

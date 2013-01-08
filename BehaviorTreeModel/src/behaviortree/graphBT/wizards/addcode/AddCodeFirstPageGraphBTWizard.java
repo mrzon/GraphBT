@@ -81,7 +81,7 @@ public class AddCodeFirstPageGraphBTWizard extends WizardPage {
 	    });
 		if(b!=null)
 		{
-			absCodeText.setText(b.getTechnicalDetail());
+			absCodeText.setText(b.getTechnicalDetail()==null?"":b.getTechnicalDetail());
 			absCodeText.notify();
 		}
 		// Required to avoid an error in the system

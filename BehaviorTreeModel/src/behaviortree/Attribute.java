@@ -111,4 +111,7 @@ public interface Attribute extends EObject {
 	void setValue(String value);
 
 	String getDefaultValue(String string);
+
+	String getDesc();
+	void setDesc(String s);
 } // Attribute

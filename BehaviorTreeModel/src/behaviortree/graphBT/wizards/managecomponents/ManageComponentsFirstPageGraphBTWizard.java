@@ -54,24 +54,24 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 	private Diagram d;
 	private String componentRefTemp;
 	private String behaviorRefTemp;
-	private Text editComponentNameText;
+//	private Text editComponentNameText;
 	private Button behaviorButton;
-	private Button saveComponentButton;
+//	private Button saveComponentButton;
 //<<<<<<< HEAD
 	private Button checkButton;
 //=======
 //>>>>>>> refs/remotes/origin/master3wizard
-	private Text editBehaviorNameText; 
-	private Text editComponentDescText;
+//	private Text editBehaviorNameText; 
+//	private Text editComponentDescText;
 	private Text componentDescText;
 	private Text behaviorDescText;
-	private Text editBehaviorDescText;
+//	private Text editBehaviorDescText;
 	
 	private Combo typeCombo;
 	private int index;
-	private Button saveBehaviorButton;
-	private Button cancelEditBehaviorButton;
-	private Button cancelEditComponentButton;
+//	private Button saveBehaviorButton;
+//	private Button cancelEditBehaviorButton;
+//	private Button cancelEditComponentButton;
 	private Group groupBehavior;
 	private Label bNameLabel;
 	private Label bRefLabel;
@@ -157,7 +157,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		deleteBehaviorButton.setLayoutData(gridData);
 		deleteBehaviorButton.setText("-");		
-		
+		/*
 		Button editComponentButton = new Button(container, SWT.NULL);
 		gridData = new GridData();
 		gridData.widthHint = 35;	
@@ -171,7 +171,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		gridData.verticalAlignment = GridData.BEGINNING;
 		editBehaviorButton.setLayoutData(gridData);
 		editBehaviorButton.setText("Edit");
-
+*/
 		
 		/*
 		 * Group Details Component
@@ -301,7 +301,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		/*
 		 * Group Details Edit Behavior
 		 */
-		final Group editBehaviorGroup = new Group(container, SWT.SHADOW_ETCHED_IN);
+		/*final Group editBehaviorGroup = new Group(container, SWT.SHADOW_ETCHED_IN);
 		editBehaviorGroup.setText("Edit Behavior");				
 		gridData =
 				new GridData( GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL );
@@ -312,11 +312,11 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		GridLayout groupLayoutEditBehavior = new GridLayout(2, false);
 		editBehaviorGroup.setLayout(groupLayoutEditBehavior );
 		editBehaviorGroup.setVisible(false);
-		
+		*/
 		/*
 		 * Inside Group Edit Component
 		 */		
-		final Label editComponentLabel = new Label(editComponentGroup, SWT.NULL);
+		/*final Label editComponentLabel = new Label(editComponentGroup, SWT.NULL);
 		gridData = new GridData();		
 		gridData.horizontalSpan = 1;
 		editComponentLabel.setLayoutData(gridData);	
@@ -392,11 +392,11 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		//gridData.horizontalAlignment = GridData.END;
 		cancelEditComponentButton.setLayoutData(gridData);
 		cancelEditComponentButton.setVisible(false);
-		
+		*/
 		final Text componentRefText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		componentRefText.setVisible(false);
 
-		editComponentButton.addSelectionListener(new SelectionAdapter() {
+/*		editComponentButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
 			
@@ -415,7 +415,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				checkButton.setVisible(true);
 			}
 
-		});
+		});*/
 		
 		deleteComponentButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
@@ -443,10 +443,10 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 
 				ds.getEditingDomain().getCommandStack().execute(cmd);
 				editComponentGroup.setVisible(false);
-				editComponentLabel.setVisible(false);
-				editComponentNameText.setVisible(false);
-				editDescComponentLabel.setVisible(false);
-				editComponentDescText.setVisible(false);
+			//	editComponentLabel.setVisible(false);
+				//editComponentNameText.setVisible(false);
+				//editDescComponentLabel.setVisible(false);
+				//editComponentDescText.setVisible(false);
 
 				cNameLabel.setVisible(false);
 				cRefLabel.setVisible(false);
@@ -481,8 +481,8 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 					
 					componentDetailsGroup.setVisible(true);
 					groupBehavior.setVisible(false);
-					editBehaviorGroup.setVisible(false);
-					editComponentGroup.setVisible(false);
+					//editBehaviorGroup.setVisible(false);
+					//editComponentGroup.setVisible(false);
 					cNameLabel.setVisible(true);
 					cNameLabel.setText("Name: " + c.getComponentName());
 					cRefLabel.setVisible(true);
@@ -513,7 +513,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 						getActiveWorkbenchWindow().getShell(),
 						new DetailComponentGraphBTWizard(c));
-				if(wizardDialog.open() != Window.OK)
+				if(wizardDialog.open() == Window.OK)
 				{
 					return;
 				}
@@ -617,7 +617,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				}
 			}
 		});
-		
+		/*
 		saveComponentButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 
@@ -658,11 +658,11 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				}
 			}
 		});
-		
+		*/
 		/*
 		 * Inside Group Edit Behavior
 		 */
-		final Label editBehaviorLabel = new Label(editBehaviorGroup, SWT.NULL);
+		/*		final Label editBehaviorLabel = new Label(editBehaviorGroup, SWT.NULL);
 		gridData = new GridData();		
 		gridData.horizontalSpan = 1;
 		editBehaviorLabel.setLayoutData(gridData);
@@ -748,10 +748,10 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		//gridData.horizontalAlignment = GridData.END;
 		cancelEditBehaviorButton.setLayoutData(gridData);
 		cancelEditBehaviorButton.setVisible(false);
-		
+		*/
 		final Text behaviorRefText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		behaviorRefText.setVisible(false);
-		
+		/*
 		editBehaviorButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 
@@ -776,7 +776,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				cancelEditBehaviorButton.setVisible(true);
 			}
 		});
-		
+		*/
 		deleteBehaviorButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				boolean delete = MessageDialog.openQuestion(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Confirm delete behavior", "Are you sure you want to delete the behavior? It may affect your current design..");
@@ -803,11 +803,11 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				};
 
 				ds.getEditingDomain().getCommandStack().execute(cmd);
-				editBehaviorGroup.setVisible(false);
-				typeLabel.setVisible(false);
-				typeCombo.setVisible(false);
-				editBehaviorLabel.setVisible(false);
-				editBehaviorNameText.setVisible(false);
+				//editBehaviorGroup.setVisible(false);
+				//typeLabel.setVisible(false);
+				//typeCombo.setVisible(false);
+				//editBehaviorLabel.setVisible(false);
+				//editBehaviorNameText.setVisible(false);
 				
 				bNameLabel.setVisible(false);
 				bRefLabel.setVisible(false);
@@ -821,7 +821,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				}
 			}
 		});
-		
+		/*
 		saveBehaviorButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 
@@ -884,19 +884,19 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 				saveBehaviorButton.setVisible(false);
 				cancelEditBehaviorButton.setVisible(false);
 			}
-		});
+		});*/
 		
 		setControl(container);
 	}
 	
 	private void dialogChanged() {
-		
+		/*
 		if (editComponentNameText.getText().length() == 0) {
 			updateStatus("Component name must be specified");
 			saveComponentButton.setEnabled(false);
 			return;
 		}	
-
+*/
 		
 			updateStatus(null);
 	}
@@ -906,7 +906,7 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 		
 		if (message == null)
 		{
-			saveComponentButton.setEnabled(true);
+			//saveComponentButton.setEnabled(true);
 		}
 			
 	}
@@ -917,14 +917,14 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 			updateStatus("Behavior type must be specified");
 			return;
 		}
-		
+		/*
 		if (editBehaviorNameText.getText().length() == 0) {
 			updateStatusBehavior("Behavior name must be specified");
 			saveBehaviorButton.setEnabled(false);
 			return;
 		}	
 
-		
+		*/
 			updateStatus(null);
 	}
 	
@@ -948,11 +948,11 @@ public class ManageComponentsFirstPageGraphBTWizard extends WizardPage {
 	
 	private void updateStatusBehavior(String message) {
 		setErrorMessage(message);		
-		
+		/*
 		if (message == null)
 		{
 			saveBehaviorButton.setEnabled(true);
-		}
+		}*/
 			
 	}
 }

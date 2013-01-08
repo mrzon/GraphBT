@@ -9,6 +9,8 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -92,10 +94,19 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 		gridData.heightHint = 150;
 		gridData.widthHint = 200;
 		componentDescText.setLayoutData(gridData);
-		componentDescText.setEditable(false);
 		
 		componentDescText.setText(c.getComponentDesc()==null?"":c.getComponentDesc());
-		
+		map.put(Component.DESC_VALUE,componentDescText.getText());
+		componentDescText.addModifyListener(new ModifyListener(){
+
+			@Override
+			public void modifyText(ModifyEvent e) {
+				// TODO Auto-generated method stub
+				String text = ((Text)e.widget).getText();
+				map.put(Component.DESC_VALUE,text);
+			}
+			
+		});
 		final Label listBehaviorLabel = new Label(container, SWT.NULL);				
 		gridData = new GridData(GridData.FILL_HORIZONTAL);		
 		gridData.horizontalSpan = 2;
@@ -158,7 +169,43 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 		for(Attribute att: c.getAttributes()){
 			listAttributes.add(att.toString());
 		}
-		
+		listAttributes.addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int s = listAttributes.getSelectionIndex();
+				String selected = listAttributes.getItem(s);
+				System.out.println("Attribute "+selected+" is selected");
+				Attribute b = GraphBTUtil.getAttributeFromComponent(c, selected);
+				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
+						getActiveWorkbenchWindow().getShell(),
+						new CreateAttributeGraphBTWizard(c,b));
+				
+				if(wizardDialog.open() == Window.OK)
+				{
+					listAttributes.removeAll();
+					for(Attribute a: c.getAttributes()){
+						listAttributes.add(a.toString());
+					}
+					listAttributes.select(s);
+					//updateBehaviorDetail(b);
+					return;
+				}
+			}
+
+			@Override
+			public void mouseDown(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseUp(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		final Button addAttributeButton = new Button(container, SWT.NULL);
 		gridData = new GridData();		
 		addAttributeButton.setLayoutData(gridData);

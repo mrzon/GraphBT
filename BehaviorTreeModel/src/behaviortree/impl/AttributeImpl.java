@@ -92,6 +92,8 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	 */
 	protected String value = VALUE_EDEFAULT;
 
+	private String desc;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -265,19 +267,33 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 		result.append(" ");
 		result.append(name);
 		result.append(" = ");
-		result.append(value==null?getDefaultValue(type):value);
+		String def = value==null?getDefaultValue(type):value;
+		if(type.equals("String")){
+			def = "\""+def+"\"";
+		}
+		result.append(def);
 		return result.toString();
 	}
 
 	public String getDefaultValue(String string) {
 		// TODO Auto-generated method stub
 		if(string.equals("String"))
-			return "\"\"";
+			return "";
 		if(string.equals("Int"))
 			return "0";
 		if(string.equals("Bool"))
 			return "False";
 		return "";
+	}
+
+	public void setDesc(String d)
+	{
+		desc = d;
+	}
+	@Override
+	public String getDesc() {
+		// TODO Auto-generated method stub
+		return desc;
 	}
 
 } //AttributeImpl

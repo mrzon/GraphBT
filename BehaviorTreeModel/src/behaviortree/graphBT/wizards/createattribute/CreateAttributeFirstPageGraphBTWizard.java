@@ -1,7 +1,6 @@
 package behaviortree.graphBT.wizards.createattribute;
 
 import java.util.HashMap;
-
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -14,7 +13,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-
 import behaviortree.Attribute;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
@@ -25,7 +23,6 @@ import behaviortree.GraphBTUtil;
  *
  */
 public class CreateAttributeFirstPageGraphBTWizard extends WizardPage {
-	
 	private Composite container;
 	private HashMap<Integer,String> map;
 	private Component c;
@@ -33,13 +30,14 @@ public class CreateAttributeFirstPageGraphBTWizard extends WizardPage {
 	private Text attributeValueText;
 	private Text attributeDescText;
 	private Combo typeCombo;
-	
-	public CreateAttributeFirstPageGraphBTWizard(HashMap<Integer,String> map, Component c) {
+	private Attribute a;
+	public CreateAttributeFirstPageGraphBTWizard(HashMap<Integer,String> map, Component c, Attribute a) {
 		super("Create Attribute Wizard");
 		setTitle("Create Attribute Wizard");
 		setDescription("Fill in the form below to add new Attribute to component "+c.getComponentName());
 		this.map = map;
 		this.c=c;
+		this.a=a;
 	}
 
 	@Override
@@ -55,16 +53,17 @@ public class CreateAttributeFirstPageGraphBTWizard extends WizardPage {
 		typeCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
 		typeCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
-	    typeCombo.add("String");
 	    typeCombo.add("Int");
+	    typeCombo.add("String");
 	    typeCombo.add("Bool");
-	    
+	    typeCombo.select(0);
+	    map.put(Attribute.TYPE_VALUE, "Int");
 	    typeCombo.addSelectionListener(new SelectionAdapter() {
 		    public void widgetSelected(SelectionEvent e) {
 		    	Combo combo = (Combo)e.widget;
 		    	String selected = combo.getItem(combo.getSelectionIndex());
-		    	
 		    	map.put(Attribute.TYPE_VALUE, selected);
+		    	dialogChanged();
 		     }
 	    });
 	    final Label attributeLabel = new Label(container, SWT.NULL);
@@ -72,22 +71,12 @@ public class CreateAttributeFirstPageGraphBTWizard extends WizardPage {
 		
 		attributeNameText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		attributeNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		attributeNameText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				dialogChanged();
-			}
-		});
 		
 		final Label attributeRefLabel = new Label(container, SWT.NULL);
 		attributeRefLabel.setText("Value:");
 		
 		attributeValueText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		attributeValueText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		attributeValueText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				dialogChanged();
-			}
-		});
 		
 		final Label attributeDescLabel = new Label(container, SWT.NULL);
 		attributeDescLabel.setText("Description:");
@@ -110,6 +99,7 @@ public class CreateAttributeFirstPageGraphBTWizard extends WizardPage {
 			public void modifyText(ModifyEvent e) {
 				Text t= (Text) e.widget;
 				map.put(Attribute.NAME_VALUE, t.getText());
+				dialogChanged();
 			}
 	    });
 		
@@ -117,6 +107,7 @@ public class CreateAttributeFirstPageGraphBTWizard extends WizardPage {
 			public void modifyText(ModifyEvent e) {
 				Text t= (Text) e.widget;
 				map.put(Attribute.VAL_VALUE, t.getText());
+				dialogChanged();
 			}
 	    });
 		attributeDescText.addModifyListener(new ModifyListener() {
@@ -125,7 +116,23 @@ public class CreateAttributeFirstPageGraphBTWizard extends WizardPage {
 				map.put(Attribute.DESC_VALUE, t.getText());
 			}
 	    });
-
+		if(a!=null)
+		{
+			attributeNameText.setText(a.getName());
+			typeCombo.select(typeCombo.indexOf(a.getType()));
+			attributeDescText.setText(a.getDesc()==null?"":a.getDesc());
+			attributeValueText.setText(a.getValue()==null?"":a.getValue());
+			System.out.println("A is not null");
+			map.put(Attribute.TYPE_VALUE, a.getType());
+			map.put(Attribute.NAME_VALUE, a.getName());
+			map.put(Attribute.DESC_VALUE, attributeDescText.getText());
+			map.put(Attribute.VAL_VALUE, attributeValueText.getText());
+			dialogChanged();
+		}
+		else 
+		{
+			System.out.println("A is null");
+		}
 		// Required to avoid an error in the system
 		setControl(container);
 	}
@@ -139,10 +146,35 @@ public class CreateAttributeFirstPageGraphBTWizard extends WizardPage {
 			updateStatus("Space character is illegal");
 			return;
 		}
-		if (GraphBTUtil.getAttributeFromComponentByName(c, attributeNameText.getText()) != null) {
-			updateStatus("Attribute name is already exist");
+		if (!attributeNameText.getText().trim().matches("[a-z][0-9a-zA-Z]*")) {
+			updateStatus("name is not valid");
 			return;
-		}		
+		}
+		Attribute a1 = GraphBTUtil.getAttributeFromComponentByName(c, attributeNameText.getText());
+		if (a1 != null) {
+			if(a==null||a!=null&&a!=a1){
+				updateStatus("Attribute name is already exist");
+			return;}
+		}
+		String type = map.get(Attribute.TYPE_VALUE);
+		if((attributeValueText.getText()!=null && !attributeValueText.getText().trim().equals(""))&&type!=null) {
+			if(type.equals("Int"))
+			{
+				System.out.println();
+				if (!attributeValueText.getText().trim().matches("\\-?[0-9]+")) {
+					updateStatus("Value should be integer");
+					return;
+				}
+			}
+			else if(type.equals("Bool"))
+			{
+				if (!(attributeValueText.getText().trim().equals("True")||attributeValueText.getText().trim().equals("False"))) {
+					updateStatus("Value should be either True or False");
+					return;
+				}
+			}
+		}
+				
 		updateStatus(null);
 	}
 	
@@ -150,5 +182,4 @@ public class CreateAttributeFirstPageGraphBTWizard extends WizardPage {
 		setErrorMessage(message);
 		setPageComplete(message == null);
 	}
-	
 }

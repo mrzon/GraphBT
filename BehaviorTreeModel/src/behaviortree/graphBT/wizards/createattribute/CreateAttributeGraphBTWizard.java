@@ -26,17 +26,24 @@ public class CreateAttributeGraphBTWizard extends Wizard {
 	protected CreateAttributeFirstPageGraphBTWizard one;
 	protected HashMap<Integer,String> map;
 	protected Component c;
-
+	private Attribute a = null;
 	public CreateAttributeGraphBTWizard(Component c) {
 		super();
 		setNeedsProgressMonitor(true);
 		this.map = new HashMap<Integer,String>();
 		this.c = c;
 	}
-
+	public CreateAttributeGraphBTWizard(Component c, Attribute a) {
+		super();
+		setNeedsProgressMonitor(true);
+		this.map = new HashMap<Integer,String>();
+		this.c = c;
+		this.a = a;
+	}
+	
 	@Override
 	public void addPages() {
-		one = new CreateAttributeFirstPageGraphBTWizard(map,c);
+		one = new CreateAttributeFirstPageGraphBTWizard(map,c,a);
 		addPage(one);
 	}
 
@@ -46,11 +53,6 @@ public class CreateAttributeGraphBTWizard extends Wizard {
 				map.get(Attribute.NAME_VALUE) == null) {
 			return false;
 		}
-		final Attribute b = GraphBTUtil.getBEFactory().createAttribute();
-		b.setName(map.get(Attribute.NAME_VALUE));
-		//b.setDesc(map.get(Attribute.DESC_VALUE));
-		b.setValue(map.get(Attribute.VAL_VALUE)==null?b.getDefaultValue(map.get(Attribute.TYPE_VALUE)):map.get(Attribute.VAL_VALUE));
-		b.setType(map.get(Attribute.TYPE_VALUE));
 		IWorkbenchPage page=PlatformUI.getWorkbench().
 				getActiveWorkbenchWindow().getActivePage();
         DiagramEditor ds;
@@ -61,12 +63,31 @@ public class CreateAttributeGraphBTWizard extends Wizard {
         	ds = ((MultiPageEditor)page.
         			getActiveEditor()).getDiagramEditor();
         }
+        Command cmd;
+        if(a==null){
+			final Attribute b = GraphBTUtil.getBEFactory().createAttribute();
+			b.setName(map.get(Attribute.NAME_VALUE));
+			b.setDesc(map.get(Attribute.DESC_VALUE)==null?"":map.get(Attribute.DESC_VALUE));
+			b.setType(map.get(Attribute.TYPE_VALUE));
+			b.setValue(map.get(Attribute.VAL_VALUE)==null||map.get(Attribute.VAL_VALUE).equals("")?b.getDefaultValue(map.get(Attribute.TYPE_VALUE)):map.get(Attribute.VAL_VALUE));
+			cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+				protected void doExecute() {
+					c.getAttributes().add(b);
+			    }
+			};
+        }
+        else {
+        	cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+				protected void doExecute() {
+					a.setName(map.get(Attribute.NAME_VALUE));
+					a.setType(map.get(Attribute.TYPE_VALUE));		
+					a.setValue(map.get(Attribute.VAL_VALUE)==null||map.get(Attribute.VAL_VALUE).equals("")?a.getDefaultValue(map.get(Attribute.TYPE_VALUE)):map.get(Attribute.VAL_VALUE));
+					a.setDesc(map.get(Attribute.DESC_VALUE)==null?"":map.get(Attribute.DESC_VALUE));
+				}
+			};
+        }
 
-        Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
-			protected void doExecute() {
-				c.getAttributes().add(b);
-		    }
-		};
+        
 		
 		TransactionalEditingDomain f = ds.getEditingDomain();
 		f.getCommandStack().execute(cmd);
