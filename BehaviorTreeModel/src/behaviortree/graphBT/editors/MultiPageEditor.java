@@ -31,6 +31,7 @@ import org.eclipse.emf.validation.internal.util.Log;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.FillLayout;
@@ -48,13 +49,15 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import behaviortree.GraphBTUtil;
 
 public class MultiPageEditor extends MultiPageEditorPart implements IResourceChangeListener {
 
-	/** The text editor used in page 0. */
+	/** The diagram editor used in page 0. */
 	private DiagramEditor editor;
+	
 	/**
 	 * Creates a multi-page editor example.
 	 */
@@ -95,10 +98,8 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		FillLayout layout = new FillLayout();
 		composite.setLayout(layout);
 		text = new StyledText(composite, SWT.H_SCROLL | SWT.V_SCROLL);
-		
-		
 		int index = addPage(composite);
-
+		
 //			editor2 = new TextEditor();
 //			int index = addPage(editor2, getEditorInput()); 
 		setPageText(index, "Textual");
@@ -223,7 +224,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 
 	public DiagramEditor getDiagramEditor()
 	{
-	return editor;	
+		return editor;	
 	}
 	
 	public String getBTText()
@@ -241,4 +242,13 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 			}
 		}
 	}
+	/*
+	public Object getAdapter(Class type) {
+        if (type == IContentOutlinePage.class)
+                // create a new outline page
+                return new GraphBTContentOutlinePage(this.getDiagramEditor());
+        else
+                return super.getAdapter(type);
+	}
+	*/
 }

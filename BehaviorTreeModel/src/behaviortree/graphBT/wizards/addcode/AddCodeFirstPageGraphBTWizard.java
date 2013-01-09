@@ -82,13 +82,15 @@ public class AddCodeFirstPageGraphBTWizard extends WizardPage {
 		if(b!=null)
 		{
 			absCodeText.setText(b.getTechnicalDetail()==null?"":b.getTechnicalDetail());
-			absCodeText.notify();
 		}
 		// Required to avoid an error in the system
 		setControl(container);
 	}
 	
 	private void dialogChanged() {
+		/**
+		 * the code in add code area is need to be parsed here
+		 */
 		/*if (attributeNameText.getText().trim().length() == 0) {
 			updateStatus("Attribute name must be specified");
 			return;

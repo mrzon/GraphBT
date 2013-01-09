@@ -59,22 +59,11 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 		
 	    requirementNameText = new Text(container, SWT.BORDER | SWT.SINGLE);
 	    requirementNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));		
-		requirementNameText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				dialogChanged();
-			}
-		});
-		
 		final Label componentRefLabel = new Label(container, SWT.NULL);
 		componentRefLabel.setText("Requirement Ref:");
 
 		requirementRefText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		requirementRefText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));		
-		requirementRefText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				dialogChanged();
-			}
-		});
 		
 		final Label requirementDescLabel = new Label(container, SWT.NULL);
 		requirementDescLabel.setText("Requirement Description:");
@@ -91,16 +80,12 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 			    gridData.grabExcessVerticalSpace = true;
 			    
 		requirementDescText.setLayoutData(gridData);
-		requirementDescText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				dialogChanged();
-			}
-		});
 		
 		requirementNameText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				Text t= (Text) e.widget;
 				map.put(Requirement.REQUIREMENT_NAME, t.getText());
+				dialogChanged();
 			}
 	    });
 		
@@ -108,6 +93,7 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 			public void modifyText(ModifyEvent e) {
 				Text t= (Text) e.widget;
 				map.put(Requirement.REQUIREMENT_KEY, t.getText());
+				dialogChanged();
 			}
 	    });
 		
@@ -116,12 +102,13 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 			public void modifyText(ModifyEvent e) {
 				Text t= (Text) e.widget;
 				map.put(Requirement.REQUIREMENT_DESC, t.getText());
+				dialogChanged();
 			}
 	    });
 
 		
 		
-		
+		dialogChanged();
 		setControl(container);
 	}
 	

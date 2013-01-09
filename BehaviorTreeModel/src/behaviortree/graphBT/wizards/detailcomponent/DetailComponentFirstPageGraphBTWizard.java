@@ -2,6 +2,10 @@ package behaviortree.graphBT.wizards.detailcomponent;
 
 import java.util.HashMap;
 
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -13,6 +17,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -21,14 +26,17 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
 import behaviortree.Attribute;
+import behaviortree.BEModel;
 import behaviortree.Behavior;
 import behaviortree.BehaviorType;
 import behaviortree.Component;
 import behaviortree.GraphBTUtil;
 import behaviortree.StandardNode;
+import behaviortree.graphBT.editors.MultiPageEditor;
 import behaviortree.graphBT.wizards.createattribute.CreateAttributeGraphBTWizard;
 import behaviortree.graphBT.wizards.createbehavior.CreateBehaviorGraphBTWizard;
 
@@ -46,8 +54,8 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 	private Text behaviorRefText;
 	private Text behaviorDescText;
 	private Text attributeNameText;
-	
-	
+	private String behaviorRefTemp;
+	private String attributeRefTemp;
 	public DetailComponentFirstPageGraphBTWizard(HashMap<Integer,String> map, Component c) {
 		super("Detail Component Wizard");
 		setTitle("Detail Component Wizard");
@@ -101,7 +109,6 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 
 			@Override
 			public void modifyText(ModifyEvent e) {
-				// TODO Auto-generated method stub
 				String text = ((Text)e.widget).getText();
 				map.put(Component.DESC_VALUE,text);
 			}
@@ -132,7 +139,12 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 		final Button behaviorButton = new Button(container, SWT.NULL);
 		gridData = new GridData();		
 		behaviorButton.setLayoutData(gridData);
-		behaviorButton.setText("Add Behavior");
+		behaviorButton.setText("+");
+		final Button removeBehaviorButton = new Button(container, SWT.NULL);
+		gridData = new GridData();		
+		removeBehaviorButton.setLayoutData(gridData);
+		removeBehaviorButton.setText("-");
+		removeBehaviorButton.setEnabled(false);
 		
 		final Label listAttributeLabel = new Label(container, SWT.NULL);				
 		gridData = new GridData(GridData.FILL_HORIZONTAL);		
@@ -155,13 +167,43 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 						getActiveWorkbenchWindow().getShell(),
 						new CreateBehaviorGraphBTWizard(c));
-				if(wizardDialog.open() != Window.OK)
+				if(wizardDialog.open() == Window.OK)
 				{
+					listBehaviors.removeAll();
+					for(Behavior behavior: c.getBehaviors()){
+						listBehaviors.add(behavior.toString());
+					}
 					return;
 				}
-				listAttributes.removeAll();
+			}
+		});
+		removeBehaviorButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {				
+				int s = listBehaviors.getSelectionIndex();
+				String selected = listBehaviors.getItem(s);
+				boolean delete = MessageDialog.openQuestion(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Confirm delete behavior", "Are you sure you want to delete the behavior? It may affect your current design..");
+				if(!delete)
+					return;
+				IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				final DiagramEditor ds;
+				if(page.getActiveEditor() instanceof DiagramEditor) {
+					ds = (DiagramEditor)page.getActiveEditor();	
+				}
+				else {
+					ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+				}
+				Diagram d = ds.getDiagramTypeProvider().getDiagram();
+				final BEModel be = GraphBTUtil.getBEModel(d);
+				final Behavior b = GraphBTUtil.getBehaviorFromComponent(c, selected);
+				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Delete Behavior"+b.toString()) {
+					protected void doExecute() {
+						c.getBehaviors().remove(b);
+					}
+				};
+				ds.getEditingDomain().getCommandStack().execute(cmd);
+				listBehaviors.removeAll();
 				for(Behavior behavior: c.getBehaviors()){
-					listAttributes.add(behavior.toString());
+					listBehaviors.add(behavior.toString());
 				}
 			}
 		});
@@ -169,11 +211,11 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 		for(Attribute att: c.getAttributes()){
 			listAttributes.add(att.toString());
 		}
+		
+		
 		listAttributes.addMouseListener(new MouseListener(){
-
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
-				// TODO Auto-generated method stub
 				int s = listAttributes.getSelectionIndex();
 				String selected = listAttributes.getItem(s);
 				System.out.println("Attribute "+selected+" is selected");
@@ -181,7 +223,6 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 						getActiveWorkbenchWindow().getShell(),
 						new CreateAttributeGraphBTWizard(c,b));
-				
 				if(wizardDialog.open() == Window.OK)
 				{
 					listAttributes.removeAll();
@@ -189,30 +230,28 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 						listAttributes.add(a.toString());
 					}
 					listAttributes.select(s);
-					//updateBehaviorDetail(b);
 					return;
 				}
 			}
-
 			@Override
 			public void mouseDown(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
 			}
 
 			@Override
 			public void mouseUp(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
 			}
 		});
 		final Button addAttributeButton = new Button(container, SWT.NULL);
 		gridData = new GridData();		
 		addAttributeButton.setLayoutData(gridData);
-		addAttributeButton.setText("Add Attribute");
-		
-
-		
+		addAttributeButton.setText("+");
+		final Button removeAttributeButton = new Button(container, SWT.NULL);
+		gridData = new GridData();		
+		removeAttributeButton.setLayoutData(gridData);
+		removeAttributeButton.setText("-");
+		removeAttributeButton.setEnabled(false);
 		addAttributeButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {				
 				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
@@ -226,6 +265,50 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 				for(Attribute att: c.getAttributes()){
 					listAttributes.add(att.toString());
 				}
+			}
+		});
+		removeAttributeButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {				
+				int s = listAttributes.getSelectionIndex();
+				String selected = listAttributes.getItem(s);
+				boolean delete = MessageDialog.openQuestion(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Confirm delete behavior", "Are you sure you want to delete the attribute? It may affect your current design..");
+				if(!delete)
+					return;
+				IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				final DiagramEditor ds;
+				if(page.getActiveEditor() instanceof DiagramEditor) {
+					ds = (DiagramEditor)page.getActiveEditor();	
+				}
+				else {
+					ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+				}
+				Diagram d = ds.getDiagramTypeProvider().getDiagram();
+				
+				final BEModel be = GraphBTUtil.getBEModel(d);
+				final Attribute a = GraphBTUtil.getAttributeFromComponent(c, selected);
+
+				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Delete Attribute") {
+					protected void doExecute() {
+						c.getAttributes().remove(a);
+					}
+				};
+				ds.getEditingDomain().getCommandStack().execute(cmd);
+				listAttributes.removeAll();
+				for(Attribute att: c.getAttributes()){
+					listAttributes.add(att.toString());
+				}
+			}
+		});
+		listAttributes.addSelectionListener(new SelectionAdapter(){
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				removeAttributeButton.setEnabled(true);
+			}
+		});
+		listBehaviors.addSelectionListener(new SelectionAdapter(){
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				removeBehaviorButton.setEnabled(true);
 			}
 		});
 		// Required to avoid an error in the system
