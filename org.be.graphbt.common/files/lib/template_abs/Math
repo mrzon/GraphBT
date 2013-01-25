@@ -1,0 +1,15 @@
+<interface>
+interface Math_{
+	Int random();
+}
+</interface>
+
+<class>
+[Foreign]
+class Math implements Math_
+{
+	Int random(){
+	 return 0;
+	}
+}
+</class>

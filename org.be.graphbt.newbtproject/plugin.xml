@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="sampleNature"
+         name="Sample Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="createnewbtproject.builder.SampleNature">
+         </run>
+      </runtime>
+      <builder
+            id="CreateNewBTProject.sampleBuilder">
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            canFinishEarly="true"
+            class="org.be.graphbt.newbtproject.wizards.BTProjectWizard"
+            hasPages="true"
+            id="org.be.graphbt.ui.wizard.newproject"
+            name="New BT Project Wizard"
+            project="true">
+         <description>
+            %wizard.description
+         </description>
+      </wizard>
+   </extension>
+
+</plugin>

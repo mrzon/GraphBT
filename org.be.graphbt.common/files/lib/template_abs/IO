@@ -1,0 +1,25 @@
+<interface>
+interface IO {
+   String print(String msg);
+   Int readInt();
+   String readString();
+}
+</interface>
+
+<class>
+[Foreign]
+class IOImpl implements IO
+{
+	String print(String msg){
+		return "this is the default implementation";
+	}
+	Int readInt(){
+		return 0;
+	}
+	String readString()
+	{
+		return "";
+	}
+}
+</class>
+

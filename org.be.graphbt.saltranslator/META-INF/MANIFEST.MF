@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Saltranslator
+Bundle-SymbolicName: org.be.graphbt.saltranslator
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.be.graphbt.saltranslator.Activator
+Bundle-Vendor: FMSE Fasilkom UI Lab
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.core.resources
+Export-Package: org.be.graphbt.saltranslator.bt2salmodel

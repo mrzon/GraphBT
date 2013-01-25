@@ -1,0 +1,10 @@
+interface Stdout_ {
+	Unit print(String s);
+}
+[Foreign]
+class Stdout implements Mouse_
+{
+	Unit print(String s)
+	{
+	}
+}

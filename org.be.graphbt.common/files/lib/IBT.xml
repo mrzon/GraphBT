@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<textbt:TextBT xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:textbt="http://org.be.textbe/textbt">
+  <requirements>
+    <requirements ref="R1" val="R1"/>
+    <requirements ref="R2" val="R2"/>
+    <requirements ref="R3" val="R3"/>
+    <requirements ref="R4" val="R4"/>
+    <requirements ref="R5" val="R5"/>
+    <requirements ref="R6" val="R6"/>
+    <requirements ref="R7" val="R7"/>
+    <requirements ref="R8" val="R8"/>
+  </requirements>
+  <components>
+    <components ref="CBUFF" val="BUFFER">
+      <behaviors xsi:type="textbt:ExternalInput" ref="1" val="N"/>
+      <behaviors xsi:type="textbt:State" ref="2" val="CTR:=0"/>
+      <behaviors xsi:type="textbt:State" ref="3" val="CTR:=CTR+1"/>
+      <behaviors xsi:type="textbt:InternalInput" ref="4" val="cdata"/>
+      <behaviors xsi:type="textbt:InternalOutput" ref="5" val="cdata"/>
+      <behaviors xsi:type="textbt:State" ref="6" val="ADD">
+        <relations question="What" componentRef="CDATA"/>
+        <relations question="Where" preposition="to" componentRef="CLIST"/>
+      </behaviors>
+      <behaviors xsi:type="textbt:State" ref="7" val="REMOVE">
+        <relations question="What" componentRef="CDATA"/>
+        <relations question="Where" preposition="from" componentRef="CLIST"/>
+      </behaviors>
+      <behaviors xsi:type="textbt:InternalInput" ref="8" val="head_data"/>
+      <behaviors xsi:type="textbt:State" ref="9" val="data:=head_data"/>
+      <behaviors xsi:type="textbt:State" ref="10" val="CTR:=CTR-1"/>
+      <behaviors xsi:type="textbt:Guard" ref="11" val="NOT(CTR=N)"/>
+      <behaviors xsi:type="textbt:Guard" ref="12" val="NOT(CTR=0)"/>
+      <behaviors xsi:type="textbt:State" ref="13" val="LOCKED"/>
+      <behaviors xsi:type="textbt:State" ref="14" val="NOT(LOCKED)"/>
+      <behaviors xsi:type="textbt:Guard" ref="15" val="LOCKED"/>
+      <behaviors xsi:type="textbt:Guard" ref="16" val="NOT(LOCKED)"/>
+    </components>
+    <components ref="CCONS" val="CONSUMER">
+      <behaviors xsi:type="textbt:State" ref="1" val="TOOK">
+        <relations question="What" componentRef="CDATA"/>
+        <relations question="Where" preposition="from" componentRef="CBUFF"/>
+      </behaviors>
+      <behaviors xsi:type="textbt:ExternalInput" ref="2" val="M"/>
+      <behaviors xsi:type="textbt:State" ref="3" val="M:=M-1"/>
+      <behaviors xsi:type="textbt:Selection" ref="4" val="NOT(M=0)"/>
+      <behaviors xsi:type="textbt:InternalInput" ref="5" val="cdata"/>
+      <behaviors xsi:type="textbt:State" ref="6" val="READY"/>
+      <behaviors xsi:type="textbt:State" ref="7" val="NOT(READY)"/>
+    </components>
+    <components ref="CPROD" val="PRODUCER">
+      <behaviors xsi:type="textbt:State" ref="1" val="PUT">
+        <relations question="What" componentRef="CDATA"/>
+        <relations question="Where" preposition="from" componentRef="CBUFF"/>
+      </behaviors>
+      <behaviors xsi:type="textbt:ExternalInput" ref="2" val="M"/>
+      <behaviors xsi:type="textbt:State" ref="3" val="M:=M-1"/>
+      <behaviors xsi:type="textbt:Selection" ref="4" val="NOT(M=0)"/>
+      <behaviors xsi:type="textbt:InternalOutput" ref="5" val="cdata"/>
+      <behaviors xsi:type="textbt:State" ref="6" val="cdata:=random()"/>
+      <behaviors xsi:type="textbt:State" ref="7" val="READY"/>
+      <behaviors xsi:type="textbt:State" ref="8" val="NOT(READY)"/>
+    </components>
+    <components ref="CDATA" val="DATA"/>
+    <components ref="CLIST" val="LIST">
+      <behaviors xsi:type="textbt:State" ref="1" val="ADD">
+        <relations question="What" componentRef="CDATA"/>
+      </behaviors>
+      <behaviors xsi:type="textbt:State" ref="2" val="REMOVE">
+        <relations question="What" componentRef="CDATA"/>
+      </behaviors>
+      <behaviors xsi:type="textbt:InternalOutput" ref="3" val="head_data"/>
+      <behaviors xsi:type="textbt:InternalInput" ref="4" val="cdata"/>
+    </components>
+    <components ref="CSYS" val="SYSTEM">
+      <behaviors xsi:type="textbt:State" ref="1" val="START"/>
+    </components>
+  </components>
+  <behaviorTree>
+    <rootNode componentRef="CBUFF" behaviorRef="1">
+      <requirementRef>R1</requirementRef>
+      <childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="2" traceabilityStatus="+">
+        <requirementRef>R1</requirementRef>
+        <childNode xsi:type="textbt:SequentialNode" componentRef="CPROD" behaviorRef="2">
+          <requirementRef>R1</requirementRef>
+          <childNode xsi:type="textbt:SequentialNode" componentRef="CCONS" behaviorRef="2">
+            <requirementRef>R1</requirementRef>
+            <childNode xsi:type="textbt:SequentialNode" componentRef="CSYS" behaviorRef="1" traceabilityStatus="+">
+              <requirementRef>R1</requirementRef>
+              <requirementRef>R2</requirementRef>
+              <requirementRef>R3</requirementRef>
+              <childNode xsi:type="textbt:ParallelBlock">
+                <childNode componentRef="CPROD" behaviorRef="4">
+                  <requirementRef>R2</requirementRef>
+                  <childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="11">
+                    <requirementRef>R6</requirementRef>
+                    <childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="16">
+                      <requirementRef>R8</requirementRef>
+                      <childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="13">
+                        <requirementRef>R8</requirementRef>
+                        <childNode xsi:type="textbt:SequentialNode" componentRef="CPROD" behaviorRef="7" traceabilityStatus="+">
+                          <requirementRef>R2</requirementRef>
+                          <childNode xsi:type="textbt:SequentialNode" componentRef="CPROD" behaviorRef="1">
+                            <requirementRef>R2</requirementRef>
+                            <childNode xsi:type="textbt:SequentialNode" componentRef="CPROD" behaviorRef="6">
+                              <requirementRef>R2</requirementRef>
+                              <childNode xsi:type="textbt:SequentialNode" componentRef="CPROD" behaviorRef="5">
+                                <requirementRef>R2</requirementRef>
+                                <childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="4" traceabilityStatus="+">
+                                  <requirementRef>R3</requirementRef>
+                                  <childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="6">
+                                    <requirementRef>R3</requirementRef>
+                                    <childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="5" traceabilityStatus="+">
+                                      <requirementRef>R3</requirementRef>
+                                      <childNode xsi:type="textbt:SequentialNode" componentRef="CLIST" behaviorRef="4" traceabilityStatus="+">
+                                        <requirementRef>R3</requirementRef>
+                                        <childNode xsi:type="textbt:SequentialNode" componentRef="CLIST" behaviorRef="1" traceabilityStatus="+">
+                                          <requirementRef>R3</requirementRef>
+                                          <childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="3">
+                                            <requirementRef>R3</requirementRef>
+                                            <childNode xsi:type="textbt:SequentialNode" componentRef="CPROD" behaviorRef="3" traceabilityStatus="+">
+                                              <requirementRef>R2</requirementRef>
+                                              <childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="14" traceabilityStatus="+">
+                                                <requirementRef>R8</requirementRef>
+                                                <childNode xsi:type="textbt:SequentialNode" componentRef="CPROD" behaviorRef="8" traceabilityStatus="+">
+                                                  <requirementRef>R8</requirementRef>
+                                                  <childNode xsi:type="textbt:SequentialNode" componentRef="CPROD" behaviorRef="4" traceabilityStatus="+" operator="^">
+                                                    <requirementRef>R2</requirementRef>
+                                                  </childNode>
+                                                </childNode>
+                                              </childNode>
+                                            </childNode>
+                                          </childNode>
+                                        </childNode>
+                                      </childNode>
+                                    </childNode>
+                                  </childNode>
+                                </childNode>
+                              </childNode>
+                            </childNode>
+                          </childNode>
+                        </childNode>
+                      </childNode>
+                    </childNode>
+                  </childNode>
+                </childNode>
+                <childNode componentRef="CCONS" behaviorRef="4">
+                  <requirementRef>R4</requirementRef>
+                  <childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="12">
+                    <requirementRef>R7</requirementRef>
+                    <childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="16">
+                      <requirementRef>R8</requirementRef>
+                      <childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="13">
+                        <requirementRef>R8</requirementRef>
+                        <childNode xsi:type="textbt:SequentialNode" componentRef="CCONS" behaviorRef="6" traceabilityStatus="+">
+                          <requirementRef>R4</requirementRef>
+                          <childNode xsi:type="textbt:SequentialNode" componentRef="CCONS" behaviorRef="1">
+                            <requirementRef>R4</requirementRef>
+                            <childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="7">
+                              <requirementRef>R5</requirementRef>
+                              <childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="10">
+                                <requirementRef>R5</requirementRef>
+                                <childNode xsi:type="textbt:SequentialNode" componentRef="CLIST" behaviorRef="2" traceabilityStatus="+">
+
+					<requirementRef>R5</requirementRef>
+					<childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="5">
+					  <requirementRef>R4</requirementRef>
+					  <childNode xsi:type="textbt:SequentialNode" componentRef="CCONS" behaviorRef="5">
+					    <requirementRef>R4</requirementRef>
+					    <childNode xsi:type="textbt:SequentialNode" componentRef="CCONS" behaviorRef="3" traceabilityStatus="+">
+					      <requirementRef>R4</requirementRef>
+					      <childNode xsi:type="textbt:SequentialNode" componentRef="CBUFF" behaviorRef="14" traceabilityStatus="+">
+						<requirementRef>R8</requirementRef>
+						<childNode xsi:type="textbt:SequentialNode" componentRef="CPROD" behaviorRef="7" traceabilityStatus="+">
+						  <requirementRef>R8</requirementRef>
+						  <childNode xsi:type="textbt:SequentialNode" componentRef="CCONS" behaviorRef="4" traceabilityStatus="+" operator="^">
+						    <requirementRef>R4</requirementRef>
+						  </childNode>
+						</childNode>
+					      </childNode>
+					    </childNode>
+					  </childNode>
+					</childNode>
+                                </childNode>
+                              </childNode>
+                            </childNode>
+                          </childNode>
+                        </childNode>
+                      </childNode>
+                    </childNode>
+                  </childNode>
+                </childNode>
+              </childNode>
+            </childNode>
+          </childNode>
+        </childNode>
+      </childNode>
+    </rootNode>
+  </behaviorTree>
+</textbt:TextBT>

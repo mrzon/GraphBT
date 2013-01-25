@@ -1,0 +1,462 @@
+module BTObjects;
+export *;
+import * from ExceptionModule;
+
+
+data State = Ready | Blocked | Running | Exit | Idle;
+data BehaviorType = INTERNALINPUT | INTERNALOUTPUT | EXTERNALINPUT | EXTERNALOUTPUT | GUARD | SELECTION | STATE;
+data Operator = REVERSION | REFERENCE | SYNCHRONIZATION | NOOPERATOR | BRANCHKILL;
+
+def Operator operatorFromString(String rs) = 
+case rs {
+	"REVERSION" => REVERSION;
+	"REFERENCE" => REFERENCE;
+	"SYNCHRONIZATION" => SYNCHRONIZATION;
+	"BRANCHKILL" => BRANCHKILL;
+	_ => NOOPERATOR;
+};
+
+def BehaviorType behaviorTypeFromString(String rs) = 
+case rs {
+	"INTERNALINPUT" => INTERNALINPUT;
+	"INTERNALOUTPUT" => INTERNALOUTPUT;
+	"EXTERNALINPUT" => EXTERNALINPUT;
+	"EXTERNALOUTPUT" => EXTERNALOUTPUT;
+	"GUARD" => GUARD;
+	"SELECTION" => SELECTION ;
+	_ => STATE ;
+};
+
+interface ArrayNode {
+	Int getLength();
+	Unit setLength(Int a);
+	Unit set(Int i, N d);
+	Unit init(List<N> l);
+	N getElement(Int i);
+}
+
+class ArrayNodeImpl() implements ArrayNode {
+	Int length = 0;
+	Map<Int,Maybe<N>> map = EmptyMap;
+	Unit setLength(Int len) {
+		if(length == 0) {
+			length = len;
+		} else {
+			String errorMessage = "Array size is unmodifiable as it is already been set";
+		}
+	}
+	
+	Int getLength() {
+		return length;
+	}
+	
+	Unit set(Int index,N d) {
+		if(index>=0 && index<length) {
+			map = put(map,index,Just(d));
+		} else {
+			Exception e = new ArrayIndexOutOfBoundException();
+		}
+	}
+	
+	N getElement(Int index) {
+		N ret = null;
+		if(index>=0 && index<length) {
+			Maybe<N> m = lookupDefault(map,index,Nothing);
+			if(isJust(m)) {
+				ret = fromJust(m);
+			}
+		} else {
+			Exception e = new ArrayIndexOutOfBoundException();
+		}
+		return ret;
+	}
+	
+	Unit init(List<N> intList) {
+		this.setLength(length(intList));
+		List<N> temp = intList;
+		Int index = 0;
+		while(temp != Nil) {
+			this.set(index, head(temp));
+			index=index+1;
+			temp = tail(temp);
+		}
+	}
+}
+
+interface QueueNode {
+	N poll();
+	Unit insert(N a);
+	Unit init(List<N> l);
+	Int size();
+	ArrayNode toArray();
+}
+
+class QueueNodeImpl implements QueueNode {
+	ArrayNode arr;
+	Int top = 0;
+	Int bottom = 0;
+	Int size = 0;
+	
+	N poll() {
+		N d = null;
+		if(size > 0) {
+			Int length = arr.getLength();
+			d = arr.getElement(bottom);
+			
+			bottom = bottom + 1;
+			size = size - 1;
+			if(bottom == length) {
+				bottom = 0;
+			}
+		} else {
+			Exception e = new NullPointerException();
+		}
+		return d;
+	}
+	
+	Unit insert(N i) {
+		if(arr == null)
+			this.run();
+		Int length = arr.getLength();
+		size = size + 1;
+		if(size > length-1) {
+			this.doubleSize();
+		}
+		length = arr.getLength();
+		arr.set(top,i);
+		top = top + 1;
+		if(top == length) {
+			top = 0;
+		}
+	}
+	
+	Unit run() {
+		if(arr == null) {
+			arr = new ArrayNodeImpl();
+			arr.setLength(10);
+		}
+	}
+	
+	Unit init(List<N> l) {
+		while(l!=Nil) {
+			this.insert(head(l));
+			l = tail(l);
+		}
+	}
+	
+	Int size() {
+		return size;
+	}
+	
+	Unit doubleSize() {
+		Int length = arr.getLength();
+		length = length*2;
+		ArrayNode arrT = new ArrayNodeImpl();
+		arrT.setLength(length);
+		if(bottom > top) {
+			Int i = 0;
+			while(i < top) {
+				N d = arr.getElement(i);
+				arrT.set(i,d);
+				i = i+1;
+			}
+			i = length;
+			while(i > bottom) {
+				N d = arr.getElement(i);
+				arrT.set(length-i-1,d);
+				i = i-1;
+			}
+			bottom = i;
+		} else {
+			Int i = 0;
+			while(i < top) {
+				N d = arr.getElement(i);
+				arrT.set(i,d);
+				i = i+1;
+			}
+		}
+		arr = arrT;
+	}
+	
+	ArrayNode toArray() {
+		ArrayNode temp = new ArrayNodeImpl();
+		Int length = arr.getLength();
+		temp.setLength(length);
+		Int i = bottom;
+		Int j = 0;
+		while(i!=top) {
+			N ith = arr.getElement(i);
+			temp.set(j,ith);
+			i = i+1;
+			j = j+1;
+			if(i==length) {
+				i=0;
+			}
+		}
+		return arr;
+	}
+}
+
+
+interface Component {
+	Bool isTerminated();
+	Bool isBlocked();
+	Unit runMethod(String command);
+}
+
+interface NodeBlock {
+	Int getId();
+	NodeBlock getParent();
+	Unit setParent(NodeBlock o);
+	Bool isAncestor(NodeBlock o);
+}
+
+class NodeBlockImpl implements NodeBlock {
+	NodeBlock parent = null;
+	Int id = currentms();
+	NodeBlock getParent() {
+		return parent;
+	}
+	
+	Unit setParent(NodeBlock p) {
+		this.parent = p;
+	}
+	
+	Int getId() {
+		return id;
+	}
+	
+	Bool isAncestor(NodeBlock nb) {
+		NodeBlock parent = nb.getParent();
+		Bool ancestor = True;
+		if(parent==null) {
+			ancestor = False;
+		} else {
+			ancestor = this.isAncestor(parent);
+		}
+		return ancestor;
+	}
+}
+
+interface N {
+	Unit runNode();
+	String getPC();
+	List<N> getNodes();
+	Unit addNode(N node);
+	Unit setNodeBlock(NodeBlock nb);
+	State getState();
+	Unit setState(State s);
+	Bool isBlocked();
+	BehaviorType getBehaviorType();
+	Bool isTerminated();
+	Operator getOperator();
+	NodeBlock getNodeBlock();
+}
+
+class Node(Component c, String cmd, String t, BehaviorType nt, Operator op, String pc) implements N {
+	State state = Idle;
+	NodeBlock nb;
+	Component comp = c;
+	String command = cmd;
+	String tipe = t;
+	String pC= pc;
+	BehaviorType behaviorType = nt;
+	Operator operator = op;
+    List<N> nodes= Nil;
+	List<N> getNodes() {
+		return nodes;
+	}
+	
+	Unit addNode(N node) {
+		nodes = appendright(nodes,node);
+	}
+	
+	Bool isBlocked() {
+		Bool ret = False;
+		if(behaviorType==GUARD) {
+			ret = comp.isBlocked();
+		}
+		return ret;
+	}
+	
+	Bool isTerminated() {
+		Bool ret = False;
+		if(behaviorType==SELECTION) {
+			ret = comp.isTerminated();
+		}
+		return ret;
+	}
+	
+	Unit runNode() {
+		if(comp!=null) {
+			comp.runMethod(command);
+		}
+	}
+	
+	String getPC() {
+		return pC;
+	}
+	
+	Unit setNodeBlock(NodeBlock nb) {
+		this.nb = nb;
+	}
+	
+	NodeBlock getNodeBlock() {
+		return nb;
+	}
+	
+	State getState() {
+		return state;
+	}
+	
+	Unit setState(State s) {
+		state = s;
+	}
+	
+	BehaviorType getBehaviorType() {
+		return behaviorType;
+	}
+	
+	Operator getOperator() {
+		return operator;
+	}
+}
+
+interface ProcessManager {
+	
+}
+
+class ProcessManagerImpl(N r) implements ProcessManager {
+	QueueNode readyQueue = null; /** Queue to handle ready states */
+	QueueNode blockedQueue = null; /** Queue to handle blocked states */
+	N rNode = r;
+
+	/**
+     * Routine that handles the execution of ready process
+	 */
+	Unit readyProcess() {
+		Int size = readyQueue.size();
+		while(not(size == 0)){
+			N n = readyQueue.poll();
+			State state = n.getState();
+			if(state != Exit) {
+				Operator op = n.getOperator();
+				if(op == NOOPERATOR) {
+					n.setState(Running);
+					BehaviorType nt = n.getBehaviorType();
+					if(nt == STATE) {
+						Fut<Unit> f = n!runNode();
+						
+						this.evaluateChildNodes(n);
+						await f?;
+					} else if (nt == SELECTION) {
+						n.runNode();
+						Bool isTerminated = n.isTerminated();
+						if(not(isTerminated)) {
+							this.evaluateChildNodes(n);
+						}
+					} else if(nt == EXTERNALOUTPUT) {
+						Fut<Unit> f = n!runNode();
+						this.evaluateChildNodes(n);
+						await f?;
+					}
+				} else if(op == REVERSION) {
+					List<N> l = n.getNodes();	//reversion node must having a child target
+					N target = head(l);
+					NodeBlock nb = target.getNodeBlock();
+					NodeBlock nbOwn = n.getNodeBlock();
+					
+					if(nb!=nbOwn) {
+						ArrayNode nodes = readyQueue.toArray();
+						Int i = 0;
+						Int k = nodes.getLength();
+						while(i < k) {
+							N node = nodes.getElement(i);
+							NodeBlock nbN = node.getNodeBlock();
+							Bool isAncestor = nbN.isAncestor(nb);
+							if(isAncestor) {
+								node.setState(Exit);
+							}
+						}
+						nodes = blockedQueue.toArray();
+						i = 0;
+						k = nodes.getLength();
+						while(i < k) {
+							N node = nodes.getElement(i);
+							NodeBlock nbN = node.getNodeBlock();
+							Bool isAncestor = nbN.isAncestor(nb);
+							if(isAncestor) {
+								node.setState(Exit);
+							}
+						}
+					}
+					this!evaluateChildNodes(n);
+				}
+				n.setState(Exit);
+			}
+			size = readyQueue.size();
+		}
+	}
+	
+	/**
+	 * Routine that handles blocked process
+	 */
+	Unit evaluateBlockedProcess() {
+		Int size = blockedQueue.size();
+		while(not(size == 0)) {
+			N n = blockedQueue.poll();
+			State state = n.getState();
+			if(state != Exit) {
+				Bool b = n.isBlocked();
+				if(not(b)) {
+					this!evaluateChildNodes(n);
+				} else {
+					n.setState(Blocked);
+					blockedQueue.insert(n);
+				}
+			}
+			size = blockedQueue.size();
+		}
+	}
+	
+	Unit evaluateChildNodes(N n) {
+		List<N> l = n.getNodes();
+		while(l != Nil) {
+			N c = head(l);
+			l = tail(l);
+			Operator op = n.getOperator();
+			if(op == NOOPERATOR) {
+				BehaviorType ntype = c.getBehaviorType();
+				if(ntype == STATE||ntype==INTERNALOUTPUT||ntype==EXTERNALOUTPUT||ntype == SELECTION) {
+					readyQueue.insert(c);
+					c.setState(Ready);
+				} else if(ntype == GUARD||ntype==INTERNALINPUT||ntype==EXTERNALINPUT) {
+					c.setState(Blocked);
+					blockedQueue.insert(c);
+				}
+			} else if(op == REVERSION) {
+				readyQueue.insert(c);
+				c.setState(Ready);
+			}
+		}
+	}
+	
+	Unit start() {
+		readyQueue.insert(rNode);
+	}
+			
+	Unit run() {
+		readyQueue = new QueueNodeImpl();
+		blockedQueue = new QueueNodeImpl();
+		this.start();
+		Int rQSize = readyQueue.size();
+		Int bQSize = blockedQueue.size();
+		while(rQSize != 0 || bQSize != 0) {
+			this!readyProcess();
+			this!evaluateBlockedProcess();
+			suspend;
+			rQSize = readyQueue.size();
+		    bQSize = blockedQueue.size();
+		}
+	}
+}

@@ -1,0 +1,16 @@
+Issue list
+BT2ABS
+No E/I/A Issued Date                              Description
+1.  E                   Handle selection condition (so far only equality added, we still need <,>,=>,=<,!=)
+2.  A    2-1-12         Reversion issue, add mechanism to kill process in ABS
+3.  I    2-1-12         Handle List/Set notation 
+4.  I    2-1-12         Handle relations naturally
+5.  E    2-1-12         Documentation
+
+TextBE
+No      Issued Date                              Description
+1.       2-1-12         XML output should keep information about in what package the BT is... 
+2.       2-1-12         The XML is error when parsed because of character {'<','>'}, 
+                        the output of XML should be in gt; and lt; to make it safe
+3.       2-1-12         Is it possible to declare string in behavior?
+4.       3-1-12         Add-ons needed to be declared in XML

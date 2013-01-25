@@ -1,0 +1,33 @@
+module ExceptionModule;
+export *;
+
+interface Exception
+{
+	String getErrorMessage();
+}
+
+class ArrayIndexOutOfBoundException implements Exception{
+	String getErrorMessage()
+	{
+		return "Index is invalid";
+	}
+	
+	Unit run()
+	{
+		String errorMessage = this.getErrorMessage();
+		assert False;
+	}
+}
+
+class NullPointerException implements Exception{
+	String getErrorMessage()
+	{
+		return "Null Pointer Exception";
+	}
+	
+	Unit run()
+	{
+		String errorMessage = this.getErrorMessage();
+		assert False;
+	}
+}

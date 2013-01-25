@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+  <extension
+      point = "org.eclipse.ui.preferencePages">
+	      <page
+	         id="org.be.graphbt.graphiti.preference.Page2"
+	         class="org.be.graphbt.graphiti.preference.GitAccountPreference"
+	         name="Git Account"
+	         category="org.be.graphbt.graphiti.preference.Page1">
+	      </page>
+       <page
+             class="org.be.graphbt.graphiti.preference.GraphBTPreference"
+             id="org.be.graphbt.graphiti.preference.Page1"
+             name="GraphBT">
+       </page>
+       <page
+             category="org.be.graphbt.graphiti.preference.Page1"
+             class="org.be.graphbt.graphiti.preference.ManageLibrary"
+             id="org.be.graphbt.graphiti.preference.Page3"
+             name="Manage Library">
+       </page>
+       <page
+             category="org.be.graphbt.graphiti.preference.Page3"
+             class="org.be.graphbt.graphiti.preference.AddLibraryPreference"
+             id="org.be.graphbt.graphiti.addlibrary"
+             name="Add Library">
+       </page>
+	</extension>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.be.graphbt.graphiti.editor.MultiPageEditor"
+            contributorClass="org.be.graphbt.graphiti.editor.MultiPageEditorContributor"
+            default="true"
+            extensions="btdiagram"
+            icon="icons/layout.gif"
+            id="org.be.graphbt.graphiti.editor.MultiPageEditor"
+            name="BT Diagram">
+      </editor>
+   </extension>
+
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypes">
+      <diagramType
+            description="Diagram Type for GraphBT"
+            id="org.be.graphbt.graphiti.GraphBTDiagramType"
+            name="Diagram Type for GraphBT"
+            type="graphbt">
+      </diagramType>
+   </extension>
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypeProviders">
+      <diagramTypeProvider
+            class="org.be.graphbt.graphiti.diagram.GraphBTDiagramTypeProvider"
+            description="This is the editor for GraphBT Tool"
+            id="org.be.graphbt.graphiti.GraphBTDiagramTypeProvider"
+            name="GraphBT Diagram Type Provider">
+         <diagramType
+               id="org.be.graphbt.graphiti.GraphBTDiagramType">
+         </diagramType>
+      </diagramTypeProvider>
+   </extension>
+<extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+          <propertyContributor contributorId="graphbt.PropertyContributor">
+              <propertyCategory category="Graphiti">
+              </propertyCategory>
+          </propertyContributor>
+      </extension>
+      <extension
+          point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+          <propertyTabs contributorId="graphbt.PropertyContributor">
+              <propertyTab label="Main" category="Graphiti"
+                  id="graphiti.main.tab">
+              </propertyTab>
+          </propertyTabs>
+      </extension>   
+      <extension
+          point="org.eclipse.ui.views.properties.tabbed.propertySections">
+          <propertySections contributorId="graphbt.PropertyContributor">
+              <propertySection
+                    tab="graphiti.main.tab"
+                    class="org.be.graphbt.graphiti.property.BehaviorTreePropertySection"
+                    filter="org.be.graphbt.graphiti.property.BehaviorTreeFilter"
+                    id="graphiti.main.tab.emfclass">
+              </propertySection>
+          </propertySections>
+      </extension>
+      <extension
+            point="org.eclipse.core.runtime.adapters">
+         <factory
+               adaptableType="behaviortree.StandardNode"
+               class="org.be.graphbt.graphiti.property.BehaviorTreePropertyAdapter">
+            <adapter
+                  type="org.eclipse.ui.views.properties.IPropertySource">
+            </adapter>
+         </factory>
+      </extension>
+    
+</plugin>

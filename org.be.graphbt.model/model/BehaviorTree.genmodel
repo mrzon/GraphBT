@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.be.graphbt.model/src"
+    modelPluginID="org.be.graphbt.model" modelName="BehaviorTree" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false">
+  <foreignModel>DefaultName.ecore</foreignModel>
+  <genPackages prefix="GraphBT" basePackage="org.be.graphbt.model" resource="XML"
+      disposableProviderFactory="true" ecorePackage="DefaultName.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="DefaultName.ecore#//Composition">
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//Composition/Sequential"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//Composition/Atomic"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="DefaultName.ecore#//Branch">
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//Branch/Parallel"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//Branch/Alternative"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="DefaultName.ecore#//Operator">
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//Operator/Reference"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//Operator/Reversion"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//Operator/BranchKill"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//Operator/Synchronize"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//Operator/Conjunction"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//Operator/Disjunction"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//Operator/ExclusiveOR"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//Operator/NoOperator"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="DefaultName.ecore#//BehaviorType">
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//BehaviorType/StateRealization"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//BehaviorType/Selection"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//BehaviorType/Guard"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//BehaviorType/InternalInput"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//BehaviorType/InternaOutput"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//BehaviorType/ExternalOutput"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//BehaviorType/ExternalInput"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="DefaultName.ecore#//EventType">
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//EventType/InternalInput"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//EventType/InternalOutput"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//EventType/ExternalInput"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//EventType/ExternalOutput"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="DefaultName.ecore#//SpecialEdgeEnum">
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//SpecialEdgeEnum/Reference"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//SpecialEdgeEnum/Reversion"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//SpecialEdgeEnum/BranchKill"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//SpecialEdgeEnum/Synchronize"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="DefaultName.ecore#//TraceabilityStatus">
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//TraceabilityStatus/Original"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//TraceabilityStatus/Implied"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//TraceabilityStatus/Missing"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//TraceabilityStatus/Updated"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//TraceabilityStatus/Deleted"/>
+      <genEnumLiterals ecoreEnumLiteral="DefaultName.ecore#//TraceabilityStatus/DesignRefinement"/>
+    </genEnums>
+    <genClasses ecoreClass="DefaultName.ecore#//BEModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/dbt"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//BEModel/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/componentList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/requirementList"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/formulaList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/libraries"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//BehaviorTree">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BehaviorTree/rootNode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//BehaviorTree/name"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//Node">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Node/index"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Node/id"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Node/edge"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Node/specialE"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//Edge">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Edge/childNode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Edge/branch"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Edge/composition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Edge/container"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//SpecialEdge">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//SpecialEdge/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//SpecialEdge/destination"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//EmptyNode">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//EmptyNode/label"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//StandardNode">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/traceabilityStatus"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/operator"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/componentRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/behaviorRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/traceabilityLink"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//StandardNode/leaf"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//StandardNode/parent"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//Component">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Component/componentName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Component/attributes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Component/state"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Component/initialState"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Component/id"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Component/relatedTo"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Component/behaviors"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Component/componentRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Component/componentDesc"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Component/enumerated"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//Attribute">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Attribute/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Attribute/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Attribute/value"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//CTEdge"/>
+    <genClasses ecoreClass="DefaultName.ecore#//State">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//State/name"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//Library">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Library/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Library/text"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Library/desc"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Library/location"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Library/id"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//Requirement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Requirement/Key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Requirement/Requirement"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Requirement/traceabilityLink"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Requirement/Description"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//Behavior">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Behavior/behaviorType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Behavior/behaviorName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Behavior/behaviorRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Behavior/behaviorDesc"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Behavior/technicalDetail"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//ComponentList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//ComponentList/components"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//RequirementList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//RequirementList/requirements"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//FormulaList">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//FormulaList/formula"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//Formula">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Formula/formulaName"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//OperatorClass">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//OperatorClass/operatorLiteral"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//TraceabilityStatusClass">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//TraceabilityStatusClass/traceabilityStatusLiteral"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//Link">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Link/target"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Link/source"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//AlternativeClass">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//AlternativeClass/alternativeAttribute"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//AdditionalInformation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//AdditionalInformation/info"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//Information">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Information/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Information/value"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//InputType"/>
+    <genClasses ecoreClass="DefaultName.ecore#//OutputType"/>
+    <genClasses ecoreClass="DefaultName.ecore#//GUIImplementable"/>
+    <genClasses ecoreClass="DefaultName.ecore#//GUI">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//GUI/identifier"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//GUI/codeImplementation"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//InputGUI"/>
+    <genClasses ecoreClass="DefaultName.ecore#//OutputGUI"/>
+    <genClasses ecoreClass="DefaultName.ecore#//Libraries">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Libraries/import"/>
+    </genClasses>
+    <nestedGenPackages prefix="Behaviortree" basePackage="model" disposableProviderFactory="true"
+        ecorePackage="DefaultName.ecore#//behaviortree"/>
+  </genPackages>
+</genmodel:GenModel>

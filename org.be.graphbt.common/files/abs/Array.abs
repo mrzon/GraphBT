@@ -1,0 +1,86 @@
+module ArrayModule;
+export *;
+import * from ExceptionModule;
+type Element = Int;
+
+interface ArrayInt
+{
+	Int getLength();
+	Unit setLength(Int a);
+	Unit set(Int i, Element d);
+	Unit init(List<Element> l);
+	Element getElement(Int i);
+}
+
+class ArrayIntImpl() implements ArrayInt
+{
+	Int length = 0;
+	Map<Int,Maybe<Element>> map = EmptyMap;
+	Unit setLength(Int len)
+	{
+		if(length == 0)
+		{
+			length = len;
+		}
+		else
+		{
+			String errorMessage = "Array size is unmodifiable as it is already set";
+		}
+	}
+	
+	Int getLength()
+	{
+		return length;
+	}
+	
+	Unit set(Int index,Element d)
+	{
+		if(index>=0 && index<length)
+		{
+			map = put(map,index,Just(d));
+		}
+		else
+		{
+			Exception e = new ArrayIndexOutOfBoundException();
+		}
+	}
+	
+	Element getElement(Int index)
+	{
+		Element ret = 0;
+		if(index>=0 && index<length)
+		{
+			Maybe<Element> dd = lookupDefault(map,index,Nothing);
+			if(isJust(dd))
+			{
+				ret = fromJust(dd);
+			}
+		}
+		else
+		{
+			Exception e = new ArrayIndexOutOfBoundException();
+		}
+		return ret;
+	}
+	
+	Unit init(List<Element> intList)
+	{
+		this.setLength(length(intList));
+		List<Element> temp = intList;
+		Int index = 0;
+		while(temp != Nil)
+		{
+			this.set(index, head(temp));
+			index=index+1;
+			temp = tail(temp);
+		}
+	}
+}
+
+
+{
+	ArrayInt arr = new ArrayIntImpl();
+	arr.init(list[1,2,4]);
+	Int len = arr.getLength();
+	Element x = arr.getElement(4);
+}

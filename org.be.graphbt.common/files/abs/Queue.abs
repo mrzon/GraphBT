@@ -1,0 +1,116 @@
+module Queue;
+export *;
+import * from ArrayModule;
+import * from ExceptionModule;
+
+interface QueueInt{
+	Element poll();
+	Unit insert(Element a);
+	Unit init(List<Element> l);
+}
+
+class QueueIntImpl implements QueueInt{
+	ArrayInt arr;
+	Int top = 0;
+	Int bottom = 0;
+	Int size = 0;
+	
+	Element poll()
+	{
+		Element d = 0;
+		if(size > 0)
+		{
+			Int length = arr.getLength();
+			d = arr.getElement(bottom);
+			bottom = bottom + 1;
+			size = size - 1;
+			if(bottom == length)
+			{
+				bottom = 0;
+			}
+		}
+		else
+		{
+			Exception e = new NullPointerException();
+		}
+		return d;
+		//if(bottom
+	}
+	
+	Unit insert(Element i)
+	{
+		Int length = arr.getLength();
+		size = size + 1;
+		if(size > length-1)
+		{
+			this.doubleSize();
+		}
+		length = arr.getLength();
+		arr.set(top,i);
+		top = top + 1;
+		if(top == length)
+		{
+			top = 0;
+		}
+	}
+	
+	Unit run()
+	{
+		arr = new ArrayIntImpl();
+		arr.setLength(1);
+	}
+	Unit init(List<Element> l)
+	{
+		while(l!=Nil){
+			Element d = head(l);
+			this.insert(d);
+			l = tail(l);
+		}
+	}
+	
+	Unit doubleSize()
+	{
+		Int length = arr.getLength();
+		length = length*2;
+		ArrayInt arrT = new ArrayIntImpl();
+		arrT.setLength(length);
+		if(bottom > top)
+		{
+			Int i = 0;
+			while(i < top)
+			{
+				Element d = arr.getElement(i);
+				arrT.set(i,d);
+				i = i+1;
+			}
+			i = length;
+			while(i > bottom)
+			{
+				Element d = arr.getElement(i);
+				arrT.set(length-i-1,d);
+				i = i-1;
+			}
+			bottom = i;
+		}
+		else
+		{
+			Int i = 0;
+			while(i < top)
+			{
+				Element d = arr.getElement(i);
+				arrT.set(i,d);
+				i = i+1;
+			}
+		}
+		arr = arrT;
+	}
+}
+
+{
+	QueueInt q = new QueueIntImpl();
+	suspend;
+	q.init(list[1,2,3,4]);
+	q.insert(99);
+	q.poll();
+	q.poll();
+}

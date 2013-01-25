@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CodeGenerator
+Bundle-SymbolicName: org.be.graphbt.codegenerator
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.be.graphbt.codegenerator.Activator
+Bundle-Vendor: FMSE Fasilkom UI Lab
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: org.be.graphbt.common,
+ org.eclipse.core.resources
+Export-Package: org.be.graphbt.codegenerator.absmodel

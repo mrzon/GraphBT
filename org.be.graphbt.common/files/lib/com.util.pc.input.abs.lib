@@ -1,0 +1,19 @@
+interface Stdin_ {
+   Int readInt();
+   String readString();
+}
+[Foreign]
+class Stdin implements Stdin_
+{
+	Unit init()
+	{
+
+	}
+	Int readInt(){
+		return 0;
+	}
+	String readString()
+	{
+		return "";
+	}
+}

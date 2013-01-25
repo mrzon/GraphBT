@@ -1,0 +1,42 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: GraphBT Graphiti Editor
+Bundle-SymbolicName: org.be.graphbt.graphiti;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.be.graphbt.graphiti.Activator
+Bundle-Vendor: FMSE Fasilkom UI Lab
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Ant-Version: Apache Ant 1.8.2
+Require-Bundle: org.eclipse.ui;bundle-version="[3.7.0,4.0.0)",
+ org.eclipse.core.runtime;bundle-version="[3.7.0,4.0.0)",
+ org.eclipse.graphiti;bundle-version="0.9.0",
+ org.eclipse.graphiti.ui;bundle-version="0.9.0",
+ org.eclipse.emf.transaction;bundle-version="[1.4.0,2.0.0)",
+ org.eclipse.ui.forms;bundle-version="3.5.101",
+ org.eclipse.emf.ecore.xmi;bundle-version="2.7.0",
+ org.eclipse.emf.codegen.ecore.ui,
+ org.eclipse.jface.text,
+ org.eclipse.core.resources,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.ide,
+ org.eclipse.gef;bundle-version="3.7.1",
+ org.eclipse.m2m.atl.core
+Import-Package: org.be.graphbt.codegenerator.absmodel,
+ org.be.graphbt.common,
+ org.be.graphbt.model.graphbt,
+ org.be.graphbt.saltranslator.bt2salmodel,
+ org.be.graphbt.simulator.commandHandler,
+ org.be.textbe.bt.textbt,
+ org.be.textbe.bt.textbt.presentation,
+ org.eclipse.emf.codegen.ecore.genmodel.provider,
+ org.eclipse.emf.ecore.provider,
+ org.eclipse.emf.edit.ui.provider,
+ org.eclipse.emf.workspace,
+ org.eclipse.graphiti.examples.common,
+ org.eclipse.m2m.atl.core,
+ org.eclipse.m2m.atl.core.launch,
+ org.eclipse.ui.forms.widgets,
+ org.eclipse.ui.views.contentoutline,
+ org.eclipse.ui.views.properties.tabbed
+
