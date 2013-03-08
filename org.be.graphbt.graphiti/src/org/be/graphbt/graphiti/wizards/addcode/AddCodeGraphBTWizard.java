@@ -47,6 +47,26 @@ public class AddCodeGraphBTWizard extends Wizard {
 		if(map.get(Behavior.DETAIL_VALUE) == null||map.get(Behavior.DETAIL_VALUE).equals("")) {
 			return false;
 		}
+		IWorkbenchPage page=PlatformUI.getWorkbench().
+				getActiveWorkbenchWindow().getActivePage();
+        DiagramEditor ds;
+        if(page.getActiveEditor() instanceof DiagramEditor) {
+        	 ds = (DiagramEditor)page.getActiveEditor();	
+        }
+        else {
+        	ds = ((MultiPageEditor)page.
+        			getActiveEditor()).getDiagramEditor();
+        }
+        RecordingCommand cmd;
+        
+        	cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+				protected void doExecute() {
+					b.setTechnicalDetail(map.get(Behavior.DETAIL_VALUE));
+				}
+			};
+        
+		TransactionalEditingDomain f = ds.getEditingDomain();
+		f.getCommandStack().execute(cmd);
 		return true;
 	}
 }

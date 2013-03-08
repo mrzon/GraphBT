@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.be.graphbt.feature_1.1.0.201301270744.jar" id="org.be.graphbt.feature" version="1.1.0.201301270744" os="win32">
+      <category name="org.be.graphbt"/>
+   </feature>
+   <feature url="features/org.be.graphbt.featurepatch_1.0.0.jar" id="org.be.graphbt.featurepatch" version="1.0.0" patch="true">
+      <category name="org.be.graphbt"/>
+   </feature>
+   <category-def name="org.be.graphbt" label="GraphBT"/>
+</site>

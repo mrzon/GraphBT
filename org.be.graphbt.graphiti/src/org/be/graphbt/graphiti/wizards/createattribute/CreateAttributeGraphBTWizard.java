@@ -86,9 +86,6 @@ public class CreateAttributeGraphBTWizard extends Wizard {
 				}
 			};
         }
-
-        
-		
 		TransactionalEditingDomain f = ds.getEditingDomain();
 		f.getCommandStack().execute(cmd);
 		

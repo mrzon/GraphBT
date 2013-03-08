@@ -23,11 +23,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link behaviortree.impl.BehaviorImpl#getBehaviorType <em>Behavior Type</em>}</li>
- *   <li>{@link behaviortree.impl.BehaviorImpl#getBehaviorName <em>Behavior Name</em>}</li>
- *   <li>{@link behaviortree.impl.BehaviorImpl#getBehaviorRef <em>Behavior Ref</em>}</li>
- *   <li>{@link behaviortree.impl.BehaviorImpl#getBehaviorDesc <em>Behavior Desc</em>}</li>
- *   <li>{@link behaviortree.impl.BehaviorImpl#getTechnicalDetail <em>Technical Detail</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.BehaviorImpl#getBehaviorType <em>Behavior Type</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.BehaviorImpl#getBehaviorName <em>Behavior Name</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.BehaviorImpl#getBehaviorRef <em>Behavior Ref</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.BehaviorImpl#getBehaviorDesc <em>Behavior Desc</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.BehaviorImpl#getTechnicalDetail <em>Technical Detail</em>}</li>
  * </ul>
  * </p>
  *

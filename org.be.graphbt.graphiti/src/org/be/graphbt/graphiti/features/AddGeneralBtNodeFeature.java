@@ -1,7 +1,5 @@
 package org.be.graphbt.graphiti.features;
 
-import java.awt.Color;
-
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
@@ -10,11 +8,8 @@ import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
-import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
-import org.eclipse.graphiti.mm.pictograms.ChopboxAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.graphiti.mm.pictograms.FixPointAnchor;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
@@ -102,6 +97,12 @@ IAddFeature {
         Rectangle rectangle = gaService.createRectangle(containerShape);
         rectangle.setForeground(manageColor(E_CLASS_FOREGROUND));
         rectangle.setBackground(manageColor(ORIGINAL_BEHAVIOR_COLOR));
+        //Image image = gaService.createImage(containerShape, GraphBTImageProvider.IMG_EREFERENCE);
+        //image.setWidth(100);
+        //image.setHeight(100);
+        //image.setProportional(true);
+        //image.setLineWidth(2);
+        //image.getStyle().getRenderingStyle().;
         rectangle.setLineWidth(1);
         gaService.setLocationAndSize(rectangle, x, y, width, height);
         

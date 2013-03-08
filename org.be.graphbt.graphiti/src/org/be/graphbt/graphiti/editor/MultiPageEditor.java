@@ -18,9 +18,13 @@
 package org.be.graphbt.graphiti.editor;
 
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.be.graphbt.graphiti.GraphBTUtil;
+import org.be.graphbt.graphiti.editor.pages.ManageComponentPage;
+import org.be.graphbt.graphiti.editor.pages.ManageLibraryPage;
+import org.be.graphbt.graphiti.editor.pages.ManageRequirementPage;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -28,11 +32,10 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.validation.internal.util.Log;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.FillLayout;
@@ -46,11 +49,9 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
-import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 public class MultiPageEditor extends MultiPageEditorPart implements IResourceChangeListener {
 
 	/** The diagram editor used in page 0. */
@@ -97,34 +98,67 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		composite.setLayout(layout);
 		text = new StyledText(composite, SWT.H_SCROLL | SWT.V_SCROLL);
 		int index = addPage(composite);
-		
-//			editor2 = new TextEditor();
-//			int index = addPage(editor2, getEditorInput()); 
 		setPageText(index, "Textual");
 	}
-	/**
-	 * Creates page 1 of the multi-page editor,
-	 * which allows you to change the font used in page 2.
 	
-	void createPage2() {
+	void createPage2()
+	{
+		final Diagram d = this.editor.getDiagramTypeProvider().getDiagram();
+		HashMap <Integer, String> map = new HashMap <Integer,String>();
+		ManageRequirementPage container = new ManageRequirementPage(getContainer(), SWT.NULL,d,map);
+		
+		int index = addPage(container);
+		setPageText(index, "Requirements");
+	}
+	void createPage3()
+	{
+		final Diagram d = this.editor.getDiagramTypeProvider().getDiagram();
+		final HashMap<Integer, String> map = new HashMap<Integer, String>();
+		ManageComponentPage container = new ManageComponentPage(getContainer(), SWT.NONE,d,map);
+		
+		int index = addPage(container);
+		setPageText(index, "Components");
+	}
+	
+	/**
+	 * Library page
+	 */
+	void createPage4() {
+		final DiagramEditor d = this.editor;
+		ManageLibraryPage container = new ManageLibraryPage(getContainer(), SWT.NONE,d);
+		int index = addPage(container);
+		setPageText(index, "Library");
+	}
 
-		try {
-			//editor3 = new TextbtEditor();
-			//int index = addPage(editor3, getEditorInput());
-
-		//	setPageText(index, "Textual");
-		} catch (PartInitException e) {
-			ErrorDialog.openError(getSite().getShell(), "Error creating nested text editor", null, e.getStatus());
-		}
-	} */
-
+	/**
+	 * Interface page
+	 */
+	void createPage5() {
+		Composite container = new Composite(getContainer(),SWT.NULL);
+		int index = addPage(container);
+		setPageText(index, "Interfaces");
+	}
+	
+	/**
+	 * Design layout page
+	 */
+	void createPage6() {
+		Composite container = new Composite(getContainer(),SWT.NULL);
+		int index = addPage(container);
+		setPageText(index, "Layout");
+	}
+	
 	/**
 	 * Creates the pages of the multi-page editor.
 	 */
 	protected void createPages() {
 		createPage0();
 		createPage1();
-		//createPage2();
+		createPage2();
+		createPage3();
+		createPage4();
+		createPage5();
+		createPage6();
 		this.setTitle(editor.getTitle());
 	}
 	/**
@@ -140,7 +174,9 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	 * Saves the multi-page editor's document.
 	 */
 	public void doSave(IProgressMonitor monitor) {
-		getActiveEditor().doSave(monitor);
+		if(getActiveEditor() instanceof DiagramEditor) {
+			getActiveEditor().doSave(monitor);	
+		}
 	}
 	/**
 	 * Saves the multi-page editor's document as another file.
@@ -185,6 +221,8 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	 */
 	protected void pageChange(int newPageIndex) {
 		super.pageChange(newPageIndex);
+		final Diagram d = this.editor.getDiagramTypeProvider().getDiagram();
+		HashMap <Integer, String> map = new HashMap <Integer,String>();
 		switch (newPageIndex) {
 		 case 0:  //case in editor 0
 
@@ -194,8 +232,16 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		  * set the text in getBTText
 		  */
 		 text.setText(GraphBTUtil.getBTText(((DiagramEditor)editor).getDiagramTypeProvider().getDiagram()));
-		 
 		 break;
+		 case 2:
+			 setControl(2, new ManageRequirementPage(getContainer(), SWT.NULL,d,map));
+			 break;
+		 case 3:
+			 setControl(3, new ManageComponentPage(getContainer(), SWT.NONE,d,map));
+			 break;
+		 case 4:
+			 setControl(4,  new ManageLibraryPage(getContainer(), SWT.NONE,this.editor));
+			 break;
 		}
 	}
 

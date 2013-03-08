@@ -167,7 +167,6 @@ import org.eclipse.graphiti.features.context.ICreateConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature;
-import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -186,7 +185,6 @@ import org.be.graphbt.model.graphbt.Edge;
 import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.model.graphbt.Link;
 import org.be.graphbt.model.graphbt.StandardNode;
-import org.be.graphbt.model.graphbt.TraceabilityStatusClass;
 import org.be.graphbt.graphiti.editor.MultiPageEditor;
 import org.be.graphbt.graphiti.wizards.manageBranch.ManageBranchWizardGraphBtFeature;
 

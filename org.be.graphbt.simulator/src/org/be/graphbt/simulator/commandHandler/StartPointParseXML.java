@@ -57,7 +57,7 @@ import org.osgi.framework.Bundle;
 
 
 public class StartPointParseXML extends AbstractHandler implements IHandler {
-	private static final String DEBUGGER_PERSPECTIVE_ID = "btdebuggertool.perspective.DebuggerPerspective";
+	private static final String DEBUGGER_PERSPECTIVE_ID = Activator.PLUGIN_ID;
 	
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -139,8 +139,8 @@ public class StartPointParseXML extends AbstractHandler implements IHandler {
 			try {
 
 				//showing the console view
-				IWorkbenchPage perspectivePage = PlatformUI.getWorkbench().showPerspective(DEBUGGER_PERSPECTIVE_ID, window);// showPerspective(DEBUGGER_PERSPECTIVE_ID, window);
-				IConsole myConsole = findConsole("btdebuggertool.view.consoleView");
+				IWorkbenchPage perspectivePage = PlatformUI.getWorkbench().showPerspective(DebuggerPerspective.ID, window);// showPerspective(DEBUGGER_PERSPECTIVE_ID, window);
+				IConsole myConsole = findConsole("org.be.graphbt.simulator.view.consoleView");
 				IConsoleView consoleView = (IConsoleView) perspectivePage.showView(IConsoleConstants.ID_CONSOLE_VIEW);
 				consoleView.display(myConsole);
 				

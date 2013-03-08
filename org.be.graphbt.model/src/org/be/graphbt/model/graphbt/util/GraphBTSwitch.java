@@ -204,9 +204,9 @@ public class GraphBTSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case GraphBTPackage.ADDITIONAL_INFORMATION: {
-				AdditionalInformation additionalInformation = (AdditionalInformation)theEObject;
-				T result = caseAdditionalInformation(additionalInformation);
+			case GraphBTPackage.MAP_INFORMATION: {
+				MapInformation mapInformation = (MapInformation)theEObject;
+				T result = caseMapInformation(mapInformation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -259,6 +259,18 @@ public class GraphBTSwitch<T> extends Switch<T> {
 			case GraphBTPackage.LIBRARIES: {
 				Libraries libraries = (Libraries)theEObject;
 				T result = caseLibraries(libraries);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case GraphBTPackage.METHOD_DECLARATION: {
+				MethodDeclaration methodDeclaration = (MethodDeclaration)theEObject;
+				T result = caseMethodDeclaration(methodDeclaration);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case GraphBTPackage.PARAMETER: {
+				Parameter parameter = (Parameter)theEObject;
+				T result = caseParameter(parameter);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -597,17 +609,17 @@ public class GraphBTSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Additional Information</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Map Information</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Additional Information</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Map Information</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseAdditionalInformation(AdditionalInformation object) {
+	public T caseMapInformation(MapInformation object) {
 		return null;
 	}
 
@@ -728,6 +740,36 @@ public class GraphBTSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseLibraries(Libraries object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Method Declaration</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Method Declaration</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMethodDeclaration(MethodDeclaration object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Parameter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseParameter(Parameter object) {
 		return null;
 	}
 

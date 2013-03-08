@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<import>
+<name>Input</name>
+<description>This component is used to be an input.</description>
+<method name="readInt" type="Int"> 
+</method>
+<method name="readString" type="String"> 
+</method>
+</import>

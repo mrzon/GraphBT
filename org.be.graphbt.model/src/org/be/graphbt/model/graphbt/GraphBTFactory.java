@@ -224,13 +224,13 @@ public interface GraphBTFactory extends EFactory {
 	AlternativeClass createAlternativeClass();
 
 	/**
-	 * Returns a new object of class '<em>Additional Information</em>'.
+	 * Returns a new object of class '<em>Map Information</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Additional Information</em>'.
+	 * @return a new object of class '<em>Map Information</em>'.
 	 * @generated
 	 */
-	AdditionalInformation createAdditionalInformation();
+	MapInformation createMapInformation();
 
 	/**
 	 * Returns a new object of class '<em>Information</em>'.
@@ -303,6 +303,24 @@ public interface GraphBTFactory extends EFactory {
 	 * @generated
 	 */
 	Libraries createLibraries();
+
+	/**
+	 * Returns a new object of class '<em>Method Declaration</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Method Declaration</em>'.
+	 * @generated
+	 */
+	MethodDeclaration createMethodDeclaration();
+
+	/**
+	 * Returns a new object of class '<em>Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Parameter</em>'.
+	 * @generated
+	 */
+	Parameter createParameter();
 
 	/**
 	 * Returns the package supported by this factory.

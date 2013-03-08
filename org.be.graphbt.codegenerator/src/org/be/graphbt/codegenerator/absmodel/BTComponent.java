@@ -165,38 +165,40 @@ public class BTComponent {
             ArrayList<ABSParameter> temp = new ArrayList<ABSParameter>();
             temp.add(new ABSParameter(ABSDataType.STRING,"command"));
             
-            ABSMethod runM = new ABSMethod(ABSDataType.UNIT,"runMethod",temp);
-            ABSMethod isT = new ABSMethod(ABSDataType.BOOL,"isTerminated",new ArrayList<ABSParameter>());
-            ABSMethod isBl = new ABSMethod(ABSDataType.BOOL,"isBlocked",new ArrayList<ABSParameter>());
+            ABSMethod runMethod = new ABSMethod(ABSDataType.UNIT,"runMethod",temp);
+            ABSMethod isTerminatedMethod = new ABSMethod(ABSDataType.BOOL,"isTerminated",new ArrayList<ABSParameter>());
+            ABSMethod isBlockedMethod = new ABSMethod(ABSDataType.BOOL,"isBlocked",new ArrayList<ABSParameter>());
             ABSMethod run = new ABSMethod(ABSDataType.UNIT,"run",new ArrayList<ABSParameter>());
             //ABSMethod getData = new ABSMethod(new ABSDataType("Data"),"getData",new ArrayList<ABSParameter>());
-            ABSMethodImplementation runMI = new ABSMethodImplementation(runM);
+            ABSMethodImplementation runMethodImplementation = new ABSMethodImplementation(runMethod);
             ABSMethodImplementation runI = new ABSMethodImplementation(run);
-            ABSMethodImplementation isTI = new ABSMethodImplementation(isT);
-            ABSMethodImplementation isBlocked = new ABSMethodImplementation(isBl);
+            ABSMethodImplementation isTerminatedImplementation = new ABSMethodImplementation(isTerminatedMethod);
+            ABSMethodImplementation isBlockedImplementation = new ABSMethodImplementation(isBlockedMethod);
             //ABSMethodImplementation getDataI = new ABSMethodImplementation(getData);
             //ab.add(runM);
             //ab.add(isT);
             //ab.add(getData);
             //ab.add(run);
-            ac.addMethodImplementation(runMI);
+            ac.addMethodImplementation(runMethodImplementation);
             ac.addMethodImplementation(runI);
-            ac.addMethodImplementation(isTI);
-            ac.addMethodImplementation(isBlocked);
+            ac.addMethodImplementation(isTerminatedImplementation);
+            ac.addMethodImplementation(isBlockedImplementation);
             //ac.addMethodImplementation(getDataI);
             //getDataI.addStatement(new ABSStatement(ABSStatementType.RETURN,"return Val(4)"));
             ABSVariable io = new ABSVariable("io");
             io.setDataType(new ABSDataType("IO"));
             io.setValue("i");
             runI.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT,"io=new IOImpl()"));
-            isTI.addStatement(new ABSStatement(ABSStatementType.RETURN,"return terminate"));
-            isBlocked.addStatement(new ABSStatement(ABSStatementType.RETURN,"return block"));
+            isTerminatedImplementation.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT,"Bool temp=terminate"));
+            isTerminatedImplementation.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT,"terminate=False"));
+            isTerminatedImplementation.addStatement(new ABSStatement(ABSStatementType.RETURN,"return temp"));
+            isBlockedImplementation.addStatement(new ABSStatement(ABSStatementType.RETURN,"return block"));
             ac.addVariable(io);
             _ABSIfGroup ab = new _ABSIfGroup();
 
             ac.addVariable(new ABSVariable(ABSDataType.BOOL,"block"));
             ac.addVariable(new ABSVariable(ABSDataType.BOOL,"terminate"));
-            runMI.addStatement(ab);
+            runMethodImplementation.addStatement(ab);
             for(int i = 0; i < behaviorList.size(); i++) {
                 BTBehavior b = behaviorList.get(i);       
                 //if(b.getType() == BTType.INTERNALINPUT||b.getType() == BTType.INTERNALOUTPUT)
@@ -698,7 +700,6 @@ public class BTComponent {
     
     private boolean isVarExist(String name) {
         Iterator<ABSVariable> i = set.iterator();
-        
         while(i.hasNext()) {
             ABSVariable a = i.next();
             if(a.getName().equals(name)) {

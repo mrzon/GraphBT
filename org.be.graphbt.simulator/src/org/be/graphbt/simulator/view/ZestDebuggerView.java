@@ -53,7 +53,7 @@ import org.eclipse.zest.layouts.algorithms.CompositeLayoutAlgorithm;
 
 public class ZestDebuggerView extends ViewPart implements IZoomableWorkbenchPart {
 	private static ZestDebuggerView instance;
-	public static final String ID = "btdebuggertool.perspective.DebuggerPerspective";
+	public static final String ID = "org.be.graphbt.simulator.perspective.DebuggerPerspective";
 	
 	private BTTree tree;
 

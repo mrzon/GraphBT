@@ -16,22 +16,22 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link behaviortree.Behavior#getBehaviorType <em>Behavior Type</em>}</li>
- *   <li>{@link behaviortree.Behavior#getBehaviorName <em>Behavior Name</em>}</li>
- *   <li>{@link behaviortree.Behavior#getBehaviorRef <em>Behavior Ref</em>}</li>
- *   <li>{@link behaviortree.Behavior#getBehaviorDesc <em>Behavior Desc</em>}</li>
- *   <li>{@link behaviortree.Behavior#getTechnicalDetail <em>Technical Detail</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.Behavior#getBehaviorType <em>Behavior Type</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.Behavior#getBehaviorName <em>Behavior Name</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.Behavior#getBehaviorRef <em>Behavior Ref</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.Behavior#getBehaviorDesc <em>Behavior Desc</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.Behavior#getTechnicalDetail <em>Technical Detail</em>}</li>
  * </ul>
  * </p>
  *
- * @see behaviortree.BehaviortreePackage#getBehavior()
+ * @see org.be.graphbt.model.graphbt.GraphBTPackage#getBehavior()
  * @model
  * @generated
  */
 public interface Behavior extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Behavior Type</b></em>' attribute.
-	 * The literals are from the enumeration {@link behaviortree.BehaviorType}.
+	 * The literals are from the enumeration {@link org.be.graphbt.model.graphbt.BehaviorType}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Behavior Type</em>' attribute isn't clear,
@@ -39,20 +39,20 @@ public interface Behavior extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Behavior Type</em>' attribute.
-	 * @see behaviortree.BehaviorType
+	 * @see org.be.graphbt.model.graphbt.BehaviorType
 	 * @see #setBehaviorType(BehaviorType)
-	 * @see behaviortree.BehaviortreePackage#getBehavior_BehaviorType()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getBehavior_BehaviorType()
 	 * @model
 	 * @generated
 	 */
 	BehaviorType getBehaviorType();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.Behavior#getBehaviorType <em>Behavior Type</em>}' attribute.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.Behavior#getBehaviorType <em>Behavior Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Behavior Type</em>' attribute.
-	 * @see behaviortree.BehaviorType
+	 * @see org.be.graphbt.model.graphbt.BehaviorType
 	 * @see #getBehaviorType()
 	 * @generated
 	 */
@@ -68,14 +68,14 @@ public interface Behavior extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Behavior Name</em>' attribute.
 	 * @see #setBehaviorName(String)
-	 * @see behaviortree.BehaviortreePackage#getBehavior_BehaviorName()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getBehavior_BehaviorName()
 	 * @model
 	 * @generated
 	 */
 	String getBehaviorName();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.Behavior#getBehaviorName <em>Behavior Name</em>}' attribute.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.Behavior#getBehaviorName <em>Behavior Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Behavior Name</em>' attribute.
@@ -94,14 +94,14 @@ public interface Behavior extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Behavior Ref</em>' attribute.
 	 * @see #setBehaviorRef(String)
-	 * @see behaviortree.BehaviortreePackage#getBehavior_BehaviorRef()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getBehavior_BehaviorRef()
 	 * @model
 	 * @generated
 	 */
 	String getBehaviorRef();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.Behavior#getBehaviorRef <em>Behavior Ref</em>}' attribute.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.Behavior#getBehaviorRef <em>Behavior Ref</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Behavior Ref</em>' attribute.
@@ -119,14 +119,14 @@ public interface Behavior extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Behavior Desc</em>' attribute.
 	 * @see #setBehaviorDesc(String)
-	 * @see behaviortree.BehaviortreePackage#getBehavior_BehaviorDesc()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getBehavior_BehaviorDesc()
 	 * @model
 	 * @generated
 	 */
 	String getBehaviorDesc();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.Behavior#getBehaviorDesc <em>Behavior Desc</em>}' attribute.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.Behavior#getBehaviorDesc <em>Behavior Desc</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Behavior Desc</em>' attribute.
@@ -144,14 +144,14 @@ public interface Behavior extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Technical Detail</em>' attribute.
 	 * @see #setTechnicalDetail(String)
-	 * @see behaviortree.BehaviortreePackage#getBehavior_TechnicalDetail()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getBehavior_TechnicalDetail()
 	 * @model
 	 * @generated
 	 */
 	String getTechnicalDetail();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.Behavior#getTechnicalDetail <em>Technical Detail</em>}' attribute.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.Behavior#getTechnicalDetail <em>Technical Detail</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Technical Detail</em>' attribute.

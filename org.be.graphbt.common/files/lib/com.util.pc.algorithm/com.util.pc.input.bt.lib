@@ -1,9 +1,0 @@
-#C StandardInput
-#D This component can control mouse movement in a PC
-#S init
-#S int:=0
-#S string:=STRING_
-#S int:=getInt()
-#S string:=getString()
-#IO get(int)
-#IO get(string)

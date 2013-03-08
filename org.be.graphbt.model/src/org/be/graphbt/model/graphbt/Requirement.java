@@ -18,14 +18,14 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link behaviortree.Requirement#getKey <em>Key</em>}</li>
- *   <li>{@link behaviortree.Requirement#getRequirement <em>Requirement</em>}</li>
- *   <li>{@link behaviortree.Requirement#getTraceabilityLink <em>Traceability Link</em>}</li>
- *   <li>{@link behaviortree.Requirement#getDescription <em>Description</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.Requirement#getKey <em>Key</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.Requirement#getRequirement <em>Requirement</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.Requirement#getTraceabilityLink <em>Traceability Link</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.Requirement#getDescription <em>Description</em>}</li>
  * </ul>
  * </p>
  *
- * @see behaviortree.BehaviortreePackage#getRequirement()
+ * @see org.be.graphbt.model.graphbt.GraphBTPackage#getRequirement()
  * @model
  * @generated
  */
@@ -44,14 +44,14 @@ public interface Requirement extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Key</em>' attribute.
 	 * @see #setKey(String)
-	 * @see behaviortree.BehaviortreePackage#getRequirement_Key()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getRequirement_Key()
 	 * @model
 	 * @generated
 	 */
 	String getKey();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.Requirement#getKey <em>Key</em>}' attribute.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.Requirement#getKey <em>Key</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Key</em>' attribute.
@@ -70,14 +70,14 @@ public interface Requirement extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Requirement</em>' attribute.
 	 * @see #setRequirement(String)
-	 * @see behaviortree.BehaviortreePackage#getRequirement_Requirement()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getRequirement_Requirement()
 	 * @model
 	 * @generated
 	 */
 	String getRequirement();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.Requirement#getRequirement <em>Requirement</em>}' attribute.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.Requirement#getRequirement <em>Requirement</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Requirement</em>' attribute.
@@ -88,7 +88,7 @@ public interface Requirement extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Traceability Link</b></em>' reference list.
-	 * The list contents are of type {@link behaviortree.StandardNode}.
+	 * The list contents are of type {@link org.be.graphbt.model.graphbt.StandardNode}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Traceability Link</em>' reference list isn't clear,
@@ -96,7 +96,7 @@ public interface Requirement extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Traceability Link</em>' reference list.
-	 * @see behaviortree.BehaviortreePackage#getRequirement_TraceabilityLink()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getRequirement_TraceabilityLink()
 	 * @model
 	 * @generated
 	 */
@@ -112,14 +112,14 @@ public interface Requirement extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)
-	 * @see behaviortree.BehaviortreePackage#getRequirement_Description()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getRequirement_Description()
 	 * @model
 	 * @generated
 	 */
 	String getDescription();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.Requirement#getDescription <em>Description</em>}' attribute.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.Requirement#getDescription <em>Description</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Description</em>' attribute.

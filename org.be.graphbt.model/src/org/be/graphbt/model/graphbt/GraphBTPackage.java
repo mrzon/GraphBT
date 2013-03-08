@@ -609,13 +609,22 @@ public interface GraphBTPackage extends EPackage {
 	int COMPONENT__ENUMERATED = 9;
 
 	/**
+	 * The feature id for the '<em><b>Uses</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__USES = 10;
+
+	/**
 	 * The number of structural features of the '<em>Component</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_FEATURE_COUNT = 10;
+	int COMPONENT_FEATURE_COUNT = 11;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.AttributeImpl <em>Attribute</em>}' class.
@@ -702,13 +711,40 @@ public interface GraphBTPackage extends EPackage {
 	int STATE__NAME = 0;
 
 	/**
+	 * The feature id for the '<em><b>Ref</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__REF = 1;
+
+	/**
+	 * The feature id for the '<em><b>Desc</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__DESC = 2;
+
+	/**
+	 * The feature id for the '<em><b>Attributes</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__ATTRIBUTES = 3;
+
+	/**
 	 * The number of structural features of the '<em>State</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_FEATURE_COUNT = 1;
+	int STATE_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.LibraryImpl <em>Library</em>}' class.
@@ -766,13 +802,22 @@ public interface GraphBTPackage extends EPackage {
 	int LIBRARY__ID = 4;
 
 	/**
+	 * The feature id for the '<em><b>Methods</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__METHODS = 5;
+
+	/**
 	 * The number of structural features of the '<em>Library</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY_FEATURE_COUNT = 5;
+	int LIBRARY_FEATURE_COUNT = 6;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.RequirementImpl <em>Requirement</em>}' class.
@@ -1127,14 +1172,14 @@ public interface GraphBTPackage extends EPackage {
 	int ALTERNATIVE_CLASS_FEATURE_COUNT = 1;
 
 	/**
-	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.AdditionalInformationImpl <em>Additional Information</em>}' class.
+	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.MapInformationImpl <em>Map Information</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.be.graphbt.model.graphbt.impl.AdditionalInformationImpl
-	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getAdditionalInformation()
+	 * @see org.be.graphbt.model.graphbt.impl.MapInformationImpl
+	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getMapInformation()
 	 * @generated
 	 */
-	int ADDITIONAL_INFORMATION = 22;
+	int MAP_INFORMATION = 22;
 
 	/**
 	 * The feature id for the '<em><b>Info</b></em>' containment reference list.
@@ -1143,16 +1188,16 @@ public interface GraphBTPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADDITIONAL_INFORMATION__INFO = 0;
+	int MAP_INFORMATION__INFO = 0;
 
 	/**
-	 * The number of structural features of the '<em>Additional Information</em>' class.
+	 * The number of structural features of the '<em>Map Information</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ADDITIONAL_INFORMATION_FEATURE_COUNT = 1;
+	int MAP_INFORMATION_FEATURE_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.InformationImpl <em>Information</em>}' class.
@@ -1388,6 +1433,89 @@ public interface GraphBTPackage extends EPackage {
 	int LIBRARIES_FEATURE_COUNT = 1;
 
 	/**
+	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.MethodDeclarationImpl <em>Method Declaration</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.be.graphbt.model.graphbt.impl.MethodDeclarationImpl
+	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getMethodDeclaration()
+	 * @generated
+	 */
+	int METHOD_DECLARATION = 31;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_DECLARATION__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_DECLARATION__PARAMETERS = 1;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_DECLARATION__TYPE = 2;
+
+	/**
+	 * The number of structural features of the '<em>Method Declaration</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_DECLARATION_FEATURE_COUNT = 3;
+
+	/**
+	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.ParameterImpl <em>Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.be.graphbt.model.graphbt.impl.ParameterImpl
+	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getParameter()
+	 * @generated
+	 */
+	int PARAMETER = 32;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER__TYPE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_FEATURE_COUNT = 2;
+
+	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.Composition <em>Composition</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1395,7 +1523,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getComposition()
 	 * @generated
 	 */
-	int COMPOSITION = 31;
+	int COMPOSITION = 33;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.Branch <em>Branch</em>}' enum.
@@ -1405,7 +1533,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getBranch()
 	 * @generated
 	 */
-	int BRANCH = 32;
+	int BRANCH = 34;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.Operator <em>Operator</em>}' enum.
@@ -1415,7 +1543,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 33;
+	int OPERATOR = 35;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.BehaviorType <em>Behavior Type</em>}' enum.
@@ -1425,7 +1553,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getBehaviorType()
 	 * @generated
 	 */
-	int BEHAVIOR_TYPE = 34;
+	int BEHAVIOR_TYPE = 36;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.EventType <em>Event Type</em>}' enum.
@@ -1435,7 +1563,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getEventType()
 	 * @generated
 	 */
-	int EVENT_TYPE = 35;
+	int EVENT_TYPE = 37;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.SpecialEdgeEnum <em>Special Edge Enum</em>}' enum.
@@ -1445,7 +1573,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getSpecialEdgeEnum()
 	 * @generated
 	 */
-	int SPECIAL_EDGE_ENUM = 36;
+	int SPECIAL_EDGE_ENUM = 38;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.TraceabilityStatus <em>Traceability Status</em>}' enum.
@@ -1455,7 +1583,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getTraceabilityStatus()
 	 * @generated
 	 */
-	int TRACEABILITY_STATUS = 37;
+	int TRACEABILITY_STATUS = 39;
 
 
 	/**
@@ -1946,6 +2074,17 @@ public interface GraphBTPackage extends EPackage {
 	EAttribute getComponent_Enumerated();
 
 	/**
+	 * Returns the meta object for the reference list '{@link org.be.graphbt.model.graphbt.Component#getUses <em>Uses</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Uses</em>'.
+	 * @see org.be.graphbt.model.graphbt.Component#getUses()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EReference getComponent_Uses();
+
+	/**
 	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.Attribute <em>Attribute</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2020,6 +2159,39 @@ public interface GraphBTPackage extends EPackage {
 	EAttribute getState_Name();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.State#getRef <em>Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ref</em>'.
+	 * @see org.be.graphbt.model.graphbt.State#getRef()
+	 * @see #getState()
+	 * @generated
+	 */
+	EAttribute getState_Ref();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.State#getDesc <em>Desc</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Desc</em>'.
+	 * @see org.be.graphbt.model.graphbt.State#getDesc()
+	 * @see #getState()
+	 * @generated
+	 */
+	EAttribute getState_Desc();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.be.graphbt.model.graphbt.State#getAttributes <em>Attributes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Attributes</em>'.
+	 * @see org.be.graphbt.model.graphbt.State#getAttributes()
+	 * @see #getState()
+	 * @generated
+	 */
+	EReference getState_Attributes();
+
+	/**
 	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.Library <em>Library</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2083,6 +2255,17 @@ public interface GraphBTPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getLibrary_Id();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.be.graphbt.model.graphbt.Library#getMethods <em>Methods</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Methods</em>'.
+	 * @see org.be.graphbt.model.graphbt.Library#getMethods()
+	 * @see #getLibrary()
+	 * @generated
+	 */
+	EReference getLibrary_Methods();
 
 	/**
 	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.Requirement <em>Requirement</em>}'.
@@ -2383,25 +2566,25 @@ public interface GraphBTPackage extends EPackage {
 	EAttribute getAlternativeClass_AlternativeAttribute();
 
 	/**
-	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.AdditionalInformation <em>Additional Information</em>}'.
+	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.MapInformation <em>Map Information</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Additional Information</em>'.
-	 * @see org.be.graphbt.model.graphbt.AdditionalInformation
+	 * @return the meta object for class '<em>Map Information</em>'.
+	 * @see org.be.graphbt.model.graphbt.MapInformation
 	 * @generated
 	 */
-	EClass getAdditionalInformation();
+	EClass getMapInformation();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.be.graphbt.model.graphbt.AdditionalInformation#getInfo <em>Info</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.be.graphbt.model.graphbt.MapInformation#getInfo <em>Info</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Info</em>'.
-	 * @see org.be.graphbt.model.graphbt.AdditionalInformation#getInfo()
-	 * @see #getAdditionalInformation()
+	 * @see org.be.graphbt.model.graphbt.MapInformation#getInfo()
+	 * @see #getMapInformation()
 	 * @generated
 	 */
-	EReference getAdditionalInformation_Info();
+	EReference getMapInformation_Info();
 
 	/**
 	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.Information <em>Information</em>}'.
@@ -2537,6 +2720,81 @@ public interface GraphBTPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getLibraries_Import();
+
+	/**
+	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.MethodDeclaration <em>Method Declaration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Method Declaration</em>'.
+	 * @see org.be.graphbt.model.graphbt.MethodDeclaration
+	 * @generated
+	 */
+	EClass getMethodDeclaration();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.MethodDeclaration#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.be.graphbt.model.graphbt.MethodDeclaration#getName()
+	 * @see #getMethodDeclaration()
+	 * @generated
+	 */
+	EAttribute getMethodDeclaration_Name();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.be.graphbt.model.graphbt.MethodDeclaration#getParameters <em>Parameters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Parameters</em>'.
+	 * @see org.be.graphbt.model.graphbt.MethodDeclaration#getParameters()
+	 * @see #getMethodDeclaration()
+	 * @generated
+	 */
+	EReference getMethodDeclaration_Parameters();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.MethodDeclaration#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see org.be.graphbt.model.graphbt.MethodDeclaration#getType()
+	 * @see #getMethodDeclaration()
+	 * @generated
+	 */
+	EAttribute getMethodDeclaration_Type();
+
+	/**
+	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.Parameter <em>Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Parameter</em>'.
+	 * @see org.be.graphbt.model.graphbt.Parameter
+	 * @generated
+	 */
+	EClass getParameter();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.Parameter#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.be.graphbt.model.graphbt.Parameter#getName()
+	 * @see #getParameter()
+	 * @generated
+	 */
+	EAttribute getParameter_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.Parameter#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see org.be.graphbt.model.graphbt.Parameter#getType()
+	 * @see #getParameter()
+	 * @generated
+	 */
+	EAttribute getParameter_Type();
 
 	/**
 	 * Returns the meta object for enum '{@link org.be.graphbt.model.graphbt.Composition <em>Composition</em>}'.
@@ -3007,6 +3265,14 @@ public interface GraphBTPackage extends EPackage {
 		EAttribute COMPONENT__ENUMERATED = eINSTANCE.getComponent_Enumerated();
 
 		/**
+		 * The meta object literal for the '<em><b>Uses</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT__USES = eINSTANCE.getComponent_Uses();
+
+		/**
 		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.AttributeImpl <em>Attribute</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3069,6 +3335,30 @@ public interface GraphBTPackage extends EPackage {
 		EAttribute STATE__NAME = eINSTANCE.getState_Name();
 
 		/**
+		 * The meta object literal for the '<em><b>Ref</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE__REF = eINSTANCE.getState_Ref();
+
+		/**
+		 * The meta object literal for the '<em><b>Desc</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE__DESC = eINSTANCE.getState_Desc();
+
+		/**
+		 * The meta object literal for the '<em><b>Attributes</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE__ATTRIBUTES = eINSTANCE.getState_Attributes();
+
+		/**
 		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.LibraryImpl <em>Library</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3117,6 +3407,14 @@ public interface GraphBTPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute LIBRARY__ID = eINSTANCE.getLibrary_Id();
+
+		/**
+		 * The meta object literal for the '<em><b>Methods</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LIBRARY__METHODS = eINSTANCE.getLibrary_Methods();
 
 		/**
 		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.RequirementImpl <em>Requirement</em>}' class.
@@ -3363,14 +3661,14 @@ public interface GraphBTPackage extends EPackage {
 		EAttribute ALTERNATIVE_CLASS__ALTERNATIVE_ATTRIBUTE = eINSTANCE.getAlternativeClass_AlternativeAttribute();
 
 		/**
-		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.AdditionalInformationImpl <em>Additional Information</em>}' class.
+		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.MapInformationImpl <em>Map Information</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.be.graphbt.model.graphbt.impl.AdditionalInformationImpl
-		 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getAdditionalInformation()
+		 * @see org.be.graphbt.model.graphbt.impl.MapInformationImpl
+		 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getMapInformation()
 		 * @generated
 		 */
-		EClass ADDITIONAL_INFORMATION = eINSTANCE.getAdditionalInformation();
+		EClass MAP_INFORMATION = eINSTANCE.getMapInformation();
 
 		/**
 		 * The meta object literal for the '<em><b>Info</b></em>' containment reference list feature.
@@ -3378,7 +3676,7 @@ public interface GraphBTPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ADDITIONAL_INFORMATION__INFO = eINSTANCE.getAdditionalInformation_Info();
+		EReference MAP_INFORMATION__INFO = eINSTANCE.getMapInformation_Info();
 
 		/**
 		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.InformationImpl <em>Information</em>}' class.
@@ -3499,6 +3797,66 @@ public interface GraphBTPackage extends EPackage {
 		 * @generated
 		 */
 		EReference LIBRARIES__IMPORT = eINSTANCE.getLibraries_Import();
+
+		/**
+		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.MethodDeclarationImpl <em>Method Declaration</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.be.graphbt.model.graphbt.impl.MethodDeclarationImpl
+		 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getMethodDeclaration()
+		 * @generated
+		 */
+		EClass METHOD_DECLARATION = eINSTANCE.getMethodDeclaration();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute METHOD_DECLARATION__NAME = eINSTANCE.getMethodDeclaration_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference METHOD_DECLARATION__PARAMETERS = eINSTANCE.getMethodDeclaration_Parameters();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute METHOD_DECLARATION__TYPE = eINSTANCE.getMethodDeclaration_Type();
+
+		/**
+		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.ParameterImpl <em>Parameter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.be.graphbt.model.graphbt.impl.ParameterImpl
+		 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getParameter()
+		 * @generated
+		 */
+		EClass PARAMETER = eINSTANCE.getParameter();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PARAMETER__NAME = eINSTANCE.getParameter_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PARAMETER__TYPE = eINSTANCE.getParameter_Type();
 
 		/**
 		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.Composition <em>Composition</em>}' enum.

@@ -45,12 +45,15 @@ import org.be.graphbt.model.graphbt.Composition;
 import org.be.graphbt.model.graphbt.Edge;
 import org.be.graphbt.model.graphbt.Formula;
 import org.be.graphbt.model.graphbt.GraphBTFactory;
+import org.be.graphbt.model.graphbt.Library;
 import org.be.graphbt.model.graphbt.Link;
+import org.be.graphbt.model.graphbt.MapInformation;
 import org.be.graphbt.model.graphbt.Operator;
 import org.be.graphbt.model.graphbt.OperatorClass;
 import org.be.graphbt.model.graphbt.Requirement;
 import org.be.graphbt.model.graphbt.RequirementList;
 import org.be.graphbt.model.graphbt.StandardNode;
+import org.be.graphbt.model.graphbt.State;
 import org.be.graphbt.model.graphbt.TraceabilityStatus;
 import org.be.graphbt.model.graphbt.TraceabilityStatusClass;
 import org.be.textbe.bt.textbt.*;
@@ -135,7 +138,7 @@ public class GraphBTUtil {
 		if(reversionNode.size()==0) {
 			errorReversionNode.clear();
 		}
-		Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+		RecordingCommand cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 			protected void doExecute() {
 				for(int i = 0; i < reversionNode.size(); i++) {
 					final StandardNode node = reversionNode.get(i);
@@ -233,7 +236,6 @@ public class GraphBTUtil {
 			try {
 				createResource.save(Collections.emptyMap());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			createResource.setTrackingModification(true);
@@ -266,13 +268,9 @@ public class GraphBTUtil {
 				oc.setTraceabilityStatusLiteral(TraceabilityStatus.VALUES.get(i).getLiteral());
 				saveToModelFile(oc,d);
 			}
-			//oc.setOperatorLiteral(literal);
-
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -321,15 +319,17 @@ public class GraphBTUtil {
 		}
 		final Resource resource = rSet.getResource(uri, true);
 		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		DiagramEditor ds;
+		DiagramEditor ds = null;
+		if(page == null)
+			return;
 		if(page.getActiveEditor() instanceof DiagramEditor) {
 			ds = (DiagramEditor)page.getActiveEditor();	
-		}
-		else
-		{
+		} else if(page.getActiveEditor() instanceof MultiPageEditor) {
 			ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+		} else {
+			return;
 		}
-		Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+		RecordingCommand cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 			protected void doExecute() {
 				resource.getContents().add(obj);
 			}
@@ -679,10 +679,8 @@ public class GraphBTUtil {
 				try {
 					GraphBTUtil.saveToModelFile(oc,rs);
 				} catch (CoreException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -713,10 +711,8 @@ public class GraphBTUtil {
 			try {
 				GraphBTUtil.saveToModelFile(oc,rs);
 			} catch (CoreException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -753,10 +749,8 @@ public class GraphBTUtil {
 				try {
 					GraphBTUtil.saveToModelFile(oc,rs);
 				} catch (CoreException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -803,10 +797,8 @@ public class GraphBTUtil {
 		try {
 			GraphBTUtil.saveToModelFile(r, d);
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return r;
@@ -916,7 +908,6 @@ public class GraphBTUtil {
 		de.getEditingDomain().getCommandStack().execute(new RecordingCommand(de.getEditingDomain(),"generating model") {
 			@Override
 			protected void doExecute() {
-				// TODO Auto-generated method stub
 				beModel.setComponentList(getComponentList(btModel,d));
 				BehaviorTree dbt = getBEFactory().createBehaviorTree();
 				RequirementList rl = getBEFactory().createRequirementList();
@@ -963,10 +954,8 @@ public class GraphBTUtil {
 		try {
 			saveToModelFile(node,d);
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		addContext.setTargetContainer(d);
@@ -1135,7 +1124,7 @@ public class GraphBTUtil {
 					b.setBehaviorRef(bbt.getRef());
 				}else if(abbt instanceof org.be.textbe.bt.textbt.InternalOutput) {
 					org.be.textbe.bt.textbt.Behavior bbt = (org.be.textbe.bt.textbt.Behavior)abbt;
-					b.setBehaviorType(BehaviorType.INTERNA_OUTPUT);
+					b.setBehaviorType(BehaviorType.INTERNAL_OUTPUT);
 					b.setBehaviorName(bbt.getVal());
 					b.setBehaviorRef(bbt.getRef());
 				}else if(abbt instanceof org.be.textbe.bt.textbt.ExternalInput) {
@@ -1180,7 +1169,6 @@ public class GraphBTUtil {
 		if(parent.getBehaviorRef().equals(node.getBehaviorRef())&&parent.getComponentRef().equals(node.getComponentRef())) {
 			return parent;
 		}
-		// TODO Auto-generated method stub
 		return getAncestor(parent.getParent(),node);
 	}
 
@@ -1237,7 +1225,6 @@ public class GraphBTUtil {
 				try {
 					throw new FileNotFoundException();
 				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			String path1 = fileRaw.getRawLocation().toOSString();
@@ -1311,7 +1298,6 @@ public class GraphBTUtil {
 					ifile.setContents(in, false, false, null);
 				}	
 			} catch (CoreException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -1326,7 +1312,6 @@ public class GraphBTUtil {
 	 */
 	public static void applyTreeLayout(Diagram d) {
 		List<StandardNode> roots = getRoots(d.eResource().getResourceSet());
-		StandardNode root = getRoots(d.eResource().getResourceSet()).get(0);
 		HashMap<StandardNode,Integer> widthMap = new HashMap<StandardNode,Integer>();
 		HashMap<Integer,Integer> heightMap = new HashMap<Integer,Integer>();
 		int currentY = 0;
@@ -1437,7 +1422,7 @@ public class GraphBTUtil {
 	private static int getWidth(Diagram d, StandardNode node, HashMap<StandardNode,Integer> map) {
 		if(node==null)
 			return 0;
-		if(node.getEdge() == null||node.getEdge()!=null&&node.getEdge().getChildNode().size()==0) {
+		if(Graphiti.getLinkService().getPictogramElements(d, node) != null && (node.getEdge() == null||node.getEdge()!=null&&node.getEdge().getChildNode().size()==0)) {
 			PictogramElement rootP = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
 			map.put(node, rootP.getGraphicsAlgorithm().getWidth());
 			return rootP.getGraphicsAlgorithm().getWidth();
@@ -1492,78 +1477,7 @@ public class GraphBTUtil {
 	}
 	
 	
-	/**
-	 * create GraphBTDeleteContextButton 
-	 * @param featureProvider
-	 * @param pe
-	 * @return
-	 */
-	public static IContextButtonEntry createGraphBtDeleteContextButton(IFeatureProvider featureProvider, final PictogramElement pe) {
-		final IDeleteContext deleteContext = new DeleteContext(pe);
-		IEditorPart ep = (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor());
-		final DiagramEditor de;
-		if(ep instanceof MultiPageEditor)
-			de = ((MultiPageEditor)ep).getDiagramEditor();
-		else
-			de = (DiagramEditor)ep;
-		final IDeleteFeature deleteFeature = featureProvider.getDeleteFeature(deleteContext);
-
-		IContextButtonEntry ret = null;
-
-		if (deleteFeature != null) {
-			ret = new ContextButtonEntry(deleteFeature, deleteContext) {
-				@Override
-				public boolean canExecute() {
-					// TODO Auto-generated method stub
-					return true;
-				}
-
-				@Override
-				public void execute() {
-					// TODO Auto-generated method stub
-					final StandardNode node = (StandardNode) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-
-					de.getEditingDomain().getCommandStack().execute(new RecordingCommand(de.getEditingDomain(), "Remove Node object") {
-
-						@Override
-						protected void doExecute() {
-							if(node.getParent()!=null) {
-								StandardNode parent = node.getParent();
-								for(int i = 0; i < parent.getEdge().getChildNode().size();i++) {
-									if(parent.getEdge().getChildNode().get(i).getTarget()==node) {
-										parent.getEdge().getChildNode().remove(parent.getEdge().getChildNode().get(i));
-										break;
-									}
-								}
-								node.setParent(null);
-								if(parent.getEdge().getChildNode().size() ==1) {
-									parent.getEdge().setBranch(null);
-								}
-								else if(parent.getEdge().getChildNode().size()==0) {
-									parent.setEdge(null);
-								}
-							}
-							if(node.getEdge() != null) {
-								for(int i = 0; i < node.getEdge().getChildNode().size(); i++) {
-									StandardNode child = (StandardNode) node.getEdge().getChildNode().get(i).getTarget();
-									child.setParent(null);
-									child.setLeaf(false);
-								}
-
-								GraphBTUtil.getRoots(de.getDiagramTypeProvider().getDiagram().eResource().getResourceSet()).get(0).eResource().getContents().addAll(node.getEdge().getChildNode());
-								node.getEdge().getChildNode().clear();
-								node.setEdge(null);
-							}
-							deleteFeature.delete(deleteContext);
-						}
-
-					});
-				}
-			};
-			ContextEntryHelper.markAsDeleteContextEntry(ret);
-		}
-		return ret;
-	}
+	
 
 	/**
 	 * get Attribute instance from a component based on its reference string
@@ -1597,6 +1511,61 @@ public class GraphBTUtil {
 			if(b.toString().equals(text)) {
 				return b;
 			}
+		}
+		return null;
+	}
+	
+	/**
+	 * remove attribute instance from component based on its name
+	 * @param c
+	 * @param name
+	 */
+	public static void removeAttributeFromComponentByName(Component c,
+			String name) {
+		Iterator<Attribute> it = c.getAttributes().iterator();
+		while(it.hasNext()) {
+			Attribute b = it.next();
+
+			if(b.getName().equals(name)) {
+				c.getAttributes().remove(b);
+				return;
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param c
+	 * @param selected
+	 * @return
+	 */
+	public static State getStateFromComponent(Component c, String selected) {
+		Iterator<State> it = c.getState().iterator();
+		while(it.hasNext()) {
+			State b = it.next();
+			if(b.getName().equals(selected)) {
+				return b;
+			}
+		}
+		return null;
+	}
+	public static void removeStateFromComponent(Component c, State s) {
+		c.getState().remove(s);
+	}
+	public static State getStateFromComponentByRef(Component c, String key) {
+		for(int i = 0; i < c.getState().size(); i++) {
+			State s = c.getState().get(i);
+			if(s.getRef().equals(key)) {
+				return s;
+			}
+		}
+		return null;
+	}
+	public static Library getLibraryFromComponent(Component c, String bSelection) {
+		// TODO Auto-generated method stub
+		for(Library l:c.getUses()) {
+			if(l.getId().equals(bSelection))
+				return l;
 		}
 		return null;
 	}

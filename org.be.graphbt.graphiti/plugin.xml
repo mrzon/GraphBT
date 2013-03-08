@@ -59,6 +59,13 @@
             type="graphbt">
       </diagramType>
    </extension>
+<extension
+      point="org.eclipse.graphiti.ui.imageProviders">
+   <imageProvider
+         class="org.be.graphbt.graphiti.diagram.GraphBTImageProvider"
+         id="org.be.graphbt.graphiti.diagram.GraphBTImageProvider">
+   </imageProvider>
+</extension>
    <extension
          point="org.eclipse.graphiti.ui.diagramTypeProviders">
       <diagramTypeProvider
@@ -69,6 +76,9 @@
          <diagramType
                id="org.be.graphbt.graphiti.GraphBTDiagramType">
          </diagramType>
+         <imageProvider
+            id="org.be.graphbt.graphiti.diagram.GraphBTImageProvider">
+      </imageProvider>
       </diagramTypeProvider>
    </extension>
 <extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
@@ -99,12 +109,11 @@
       <extension
             point="org.eclipse.core.runtime.adapters">
          <factory
-               adaptableType="behaviortree.StandardNode"
+               adaptableType="org.be.graphbt.model.graphbt.StandardNode"
                class="org.be.graphbt.graphiti.property.BehaviorTreePropertyAdapter">
             <adapter
                   type="org.eclipse.ui.views.properties.IPropertySource">
             </adapter>
          </factory>
       </extension>
-    
 </plugin>

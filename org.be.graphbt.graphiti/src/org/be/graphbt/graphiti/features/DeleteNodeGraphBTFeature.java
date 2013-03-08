@@ -1,11 +1,14 @@
 package org.be.graphbt.graphiti.features;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
 import org.be.graphbt.graphiti.GraphBTUtil;
+import org.be.graphbt.model.graphbt.Link;
 import org.be.graphbt.model.graphbt.StandardNode;
 
 public class DeleteNodeGraphBTFeature extends DefaultDeleteFeature {
@@ -45,11 +48,19 @@ public class DeleteNodeGraphBTFeature extends DefaultDeleteFeature {
 		if(node.getEdge() != null) {
 			for(int i = 0; i < node.getEdge().getChildNode().size(); i++) {
 				StandardNode child = (StandardNode) node.getEdge().getChildNode().get(i).getTarget();
-				child.setParent(null);
-				child.setLeaf(false);
+				if(child!=null) {
+					child.setParent(null);
+					child.setLeaf(false);
+				}
 			}
 
-			GraphBTUtil.getRoots(getDiagram().eResource().getResourceSet()).get(0).eResource().getContents().addAll(node.getEdge().getChildNode());
+			EList<Link> childNodes = node.getEdge().getChildNode();
+			EList<EObject> objects = GraphBTUtil.getRoots(getDiagram().eResource().getResourceSet()).get(0).eResource().getContents();
+			
+			for(int i = 0; i < childNodes.size();i++) {
+				if(childNodes.get(i).getTarget() != null)
+					objects.add(childNodes.get(i).getTarget());
+			}
 			node.getEdge().getChildNode().clear();
 			node.setEdge(null);
 		}

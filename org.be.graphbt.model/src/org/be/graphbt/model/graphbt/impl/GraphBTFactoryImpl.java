@@ -83,7 +83,7 @@ public class GraphBTFactoryImpl extends EFactoryImpl implements GraphBTFactory {
 			case GraphBTPackage.TRACEABILITY_STATUS_CLASS: return createTraceabilityStatusClass();
 			case GraphBTPackage.LINK: return createLink();
 			case GraphBTPackage.ALTERNATIVE_CLASS: return createAlternativeClass();
-			case GraphBTPackage.ADDITIONAL_INFORMATION: return createAdditionalInformation();
+			case GraphBTPackage.MAP_INFORMATION: return createMapInformation();
 			case GraphBTPackage.INFORMATION: return createInformation();
 			case GraphBTPackage.INPUT_TYPE: return createInputType();
 			case GraphBTPackage.OUTPUT_TYPE: return createOutputType();
@@ -92,6 +92,8 @@ public class GraphBTFactoryImpl extends EFactoryImpl implements GraphBTFactory {
 			case GraphBTPackage.INPUT_GUI: return createInputGUI();
 			case GraphBTPackage.OUTPUT_GUI: return createOutputGUI();
 			case GraphBTPackage.LIBRARIES: return createLibraries();
+			case GraphBTPackage.METHOD_DECLARATION: return createMethodDeclaration();
+			case GraphBTPackage.PARAMETER: return createParameter();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -376,9 +378,9 @@ public class GraphBTFactoryImpl extends EFactoryImpl implements GraphBTFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AdditionalInformation createAdditionalInformation() {
-		AdditionalInformationImpl additionalInformation = new AdditionalInformationImpl();
-		return additionalInformation;
+	public MapInformation createMapInformation() {
+		MapInformationImpl mapInformation = new MapInformationImpl();
+		return mapInformation;
 	}
 
 	/**
@@ -459,6 +461,26 @@ public class GraphBTFactoryImpl extends EFactoryImpl implements GraphBTFactory {
 	public Libraries createLibraries() {
 		LibrariesImpl libraries = new LibrariesImpl();
 		return libraries;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MethodDeclaration createMethodDeclaration() {
+		MethodDeclarationImpl methodDeclaration = new MethodDeclarationImpl();
+		return methodDeclaration;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Parameter createParameter() {
+		ParameterImpl parameter = new ParameterImpl();
+		return parameter;
 	}
 
 	/**

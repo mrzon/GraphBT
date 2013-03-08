@@ -44,7 +44,9 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 	public CreateBehaviorFirstPageGraphBTWizard(HashMap<Integer,String> map, Component c, Behavior b) {
 		super("Create Behavior Wizard");
 		setTitle("Create Behavior Wizard");
-		setDescription("Fill in the form below to add new Behavior to component "+c.getComponentName());
+		if(c!=null) {
+			setDescription("Fill in the form below to add new Behavior to component "+c.getComponentName());
+		}
 		this.map = map;
 		this.c = c;
 		this.b = b;
@@ -66,14 +68,7 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 	    for(BehaviorType t : BehaviorType.VALUES) {
 	    	behaviorTypeCombo.add(t.getName());
 	    }
-	    behaviorTypeCombo.addSelectionListener(new SelectionAdapter() {
-		    public void widgetSelected(SelectionEvent e) {
-		    	Combo combo = (Combo)e.widget;
-		    	String selected = combo.getItem(combo.getSelectionIndex());
-		    	map.put(Behavior.TYPE_VALUE, selected);
-		    	dialogChanged();
-		    }
-	    });
+	    
 	    final Label behaviorLabel = new Label(container, SWT.NULL);
 		behaviorLabel.setText("Behavior Name:");
 
@@ -143,22 +138,36 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 			behaviorTypeCombo.select(b.getBehaviorType().getValue());
 			behaviorTypeCombo.setEnabled(false);
 			behaviorNameText.setText(b.getBehaviorName());
+			if(b.getBehaviorType().getLiteral().equals("StateRealization")) {
+	    		addCodeButton.setVisible(true);
+	    	} else {
+	    		addCodeButton.setVisible(false);
+	    	}
 			behaviorDescText.setText(b.getBehaviorDesc()==null?"":b.getBehaviorDesc());
 			behaviorRefText.setText(b.getBehaviorRef());
 			behaviorRefText.setEnabled(false);
 			dialogChanged();
 		}
-		
+		behaviorTypeCombo.addSelectionListener(new SelectionAdapter() {
+		    public void widgetSelected(SelectionEvent e) {
+		    	Combo combo = (Combo)e.widget;
+		    	String selected = combo.getItem(combo.getSelectionIndex());
+		    	map.put(Behavior.TYPE_VALUE, selected);
+		    	if(selected.equals("StateRealization")) {
+		    		addCodeButton.setVisible(true);
+		    	} else {
+		    		addCodeButton.setVisible(false);
+		    	}
+		    	dialogChanged();
+		    }
+	    });
 		// Required to avoid an error in the system
 		setControl(container);
+		setPageComplete(false);
 	}
 	
 	private void dialogChanged() {
-		if (behaviorRefText.getText().trim().length() == 0) {
-			if(b==null)
-			updateStatus("Behavior reference must be specified");
-			return;
-		}
+		
 		if (behaviorNameText.getText().trim().length() == 0) {
 			updateStatus("Behavior name must be specified");
 			return;
@@ -167,7 +176,15 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 			updateStatus("Space character is illegal");
 			return;
 		}
-		
+		if (!behaviorNameText.getText().trim().matches("^[a-zA-Z].*")) {
+			updateStatus("Behavior name is illegal");
+			return;
+		}
+		if (behaviorRefText.getText().trim().length() == 0) {
+			if(b==null)
+			updateStatus("Behavior reference must be specified");
+			return;
+		}
 		if (!behaviorRefText.getText().trim().matches("[0-9]+")) {
 			updateStatus("Behavior reference must be integer");
 			return;

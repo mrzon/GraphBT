@@ -14,18 +14,18 @@ package org.be.graphbt.model.graphbt;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link behaviortree.StandardNode#getTraceabilityStatus <em>Traceability Status</em>}</li>
- *   <li>{@link behaviortree.StandardNode#getOperator <em>Operator</em>}</li>
- *   <li>{@link behaviortree.StandardNode#getLabel <em>Label</em>}</li>
- *   <li>{@link behaviortree.StandardNode#getComponentRef <em>Component Ref</em>}</li>
- *   <li>{@link behaviortree.StandardNode#getBehaviorRef <em>Behavior Ref</em>}</li>
- *   <li>{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}</li>
- *   <li>{@link behaviortree.StandardNode#isLeaf <em>Leaf</em>}</li>
- *   <li>{@link behaviortree.StandardNode#getParent <em>Parent</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.StandardNode#getTraceabilityStatus <em>Traceability Status</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.StandardNode#getOperator <em>Operator</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.StandardNode#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.StandardNode#getComponentRef <em>Component Ref</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.StandardNode#getBehaviorRef <em>Behavior Ref</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.StandardNode#getTraceabilityLink <em>Traceability Link</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.StandardNode#isLeaf <em>Leaf</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.StandardNode#getParent <em>Parent</em>}</li>
  * </ul>
  * </p>
  *
- * @see behaviortree.BehaviortreePackage#getStandardNode()
+ * @see org.be.graphbt.model.graphbt.GraphBTPackage#getStandardNode()
  * @model
  * @generated
  */
@@ -40,14 +40,14 @@ public interface StandardNode extends Node {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Traceability Link</em>' attribute.
 	 * @see #setTraceabilityLink(String)
-	 * @see behaviortree.BehaviortreePackage#getStandardNode_TraceabilityLink()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getStandardNode_TraceabilityLink()
 	 * @model
 	 * @generated
 	 */
 	String getTraceabilityLink();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.StandardNode#getTraceabilityLink <em>Traceability Link</em>}' attribute.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.StandardNode#getTraceabilityLink <em>Traceability Link</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Traceability Link</em>' attribute.
@@ -66,14 +66,14 @@ public interface StandardNode extends Node {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Leaf</em>' attribute.
 	 * @see #setLeaf(boolean)
-	 * @see behaviortree.BehaviortreePackage#getStandardNode_Leaf()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getStandardNode_Leaf()
 	 * @model ordered="false"
 	 * @generated
 	 */
 	boolean isLeaf();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.StandardNode#isLeaf <em>Leaf</em>}' attribute.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.StandardNode#isLeaf <em>Leaf</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Leaf</em>' attribute.
@@ -92,14 +92,14 @@ public interface StandardNode extends Node {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Parent</em>' reference.
 	 * @see #setParent(StandardNode)
-	 * @see behaviortree.BehaviortreePackage#getStandardNode_Parent()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getStandardNode_Parent()
 	 * @model
 	 * @generated
 	 */
 	StandardNode getParent();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.StandardNode#getParent <em>Parent</em>}' reference.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.StandardNode#getParent <em>Parent</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Parent</em>' reference.
@@ -118,14 +118,14 @@ public interface StandardNode extends Node {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Component Ref</em>' attribute.
 	 * @see #setComponentRef(String)
-	 * @see behaviortree.BehaviortreePackage#getStandardNode_ComponentRef()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getStandardNode_ComponentRef()
 	 * @model required="true"
 	 * @generated
 	 */
 	String getComponentRef();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.StandardNode#getComponentRef <em>Component Ref</em>}' attribute.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.StandardNode#getComponentRef <em>Component Ref</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Component Ref</em>' attribute.
@@ -144,14 +144,14 @@ public interface StandardNode extends Node {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Behavior Ref</em>' attribute.
 	 * @see #setBehaviorRef(String)
-	 * @see behaviortree.BehaviortreePackage#getStandardNode_BehaviorRef()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getStandardNode_BehaviorRef()
 	 * @model required="true"
 	 * @generated
 	 */
 	String getBehaviorRef();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.StandardNode#getBehaviorRef <em>Behavior Ref</em>}' attribute.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.StandardNode#getBehaviorRef <em>Behavior Ref</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Behavior Ref</em>' attribute.
@@ -170,14 +170,14 @@ public interface StandardNode extends Node {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Traceability Status</em>' attribute.
 	 * @see #setTraceabilityStatus(String)
-	 * @see behaviortree.BehaviortreePackage#getStandardNode_TraceabilityStatus()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getStandardNode_TraceabilityStatus()
 	 * @model
 	 * @generated
 	 */
 	String getTraceabilityStatus();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.StandardNode#getTraceabilityStatus <em>Traceability Status</em>}' attribute.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.StandardNode#getTraceabilityStatus <em>Traceability Status</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Traceability Status</em>' attribute.
@@ -196,14 +196,14 @@ public interface StandardNode extends Node {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Operator</em>' attribute.
 	 * @see #setOperator(String)
-	 * @see behaviortree.BehaviortreePackage#getStandardNode_Operator()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getStandardNode_Operator()
 	 * @model
 	 * @generated
 	 */
 	String getOperator();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.StandardNode#getOperator <em>Operator</em>}' attribute.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.StandardNode#getOperator <em>Operator</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Operator</em>' attribute.
@@ -222,14 +222,14 @@ public interface StandardNode extends Node {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Label</em>' attribute.
 	 * @see #setLabel(String)
-	 * @see behaviortree.BehaviortreePackage#getStandardNode_Label()
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getStandardNode_Label()
 	 * @model
 	 * @generated
 	 */
 	String getLabel();
 
 	/**
-	 * Sets the value of the '{@link behaviortree.StandardNode#getLabel <em>Label</em>}' attribute.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.StandardNode#getLabel <em>Label</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Label</em>' attribute.

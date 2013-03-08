@@ -10,9 +10,7 @@ import java.util.ArrayList;
  *
  * @author Emerson
  */
-enum ABSStatementType{
-    DECLARATION,ADDON,ASSIGNMENT,BLOCK,CALL,RETURN;
-} 
+
 class _ABSIf implements ABSBlock
 {
     _ABSCondition cond;
@@ -151,4 +149,8 @@ public class ABSStatement {
         return stmnt+(stmnt.endsWith(";")?"":";")+"\n";
     	return "";
     }
+
+	public String getStatement() {
+		return stmnt;
+	}
 }

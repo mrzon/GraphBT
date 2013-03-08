@@ -1,0 +1,72 @@
+package [P];
+import java.awt.AWTException;
+import java.awt.Robot;
+import abs.backend.java.lib.types.*;
+import java.util.*;
+
+import [P].Mouse_c;
+
+public class Mouse_fli extends Mouse_c {
+	private int x;
+	private int y;
+	private int x2;
+	private int y2;
+	private boolean stop = true;
+	
+	//}
+
+	public ABSUnit fli_move() {
+	Robot robot;
+	//Mouse_fli(){
+		try {
+			robot = new Robot();
+			robot.mouseMove(x,y);
+		} catch (AWTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return abs.backend.java.lib.types.ABSUnit.UNIT;
+	}
+	public ABSUnit fli_patrol() {
+		Robot robot;
+	//Mouse_fli(){
+		try {
+			robot = new Robot();
+			stop = false;
+		if(!stop)
+		{
+			robot.mouseMove(x,y);
+			robot.delay(1000);
+			robot.mouseMove(x2,y2);
+			robot.delay(1000);
+		}
+		} catch (AWTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return abs.backend.java.lib.types.ABSUnit.UNIT;
+	}
+	public ABSUnit fli_stop() {
+		stop = true;
+		return abs.backend.java.lib.types.ABSUnit.UNIT;
+	}
+	
+	public ABSUnit fli_setX(ABSInteger x) {
+		this.x = x.toInt();
+		return abs.backend.java.lib.types.ABSUnit.UNIT;
+	}
+	public ABSUnit fli_setY(ABSInteger x) {
+		this.y = x.toInt();
+		return abs.backend.java.lib.types.ABSUnit.UNIT;
+	}
+	public ABSUnit fli_setX2(ABSInteger x) {
+		this.x2 = x.toInt();
+		return abs.backend.java.lib.types.ABSUnit.UNIT;
+	}
+	public ABSUnit fli_setY2(ABSInteger x) {
+		this.y2 = x.toInt();
+		return abs.backend.java.lib.types.ABSUnit.UNIT;
+	}
+}

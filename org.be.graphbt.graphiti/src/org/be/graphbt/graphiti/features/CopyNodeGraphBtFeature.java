@@ -5,7 +5,6 @@ import org.eclipse.graphiti.features.context.ICopyContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.features.AbstractCopyFeature;
 
-import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.model.graphbt.StandardNode;
 
 /**

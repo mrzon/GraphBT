@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.emf.ecore.generated_package">
       <package
-            class="GraphBT.ModelPackage"
+            class="org.be.graphbt.model.graphbt.GraphBTPackage"
             genModel="model/DefaultName.genmodel"
             uri="http://graphbt/1.0">
       </package>

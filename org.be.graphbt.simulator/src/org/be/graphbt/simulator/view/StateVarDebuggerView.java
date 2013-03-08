@@ -19,7 +19,7 @@ import org.eclipse.ui.part.ViewPart;
 
 
 public class StateVarDebuggerView extends ViewPart {
-	public static final String ID = "btdebuggertool.view.StateVarDebuggerView";
+	public static final String ID = "org.be.graphbt.simulator.view.StateVarDebuggerView";
 	private Tree tree;
 	private HashMap<String, HashMap<String, TreeItem>> mapVariableTreeValue;
 	

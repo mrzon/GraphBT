@@ -6,6 +6,7 @@
  */
 package org.be.graphbt.model.graphbt;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -21,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.be.graphbt.model.graphbt.Library#getDesc <em>Desc</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.Library#getLocation <em>Location</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.Library#getId <em>Id</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.Library#getMethods <em>Methods</em>}</li>
  * </ul>
  * </p>
  *
@@ -158,5 +160,21 @@ public interface Library extends EObject {
 	 * @generated
 	 */
 	void setId(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Methods</b></em>' containment reference list.
+	 * The list contents are of type {@link org.be.graphbt.model.graphbt.MethodDeclaration}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Methods</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Methods</em>' containment reference list.
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getLibrary_Methods()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<MethodDeclaration> getMethods();
 
 } // Library

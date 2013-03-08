@@ -122,7 +122,7 @@ public class CreateRequirementFirstPageGraphBTWizard extends WizardPage {
 			return;
 		}
 		
-		if (GraphBTUtil.getRequirement(d, requirementRefText.getText()) != null) {
+		if (!GraphBTUtil.getRequirement(d, requirementRefText.getText()).getKey().trim().equals("")) {
 			updateStatus("Requirement key already exist");
 			return;
 		}

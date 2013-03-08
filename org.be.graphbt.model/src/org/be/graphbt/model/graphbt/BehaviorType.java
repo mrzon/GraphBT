@@ -63,16 +63,14 @@ public enum BehaviorType implements Enumerator {
 	INTERNAL_INPUT(3, "InternalInput", "InternalInput"),
 
 	/**
-	 * The '<em><b>Interna Output</b></em>' literal object.
+	 * The '<em><b>Internal Output</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #INTERNA_OUTPUT_VALUE
+	 * @see #INTERNAL_OUTPUT_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	INTERNA_OUTPUT(4, "InternaOutput", "InternaOutput"),
-
-	/**
+	INTERNAL_OUTPUT(4, "InternalOutput", "InternalOutput"), /**
 	 * The '<em><b>External Output</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -153,19 +151,19 @@ public enum BehaviorType implements Enumerator {
 	public static final int INTERNAL_INPUT_VALUE = 3;
 
 	/**
-	 * The '<em><b>Interna Output</b></em>' literal value.
+	 * The '<em><b>Internal Output</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Interna Output</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Internal Output</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #INTERNA_OUTPUT
-	 * @model name="InternaOutput"
+	 * @see #INTERNAL_OUTPUT
+	 * @model name="InternalOutput"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int INTERNA_OUTPUT_VALUE = 4;
+	public static final int INTERNAL_OUTPUT_VALUE = 4;
 
 	/**
 	 * The '<em><b>External Output</b></em>' literal value.
@@ -209,7 +207,7 @@ public enum BehaviorType implements Enumerator {
 			SELECTION,
 			GUARD,
 			INTERNAL_INPUT,
-			INTERNA_OUTPUT,
+			INTERNAL_OUTPUT,
 			EXTERNAL_OUTPUT,
 			EXTERNAL_INPUT,
 		};
@@ -266,7 +264,7 @@ public enum BehaviorType implements Enumerator {
 			case SELECTION_VALUE: return SELECTION;
 			case GUARD_VALUE: return GUARD;
 			case INTERNAL_INPUT_VALUE: return INTERNAL_INPUT;
-			case INTERNA_OUTPUT_VALUE: return INTERNA_OUTPUT;
+			case INTERNAL_OUTPUT_VALUE: return INTERNAL_OUTPUT;
 			case EXTERNAL_OUTPUT_VALUE: return EXTERNAL_OUTPUT;
 			case EXTERNAL_INPUT_VALUE: return EXTERNAL_INPUT;
 		}
@@ -350,7 +348,7 @@ public enum BehaviorType implements Enumerator {
 		case SELECTION_VALUE: return "?";
 		case GUARD_VALUE: return "???";
 		case INTERNAL_INPUT_VALUE: return ">";
-		case INTERNA_OUTPUT_VALUE: return "<";
+		case INTERNAL_OUTPUT_VALUE: return "<";
 		case EXTERNAL_OUTPUT_VALUE: return "<<";
 		case EXTERNAL_INPUT_VALUE: return ">>";
 	}
@@ -364,7 +362,7 @@ public enum BehaviorType implements Enumerator {
 			case SELECTION_VALUE: return "?";
 			case GUARD_VALUE: return "???";
 			case INTERNAL_INPUT_VALUE: return "<";
-			case INTERNA_OUTPUT_VALUE: return ">";
+			case INTERNAL_OUTPUT_VALUE: return ">";
 			case EXTERNAL_OUTPUT_VALUE: return ">>";
 			case EXTERNAL_INPUT_VALUE: return "<<";
 		}

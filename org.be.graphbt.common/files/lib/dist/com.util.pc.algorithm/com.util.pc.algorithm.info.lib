@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<import>
+<name>Algorithm</name>
+<description>This component is used as algorithm implementation.</description>
+<method name="" type="">
+	<param name="" type=""></param> 
+</method>
+</import>

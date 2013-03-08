@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<import>
+<name>Math</name>
+<description>This class is used to handle many mathematical computation.</description>
+<method name="random" type="Int"> 
+</method>
+</import>

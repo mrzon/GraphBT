@@ -32,11 +32,14 @@ import org.be.graphbt.model.graphbt.InputType;
 import org.be.graphbt.model.graphbt.Libraries;
 import org.be.graphbt.model.graphbt.Library;
 import org.be.graphbt.model.graphbt.Link;
+import org.be.graphbt.model.graphbt.MapInformation;
+import org.be.graphbt.model.graphbt.MethodDeclaration;
 import org.be.graphbt.model.graphbt.Node;
 import org.be.graphbt.model.graphbt.Operator;
 import org.be.graphbt.model.graphbt.OperatorClass;
 import org.be.graphbt.model.graphbt.OutputGUI;
 import org.be.graphbt.model.graphbt.OutputType;
+import org.be.graphbt.model.graphbt.Parameter;
 import org.be.graphbt.model.graphbt.Requirement;
 import org.be.graphbt.model.graphbt.RequirementList;
 import org.be.graphbt.model.graphbt.SpecialEdge;
@@ -49,6 +52,7 @@ import org.be.graphbt.model.graphbt.TraceabilityStatusClass;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -220,7 +224,7 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass additionalInformationEClass = null;
+	private EClass mapInformationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -277,6 +281,20 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 * @generated
 	 */
 	private EClass librariesEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass methodDeclarationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass parameterEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -798,6 +816,15 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getComponent_Uses() {
+		return (EReference)componentEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAttribute() {
 		return attributeEClass;
 	}
@@ -861,6 +888,33 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getState_Ref() {
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getState_Desc() {
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getState_Attributes() {
+		return (EReference)stateEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getLibrary() {
 		return libraryEClass;
 	}
@@ -908,6 +962,15 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 */
 	public EAttribute getLibrary_Id() {
 		return (EAttribute)libraryEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getLibrary_Methods() {
+		return (EReference)libraryEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -1167,8 +1230,8 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAdditionalInformation() {
-		return additionalInformationEClass;
+	public EClass getMapInformation() {
+		return mapInformationEClass;
 	}
 
 	/**
@@ -1176,8 +1239,8 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAdditionalInformation_Info() {
-		return (EReference)additionalInformationEClass.getEStructuralFeatures().get(0);
+	public EReference getMapInformation_Info() {
+		return (EReference)mapInformationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1295,6 +1358,69 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 */
 	public EReference getLibraries_Import() {
 		return (EReference)librariesEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMethodDeclaration() {
+		return methodDeclarationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMethodDeclaration_Name() {
+		return (EAttribute)methodDeclarationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMethodDeclaration_Parameters() {
+		return (EReference)methodDeclarationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMethodDeclaration_Type() {
+		return (EAttribute)methodDeclarationEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getParameter() {
+		return parameterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getParameter_Name() {
+		return (EAttribute)parameterEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getParameter_Type() {
+		return (EAttribute)parameterEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1440,6 +1566,7 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		createEAttribute(componentEClass, COMPONENT__COMPONENT_REF);
 		createEAttribute(componentEClass, COMPONENT__COMPONENT_DESC);
 		createEAttribute(componentEClass, COMPONENT__ENUMERATED);
+		createEReference(componentEClass, COMPONENT__USES);
 
 		attributeEClass = createEClass(ATTRIBUTE);
 		createEAttribute(attributeEClass, ATTRIBUTE__TYPE);
@@ -1450,6 +1577,9 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 
 		stateEClass = createEClass(STATE);
 		createEAttribute(stateEClass, STATE__NAME);
+		createEAttribute(stateEClass, STATE__REF);
+		createEAttribute(stateEClass, STATE__DESC);
+		createEReference(stateEClass, STATE__ATTRIBUTES);
 
 		libraryEClass = createEClass(LIBRARY);
 		createEAttribute(libraryEClass, LIBRARY__NAME);
@@ -1457,6 +1587,7 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		createEAttribute(libraryEClass, LIBRARY__DESC);
 		createEAttribute(libraryEClass, LIBRARY__LOCATION);
 		createEAttribute(libraryEClass, LIBRARY__ID);
+		createEReference(libraryEClass, LIBRARY__METHODS);
 
 		requirementEClass = createEClass(REQUIREMENT);
 		createEAttribute(requirementEClass, REQUIREMENT__KEY);
@@ -1496,8 +1627,8 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		alternativeClassEClass = createEClass(ALTERNATIVE_CLASS);
 		createEAttribute(alternativeClassEClass, ALTERNATIVE_CLASS__ALTERNATIVE_ATTRIBUTE);
 
-		additionalInformationEClass = createEClass(ADDITIONAL_INFORMATION);
-		createEReference(additionalInformationEClass, ADDITIONAL_INFORMATION__INFO);
+		mapInformationEClass = createEClass(MAP_INFORMATION);
+		createEReference(mapInformationEClass, MAP_INFORMATION__INFO);
 
 		informationEClass = createEClass(INFORMATION);
 		createEAttribute(informationEClass, INFORMATION__KEY);
@@ -1519,6 +1650,15 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 
 		librariesEClass = createEClass(LIBRARIES);
 		createEReference(librariesEClass, LIBRARIES__IMPORT);
+
+		methodDeclarationEClass = createEClass(METHOD_DECLARATION);
+		createEAttribute(methodDeclarationEClass, METHOD_DECLARATION__NAME);
+		createEReference(methodDeclarationEClass, METHOD_DECLARATION__PARAMETERS);
+		createEAttribute(methodDeclarationEClass, METHOD_DECLARATION__TYPE);
+
+		parameterEClass = createEClass(PARAMETER);
+		createEAttribute(parameterEClass, PARAMETER__NAME);
+		createEAttribute(parameterEClass, PARAMETER__TYPE);
 
 		// Create enums
 		compositionEEnum = createEEnum(COMPOSITION);
@@ -1618,6 +1758,10 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		initEAttribute(getComponent_ComponentRef(), ecorePackage.getEString(), "componentRef", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponent_ComponentDesc(), ecorePackage.getEString(), "componentDesc", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponent_Enumerated(), ecorePackage.getEBoolean(), "enumerated", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComponent_Uses(), this.getLibrary(), null, "uses", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		EOperation op = addEOperation(componentEClass, this.getAttribute(), "getAttribute", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "name", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(attributeEClass, Attribute.class, "Attribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAttribute_Type(), ecorePackage.getEString(), "type", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1628,6 +1772,9 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 
 		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getState_Name(), ecorePackage.getEString(), "name", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getState_Ref(), ecorePackage.getEString(), "ref", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getState_Desc(), ecorePackage.getEString(), "desc", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getState_Attributes(), this.getMapInformation(), null, "attributes", null, 1, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(libraryEClass, Library.class, "Library", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLibrary_Name(), ecorePackage.getEString(), "name", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1635,6 +1782,7 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		initEAttribute(getLibrary_Desc(), ecorePackage.getEString(), "desc", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLibrary_Location(), ecorePackage.getEString(), "location", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLibrary_Id(), ecorePackage.getEString(), "id", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLibrary_Methods(), this.getMethodDeclaration(), null, "methods", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(requirementEClass, Requirement.class, "Requirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRequirement_Key(), ecorePackage.getEString(), "Key", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1674,8 +1822,15 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		initEClass(alternativeClassEClass, AlternativeClass.class, "AlternativeClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAlternativeClass_AlternativeAttribute(), ecorePackage.getEString(), "alternativeAttribute", null, 0, 1, AlternativeClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(additionalInformationEClass, AdditionalInformation.class, "AdditionalInformation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAdditionalInformation_Info(), this.getInformation(), null, "info", null, 0, -1, AdditionalInformation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(mapInformationEClass, MapInformation.class, "MapInformation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMapInformation_Info(), this.getInformation(), null, "info", null, 0, -1, MapInformation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		op = addEOperation(mapInformationEClass, ecorePackage.getEString(), "getValue", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "key", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(mapInformationEClass, null, "setValue", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "key", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(informationEClass, Information.class, "Information", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getInformation_Key(), ecorePackage.getEString(), "key", null, 0, 1, Information.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1697,6 +1852,15 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 
 		initEClass(librariesEClass, Libraries.class, "Libraries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLibraries_Import(), this.getLibrary(), null, "import", null, 0, -1, Libraries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(methodDeclarationEClass, MethodDeclaration.class, "MethodDeclaration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMethodDeclaration_Name(), ecorePackage.getEString(), "name", null, 0, 1, MethodDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMethodDeclaration_Parameters(), this.getParameter(), null, "parameters", null, 0, -1, MethodDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMethodDeclaration_Type(), ecorePackage.getEString(), "type", null, 0, 1, MethodDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(parameterEClass, Parameter.class, "Parameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getParameter_Name(), ecorePackage.getEString(), "name", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getParameter_Type(), ecorePackage.getEString(), "type", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(compositionEEnum, Composition.class, "Composition");
@@ -1722,7 +1886,7 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		addEEnumLiteral(behaviorTypeEEnum, BehaviorType.SELECTION);
 		addEEnumLiteral(behaviorTypeEEnum, BehaviorType.GUARD);
 		addEEnumLiteral(behaviorTypeEEnum, BehaviorType.INTERNAL_INPUT);
-		addEEnumLiteral(behaviorTypeEEnum, BehaviorType.INTERNA_OUTPUT);
+		addEEnumLiteral(behaviorTypeEEnum, BehaviorType.INTERNAL_OUTPUT);
 		addEEnumLiteral(behaviorTypeEEnum, BehaviorType.EXTERNAL_OUTPUT);
 		addEEnumLiteral(behaviorTypeEEnum, BehaviorType.EXTERNAL_INPUT);
 

@@ -6,15 +6,22 @@
  */
 package org.be.graphbt.model.graphbt.impl;
 
+import java.util.Collection;
 import org.be.graphbt.model.graphbt.GraphBTPackage;
 import org.be.graphbt.model.graphbt.Library;
 
+import org.be.graphbt.model.graphbt.MethodDeclaration;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,6 +35,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.be.graphbt.model.graphbt.impl.LibraryImpl#getDesc <em>Desc</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.impl.LibraryImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.impl.LibraryImpl#getId <em>Id</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.LibraryImpl#getMethods <em>Methods</em>}</li>
  * </ul>
  * </p>
  *
@@ -133,6 +141,16 @@ public class LibraryImpl extends EObjectImpl implements Library {
 	 * @ordered
 	 */
 	protected String id = ID_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getMethods() <em>Methods</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMethods()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<MethodDeclaration> methods;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -263,6 +281,32 @@ public class LibraryImpl extends EObjectImpl implements Library {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<MethodDeclaration> getMethods() {
+		if (methods == null) {
+			methods = new EObjectContainmentEList<MethodDeclaration>(MethodDeclaration.class, this, GraphBTPackage.LIBRARY__METHODS);
+		}
+		return methods;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case GraphBTPackage.LIBRARY__METHODS:
+				return ((InternalEList<?>)getMethods()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -276,6 +320,8 @@ public class LibraryImpl extends EObjectImpl implements Library {
 				return getLocation();
 			case GraphBTPackage.LIBRARY__ID:
 				return getId();
+			case GraphBTPackage.LIBRARY__METHODS:
+				return getMethods();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -285,6 +331,7 @@ public class LibraryImpl extends EObjectImpl implements Library {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -302,6 +349,10 @@ public class LibraryImpl extends EObjectImpl implements Library {
 				return;
 			case GraphBTPackage.LIBRARY__ID:
 				setId((String)newValue);
+				return;
+			case GraphBTPackage.LIBRARY__METHODS:
+				getMethods().clear();
+				getMethods().addAll((Collection<? extends MethodDeclaration>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -330,6 +381,9 @@ public class LibraryImpl extends EObjectImpl implements Library {
 			case GraphBTPackage.LIBRARY__ID:
 				setId(ID_EDEFAULT);
 				return;
+			case GraphBTPackage.LIBRARY__METHODS:
+				getMethods().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -352,10 +406,20 @@ public class LibraryImpl extends EObjectImpl implements Library {
 				return LOCATION_EDEFAULT == null ? location != null : !LOCATION_EDEFAULT.equals(location);
 			case GraphBTPackage.LIBRARY__ID:
 				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+			case GraphBTPackage.LIBRARY__METHODS:
+				return methods != null && !methods.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
+	public boolean equals(Object o) {
+		if(o instanceof Library) {
+			Library l = (Library) o;
+			return l.getId().equals(getId());
+		}
+		return false;
+		
+	}
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

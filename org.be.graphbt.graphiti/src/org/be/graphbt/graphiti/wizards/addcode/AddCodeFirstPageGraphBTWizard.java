@@ -19,6 +19,8 @@ import org.eclipse.swt.widgets.Text;
 import org.be.graphbt.model.graphbt.Attribute;
 import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.Component;
+import org.be.graphbt.model.graphbt.Library;
+import org.be.graphbt.model.graphbt.MethodDeclaration;
 import org.be.graphbt.graphiti.GraphBTUtil;
 
 /**
@@ -35,9 +37,9 @@ public class AddCodeFirstPageGraphBTWizard extends WizardPage {
 	private Text absCodeText;
 	private Behavior b;
 	public AddCodeFirstPageGraphBTWizard(HashMap<Integer,String> map, Component c, Behavior b) {
-		super("Create Attribute Wizard");
-		setTitle("Create Attribute Wizard");
-		setDescription("Fill in the form below to add new Attribute to component "+c.getComponentName());
+		super("Add Code Wizard");
+		setTitle("Add Code Wizard");
+		setDescription("Fill in the form below to add code the the following state realization behavior.");
 		this.map = map;
 		this.c=c;
 		this.b=b;
@@ -51,16 +53,21 @@ public class AddCodeFirstPageGraphBTWizard extends WizardPage {
 		layout.numColumns = 2;
 
 		final Label typeLabel = new Label(container, SWT.NULL);
-		typeLabel.setText("List of available atributes:");
-	    final Label attributeLabel = new Label(container, SWT.NULL);
-		attributeLabel.setText("ABS Code:");
+		typeLabel.setText("List of available attributes and methods:");
+	    
 		
 		varList = new List(container, SWT.BORDER | SWT.V_SCROLL);
 		for(Attribute att: c.getAttributes()) {
 			varList.add(att.toString());
 		}
+		for(Library att: c.getUses()) {
+			for(MethodDeclaration md: att.getMethods()) {
+				varList.add(md.toString());
+			}
+		}
 		
-
+		final Label attributeLabel = new Label(container, SWT.NULL);
+		attributeLabel.setText("ABS Code:");
 		absCodeText = new Text(container, SWT.WRAP
 		          | SWT.BORDER
 		          | SWT.H_SCROLL
@@ -72,6 +79,7 @@ public class AddCodeFirstPageGraphBTWizard extends WizardPage {
 		gridData.horizontalSpan = 2;
 		gridData.heightHint = 150;
 		gridData.widthHint = 200;
+		varList.setLayoutData(gridData);
 		absCodeText.setLayoutData(gridData);	    
 		absCodeText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {

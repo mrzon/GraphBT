@@ -10,6 +10,7 @@ import org.be.graphbt.model.graphbt.Attribute;
 import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.BehaviorType;
 import org.be.graphbt.model.graphbt.GraphBTPackage;
+import org.be.graphbt.model.graphbt.Library;
 import org.be.graphbt.model.graphbt.Component;
 import org.be.graphbt.model.graphbt.State;
 
@@ -48,6 +49,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.be.graphbt.model.graphbt.impl.ComponentImpl#getComponentRef <em>Component Ref</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.impl.ComponentImpl#getComponentDesc <em>Component Desc</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.impl.ComponentImpl#isEnumerated <em>Enumerated</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.ComponentImpl#getUses <em>Uses</em>}</li>
  * </ul>
  * </p>
  *
@@ -203,6 +205,16 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	 * @ordered
 	 */
 	protected boolean enumerated = ENUMERATED_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getUses() <em>Uses</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUses()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Library> uses;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -419,6 +431,29 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Library> getUses() {
+		if (uses == null) {
+			uses = new EObjectResolvingEList<Library>(Library.class, this, GraphBTPackage.COMPONENT__USES);
+		}
+		return uses;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Attribute getAttribute(String name) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -461,6 +496,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 				return getComponentDesc();
 			case GraphBTPackage.COMPONENT__ENUMERATED:
 				return isEnumerated();
+			case GraphBTPackage.COMPONENT__USES:
+				return getUses();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -508,6 +545,10 @@ public class ComponentImpl extends EObjectImpl implements Component {
 			case GraphBTPackage.COMPONENT__ENUMERATED:
 				setEnumerated((Boolean)newValue);
 				return;
+			case GraphBTPackage.COMPONENT__USES:
+				getUses().clear();
+				getUses().addAll((Collection<? extends Library>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -550,6 +591,9 @@ public class ComponentImpl extends EObjectImpl implements Component {
 			case GraphBTPackage.COMPONENT__ENUMERATED:
 				setEnumerated(ENUMERATED_EDEFAULT);
 				return;
+			case GraphBTPackage.COMPONENT__USES:
+				getUses().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -582,6 +626,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 				return COMPONENT_DESC_EDEFAULT == null ? componentDesc != null : !COMPONENT_DESC_EDEFAULT.equals(componentDesc);
 			case GraphBTPackage.COMPONENT__ENUMERATED:
 				return enumerated != ENUMERATED_EDEFAULT;
+			case GraphBTPackage.COMPONENT__USES:
+				return uses != null && !uses.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -610,7 +656,7 @@ public class ComponentImpl extends EObjectImpl implements Component {
 				case BehaviorType.SELECTION_VALUE:  t="#L"; break;
 				case BehaviorType.GUARD_VALUE: t="#G"; break;
 				case BehaviorType.INTERNAL_INPUT_VALUE:  t="#II"; break;
-				case BehaviorType.INTERNA_OUTPUT_VALUE:  t="#IO"; break;
+				case BehaviorType.INTERNAL_OUTPUT_VALUE:  t="#IO"; break;
 				case BehaviorType.EXTERNAL_OUTPUT_VALUE: t="#EO"; break;
 				case BehaviorType.EXTERNAL_INPUT_VALUE:  t="#EI"; break;
 			}

@@ -63,7 +63,7 @@ public class ProjectUtil {
 	 * @return
 	 */
 	public static File getSharedResource(String path) {
-		return new File(getFileLocator("behaviortree.graphBT.common",path).getFile());
+		return new File(getFileLocator("org.be.graphbt.common",path).getFile());
 	}
 	
 	/**

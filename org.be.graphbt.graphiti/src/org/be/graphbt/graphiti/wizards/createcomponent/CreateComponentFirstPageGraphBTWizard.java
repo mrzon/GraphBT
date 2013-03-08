@@ -141,7 +141,10 @@ public class CreateComponentFirstPageGraphBTWizard extends WizardPage {
 			updateStatus("Space character is illegal");
 			return;
 		}
-		
+		if (!componentNameText.getText().trim().matches("^[a-zA-Z].*")) {
+			updateStatus("Component name is illegal");
+			return;
+		}
 		if (componentRefText.getText().trim().length() == 0) {
 			updateStatus("Component reference must be specified");
 			return;

@@ -12,6 +12,7 @@ public class ABSClass implements ABSBlock {
     private ArrayList<ABSInterface> ai = new ArrayList<ABSInterface>();
     private String name;
     private ArrayList<ABSMethodImplementation> methods = null;
+    private ArrayList<ABSStatement> statements = new ArrayList<ABSStatement>();
     private ArrayList<ABSParameter> params = null;
     private Set<ABSVariable> vars = new HashSet<ABSVariable>() ;
     private String annotation;
@@ -83,12 +84,18 @@ public class ABSClass implements ABSBlock {
                 temp += i.next().toString()+"\n";
             }
         }
+        if(statements!= null) {
+            for(int i = 0; i < statements.size(); i++) {
+                temp += statements.get(i).getStatement()+"\n\n";
+            }
+        }
         temp+="\n";
         if(methods != null) {
             for(int i = 0; i < methods.size(); i++) {
                 temp += methods.get(i).toString()+"\n\n";
             }
         }
+        
         temp+="}";
         return temp;
     }
@@ -112,7 +119,7 @@ public class ABSClass implements ABSBlock {
 
     @Override
     public void addStatement(ABSStatement a) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    	statements.add(a);
     }
     Set<ABSVariable> getVariables() {
         return vars;
@@ -125,5 +132,13 @@ public class ABSClass implements ABSBlock {
     @Override
     public void isDeclared(ABSDeclarable a) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    public ABSMethodImplementation getMethodImplementation(String methodName) {
+    	for(ABSMethodImplementation ami:this.methods) {
+    		if(ami.getMethodDeclaration().getName().equals(methodName)) {
+    			return ami;
+    		}
+    	}
+    	return null;
     }
 }

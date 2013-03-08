@@ -160,8 +160,8 @@ public class GraphBTAdapterFactory extends AdapterFactoryImpl {
 				return createAlternativeClassAdapter();
 			}
 			@Override
-			public Adapter caseAdditionalInformation(AdditionalInformation object) {
-				return createAdditionalInformationAdapter();
+			public Adapter caseMapInformation(MapInformation object) {
+				return createMapInformationAdapter();
 			}
 			@Override
 			public Adapter caseInformation(Information object) {
@@ -194,6 +194,14 @@ public class GraphBTAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseLibraries(Libraries object) {
 				return createLibrariesAdapter();
+			}
+			@Override
+			public Adapter caseMethodDeclaration(MethodDeclaration object) {
+				return createMethodDeclarationAdapter();
+			}
+			@Override
+			public Adapter caseParameter(Parameter object) {
+				return createParameterAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -524,16 +532,16 @@ public class GraphBTAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.be.graphbt.model.graphbt.AdditionalInformation <em>Additional Information</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.be.graphbt.model.graphbt.MapInformation <em>Map Information</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.be.graphbt.model.graphbt.AdditionalInformation
+	 * @see org.be.graphbt.model.graphbt.MapInformation
 	 * @generated
 	 */
-	public Adapter createAdditionalInformationAdapter() {
+	public Adapter createMapInformationAdapter() {
 		return null;
 	}
 
@@ -646,6 +654,34 @@ public class GraphBTAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createLibrariesAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.be.graphbt.model.graphbt.MethodDeclaration <em>Method Declaration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.be.graphbt.model.graphbt.MethodDeclaration
+	 * @generated
+	 */
+	public Adapter createMethodDeclarationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.be.graphbt.model.graphbt.Parameter <em>Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.be.graphbt.model.graphbt.Parameter
+	 * @generated
+	 */
+	public Adapter createParameterAdapter() {
 		return null;
 	}
 

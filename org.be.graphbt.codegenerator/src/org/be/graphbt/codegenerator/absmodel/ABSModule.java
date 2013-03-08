@@ -196,6 +196,7 @@ public class ABSModule {
                     	gg.mkdir();
                     }
                     Logger.getAnonymousLogger().log(Level.INFO, "File "+ff.getName()+" is created");
+                    System.out.println(ff);
                     ff.createNewFile();
                     
                     g = new BufferedWriter(new FileWriter(ff));
@@ -218,10 +219,11 @@ public class ABSModule {
                     //Print the jvm heap size.
                     System.out.println("Heap Size = " + heapSize);
                     //p = Runtime.getRuntime().exec (absbatPath+" compile "+javaPath+" "+getName()+" "+listOfFor.get(ii).getJavaCode()+".java");
-                    p = Runtime.getRuntime().exec ("javac -cp "+javaPath+";"+absbatPath+" "+javaPath+"\\"+getName()+"\\"+listOfFor.get(ii).getJavaCode()+".java");
+                    String compilingCommand = "javac -cp "+javaPath+";"+absbatPath+" "+javaPath+"\\"+getName()+"\\"+listOfFor.get(ii).getName()+"_fli.java";
+                    p = Runtime.getRuntime().exec (compilingCommand);
                     p.waitFor();
                     in = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-                    
+                    System.out.println(compilingCommand);
                     while((temp=in.readLine())!=null) {
                         System.out.println(temp);
                     }

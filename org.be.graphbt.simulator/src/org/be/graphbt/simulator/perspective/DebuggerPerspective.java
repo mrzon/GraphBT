@@ -7,9 +7,9 @@ import org.eclipse.ui.IViewLayout;
 import org.eclipse.ui.console.IConsoleConstants;
 
 public class DebuggerPerspective implements IPerspectiveFactory {
-	public static final String ID = "btdebuggertool.perspective.DebuggerPerspective";
-	public static final String ZEST_VIEW_ID = "btdebuggertool.view.ZestDebuggerView";
-	public static final String STATE_VAR_VIEW_ID = "btdebuggertool.view.StateVarDebuggerView";
+	public static final String ID = "org.be.graphbt.simulator.perspective.DebuggerPerspective";
+	public static final String ZEST_VIEW_ID = "org.be.graphbt.simulator.view.ZestDebuggerView";
+	public static final String STATE_VAR_VIEW_ID = "org.be.graphbt.simulator.view.StateVarDebuggerView";
 	
 	@Override
 	public void createInitialLayout(IPageLayout layout) {

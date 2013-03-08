@@ -1,9 +1,0 @@
-#C Mouse
-#D This component can control mouse movement in a PC
-#S move
-#S patrol
-#S stop
-#EI x
-#EI y
-#EI x2
-#EI y2

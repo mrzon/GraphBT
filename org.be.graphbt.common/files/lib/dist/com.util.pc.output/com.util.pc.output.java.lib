@@ -1,0 +1,13 @@
+package [P];
+import java.awt.AWTException;
+import abs.backend.java.lib.types.*;
+import java.util.*;
+
+import [P].Stdout_c;
+
+public class Stdout_fli extends Stdout_c {
+	public ABSUnit fli_print(ABSString x) {
+		System.out.println(x);
+		return abs.backend.java.lib.types.ABSUnit.UNIT;
+	}
+}

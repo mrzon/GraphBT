@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<import>
+<name>IOImpl</name>
+<description>This class is used to as IO implementation.</description>
+<method name="print" type="String"> 
+	<param name="msg" type="String"> </param>
+</method>
+<method name="readInt" type="Int"> 
+</method>
+<method name="readString" type="String"> 
+</method>
+</import>

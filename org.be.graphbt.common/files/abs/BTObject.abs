@@ -251,6 +251,7 @@ interface N {
 	Bool isTerminated();
 	Operator getOperator();
 	NodeBlock getNodeBlock();
+	String getBlockType();
 }
 
 class Node(Component c, String cmd, String t, BehaviorType nt, Operator op, String pc) implements N {
@@ -320,6 +321,10 @@ class Node(Component c, String cmd, String t, BehaviorType nt, Operator op, Stri
 	Operator getOperator() {
 		return operator;
 	}
+	
+	String getBlockType() {
+		return tipe;
+	}
 }
 
 interface ProcessManager {
@@ -355,6 +360,9 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 						if(not(isTerminated)) {
 							this.evaluateChildNodes(n);
 						}
+					} else if (nt == EXTERNALINPUT) {
+						n.runNode();
+						this.evaluateChildNodes(n);
 					} else if(nt == EXTERNALOUTPUT) {
 						Fut<Unit> f = n!runNode();
 						this.evaluateChildNodes(n);
@@ -409,7 +417,7 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 			if(state != Exit) {
 				Bool b = n.isBlocked();
 				if(not(b)) {
-					this!evaluateChildNodes(n);
+					readyQueue.insert(n);
 				} else {
 					n.setState(Blocked);
 					blockedQueue.insert(n);
@@ -425,24 +433,37 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 			N c = head(l);
 			l = tail(l);
 			Operator op = n.getOperator();
-			if(op == NOOPERATOR) {
-				BehaviorType ntype = c.getBehaviorType();
-				if(ntype == STATE||ntype==INTERNALOUTPUT||ntype==EXTERNALOUTPUT||ntype == SELECTION) {
+			String typeB = c.getBlockType();
+			
+			if(typeB == "PARALLELBLOCK"||typeB=="ALTERNATIVEBLOCK") {
+				this.evaluateChildNodes(c);
+			} else {
+				if(op == NOOPERATOR) {
+					BehaviorType ntype = c.getBehaviorType();
+					if(ntype == STATE||ntype==INTERNALOUTPUT||ntype==EXTERNALOUTPUT||ntype == SELECTION) {
+						readyQueue.insert(c);
+						c.setState(Ready);
+					} else if(ntype == GUARD||ntype==INTERNALINPUT||ntype==EXTERNALINPUT) {
+						c.setState(Blocked);
+						blockedQueue.insert(c);
+					}
+				} else if(op == REVERSION) {
 					readyQueue.insert(c);
 					c.setState(Ready);
-				} else if(ntype == GUARD||ntype==INTERNALINPUT||ntype==EXTERNALINPUT) {
-					c.setState(Blocked);
-					blockedQueue.insert(c);
 				}
-			} else if(op == REVERSION) {
-				readyQueue.insert(c);
-				c.setState(Ready);
 			}
 		}
 	}
 	
 	Unit start() {
-		readyQueue.insert(rNode);
+		BehaviorType ntype = rNode.getBehaviorType();
+		if(ntype == STATE||ntype==INTERNALOUTPUT||ntype==EXTERNALOUTPUT||ntype == SELECTION) {
+			readyQueue.insert(rNode);
+			rNode.setState(Ready);
+		} else if(ntype == GUARD||ntype==INTERNALINPUT||ntype==EXTERNALINPUT) {
+			rNode.setState(Blocked);
+			blockedQueue.insert(rNode);
+		}
 	}
 			
 	Unit run() {

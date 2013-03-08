@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<import>
+<name>Stdout</name>
+<description>This class is used as output implementation.</description>
+<method name="print" type="Unit"> 
+	<param name="s" type="String"> </param>
+</method>
+</import>

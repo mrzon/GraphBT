@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.wizard.Wizard;
 
 import org.be.graphbt.model.graphbt.BEModel;
@@ -16,14 +17,14 @@ public class ManageLibraryGraphBTWizard extends Wizard {
 
 	protected ManageLibraryFirstPageGraphBTWizard one;
 	protected HashMap<Integer,String> map;
-	protected Diagram d;
+	protected DiagramEditor d;
 	//protected CreateStandardNodeSecondPageGraphBTWizard two;
 
-	public ManageLibraryGraphBTWizard(HashMap<Integer,String> map, Diagram d) {
+	public ManageLibraryGraphBTWizard(HashMap<Integer,String> map, DiagramEditor de) {
 		super();
 		setNeedsProgressMonitor(true);
 		this.map = map;
-		this.d = d;
+		this.d = de;
 	}
 
 	@Override

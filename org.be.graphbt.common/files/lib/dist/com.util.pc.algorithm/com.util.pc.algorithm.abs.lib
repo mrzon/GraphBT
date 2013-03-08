@@ -1,0 +1,43 @@
+interface Mouse_ {
+	Unit move();
+	Unit patrol();
+	Unit stop();
+	Unit setX(Int x);
+	Unit setY(Int y);
+	Unit setX2(Int x);
+	Unit setY2(Int y);
+}
+[Foreign]
+class Mouse implements Mouse_
+{
+	Int x = 0;
+	Int y = 0;
+	Int x2 = 0;
+	Int y2 = 0;
+
+	Unit move(){
+	 
+	}
+	Unit patrol(){
+	 
+	}
+	Unit stop(){
+	 
+	}
+	Unit setX(Int x)
+	{
+	 this.x = x;
+	}
+	Unit setY(Int x)
+	{
+	this.y = x;
+	}
+	Unit setX2(Int x)
+	{
+	x2 = x;
+	}
+	Unit setY2(Int x)
+	{
+	y2 = x;
+	}
+}

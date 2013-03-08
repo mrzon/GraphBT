@@ -17,7 +17,7 @@ import org.be.graphbt.common.ProjectUtil;
 public class ABSForeign {
     private String absCode="";
     private String name="";
-    private String javaCode="";
+    private String javaCode="";/*
     public static ABSForeign IO = new ABSForeign("IO");
     public static ABSForeign MATH = new ABSForeign("Math");
     public static ABSForeign MOUSE = new ABSForeign("Mouse");
@@ -53,7 +53,7 @@ public class ABSForeign {
                 }
             }
         }
-    }
+    }*/
     
     public ABSForeign(String name, String c) {
         this.name = name;

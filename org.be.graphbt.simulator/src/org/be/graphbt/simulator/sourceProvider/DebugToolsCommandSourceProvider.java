@@ -7,10 +7,10 @@ import org.eclipse.ui.AbstractSourceProvider;
 import org.eclipse.ui.ISources;
 
 public class DebugToolsCommandSourceProvider extends AbstractSourceProvider {
-	public final static String PLAY_COMMAND_STATE = "btdebuggertool.sourceProvider.playState";
-	public final static String STOP_COMMAND_STATE = "btdebuggertool.sourceProvider.stopState";
-	public final static String PAUSE_COMMAND_STATE = "btdebuggertool.sourceProvider.pauseState";
-	public final static String STEP_COMMAND_STATE = "btdebuggertool.sourceProvider.stepState";
+	public final static String PLAY_COMMAND_STATE = "org.be.graphbt.simulator.sourceProvider.playState";
+	public final static String STOP_COMMAND_STATE = "org.be.graphbt.simulator.perspective.DebuggerPerspective.sourceProvider.stopState";
+	public final static String PAUSE_COMMAND_STATE = "org.be.graphbt.simulator.perspective.DebuggerPerspective.sourceProvider.pauseState";
+	public final static String STEP_COMMAND_STATE = "org.be.graphbt.simulator.perspective.DebuggerPerspective.sourceProvider.stepState";
 	
 	public final static String TRUE = "enabled", FALSE = "disabled";
 	

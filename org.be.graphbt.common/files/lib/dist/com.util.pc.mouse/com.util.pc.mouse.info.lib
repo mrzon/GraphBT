@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<import>
+<name>Mouse</name>
+<description>This class is used as interface with implementation.</description>
+<method name="move" type="Unit"> 
+</method>
+<method name="patrol" type="Unit"> 
+</method>
+<method name="stop" type="Unit"> 
+</method>
+<method name="setX" type="Unit"> 
+	<param name="x" type="Int"> </param>
+</method>
+<method name="setY" type="Unit"> 
+	<param name="y" type="Int"> </param>
+</method>
+<method name="setX2" type="Unit"> 
+	<param name="x2" type="Int"> </param>
+</method>
+<method name="setY2" type="Unit"> 
+	<param name="y2" type="Int"> </param>
+</method>
+</import>

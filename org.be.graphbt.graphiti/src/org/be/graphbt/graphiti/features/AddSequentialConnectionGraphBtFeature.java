@@ -20,7 +20,6 @@ import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
 import org.be.graphbt.model.graphbt.Branch;
-import org.be.graphbt.model.graphbt.Edge;
 import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.model.graphbt.Link;
 
