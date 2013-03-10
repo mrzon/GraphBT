@@ -9,11 +9,15 @@ package org.be.graphbt.codegenerator.absmodel;
 *  @Author Sudhir Ancha
 **/
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Stack;
 
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 public class BTParser extends DefaultHandler
 {

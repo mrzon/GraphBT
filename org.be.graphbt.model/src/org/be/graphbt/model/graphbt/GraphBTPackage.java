@@ -107,7 +107,7 @@ public interface GraphBTPackage extends EPackage {
 	int BE_MODEL__REQUIREMENT_LIST = 3;
 
 	/**
-	 * The feature id for the '<em><b>Formula List</b></em>' reference.
+	 * The feature id for the '<em><b>Formula List</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -609,7 +609,7 @@ public interface GraphBTPackage extends EPackage {
 	int COMPONENT__ENUMERATED = 9;
 
 	/**
-	 * The feature id for the '<em><b>Uses</b></em>' reference list.
+	 * The feature id for the '<em><b>Uses</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1641,10 +1641,10 @@ public interface GraphBTPackage extends EPackage {
 	EReference getBEModel_RequirementList();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.be.graphbt.model.graphbt.BEModel#getFormulaList <em>Formula List</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.be.graphbt.model.graphbt.BEModel#getFormulaList <em>Formula List</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Formula List</em>'.
+	 * @return the meta object for the containment reference '<em>Formula List</em>'.
 	 * @see org.be.graphbt.model.graphbt.BEModel#getFormulaList()
 	 * @see #getBEModel()
 	 * @generated
@@ -2074,10 +2074,10 @@ public interface GraphBTPackage extends EPackage {
 	EAttribute getComponent_Enumerated();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.be.graphbt.model.graphbt.Component#getUses <em>Uses</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.be.graphbt.model.graphbt.Component#getUses <em>Uses</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Uses</em>'.
+	 * @return the meta object for the containment reference list '<em>Uses</em>'.
 	 * @see org.be.graphbt.model.graphbt.Component#getUses()
 	 * @see #getComponent()
 	 * @generated
@@ -2931,7 +2931,7 @@ public interface GraphBTPackage extends EPackage {
 		EReference BE_MODEL__REQUIREMENT_LIST = eINSTANCE.getBEModel_RequirementList();
 
 		/**
-		 * The meta object literal for the '<em><b>Formula List</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Formula List</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -3265,7 +3265,7 @@ public interface GraphBTPackage extends EPackage {
 		EAttribute COMPONENT__ENUMERATED = eINSTANCE.getComponent_Enumerated();
 
 		/**
-		 * The meta object literal for the '<em><b>Uses</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Uses</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

@@ -133,7 +133,7 @@ public class GraphBTUtil {
 	public static final IColorConstant ERROR_COLOR =
 			new ColorConstant("D32121");	//red
 
-	public static void updateReversionNode(IDiagramEditor ds) {
+	public static void updateReversionNode(final IDiagramEditor ds) {
 		final Diagram d = ds.getDiagramTypeProvider().getDiagram();
 		if(reversionNode.size()==0) {
 			errorReversionNode.clear();
@@ -155,25 +155,32 @@ public class GraphBTUtil {
 					}
 					else
 					{
-						GraphBTUtil.errorReversionNode.remove(node);
-						if(node.getTraceabilityStatus().equals(TraceabilityStatus.DELETED.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
-						}
-						else if(node.getTraceabilityStatus().equals(TraceabilityStatus.IMPLIED.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.IMPLIED_BEHAVIOR_COLOR));
-						}
-						else if(node.getTraceabilityStatus().equals(TraceabilityStatus.MISSING.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.MISSING_BEHAVIOR_COLOR));
-						}
-						else if(node.getTraceabilityStatus().equals(TraceabilityStatus.UPDATED.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.UPDATED_BEHAVIOR_COLOR));
-						}
-						else if(node.getTraceabilityStatus().equals(TraceabilityStatus.DESIGN_REFINEMENT.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
-						}
-						else if(node.getTraceabilityStatus().equals(TraceabilityStatus.ORIGINAL.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ORIGINAL_BEHAVIOR_COLOR));
-						}
+						RecordingCommand cmds = new RecordingCommand(ds.getEditingDomain(),"nope") {
+							protected void doExecute() {
+								GraphBTUtil.errorReversionNode.remove(node);
+								if(node.getTraceabilityStatus().equals(TraceabilityStatus.DELETED.getLiteral())) {
+									rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
+								}
+								else if(node.getTraceabilityStatus().equals(TraceabilityStatus.IMPLIED.getLiteral())) {
+									rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.IMPLIED_BEHAVIOR_COLOR));
+								}
+								else if(node.getTraceabilityStatus().equals(TraceabilityStatus.MISSING.getLiteral())) {
+									rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.MISSING_BEHAVIOR_COLOR));
+								}
+								else if(node.getTraceabilityStatus().equals(TraceabilityStatus.UPDATED.getLiteral())) {
+									rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.UPDATED_BEHAVIOR_COLOR));
+								}
+								else if(node.getTraceabilityStatus().equals(TraceabilityStatus.DESIGN_REFINEMENT.getLiteral())) {
+									rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
+								}
+								else if(node.getTraceabilityStatus().equals(TraceabilityStatus.ORIGINAL.getLiteral())) {
+									rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ORIGINAL_BEHAVIOR_COLOR));
+								}
+							}
+						};
+						TransactionalEditingDomain f = ds.getEditingDomain();
+						f.getCommandStack().execute(cmds);
+						
 					}
 				}
 			}
@@ -250,11 +257,6 @@ public class GraphBTUtil {
 		}
 		BEModel beModel = GraphBTUtil.getBEFactory().createBEModel();
 		beModel.setName("BTPackage");
-		beModel.setComponentList(GraphBTUtil.getBEFactory().createComponentList());
-		beModel.setDbt(GraphBTUtil.getBEFactory().createBehaviorTree());
-		beModel.setRequirementList(GraphBTUtil.getBEFactory().createRequirementList());
-		beModel.setLibraries(GraphBTUtil.getBEFactory().createLibraries());
-		//d.eResource().getContents().add(beModel);
 		try {
 			saveToModelFile(beModel,d);
 

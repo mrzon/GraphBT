@@ -207,7 +207,7 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	protected boolean enumerated = ENUMERATED_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getUses() <em>Uses</em>}' reference list.
+	 * The cached value of the '{@link #getUses() <em>Uses</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getUses()
@@ -433,7 +433,7 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	 */
 	public EList<Library> getUses() {
 		if (uses == null) {
-			uses = new EObjectResolvingEList<Library>(Library.class, this, GraphBTPackage.COMPONENT__USES);
+			uses = new EObjectContainmentEList<Library>(Library.class, this, GraphBTPackage.COMPONENT__USES);
 		}
 		return uses;
 	}
@@ -463,6 +463,8 @@ public class ComponentImpl extends EObjectImpl implements Component {
 				return ((InternalEList<?>)getState()).basicRemove(otherEnd, msgs);
 			case GraphBTPackage.COMPONENT__BEHAVIORS:
 				return ((InternalEList<?>)getBehaviors()).basicRemove(otherEnd, msgs);
+			case GraphBTPackage.COMPONENT__USES:
+				return ((InternalEList<?>)getUses()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}

@@ -12,7 +12,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="requirementList" lowerBound="1"
         eType="#//RequirementList" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="formulaList" lowerBound="1"
-        eType="#//FormulaList"/>
+        eType="#//FormulaList" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="libraries" lowerBound="1"
         eType="#//Libraries" containment="true"/>
   </eClassifiers>
@@ -118,7 +118,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="componentRef" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="componentDesc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="enumerated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" upperBound="-1" eType="#//Library"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" upperBound="-1" eType="#//Library"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Attribute">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

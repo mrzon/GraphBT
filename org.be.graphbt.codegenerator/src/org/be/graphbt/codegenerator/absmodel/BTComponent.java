@@ -6,7 +6,11 @@ package org.be.graphbt.codegenerator.absmodel;
  */
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 public class BTComponent {
     private ArrayList<BTBehavior> behaviorList = new ArrayList<BTBehavior>();
     private Set<ABSVariable> set = new HashSet<ABSVariable> ();

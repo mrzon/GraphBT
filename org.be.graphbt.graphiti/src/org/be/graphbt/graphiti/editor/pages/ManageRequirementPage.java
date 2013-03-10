@@ -83,10 +83,11 @@ public class ManageRequirementPage extends Composite{
 		listRequirements.setLayoutData(gridData);
 
 		listRequirements.removeAll();		
+		if(GraphBTUtil.getBEModel(d).getRequirementList()!=null) {
 		for(Requirement requirement: GraphBTUtil.getBEModel(d).getRequirementList().getRequirements()) {
 			listRequirements.add(requirement.getKey());
 		}	
-
+		}
 		/*
 		 * Group
 		 */

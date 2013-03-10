@@ -203,16 +203,15 @@ public class ParameterImpl extends EObjectImpl implements Parameter {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer();
 		result.append(type);
 		result.append(' ');
 		result.append(name);
+
 		return result.toString();
 	}
 

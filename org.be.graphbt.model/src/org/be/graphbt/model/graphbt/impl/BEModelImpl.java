@@ -10,6 +10,7 @@ import org.be.graphbt.model.graphbt.BEModel;
 import org.be.graphbt.model.graphbt.BehaviorTree;
 import org.be.graphbt.model.graphbt.ComponentList;
 import org.be.graphbt.model.graphbt.FormulaList;
+import org.be.graphbt.model.graphbt.GraphBTFactory;
 import org.be.graphbt.model.graphbt.GraphBTPackage;
 import org.be.graphbt.model.graphbt.Libraries;
 import org.be.graphbt.model.graphbt.RequirementList;
@@ -93,7 +94,7 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	protected RequirementList requirementList;
 
 	/**
-	 * The cached value of the '{@link #getFormulaList() <em>Formula List</em>}' reference.
+	 * The cached value of the '{@link #getFormulaList() <em>Formula List</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getFormulaList()
@@ -134,9 +135,11 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public BehaviorTree getDbt() {
+		if(dbt==null) {
+			dbt = GraphBTFactory.eINSTANCE.createBehaviorTree();
+		}
 		return dbt;
 	}
 
@@ -198,9 +201,11 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public ComponentList getComponentList() {
+		if(componentList == null) {
+			componentList = GraphBTFactory.eINSTANCE.createComponentList();
+		}
 		return componentList;
 	}
 
@@ -241,9 +246,11 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public RequirementList getRequirementList() {
+		if(requirementList==null) {
+			requirementList = GraphBTFactory.eINSTANCE.createRequirementList();
+		}
 		return requirementList;
 	}
 
@@ -284,7 +291,6 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public FormulaList getFormulaList() {
 		if (formulaList != null && formulaList.eIsProxy()) {
@@ -295,6 +301,9 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GraphBTPackage.BE_MODEL__FORMULA_LIST, oldFormulaList, formulaList));
 			}
 		}
+		if(formulaList == null) {
+			formulaList = GraphBTFactory.eINSTANCE.createFormulaList();
+		}
 		return formulaList;
 	}
 
@@ -303,8 +312,14 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public FormulaList basicGetFormulaList() {
-		return formulaList;
+	public NotificationChain basicSetFormulaList(FormulaList newFormulaList, NotificationChain msgs) {
+		FormulaList oldFormulaList = formulaList;
+		formulaList = newFormulaList;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GraphBTPackage.BE_MODEL__FORMULA_LIST, oldFormulaList, newFormulaList);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -313,18 +328,27 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * @generated
 	 */
 	public void setFormulaList(FormulaList newFormulaList) {
-		FormulaList oldFormulaList = formulaList;
-		formulaList = newFormulaList;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GraphBTPackage.BE_MODEL__FORMULA_LIST, oldFormulaList, formulaList));
+		if (newFormulaList != formulaList) {
+			NotificationChain msgs = null;
+			if (formulaList != null)
+				msgs = ((InternalEObject)formulaList).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - GraphBTPackage.BE_MODEL__FORMULA_LIST, null, msgs);
+			if (newFormulaList != null)
+				msgs = ((InternalEObject)newFormulaList).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - GraphBTPackage.BE_MODEL__FORMULA_LIST, null, msgs);
+			msgs = basicSetFormulaList(newFormulaList, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GraphBTPackage.BE_MODEL__FORMULA_LIST, newFormulaList, newFormulaList));
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public Libraries getLibraries() {
+		if(libraries==null) {
+			libraries = GraphBTFactory.eINSTANCE.createLibraries();
+		}
 		return libraries;
 	}
 
@@ -376,6 +400,8 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return basicSetComponentList(null, msgs);
 			case GraphBTPackage.BE_MODEL__REQUIREMENT_LIST:
 				return basicSetRequirementList(null, msgs);
+			case GraphBTPackage.BE_MODEL__FORMULA_LIST:
+				return basicSetFormulaList(null, msgs);
 			case GraphBTPackage.BE_MODEL__LIBRARIES:
 				return basicSetLibraries(null, msgs);
 		}
@@ -399,8 +425,7 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 			case GraphBTPackage.BE_MODEL__REQUIREMENT_LIST:
 				return getRequirementList();
 			case GraphBTPackage.BE_MODEL__FORMULA_LIST:
-				if (resolve) return getFormulaList();
-				return basicGetFormulaList();
+				return getFormulaList();
 			case GraphBTPackage.BE_MODEL__LIBRARIES:
 				return getLibraries();
 		}
@@ -501,7 +526,9 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer();
+		if(this.requirementList!=null)
 		result.append(this.requirementList.toString());
+		if(this.componentList!=null)
 		result.append(this.componentList.toString());
 		
 		return result.toString();

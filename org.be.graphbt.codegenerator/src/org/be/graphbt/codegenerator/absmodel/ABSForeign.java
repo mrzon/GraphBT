@@ -4,11 +4,6 @@
  */
 package org.be.graphbt.codegenerator.absmodel;
 
-import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.be.graphbt.common.ProjectUtil;
 
 /**
  *

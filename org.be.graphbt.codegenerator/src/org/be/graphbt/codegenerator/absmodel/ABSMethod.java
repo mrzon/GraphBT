@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package org.be.graphbt.codegenerator.absmodel;
-import java.util.*;
+import java.util.ArrayList;
 /**
  *
  * @author Emerson

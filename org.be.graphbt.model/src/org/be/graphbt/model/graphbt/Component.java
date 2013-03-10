@@ -258,7 +258,7 @@ public interface Component extends EObject {
 	void setEnumerated(boolean value);
 
 	/**
-	 * Returns the value of the '<em><b>Uses</b></em>' reference list.
+	 * Returns the value of the '<em><b>Uses</b></em>' containment reference list.
 	 * The list contents are of type {@link org.be.graphbt.model.graphbt.Library}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -266,9 +266,9 @@ public interface Component extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Uses</em>' reference list.
+	 * @return the value of the '<em>Uses</em>' containment reference list.
 	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getComponent_Uses()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<Library> getUses();

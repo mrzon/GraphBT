@@ -145,7 +145,7 @@ public class ABSStatement {
     public String toString() {
     	String str = stmnt;
     	System.out.println("hh "+str);
-    	if(stmnt.length()>1)
+    	if(stmnt!=null&&stmnt.length()>1)
         return stmnt+(stmnt.endsWith(";")?"":";")+"\n";
     	return "";
     }

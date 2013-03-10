@@ -61,8 +61,9 @@ public class AddCodeFirstPageGraphBTWizard extends WizardPage {
 			varList.add(att.toString());
 		}
 		for(Library att: c.getUses()) {
+			String var = att.getName().toLowerCase()+"_var";
 			for(MethodDeclaration md: att.getMethods()) {
-				varList.add(md.toString());
+				varList.add(var+":"+md.toString());
 			}
 		}
 		

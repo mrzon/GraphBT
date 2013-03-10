@@ -135,26 +135,26 @@ public interface BEModel extends EObject {
 	void setRequirementList(RequirementList value);
 
 	/**
-	 * Returns the value of the '<em><b>Formula List</b></em>' reference.
+	 * Returns the value of the '<em><b>Formula List</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Formula List</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Formula List</em>' reference.
+	 * @return the value of the '<em>Formula List</em>' containment reference.
 	 * @see #setFormulaList(FormulaList)
 	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getBEModel_FormulaList()
-	 * @model required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
 	FormulaList getFormulaList();
 
 	/**
-	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.BEModel#getFormulaList <em>Formula List</em>}' reference.
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.BEModel#getFormulaList <em>Formula List</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Formula List</em>' reference.
+	 * @param value the new value of the '<em>Formula List</em>' containment reference.
 	 * @see #getFormulaList()
 	 * @generated
 	 */
