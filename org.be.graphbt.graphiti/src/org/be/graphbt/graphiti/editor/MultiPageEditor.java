@@ -25,13 +25,16 @@ import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.graphiti.editor.pages.ManageComponentPage;
 import org.be.graphbt.graphiti.editor.pages.ManageLibraryPage;
 import org.be.graphbt.graphiti.editor.pages.ManageRequirementPage;
+import org.be.graphbt.model.graphbt.BEModel;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -175,6 +178,23 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	 */
 	public void doSave(IProgressMonitor monitor) {
 		if(getActiveEditor() instanceof DiagramEditor) {
+			DiagramEditor dEditor = ((DiagramEditor)getActiveEditor());
+			final Diagram d = dEditor.getDiagramTypeProvider().getDiagram();
+			dEditor.getEditingDomain().getCommandStack().execute(new RecordingCommand (dEditor.getEditingDomain(),"Save reversion node Information") {
+
+				@Override
+				protected void doExecute() {
+					// TODO Auto-generated method stub
+					BEModel model = GraphBTUtil.getBEModel(d);
+					model.getReversionNode().clear();
+					model.getErrorReversionNode().clear();
+					model.setReversionNode(GraphBTUtil.reversionNode);
+					model.setErrorReversionNode(GraphBTUtil.errorReversionNode);
+				}
+				
+			});
+			
+			
 			getActiveEditor().doSave(monitor);	
 		}
 	}

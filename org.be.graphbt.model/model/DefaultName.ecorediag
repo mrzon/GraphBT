@@ -1028,7 +1028,7 @@
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_Ms24AM9YEeGfmfNCE9H6gg" type="3002" source="_QwVw0JIpEeGNAeT231rMGw" target="_9QWtwM9XEeGfmfNCE9H6gg">
     <children xmi:type="notation:Node" xmi:id="_Ms3fEM9YEeGfmfNCE9H6gg" type="4011">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_Ms3fEc9YEeGfmfNCE9H6gg" x="-30" y="-12"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Ms3fEc9YEeGfmfNCE9H6gg" x="-30" y="-36"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_Ms3fEs9YEeGfmfNCE9H6gg" type="4012">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_Ms3fE89YEeGfmfNCE9H6gg" x="-29" y="12"/>
@@ -1220,5 +1220,31 @@
     <styles xmi:type="notation:FontStyle" xmi:id="_MWcQIodEEeKzysEPHlh3UA" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
     <element xmi:type="ecore:EReference" href="DefaultName.ecore#//MethodDeclaration/parameters"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_MWcQI4dEEeKzysEPHlh3UA" points="[5, 25, 15, -56]$[47, 79, 57, -2]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_R_zAkIu-EeKHa8HPcVCoZA" type="3002" source="_QwVw0JIpEeGNAeT231rMGw" target="_dTOykJKKEeGjCcMKQlqTfg">
+    <children xmi:type="notation:Node" xmi:id="_R_1c0Iu-EeKHa8HPcVCoZA" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_R_1c0Yu-EeKHa8HPcVCoZA" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_R_2D4Iu-EeKHa8HPcVCoZA" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_R_2D4Yu-EeKHa8HPcVCoZA" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_R_zAkYu-EeKHa8HPcVCoZA" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_R_zAkou-EeKHa8HPcVCoZA" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="DefaultName.ecore#//BEModel/reversionNode"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_R_zAk4u-EeKHa8HPcVCoZA" points="[101, -10, 408, -409]$[132, -12, 439, -411]$[132, -48, 439, -447]$[-420, -48, -113, -447]$[-420, 399, -113, 0]$[-396, 399, -89, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_R_9_sIu-EeKHa8HPcVCoZA" id="(0.11304347826086956,0.49019607843137253)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_OSr40IvCEeKHa8HPcVCoZA" type="3002" source="_QwVw0JIpEeGNAeT231rMGw" target="_dTOykJKKEeGjCcMKQlqTfg">
+    <children xmi:type="notation:Node" xmi:id="_OSr41IvCEeKHa8HPcVCoZA" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_OSr41YvCEeKHa8HPcVCoZA" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_OSr41ovCEeKHa8HPcVCoZA" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_OSr414vCEeKHa8HPcVCoZA" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_OSr40YvCEeKHa8HPcVCoZA" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_OSr40ovCEeKHa8HPcVCoZA" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="DefaultName.ecore#//BEModel/errorReversionNode"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_OSr404vCEeKHa8HPcVCoZA" points="[-29, 25, 321, -333]$[-56, 48, 294, -310]$[-452, 48, -102, -310]$[-452, 336, -102, -22]$[-440, 338, -90, -20]"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_OSuVEIvCEeKHa8HPcVCoZA" id="(0.5082872928176796,0.22875816993464052)"/>
   </edges>
 </notation:Diagram>

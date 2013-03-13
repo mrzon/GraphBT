@@ -39,6 +39,7 @@ import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.Branch;
 import org.be.graphbt.model.graphbt.Component;
 import org.be.graphbt.model.graphbt.Edge;
+import org.be.graphbt.graphiti.AccessoryUtil;
 import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.model.graphbt.Operator;
 import org.be.graphbt.model.graphbt.OperatorClass;
@@ -231,7 +232,7 @@ implements ITabbedPropertyConstants {
 							WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 									getActiveWorkbenchWindow().getShell(),
 									new ManageComponentsGraphBTWizard(d));
-							if(wizardDialog.open() != Window.OK)
+							if(wizardDialog.open() == Window.OK)
 							{
 								return;
 							}
@@ -254,11 +255,12 @@ implements ITabbedPropertyConstants {
 
 				behaviorCombo.removeAll();
 
-				if(c!=null)
+				if(c!=null) {
 					for(Behavior behavior: c.getBehaviors()) {
 						behaviorCombo.add(behavior.toString());
 					}
-
+					behaviorCombo.setText(behaviorCombo.getItem(0));
+				}
 			}
 		});
 		behaviorCombo.addSelectionListener(new SelectionAdapter() {
@@ -358,35 +360,17 @@ implements ITabbedPropertyConstants {
 
 				final ContainerShape cs = (ContainerShape) pe;
 
-				final Command cmd2 = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+				final RecordingCommand cmd2 = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 					protected void doExecute() {
 						final Rectangle rectangle = (Rectangle) cs.getGraphicsAlgorithm();
 
 						Edge edge = node.getEdge();
 
 						if(edge != null && node.getOperator().equals(Operator.REVERSION.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ERROR_COLOR));
+							rectangle.setBackground(Graphiti.getGaService().manageColor(d, AccessoryUtil.ERROR_COLOR));
 							return;
 						}
-
-						if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.DELETED.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
-						}
-						else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.IMPLIED.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.IMPLIED_BEHAVIOR_COLOR));
-						}
-						else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.MISSING.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.MISSING_BEHAVIOR_COLOR));
-						}
-						else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.UPDATED.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.UPDATED_BEHAVIOR_COLOR));
-						}
-						else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.DESIGN_REFINEMENT.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
-						}
-						else if(TraceabilityStatus.getByName(selected).getLiteral().equals(TraceabilityStatus.ORIGINAL.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ORIGINAL_BEHAVIOR_COLOR));
-						}
+						rectangle.setBackground(Graphiti.getGaService().manageColor(d, AccessoryUtil.getNormalColor(node)));
 					}
 				};
 				ds.getEditingDomain().getCommandStack().execute(cmd2);
@@ -430,7 +414,7 @@ implements ITabbedPropertyConstants {
 
 				final ContainerShape cs = (ContainerShape)pe;
 
-				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Change Branch") {
 					protected void doExecute() {
 						edge.setBranch(Branch.getByName(selected));
 					}
@@ -455,18 +439,21 @@ implements ITabbedPropertyConstants {
 				CCombo combo = (CCombo)e.widget;
 				final String selected = combo.getItem(combo.getSelectionIndex());
 				PictogramElement pe = getSelectedPictogramElement();
+				if(!(pe instanceof ContainerShape))
+					return;
+
 				Object ob = Graphiti.getLinkService()
 						.getBusinessObjectForLinkedPictogramElement(pe);
 				if(!(ob instanceof StandardNode))
 					return;
 				final StandardNode node = (StandardNode) ob;
-				GraphBTUtil.reversionNode.remove(node);
+				//GraphBTUtil.reversionNode.remove(node);
 				final String literal = Operator.getByName(selected).getLiteral();
 
-				if(literal.equals(Operator.REVERSION.getLiteral()))
-				{
-					GraphBTUtil.reversionNode.add(node);
-				}
+//				if(literal.equals(Operator.REVERSION.getLiteral()))
+//				{
+//					GraphBTUtil.reversionNode.add(node);
+//				}
 				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 					protected void doExecute() {
 						node.setOperator(literal);
@@ -474,9 +461,7 @@ implements ITabbedPropertyConstants {
 				};
 				ds.getEditingDomain().getCommandStack().execute(cmd);
 
-				if(!(pe instanceof ContainerShape))
-					return;
-
+				
 				final ContainerShape cs = (ContainerShape)pe;
 				final Command cmd2 = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 					protected void doExecute() {
@@ -485,28 +470,10 @@ implements ITabbedPropertyConstants {
 						Edge edge = node.getEdge();
 
 						if(edge != null && node.getOperator().equals(Operator.REVERSION.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ERROR_COLOR));
+							rectangle.setBackground(Graphiti.getGaService().manageColor(d, AccessoryUtil.ERROR_COLOR));
 							return;
 						}
-
-						if(node.getTraceabilityStatus().equals(TraceabilityStatus.DELETED.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
-						}
-						else if(node.getTraceabilityStatus().equals(TraceabilityStatus.IMPLIED.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.IMPLIED_BEHAVIOR_COLOR));
-						}
-						else if(node.getTraceabilityStatus().equals(TraceabilityStatus.MISSING.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.MISSING_BEHAVIOR_COLOR));
-						}
-						else if(node.getTraceabilityStatus().equals(TraceabilityStatus.UPDATED.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.UPDATED_BEHAVIOR_COLOR));
-						}
-						else if(node.getTraceabilityStatus().equals(TraceabilityStatus.DESIGN_REFINEMENT.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
-						}
-						else if(node.getTraceabilityStatus().equals(TraceabilityStatus.ORIGINAL.getLiteral())) {
-							rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ORIGINAL_BEHAVIOR_COLOR));
-						}
+						rectangle.setBackground(Graphiti.getGaService().manageColor(d, AccessoryUtil.getNormalColor(node)));
 					}
 				};
 				ds.getEditingDomain().getCommandStack().execute(cmd2);
@@ -514,7 +481,6 @@ implements ITabbedPropertyConstants {
 				Iterator<Shape> s = cs.getChildren().iterator();
 				while(s.hasNext()) {
 					Shape n = s.next();
-
 					Object bo = Graphiti.getLinkService()
 							.getBusinessObjectForLinkedPictogramElement((PictogramElement)n);
 					if(bo instanceof OperatorClass)
@@ -523,7 +489,6 @@ implements ITabbedPropertyConstants {
 				refresh();
 			}
 		});
-		refresh();
 	}
 
 	/**
@@ -536,36 +501,30 @@ implements ITabbedPropertyConstants {
 	protected void updatePictogramElement(PictogramElement pe) {
 		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		DiagramEditor ds;
-
 		if(page.getActiveEditor() instanceof DiagramEditor) {
 			ds = (DiagramEditor)page.getActiveEditor();	
 		}
 		else {
 			ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
 		}
-
 		UpdateContext context = new UpdateContext(pe);
 		ds.getDiagramTypeProvider().getFeatureProvider().updateIfPossible(context);
 
 	}
 
 	@Override
-	public void refresh() throws RuntimeException{
+	public synchronized void  refresh() throws RuntimeException{
 		PictogramElement pe = getSelectedPictogramElement();
 
 		if (pe != null) {
 			Object bo = Graphiti.getLinkService()
 					.getBusinessObjectForLinkedPictogramElement(pe);
-
 			if (bo == null)
 				return;
-
 			if(!(bo instanceof StandardNode)) {
 				return;
 			}
-
 			final StandardNode node = (StandardNode) bo;
-
 			StandardNode sn = (StandardNode) bo;
 			Edge edge = sn.getEdge();
 			if(edge == null) {
@@ -634,12 +593,38 @@ implements ITabbedPropertyConstants {
 				behaviorCombo.setText(behaviorString);
 				statusCombo.setText(statusString);
 				operatorCombo.setText(operatorString);
-
-				if(operatorString.equals("^")&&!GraphBTUtil.reversionNode.contains(node))
+				int sizeBefore = GraphBTUtil.reversionNode.size();
+				if(operatorString.equals("^"))
 				{
-					GraphBTUtil.reversionNode.add(node);
+				//	GraphBTUtil.reversionNode.add(node);
+				//	GraphBTUtil.updateReversionNode(ds);
 				}
-				GraphBTUtil.updateReversionNode(ds);
+				int sizeAfter = GraphBTUtil.reversionNode.size();
+				//if(sizeBefore != sizeAfter) {
+				
+				if(operatorString.equals("^")) {
+					if(!GraphBTUtil.reversionNode.contains(node)) {
+						GraphBTUtil.reversionNode.add(node);
+					}
+					edge = node.getEdge();
+					if(edge != null || GraphBTUtil.getAncestor(node)==null) {
+						GraphBTUtil.errorReversionNode.add(node);
+					}
+					else {
+						GraphBTUtil.errorReversionNode.remove(node);
+					}
+				} else {
+					GraphBTUtil.reversionNode.remove(node);
+					GraphBTUtil.errorReversionNode.remove(node);
+				}
+//
+				System.out.println("di standardnode adapter: "+GraphBTUtil.errorReversionNode.size()+" "+GraphBTUtil.reversionNode.size());
+				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+					protected void doExecute() {
+						GraphBTUtil.updateReversionNode(ds);
+					}
+				};
+				ds.getEditingDomain().getCommandStack().execute(cmd);
 			}
 		}
 	}

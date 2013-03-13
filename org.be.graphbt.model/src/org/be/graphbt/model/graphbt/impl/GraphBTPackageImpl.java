@@ -474,6 +474,24 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getBEModel_ReversionNode() {
+		return (EReference)beModelEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBEModel_ErrorReversionNode() {
+		return (EReference)beModelEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBehaviorTree() {
 		return behaviorTreeEClass;
 	}
@@ -1521,6 +1539,8 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		createEReference(beModelEClass, BE_MODEL__REQUIREMENT_LIST);
 		createEReference(beModelEClass, BE_MODEL__FORMULA_LIST);
 		createEReference(beModelEClass, BE_MODEL__LIBRARIES);
+		createEReference(beModelEClass, BE_MODEL__REVERSION_NODE);
+		createEReference(beModelEClass, BE_MODEL__ERROR_REVERSION_NODE);
 
 		behaviorTreeEClass = createEClass(BEHAVIOR_TREE);
 		createEReference(behaviorTreeEClass, BEHAVIOR_TREE__ROOT_NODE);
@@ -1713,6 +1733,8 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		initEReference(getBEModel_RequirementList(), this.getRequirementList(), null, "requirementList", null, 1, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBEModel_FormulaList(), this.getFormulaList(), null, "formulaList", null, 1, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBEModel_Libraries(), this.getLibraries(), null, "libraries", null, 1, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBEModel_ReversionNode(), this.getStandardNode(), null, "reversionNode", null, 0, -1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBEModel_ErrorReversionNode(), this.getStandardNode(), null, "errorReversionNode", null, 0, -1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(behaviorTreeEClass, BehaviorTree.class, "BehaviorTree", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBehaviorTree_RootNode(), this.getNode(), null, "rootNode", null, 1, 1, BehaviorTree.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

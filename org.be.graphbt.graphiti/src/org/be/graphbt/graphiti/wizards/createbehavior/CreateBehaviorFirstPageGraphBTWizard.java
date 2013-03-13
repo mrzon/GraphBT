@@ -148,6 +148,7 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 			behaviorRefText.setEnabled(false);
 			dialogChanged();
 		}
+		
 		behaviorTypeCombo.addSelectionListener(new SelectionAdapter() {
 		    public void widgetSelected(SelectionEvent e) {
 		    	Combo combo = (Combo)e.widget;
@@ -161,6 +162,7 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 		    	dialogChanged();
 		    }
 	    });
+		
 		// Required to avoid an error in the system
 		setControl(container);
 		setPageComplete(false);

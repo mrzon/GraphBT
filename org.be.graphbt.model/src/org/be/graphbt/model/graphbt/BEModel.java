@@ -6,6 +6,10 @@
  */
 package org.be.graphbt.model.graphbt;
 
+import org.eclipse.emf.common.util.EList;
+import java.util.List;
+import java.util.Set;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -22,6 +26,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.be.graphbt.model.graphbt.BEModel#getRequirementList <em>Requirement List</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.BEModel#getFormulaList <em>Formula List</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.BEModel#getLibraries <em>Libraries</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.BEModel#getReversionNode <em>Reversion Node</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.BEModel#getErrorReversionNode <em>Error Reversion Node</em>}</li>
  * </ul>
  * </p>
  *
@@ -185,5 +191,41 @@ public interface BEModel extends EObject {
 	 * @generated
 	 */
 	void setLibraries(Libraries value);
+
+	/**
+	 * Returns the value of the '<em><b>Reversion Node</b></em>' reference list.
+	 * The list contents are of type {@link org.be.graphbt.model.graphbt.StandardNode}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Reversion Node</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Reversion Node</em>' reference list.
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getBEModel_ReversionNode()
+	 * @model
+	 * @generated
+	 */
+	EList<StandardNode> getReversionNode();
+
+	/**
+	 * Returns the value of the '<em><b>Error Reversion Node</b></em>' reference list.
+	 * The list contents are of type {@link org.be.graphbt.model.graphbt.StandardNode}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Error Reversion Node</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Error Reversion Node</em>' reference list.
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getBEModel_ErrorReversionNode()
+	 * @model
+	 * @generated
+	 */
+	EList<StandardNode> getErrorReversionNode();
+
+	void setReversionNode(List<StandardNode> reversionnode);
+
+	void setErrorReversionNode(Set<StandardNode> errorReversionNode);
 
 } // BEModel

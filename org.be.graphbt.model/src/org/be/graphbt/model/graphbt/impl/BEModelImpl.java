@@ -6,6 +6,10 @@
  */
 package org.be.graphbt.model.graphbt.impl;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
 import org.be.graphbt.model.graphbt.BEModel;
 import org.be.graphbt.model.graphbt.BehaviorTree;
 import org.be.graphbt.model.graphbt.ComponentList;
@@ -14,15 +18,18 @@ import org.be.graphbt.model.graphbt.GraphBTFactory;
 import org.be.graphbt.model.graphbt.GraphBTPackage;
 import org.be.graphbt.model.graphbt.Libraries;
 import org.be.graphbt.model.graphbt.RequirementList;
+import org.be.graphbt.model.graphbt.StandardNode;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,6 +44,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.be.graphbt.model.graphbt.impl.BEModelImpl#getRequirementList <em>Requirement List</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.impl.BEModelImpl#getFormulaList <em>Formula List</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.impl.BEModelImpl#getLibraries <em>Libraries</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.BEModelImpl#getReversionNode <em>Reversion Node</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.BEModelImpl#getErrorReversionNode <em>Error Reversion Node</em>}</li>
  * </ul>
  * </p>
  *
@@ -112,6 +121,26 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * @ordered
 	 */
 	protected Libraries libraries;
+
+	/**
+	 * The cached value of the '{@link #getReversionNode() <em>Reversion Node</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getReversionNode()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<StandardNode> reversionNode;
+
+	/**
+	 * The cached value of the '{@link #getErrorReversionNode() <em>Error Reversion Node</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getErrorReversionNode()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<StandardNode> errorReversionNode;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -391,6 +420,30 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<StandardNode> getReversionNode() {
+		if (reversionNode == null) {
+			reversionNode = new EObjectResolvingEList<StandardNode>(StandardNode.class, this, GraphBTPackage.BE_MODEL__REVERSION_NODE);
+		}
+		return reversionNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<StandardNode> getErrorReversionNode() {
+		if (errorReversionNode == null) {
+			errorReversionNode = new EObjectResolvingEList<StandardNode>(StandardNode.class, this, GraphBTPackage.BE_MODEL__ERROR_REVERSION_NODE);
+		}
+		return errorReversionNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -428,6 +481,10 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return getFormulaList();
 			case GraphBTPackage.BE_MODEL__LIBRARIES:
 				return getLibraries();
+			case GraphBTPackage.BE_MODEL__REVERSION_NODE:
+				return getReversionNode();
+			case GraphBTPackage.BE_MODEL__ERROR_REVERSION_NODE:
+				return getErrorReversionNode();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -437,6 +494,7 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -457,6 +515,14 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return;
 			case GraphBTPackage.BE_MODEL__LIBRARIES:
 				setLibraries((Libraries)newValue);
+				return;
+			case GraphBTPackage.BE_MODEL__REVERSION_NODE:
+				getReversionNode().clear();
+				getReversionNode().addAll((Collection<? extends StandardNode>)newValue);
+				return;
+			case GraphBTPackage.BE_MODEL__ERROR_REVERSION_NODE:
+				getErrorReversionNode().clear();
+				getErrorReversionNode().addAll((Collection<? extends StandardNode>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -488,6 +554,12 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 			case GraphBTPackage.BE_MODEL__LIBRARIES:
 				setLibraries((Libraries)null);
 				return;
+			case GraphBTPackage.BE_MODEL__REVERSION_NODE:
+				getReversionNode().clear();
+				return;
+			case GraphBTPackage.BE_MODEL__ERROR_REVERSION_NODE:
+				getErrorReversionNode().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -512,6 +584,10 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return formulaList != null;
 			case GraphBTPackage.BE_MODEL__LIBRARIES:
 				return libraries != null;
+			case GraphBTPackage.BE_MODEL__REVERSION_NODE:
+				return reversionNode != null && !reversionNode.isEmpty();
+			case GraphBTPackage.BE_MODEL__ERROR_REVERSION_NODE:
+				return errorReversionNode != null && !errorReversionNode.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -532,6 +608,16 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 		result.append(this.componentList.toString());
 		
 		return result.toString();
+	}
+
+	@Override
+	public void setReversionNode(List<StandardNode> reversionnode) {
+		this.getReversionNode().addAll(reversionnode);
+	}
+
+	@Override
+	public void setErrorReversionNode(Set<StandardNode> errorReversionNode) {
+		this.getErrorReversionNode().addAll(errorReversionNode);
 	}
 
 } //BEModelImpl

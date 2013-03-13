@@ -23,6 +23,7 @@ import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.Branch;
 import org.be.graphbt.model.graphbt.Component;
 import org.be.graphbt.graphiti.GraphBTUtil;
+import org.be.graphbt.graphiti.adapter.StandardNodeAdapter;
 import org.be.graphbt.model.graphbt.Operator;
 import org.be.graphbt.model.graphbt.OperatorClass;
 import org.be.graphbt.model.graphbt.Requirement;
@@ -107,7 +108,7 @@ IAddFeature {
         gaService.setLocationAndSize(rectangle, x, y, width, height);
         
         link(containerShape, node);
-
+        node.eAdapters().add(new StandardNodeAdapter());
         // SHAPE FOR LINE
         {
             // create shape for line
@@ -215,7 +216,8 @@ IAddFeature {
             OperatorClass oc = GraphBTUtil.getOperator(getDiagram(), node.getOperator());
             shapeOperator.setActive(false);
             if(oc.getOperatorLiteral().equals(Operator.REVERSION.getLiteral())) {
-            	rectangle.setBackground(manageColor(GraphBTUtil.ERROR_COLOR));
+            	GraphBTUtil.reversionNode.add(node);
+            	GraphBTUtil.errorReversionNode.add(node);
             }
             link(shapeOperator, oc);
         }
@@ -250,43 +252,8 @@ IAddFeature {
         
         peCreateService.createChopboxAnchor(containerShape);
         
-//        ChopboxAnchor chop = (ChopboxAnchor) containerShape.getAnchors().get(0);
-//        chop.getGraphicsAlgorithm().setX(width/2);
-//        chop.getGraphicsAlgorithm().setY(height);
-        // create an additional box relative anchor at middle-right
-//        final FixPointAnchor boxAnchor =
-//             peCreateService.createFixPointAnchor(containerShape);
-//      
-//        boxAnchor.setLocation(gaService.createPoint(width/2, height));
-//        boxAnchor.isUseAnchorLocationAsConnectionEndpoint();
-        
         layoutPictogramElement(containerShape);
-        if(node.getOperator().equals(Operator.REVERSION.getLiteral())) {
-			//GraphBTUtil.reversionNode.add(node);
-			//GraphBTUtil.errorReversionNode.add(node);
-		}
-//        // create an additional box relative anchor at middle-right
-//        final BoxRelativeAnchor boxAnchor =
-//             peCreateService.createBoxRelativeAnchor(containerShape);
-//      
-//        boxAnchor.setRelativeWidth(0.5);
-//        boxAnchor.setRelativeHeight(1.0);
-//  
-//        // anchor references visible rectangle instead of invisible rectangle
-//        boxAnchor.setReferencedGraphicsAlgorithm(rectangle);
-//  
-//        // assign a graphics algorithm for the box relative anchor
-//        Rectangle rect = gaService.createRectangle(boxAnchor);
-//        rect.setFilled(true);
-//  
-//        // anchor is located on the right border of the visible rectangle
-//        // and touches the border of the invisible rectangle
-//  
-//        int w = 6;
-//        gaService.setLocationAndSize(rect, -2 * w, -w, 2 * w, 2 * w);
-//        rect.setForeground(manageColor(E_CLASS_FOREGROUND));
-//        rect.setBackground(manageColor(E_CLASS_BACKGROUND));
-               
+        
         return containerShape;
     }
 }

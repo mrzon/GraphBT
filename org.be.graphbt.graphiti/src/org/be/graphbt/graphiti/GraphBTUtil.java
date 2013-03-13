@@ -84,6 +84,8 @@ import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
 import org.eclipse.graphiti.features.context.impl.DeleteContext;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
+import org.eclipse.graphiti.mm.algorithms.styles.Color;
+import org.eclipse.graphiti.mm.algorithms.styles.RenderingStyle;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
@@ -95,6 +97,7 @@ import org.eclipse.graphiti.tb.ContextButtonEntry;
 import org.eclipse.graphiti.tb.ContextEntryHelper;
 import org.eclipse.graphiti.tb.IContextButtonEntry;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
+import org.eclipse.graphiti.ui.internal.parts.PictogramElementDelegate;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.eclipse.m2m.atl.core.ATLCoreException;
@@ -114,80 +117,52 @@ import org.eclipse.ui.PlatformUI;
 public class GraphBTUtil {
 	public static final Set<StandardNode> errorReversionNode = new HashSet<StandardNode>();
 	public static final List<StandardNode> reversionNode = new ArrayList<StandardNode>();
-
-	public static final IColorConstant ORIGINAL_BEHAVIOR_COLOR =
-			new ColorConstant("99FF66");
-
-	public static final IColorConstant IMPLIED_BEHAVIOR_COLOR =
-			new ColorConstant("FFFF33");	//yellow
-
-	public static final IColorConstant MISSING_BEHAVIOR_COLOR =
-			new ColorConstant("FF6666");	//red
-
-	public static final IColorConstant UPDATED_BEHAVIOR_COLOR =
-			new ColorConstant("66CCFF");	//blue
-
-	public static final IColorConstant DELETED_BEHAVIOR_COLOR =
-			new ColorConstant("FFFFFF");	//white
-
-	public static final IColorConstant ERROR_COLOR =
-			new ColorConstant("D32121");	//red
-
+	
+	
 	public static void updateReversionNode(final IDiagramEditor ds) {
 		final Diagram d = ds.getDiagramTypeProvider().getDiagram();
+		System.out.println();
 		if(reversionNode.size()==0) {
 			errorReversionNode.clear();
+			return;
 		}
-		RecordingCommand cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
-			protected void doExecute() {
-				for(int i = 0; i < reversionNode.size(); i++) {
-					final StandardNode node = reversionNode.get(i);
+		System.out.println("di update revision: "+GraphBTUtil.errorReversionNode.size()+" "+GraphBTUtil.reversionNode.size());
+		
+		//RecordingCommand cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+			//protected void doExecute() {
+				ArrayList<StandardNode> list = new ArrayList<StandardNode>(errorReversionNode);
+				for(int i = 0; i < list.size(); i++) {
+					final StandardNode node = list.get(i);
+					if(Graphiti.getLinkService().getPictogramElements(d, node).size()==0) {
+						continue;
+					}
 					final PictogramElement pe = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
 					Edge edge = node.getEdge();
+					System.out.println("Edgenya nih "+edge+"Ancestornya nih "+GraphBTUtil.getAncestor(node));
 					final Rectangle rectangle = (Rectangle) pe.getGraphicsAlgorithm();
-					if(edge != null) {
-						rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ERROR_COLOR));
-						GraphBTUtil.errorReversionNode.add(node);
-					}
-					else if(GraphBTUtil.getAncestor(node)==null) {
-						rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ERROR_COLOR));
-						GraphBTUtil.errorReversionNode.add(node);
+					if(edge != null||GraphBTUtil.getAncestor(node)==null) {
+						Color ren = rectangle.getBackground();
+						if(!(ren.getBlue()==AccessoryUtil.ERROR_COLOR.getBlue()&&ren.getRed()==AccessoryUtil.ERROR_COLOR.getRed())) {
+							rectangle.setBackground(Graphiti.getGaService().manageColor(d, AccessoryUtil.ERROR_COLOR));
+						}
+						System.out.println(ren.toString());
 					}
 					else
 					{
-						RecordingCommand cmds = new RecordingCommand(ds.getEditingDomain(),"nope") {
-							protected void doExecute() {
-								GraphBTUtil.errorReversionNode.remove(node);
-								if(node.getTraceabilityStatus().equals(TraceabilityStatus.DELETED.getLiteral())) {
-									rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
-								}
-								else if(node.getTraceabilityStatus().equals(TraceabilityStatus.IMPLIED.getLiteral())) {
-									rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.IMPLIED_BEHAVIOR_COLOR));
-								}
-								else if(node.getTraceabilityStatus().equals(TraceabilityStatus.MISSING.getLiteral())) {
-									rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.MISSING_BEHAVIOR_COLOR));
-								}
-								else if(node.getTraceabilityStatus().equals(TraceabilityStatus.UPDATED.getLiteral())) {
-									rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.UPDATED_BEHAVIOR_COLOR));
-								}
-								else if(node.getTraceabilityStatus().equals(TraceabilityStatus.DESIGN_REFINEMENT.getLiteral())) {
-									rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.DELETED_BEHAVIOR_COLOR));
-								}
-								else if(node.getTraceabilityStatus().equals(TraceabilityStatus.ORIGINAL.getLiteral())) {
-									rectangle.setBackground(Graphiti.getGaService().manageColor(d, GraphBTUtil.ORIGINAL_BEHAVIOR_COLOR));
-								}
-							}
-						};
-						TransactionalEditingDomain f = ds.getEditingDomain();
-						f.getCommandStack().execute(cmds);
-						
-					}
+						GraphBTUtil.errorReversionNode.remove(node);
+						rectangle.setBackground(Graphiti.getGaService().manageColor(d, AccessoryUtil.getNormalColor(node)));
+						Color ren = rectangle.getBackground();
+						System.out.println(ren.toString());
+					}	//pe.getGraphicsAlgorithm().
 				}
-			}
-		};
-		TransactionalEditingDomain f = ds.getEditingDomain();
-		f.getCommandStack().execute(cmd);
+			//}
+		//};
+		//TransactionalEditingDomain f = ds.getEditingDomain();
+		//f.getCommandStack().execute(cmd);
+		System.out.println("setelah update: "+GraphBTUtil.errorReversionNode.size()+" "+GraphBTUtil.reversionNode.size());
+		
 	}
+	
 	/**
 	 * This method is used to get the BE factory
 	 * @return instance of Behavior Tree Factory
@@ -1340,6 +1315,9 @@ public class GraphBTUtil {
 	 * @param widthMap
 	 */
 	private static void applyTreeLayout(Diagram d, StandardNode node, int currentX, int currentY, HashMap<StandardNode,Integer> widthMap,HashMap<Integer,Integer> heightMap, int level) {
+		if(Graphiti.getLinkService().getPictogramElements(d, node).size()==0){
+			return;
+		}
 		PictogramElement rootP = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
 		final int width = widthMap.get(node);
 		final int height = heightMap.get(level);
@@ -1425,6 +1403,9 @@ public class GraphBTUtil {
 		if(node==null)
 			return 0;
 		if(Graphiti.getLinkService().getPictogramElements(d, node) != null && (node.getEdge() == null||node.getEdge()!=null&&node.getEdge().getChildNode().size()==0)) {
+			if(Graphiti.getLinkService().getPictogramElements(d, node).size()==0){
+				return 0;
+			}
 			PictogramElement rootP = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
 			map.put(node, rootP.getGraphicsAlgorithm().getWidth());
 			return rootP.getGraphicsAlgorithm().getWidth();
@@ -1449,7 +1430,7 @@ public class GraphBTUtil {
 	 */
 	private static int getHeight(Diagram d, StandardNode node, HashMap<Integer,Integer> map, int level) {
 
-		if(node==null)
+		if(node==null||Graphiti.getLinkService().getPictogramElements(d, node).size()==0)
 			return 0;
 		int height=Graphiti.getLinkService().getPictogramElements(d, node).get(0).getGraphicsAlgorithm().getHeight();
 

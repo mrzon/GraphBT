@@ -146,7 +146,8 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 		    	changeDialog();
 		     }
 	    });
-	    
+		operatorCombo.setText("NoOperator");
+		operatorCombo.setEnabled(false);
 	    traceabilityStatusCombo.addSelectionListener(new SelectionAdapter() {
 		    public void widgetSelected(SelectionEvent e) {
 		    	Combo combo = (Combo)e.widget;

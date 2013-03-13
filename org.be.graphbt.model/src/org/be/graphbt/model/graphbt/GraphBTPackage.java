@@ -125,13 +125,31 @@ public interface GraphBTPackage extends EPackage {
 	int BE_MODEL__LIBRARIES = 5;
 
 	/**
+	 * The feature id for the '<em><b>Reversion Node</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BE_MODEL__REVERSION_NODE = 6;
+
+	/**
+	 * The feature id for the '<em><b>Error Reversion Node</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BE_MODEL__ERROR_REVERSION_NODE = 7;
+
+	/**
 	 * The number of structural features of the '<em>BE Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BE_MODEL_FEATURE_COUNT = 6;
+	int BE_MODEL_FEATURE_COUNT = 8;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.BehaviorTreeImpl <em>Behavior Tree</em>}' class.
@@ -1663,6 +1681,28 @@ public interface GraphBTPackage extends EPackage {
 	EReference getBEModel_Libraries();
 
 	/**
+	 * Returns the meta object for the reference list '{@link org.be.graphbt.model.graphbt.BEModel#getReversionNode <em>Reversion Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Reversion Node</em>'.
+	 * @see org.be.graphbt.model.graphbt.BEModel#getReversionNode()
+	 * @see #getBEModel()
+	 * @generated
+	 */
+	EReference getBEModel_ReversionNode();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.be.graphbt.model.graphbt.BEModel#getErrorReversionNode <em>Error Reversion Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Error Reversion Node</em>'.
+	 * @see org.be.graphbt.model.graphbt.BEModel#getErrorReversionNode()
+	 * @see #getBEModel()
+	 * @generated
+	 */
+	EReference getBEModel_ErrorReversionNode();
+
+	/**
 	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.BehaviorTree <em>Behavior Tree</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2945,6 +2985,22 @@ public interface GraphBTPackage extends EPackage {
 		 * @generated
 		 */
 		EReference BE_MODEL__LIBRARIES = eINSTANCE.getBEModel_Libraries();
+
+		/**
+		 * The meta object literal for the '<em><b>Reversion Node</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BE_MODEL__REVERSION_NODE = eINSTANCE.getBEModel_ReversionNode();
+
+		/**
+		 * The meta object literal for the '<em><b>Error Reversion Node</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BE_MODEL__ERROR_REVERSION_NODE = eINSTANCE.getBEModel_ErrorReversionNode();
 
 		/**
 		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.BehaviorTreeImpl <em>Behavior Tree</em>}' class.
