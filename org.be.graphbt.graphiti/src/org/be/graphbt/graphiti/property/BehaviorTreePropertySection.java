@@ -544,13 +544,13 @@ implements ITabbedPropertyConstants {
 			}
 
 			IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			final DiagramEditor ds;
+			final GraphBTDiagramEditor ds;
 
-			if(page.getActiveEditor() instanceof DiagramEditor) {
-				ds = (DiagramEditor)page.getActiveEditor();	
+			if(page.getActiveEditor() instanceof GraphBTDiagramEditor) {
+				ds = (GraphBTDiagramEditor)page.getActiveEditor();	
 			}
 			else {
-				ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+				ds = (GraphBTDiagramEditor)((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
 			}
 
 			final Diagram d = ds.getDiagramTypeProvider().getDiagram();
@@ -593,32 +593,32 @@ implements ITabbedPropertyConstants {
 				behaviorCombo.setText(behaviorString);
 				statusCombo.setText(statusString);
 				operatorCombo.setText(operatorString);
-				int sizeBefore = GraphBTUtil.reversionNode.size();
+				int sizeBefore = ds.reversionNode.size();
 				if(operatorString.equals("^"))
 				{
 				//	GraphBTUtil.reversionNode.add(node);
 				//	GraphBTUtil.updateReversionNode(ds);
 				}
-				int sizeAfter = GraphBTUtil.reversionNode.size();
+				int sizeAfter = ds.reversionNode.size();
 				//if(sizeBefore != sizeAfter) {
 				
 				if(operatorString.equals("^")) {
-					if(!GraphBTUtil.reversionNode.contains(node)) {
-						GraphBTUtil.reversionNode.add(node);
+					if(!ds.reversionNode.contains(node)) {
+						ds.reversionNode.add(node);
 					}
 					edge = node.getEdge();
 					if(edge != null || GraphBTUtil.getAncestor(node)==null) {
-						GraphBTUtil.errorReversionNode.add(node);
+						ds.errorReversionNode.add(node);
 					}
 					else {
-						GraphBTUtil.errorReversionNode.remove(node);
+						ds.errorReversionNode.remove(node);
 					}
 				} else {
-					GraphBTUtil.reversionNode.remove(node);
-					GraphBTUtil.errorReversionNode.remove(node);
+					ds.reversionNode.remove(node);
+					ds.errorReversionNode.remove(node);
 				}
 //
-				System.out.println("di standardnode adapter: "+GraphBTUtil.errorReversionNode.size()+" "+GraphBTUtil.reversionNode.size());
+				System.out.println("di standardnode adapter: "+ds.errorReversionNode.size()+" "+ds.reversionNode.size());
 				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 					protected void doExecute() {
 						GraphBTUtil.updateReversionNode(ds);

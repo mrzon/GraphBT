@@ -169,7 +169,7 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	
 	@Override
 	public IRemoveFeature getRemoveFeature(IRemoveContext context) {
-		return super.getRemoveFeature(context); // remove disabled for the UI  
+		return this.getRemoveFeatureEnabled(context); // remove disabled for the UI  
 	}
 	
 	protected IRemoveFeature getRemoveFeatureEnabled(IRemoveContext context) {

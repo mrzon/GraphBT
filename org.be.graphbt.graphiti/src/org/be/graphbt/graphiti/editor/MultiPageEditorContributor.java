@@ -610,7 +610,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					IPath path = Path.fromOSString(filePath);
 
 					IFile file = root.getFileForLocation(path);
-					final DiagramEditor d = ((DiagramEditor)activeEditorPart);
+					final GraphBTDiagramEditor d = ((GraphBTDiagramEditor)activeEditorPart);
 					URI uri = d.getDiagramTypeProvider().getDiagram().eResource().getURI();
 					uri.trimFragment();
 					uri.trimFileExtension();
@@ -685,8 +685,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 							@Override
 							protected void doExecute() {
 								
-								GraphBTUtil.reversionNode.clear();
-								GraphBTUtil.errorReversionNode.clear();
+								d.reversionNode.clear();
+								d.errorReversionNode.clear();
 								Diagram diag = d.getDiagramTypeProvider().getDiagram(); 
 								diag.getChildren().clear();
 								diag.getConnections().clear();
@@ -797,7 +797,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						}
 
 					}
-					clearDiagram((DiagramEditor)activeEditorPart);	
+					clearDiagram((GraphBTDiagramEditor)activeEditorPart);	
 				}
 
 			}
@@ -978,7 +978,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		manager.add(zoomCombo);
 	}
 
-	private void clearDiagram(final DiagramEditor d) {
+	private void clearDiagram(final GraphBTDiagramEditor d) {
 		d.getEditingDomain().getCommandStack().execute(new RecordingCommand(d.getEditingDomain(),"clear diagram editor") {
 			@Override
 			protected void doExecute() {
@@ -993,16 +993,12 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				uri = uri.trimFileExtension();
 				uri = uri.appendFileExtension("model");
 				Resource res = GraphBTUtil.getResource(diag.eResource().getResourceSet(), uri);
-
-				List<EObject> rs = new ArrayList<EObject>(res.getContents());
-				for(int i = 0; i < rs.size(); i++) {
-					EObject ob = rs.get(i);
-					if(ob instanceof StandardNode) {
-						res.getContents().remove(ob);
-					}
+				List<StandardNode> list = GraphBTUtil.getRoots(diag.eResource().getResourceSet());
+				for(int i = 0; i < list.size(); i++) {
+					EcoreUtil.delete(list.get(i), true);
 				}
-				GraphBTUtil.errorReversionNode.clear();
-				GraphBTUtil.reversionNode.clear();
+				d.errorReversionNode.clear();
+				d.reversionNode.clear();
 			}
 		});
 	}

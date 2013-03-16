@@ -338,7 +338,9 @@ public class CreateSequentialConnectionGraphBtFeature extends AbstractCreateConn
         		StandardNode sn = (StandardNode) edge.getChildNode().get(0).getTarget();
         		
         		ContainerShape cs = null;
-        		
+        		if(sn==null) {
+        			return null;
+        		}
         		for(PictogramElement pe : Graphiti.getLinkService().getPictogramElements(getDiagram(), sn.getParent())) {
         			if(pe instanceof ContainerShape) {
         				cs = (ContainerShape) pe;

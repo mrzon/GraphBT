@@ -24,6 +24,7 @@ import org.be.graphbt.model.graphbt.Branch;
 import org.be.graphbt.model.graphbt.Component;
 import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.graphiti.adapter.StandardNodeAdapter;
+import org.be.graphbt.graphiti.editor.GraphBTDiagramEditor;
 import org.be.graphbt.model.graphbt.Operator;
 import org.be.graphbt.model.graphbt.OperatorClass;
 import org.be.graphbt.model.graphbt.Requirement;
@@ -216,8 +217,9 @@ IAddFeature {
             OperatorClass oc = GraphBTUtil.getOperator(getDiagram(), node.getOperator());
             shapeOperator.setActive(false);
             if(oc.getOperatorLiteral().equals(Operator.REVERSION.getLiteral())) {
-            	GraphBTUtil.reversionNode.add(node);
-            	GraphBTUtil.errorReversionNode.add(node);
+            	GraphBTDiagramEditor de = (GraphBTDiagramEditor)getDiagramEditor();
+            	de.reversionNode.add(node);
+            	de.errorReversionNode.add(node);
             }
             link(shapeOperator, oc);
         }

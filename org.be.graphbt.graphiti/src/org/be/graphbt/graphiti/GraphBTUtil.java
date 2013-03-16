@@ -73,6 +73,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.validation.internal.util.Log;
@@ -115,22 +116,23 @@ import org.eclipse.ui.PlatformUI;
 
 
 public class GraphBTUtil {
-	public static final Set<StandardNode> errorReversionNode = new HashSet<StandardNode>();
-	public static final List<StandardNode> reversionNode = new ArrayList<StandardNode>();
-	
-	
 	public static void updateReversionNode(final IDiagramEditor ds) {
-		final Diagram d = ds.getDiagramTypeProvider().getDiagram();
-		System.out.println();
-		if(reversionNode.size()==0) {
-			errorReversionNode.clear();
+		if(!(ds instanceof GraphBTDiagramEditor))
+		{
 			return;
 		}
-		System.out.println("di update revision: "+GraphBTUtil.errorReversionNode.size()+" "+GraphBTUtil.reversionNode.size());
+		final GraphBTDiagramEditor de = (GraphBTDiagramEditor)ds;
+		final Diagram d = de.getDiagramTypeProvider().getDiagram();
+		
+		if(de.reversionNode.size()==0) {
+			de.errorReversionNode.clear();
+			return;
+		}
+		System.out.println("di update revision: "+de.errorReversionNode.size()+" "+de.reversionNode.size());
 		
 		//RecordingCommand cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 			//protected void doExecute() {
-				ArrayList<StandardNode> list = new ArrayList<StandardNode>(errorReversionNode);
+				ArrayList<StandardNode> list = new ArrayList<StandardNode>(de.errorReversionNode);
 				for(int i = 0; i < list.size(); i++) {
 					final StandardNode node = list.get(i);
 					if(Graphiti.getLinkService().getPictogramElements(d, node).size()==0) {
@@ -149,7 +151,7 @@ public class GraphBTUtil {
 					}
 					else
 					{
-						GraphBTUtil.errorReversionNode.remove(node);
+						de.errorReversionNode.remove(node);
 						rectangle.setBackground(Graphiti.getGaService().manageColor(d, AccessoryUtil.getNormalColor(node)));
 						Color ren = rectangle.getBackground();
 						System.out.println(ren.toString());
@@ -159,7 +161,7 @@ public class GraphBTUtil {
 		//};
 		//TransactionalEditingDomain f = ds.getEditingDomain();
 		//f.getCommandStack().execute(cmd);
-		System.out.println("setelah update: "+GraphBTUtil.errorReversionNode.size()+" "+GraphBTUtil.reversionNode.size());
+		System.out.println("setelah update: "+de.errorReversionNode.size()+" "+de.reversionNode.size());
 		
 	}
 	
@@ -821,6 +823,8 @@ public class GraphBTUtil {
 	 */
 	public static int isValid(Diagram d) {
 		List<StandardNode> listNode = GraphBTUtil.getRoots(d.eResource().getResourceSet()); //get all roots from the model 
+		if(getDiagramEditor() instanceof GraphBTDiagramEditor ) {
+		GraphBTDiagramEditor de = (GraphBTDiagramEditor)getDiagramEditor();
 		if(listNode.size()>0) {
 			StandardNode node = listNode.get(0); 
 	
@@ -828,9 +832,10 @@ public class GraphBTUtil {
 	
 			if(listNode.size() != 1)
 				return 1;
-			if(errorReversionNode.size() > 0) {
+			if(de.errorReversionNode.size() > 0) {
 				return 2;
 			}
+		}
 		}
 		return 0;
 	}
@@ -840,9 +845,9 @@ public class GraphBTUtil {
 	 * check error from reversion node
 	 * @param node 
 	 */
-	public static void checkReversion(StandardNode node) {
+	private static void checkReversion(StandardNode node) {
 		if(node.getEdge() != null && node.getOperator().equals(Operator.REVERSION.getLiteral())) {
-			errorReversionNode.add(node);
+		//	errorReversionNode.add(node);
 		}
 		else if(node.getEdge() != null && !node.getOperator().equals(Operator.REVERSION.getLiteral())) {
 			List<Link> nodes = node.getEdge().getChildNode();
@@ -1386,7 +1391,11 @@ public class GraphBTUtil {
 			currentY = currentY-currentHeight/2+height/2;
 			for(int i = 0; i < node.getEdge().getChildNode().size(); i++) {
 				GraphBTUtil.applyTreeLayout(d, (StandardNode) node.getEdge().getChildNode().get(i).getTarget(),currentX,currentY,widthMap,heightMap,level+1);
-				currentX=currentX + hSpace+widthMap.get((StandardNode) node.getEdge().getChildNode().get(i).getTarget());
+				int a = 0;
+				if(widthMap.get((StandardNode) node.getEdge().getChildNode().get(i).getTarget())!=null) {
+					a = widthMap.get((StandardNode) node.getEdge().getChildNode().get(i).getTarget());
+				}
+				currentX=currentX + hSpace+a;
 			}
 		}
 	}
@@ -1404,6 +1413,7 @@ public class GraphBTUtil {
 			return 0;
 		if(Graphiti.getLinkService().getPictogramElements(d, node) != null && (node.getEdge() == null||node.getEdge()!=null&&node.getEdge().getChildNode().size()==0)) {
 			if(Graphiti.getLinkService().getPictogramElements(d, node).size()==0){
+				EcoreUtil.delete(node);
 				return 0;
 			}
 			PictogramElement rootP = Graphiti.getLinkService().getPictogramElements(d, node).get(0);

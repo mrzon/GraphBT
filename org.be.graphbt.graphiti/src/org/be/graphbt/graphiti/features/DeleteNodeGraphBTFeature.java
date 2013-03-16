@@ -8,6 +8,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
 import org.be.graphbt.graphiti.GraphBTUtil;
+import org.be.graphbt.graphiti.editor.GraphBTDiagramEditor;
 import org.be.graphbt.model.graphbt.Link;
 import org.be.graphbt.model.graphbt.StandardNode;
 
@@ -37,6 +38,18 @@ public class DeleteNodeGraphBTFeature extends DefaultDeleteFeature {
 		if(node.getParent()!=null) {
 			StandardNode parent = node.getParent();
 			parent.getEdge().getChildNode().remove(node);
+			int i =0;
+			while(i < parent.getEdge().getChildNode().size()) {
+				if(parent.getEdge().getChildNode().get(i).getTarget()==node) {
+					parent.getEdge().getChildNode().get(i).setSource(null);
+					parent.getEdge().getChildNode().remove(i);
+				} else if (parent.getEdge().getChildNode().get(i).getTarget()==null) {
+					parent.getEdge().getChildNode().get(i).setSource(null);
+					parent.getEdge().getChildNode().remove(i);
+					} else {
+					i++;
+				}
+			}
 			node.setParent(null);
 			if(parent.getEdge().getChildNode().size() ==1) {
 				parent.getEdge().setBranch(null);
@@ -45,6 +58,11 @@ public class DeleteNodeGraphBTFeature extends DefaultDeleteFeature {
 				parent.setEdge(null);
 			}
 		}
+		if(node.getOperator().equals("^")) {
+			((GraphBTDiagramEditor)getDiagramEditor()).errorReversionNode.remove(node);
+			((GraphBTDiagramEditor)getDiagramEditor()).reversionNode.remove(node);
+		}
+		
 		if(node.getEdge() != null) {
 			for(int i = 0; i < node.getEdge().getChildNode().size(); i++) {
 				StandardNode child = (StandardNode) node.getEdge().getChildNode().get(i).getTarget();

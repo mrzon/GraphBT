@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.graphiti.datatypes.ILocation;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
@@ -238,10 +239,16 @@ public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 						protected void doExecute() {
 							if(node.getParent()!=null) {
 								StandardNode parent = node.getParent();
-								for(int i = 0; i < parent.getEdge().getChildNode().size();i++) {
+								int i = 0;
+								while(i < parent.getEdge().getChildNode().size()) {
 									if(parent.getEdge().getChildNode().get(i).getTarget()==node) {
-										parent.getEdge().getChildNode().remove(parent.getEdge().getChildNode().get(i));
-										break;
+										parent.getEdge().getChildNode().get(i).setSource(null);
+										parent.getEdge().getChildNode().remove(i);
+									} else if (parent.getEdge().getChildNode().get(i).getTarget()==null) {
+										parent.getEdge().getChildNode().get(i).setSource(null);
+										parent.getEdge().getChildNode().remove(i);
+										} else {
+										i++;
 									}
 								}
 								node.setParent(null);
@@ -251,6 +258,7 @@ public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 								else if(parent.getEdge().getChildNode().size()==0) {
 									parent.setEdge(null);
 								}
+								System.out.println(" "+node.toBTText());
 							}
 							if(node.getEdge() != null) {
 								for(int i = 0; i < node.getEdge().getChildNode().size(); i++) {
@@ -265,11 +273,13 @@ public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 								EList<EObject> objects = GraphBTUtil.getRoots(de.getDiagramTypeProvider().getDiagram().eResource().getResourceSet()).get(0).eResource().getContents();
 								
 								for(int i = 0; i < childNodes.size();i++) {
-									objects.add(childNodes.get(i).getTarget());
+									if(childNodes.get(i).getTarget()!=null)
+										objects.add(childNodes.get(i).getTarget());
 								}
 								node.getEdge().getChildNode().clear();
 								node.setEdge(null);
 							}
+							
 							deleteFeature.delete(deleteContext);
 						}
 

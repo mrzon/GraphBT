@@ -48,14 +48,16 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
-public class MultiPageEditor extends MultiPageEditorPart implements IResourceChangeListener {
+public class MultiPageEditor extends MultiPageEditorPart implements IResourceChangeListener{
 
 	/** The diagram editor used in page 0. */
 	private DiagramEditor editor;
@@ -178,26 +180,11 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	 */
 	public void doSave(IProgressMonitor monitor) {
 		if(getActiveEditor() instanceof DiagramEditor) {
-			DiagramEditor dEditor = ((DiagramEditor)getActiveEditor());
-			final Diagram d = dEditor.getDiagramTypeProvider().getDiagram();
-			dEditor.getEditingDomain().getCommandStack().execute(new RecordingCommand (dEditor.getEditingDomain(),"Save reversion node Information") {
-
-				@Override
-				protected void doExecute() {
-					// TODO Auto-generated method stub
-					BEModel model = GraphBTUtil.getBEModel(d);
-					model.getReversionNode().clear();
-					model.getErrorReversionNode().clear();
-					model.setReversionNode(GraphBTUtil.reversionNode);
-					model.setErrorReversionNode(GraphBTUtil.errorReversionNode);
-				}
-				
-			});
-			
-			
 			getActiveEditor().doSave(monitor);	
 		}
 	}
+	
+	
 	/**
 	 * Saves the multi-page editor's document as another file.
 	 * Also updates the text for page 0's tab, and updates this multi-page editor's input
@@ -312,4 +299,6 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
                 return super.getAdapter(type);
 	}
 	*/
+	
+	
 }
