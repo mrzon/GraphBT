@@ -52,7 +52,7 @@ public class CreateComponentGraphBTWizard extends Wizard {
         }
         d = ds.getDiagramTypeProvider().getDiagram();
 		final BEModel be = GraphBTUtil.getBEModel(d);
-		
+		System.out.println(be+"di component nih");
 		
 		final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 			protected void doExecute() {

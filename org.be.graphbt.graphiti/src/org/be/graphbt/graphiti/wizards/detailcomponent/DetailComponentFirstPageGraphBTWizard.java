@@ -18,6 +18,7 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -71,7 +72,14 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 		container.setLayout(layout);
 		layout.numColumns = 2;
 		GridData gridData = new GridData();
-
+		Label pictureLabel = new Label(container,SWT.NULL);
+		Image image = GraphBTUtil.getComponentImageDescription(c);
+		if(image != null) {
+		pictureLabel.setImage(image);
+		} else {
+			pictureLabel.setText("No Component image description available");
+		}
+		
 		final Label cNameLabel = new Label(container, SWT.NULL);				
 		gridData = new GridData(GridData.FILL_HORIZONTAL);		
 		gridData.horizontalSpan = 2;
@@ -250,6 +258,7 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 		removeAttributeButton.setLayoutData(gridData);
 		removeAttributeButton.setText("-");
 		removeAttributeButton.setEnabled(false);
+		
 		addAttributeButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {				
 				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().

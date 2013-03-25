@@ -323,6 +323,24 @@ public interface GraphBTFactory extends EFactory {
 	Parameter createParameter();
 
 	/**
+	 * Returns a new object of class '<em>Layout List</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Layout List</em>'.
+	 * @generated
+	 */
+	LayoutList createLayoutList();
+
+	/**
+	 * Returns a new object of class '<em>Layout</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Layout</em>'.
+	 * @generated
+	 */
+	Layout createLayout();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

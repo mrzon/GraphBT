@@ -1,6 +1,7 @@
 package org.be.graphbt.graphiti.editor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EventObject;
 import java.util.HashSet;
 import java.util.List;
@@ -9,7 +10,13 @@ import java.util.Set;
 import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.model.graphbt.BEModel;
 import org.be.graphbt.model.graphbt.StandardNode;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
@@ -35,6 +42,7 @@ public class GraphBTDiagramEditor extends DiagramEditor implements IPartListener
 	public void init(IEditorSite s, IEditorInput i) {
 		try {
 			super.init(s,i);
+			//GraphBTUtil.getDefaultBEModel(getDiagramTypeProvider().getDiagram());
 			this.loadReversion();
 		} catch (PartInitException e) {
 			// TODO Auto-generated catch block
@@ -73,7 +81,7 @@ public class GraphBTDiagramEditor extends DiagramEditor implements IPartListener
 			@Override
 			protected void doExecute() {
 				// TODO Auto-generated method stub
-				BEModel model = GraphBTUtil.getBEModel(d);
+				BEModel model = GraphBTUtil.getBEModel(d,true);
 				model.getReversionNode().clear();
 				model.getErrorReversionNode().clear();
 				model.setReversionNode(reversionNode);
@@ -84,11 +92,18 @@ public class GraphBTDiagramEditor extends DiagramEditor implements IPartListener
 	}
 	
 	public void loadReversion() {
-		BEModel model = GraphBTUtil.getBEModel(getDiagramTypeProvider().getDiagram());
-		errorReversionNode.clear();
-		reversionNode.clear();
-		reversionNode.addAll(model.getReversionNode());
-		errorReversionNode.addAll(model.getErrorReversionNode());
+		/*RecordingCommand cmd = new RecordingCommand(getEditingDomain()) {
+			
+			@Override
+			protected void doExecute() {
+			*/	
+				BEModel model = GraphBTUtil.getBEModel(getDiagramTypeProvider().getDiagram(),false);
+				if(model == null)
+					return;
+				errorReversionNode.clear();
+				reversionNode.clear();
+				reversionNode.addAll(model.getReversionNode());
+				errorReversionNode.addAll(model.getErrorReversionNode());
 	}
 	
 	

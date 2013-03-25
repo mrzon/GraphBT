@@ -94,6 +94,8 @@ public class GraphBTFactoryImpl extends EFactoryImpl implements GraphBTFactory {
 			case GraphBTPackage.LIBRARIES: return createLibraries();
 			case GraphBTPackage.METHOD_DECLARATION: return createMethodDeclaration();
 			case GraphBTPackage.PARAMETER: return createParameter();
+			case GraphBTPackage.LAYOUT_LIST: return createLayoutList();
+			case GraphBTPackage.LAYOUT: return createLayout();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -481,6 +483,26 @@ public class GraphBTFactoryImpl extends EFactoryImpl implements GraphBTFactory {
 	public Parameter createParameter() {
 		ParameterImpl parameter = new ParameterImpl();
 		return parameter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LayoutList createLayoutList() {
+		LayoutListImpl layoutList = new LayoutListImpl();
+		return layoutList;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Layout createLayout() {
+		LayoutImpl layout = new LayoutImpl();
+		return layout;
 	}
 
 	/**

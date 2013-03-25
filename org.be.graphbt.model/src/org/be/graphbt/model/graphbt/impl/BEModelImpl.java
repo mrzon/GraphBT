@@ -16,6 +16,7 @@ import org.be.graphbt.model.graphbt.ComponentList;
 import org.be.graphbt.model.graphbt.FormulaList;
 import org.be.graphbt.model.graphbt.GraphBTFactory;
 import org.be.graphbt.model.graphbt.GraphBTPackage;
+import org.be.graphbt.model.graphbt.LayoutList;
 import org.be.graphbt.model.graphbt.Libraries;
 import org.be.graphbt.model.graphbt.RequirementList;
 import org.be.graphbt.model.graphbt.StandardNode;
@@ -46,6 +47,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *   <li>{@link org.be.graphbt.model.graphbt.impl.BEModelImpl#getLibraries <em>Libraries</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.impl.BEModelImpl#getReversionNode <em>Reversion Node</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.impl.BEModelImpl#getErrorReversionNode <em>Error Reversion Node</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.BEModelImpl#getLayoutList <em>Layout List</em>}</li>
  * </ul>
  * </p>
  *
@@ -141,6 +143,16 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * @ordered
 	 */
 	protected EList<StandardNode> errorReversionNode;
+
+	/**
+	 * The cached value of the '{@link #getLayoutList() <em>Layout List</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLayoutList()
+	 * @generated
+	 * @ordered
+	 */
+	protected LayoutList layoutList;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -444,6 +456,49 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public LayoutList getLayoutList() {
+		return layoutList;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetLayoutList(LayoutList newLayoutList, NotificationChain msgs) {
+		LayoutList oldLayoutList = layoutList;
+		layoutList = newLayoutList;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GraphBTPackage.BE_MODEL__LAYOUT_LIST, oldLayoutList, newLayoutList);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLayoutList(LayoutList newLayoutList) {
+		if (newLayoutList != layoutList) {
+			NotificationChain msgs = null;
+			if (layoutList != null)
+				msgs = ((InternalEObject)layoutList).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - GraphBTPackage.BE_MODEL__LAYOUT_LIST, null, msgs);
+			if (newLayoutList != null)
+				msgs = ((InternalEObject)newLayoutList).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - GraphBTPackage.BE_MODEL__LAYOUT_LIST, null, msgs);
+			msgs = basicSetLayoutList(newLayoutList, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GraphBTPackage.BE_MODEL__LAYOUT_LIST, newLayoutList, newLayoutList));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -457,6 +512,8 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return basicSetFormulaList(null, msgs);
 			case GraphBTPackage.BE_MODEL__LIBRARIES:
 				return basicSetLibraries(null, msgs);
+			case GraphBTPackage.BE_MODEL__LAYOUT_LIST:
+				return basicSetLayoutList(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -485,6 +542,8 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return getReversionNode();
 			case GraphBTPackage.BE_MODEL__ERROR_REVERSION_NODE:
 				return getErrorReversionNode();
+			case GraphBTPackage.BE_MODEL__LAYOUT_LIST:
+				return getLayoutList();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -524,6 +583,9 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				getErrorReversionNode().clear();
 				getErrorReversionNode().addAll((Collection<? extends StandardNode>)newValue);
 				return;
+			case GraphBTPackage.BE_MODEL__LAYOUT_LIST:
+				setLayoutList((LayoutList)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -560,6 +622,9 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 			case GraphBTPackage.BE_MODEL__ERROR_REVERSION_NODE:
 				getErrorReversionNode().clear();
 				return;
+			case GraphBTPackage.BE_MODEL__LAYOUT_LIST:
+				setLayoutList((LayoutList)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -588,6 +653,8 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return reversionNode != null && !reversionNode.isEmpty();
 			case GraphBTPackage.BE_MODEL__ERROR_REVERSION_NODE:
 				return errorReversionNode != null && !errorReversionNode.isEmpty();
+			case GraphBTPackage.BE_MODEL__LAYOUT_LIST:
+				return layoutList != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -601,7 +668,8 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer();
+		StringBuffer result = new StringBuffer("BEModel ");
+		result.append(super.toString());
 		if(this.requirementList!=null)
 		result.append(this.requirementList.toString());
 		if(this.componentList!=null)

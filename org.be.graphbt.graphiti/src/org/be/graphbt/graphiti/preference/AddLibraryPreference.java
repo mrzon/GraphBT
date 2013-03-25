@@ -145,7 +145,7 @@ IWorkbenchPreferencePage{
 	 */
 	protected void performDefaults() {
 		String [] defaults = (Activator.getDefault().getGitAccountPreference());
-		System.out.println("DefaultGitAccount "+Arrays.toString(defaults));
+		 //System.out.println("DefaultGitAccount "+Arrays.toString(defaults));
 
 		if(defaults!=null){
 			this.absText.setText("");

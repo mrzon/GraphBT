@@ -109,6 +109,7 @@ public class CreateComponentFirstPageGraphBTWizard extends WizardPage {
 			}
 	    });
 		
+		
 		checkEnumerate = new Button(container, SWT.CHECK);
 		checkEnumerate.setText("Enumerate");
 		checkEnumerate.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));

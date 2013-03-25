@@ -109,9 +109,14 @@ import org.eclipse.m2m.atl.core.IReferenceModel;
 import org.eclipse.m2m.atl.core.ModelFactory;
 import org.eclipse.m2m.atl.core.launch.ILauncher;
 import org.eclipse.m2m.atl.core.service.CoreService;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 
@@ -200,43 +205,17 @@ public class GraphBTUtil {
 		return model;
 	}
 
-	
-	/**
-	 * get BEModel from a Diagram
-	 * @param d the diagram
-	 * @return existing model or new model if no existing found
-	 */
-	@SuppressWarnings("restriction")
-	public static BEModel getBEModel(final Diagram d) {
-		URI uri = d.eResource().getURI();
-		uri = uri.trimFragment();
-		uri = uri.trimFileExtension();
-		uri = uri.appendFileExtension("model");
-		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-		IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
-		if (file == null || !file.exists()) {
-			Log.info(0, "Model is not exist yet");
-			Resource createResource = d.eResource().getResourceSet().createResource(uri);
-			try {
-				createResource.save(Collections.emptyMap());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			createResource.setTrackingModification(true);
-		}
-
-		Iterator<EObject> obj = d.eResource().getResourceSet().getResource(uri,true).getContents().iterator();
-		while(obj.hasNext()) {
-			EObject ob = obj.next();
-			if(ob instanceof BEModel) {
-				return (BEModel)ob;
-			}
-		}
+	private static BEModel getDefaultBEModel(final Diagram d) {
 		BEModel beModel = GraphBTUtil.getBEFactory().createBEModel();
 		beModel.setName("BTPackage");
 		try {
 			saveToModelFile(beModel,d);
-
+			beModel.setComponentList(GraphBTUtil.getBEFactory().createComponentList());
+			beModel.setRequirementList(GraphBTUtil.getBEFactory().createRequirementList());
+			beModel.setLibraries(GraphBTUtil.getBEFactory().createLibraries());
+			beModel.setFormulaList(GraphBTUtil.getBEFactory().createFormulaList());
+			
+			
 			for(int i = 0; i < Operator.VALUES.size(); i++) {
 				OperatorClass oc = getBEFactory().createOperatorClass();
 				oc.setOperatorLiteral(Operator.VALUES.get(i).getLiteral());
@@ -251,9 +230,47 @@ public class GraphBTUtil {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-
+		}	
 		return beModel;
+	}
+	
+	public static BEModel getBEModel(final Diagram d) {
+		return getBEModel(d,true);
+	}
+	
+	/** 
+	 * get BEModel from a Diagram
+	 * @param d the diagram
+	 * @return existing model or new model if no existing found
+	 */
+	@SuppressWarnings("restriction")
+	public static BEModel getBEModel(final Diagram d, boolean force) {
+		if(d==null)
+			return null;
+		URI uri = d.eResource().getURI();
+		uri = uri.trimFragment();
+		uri = uri.trimFileExtension();
+		uri = uri.appendFileExtension("model");
+		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+		IResource file = workspaceRoot.findMember(uri.toPlatformString(true));
+		if (file == null || !file.exists()) {
+			if(force) {
+				return getDefaultBEModel(d);
+			} else {
+				return null;
+			}
+		}
+		Iterator<EObject> obj = d.eResource().getResourceSet().getResource(uri,true).getContents().iterator();
+		while(obj.hasNext()) {
+			EObject ob = obj.next();
+			if(ob instanceof BEModel) {
+				return (BEModel)ob;
+			}
+		}
+		if(force) {
+			return getDefaultBEModel(d);
+		}
+		return null;
 	}
 
 	
@@ -576,7 +593,7 @@ public class GraphBTUtil {
 	 */
 	public static Requirement getRequirement(Diagram d,
 			String key) {
-		Iterator<Requirement> it = GraphBTUtil.getBEModel(d).getRequirementList().getRequirements().iterator();
+		Iterator<Requirement> it = GraphBTUtil.getBEModel(d,true).getRequirementList().getRequirements().iterator();
 		while(it.hasNext()) {
 			Requirement res = it.next();
 
@@ -886,7 +903,7 @@ public class GraphBTUtil {
 		if(temp==null)
 			return;
 		final TextBT btModel = temp;
-		final BEModel beModel = getBEModel(d);
+		final BEModel beModel = getBEModel(d,true);
 		de.getEditingDomain().getCommandStack().execute(new RecordingCommand(de.getEditingDomain(),"generating model") {
 			@Override
 			protected void doExecute() {
@@ -1237,7 +1254,7 @@ public class GraphBTUtil {
 	 * @return TextBE text
 	 */
 	public static String getBTText(Diagram d) {
-		BEModel be = GraphBTUtil.getBEModel(d);
+		BEModel be = GraphBTUtil.getBEModel(d,true);
 		String content = be.toString();
 		List<StandardNode> ln = GraphBTUtil.getRoots(d.eResource().getResourceSet());
 		for(int i=0; i < ln.size(); i++) {
@@ -1559,6 +1576,45 @@ public class GraphBTUtil {
 		for(Library l:c.getUses()) {
 			if(l.getId().equals(bSelection))
 				return l;
+		}
+		return null;
+	}
+	
+	public static IProject getActiveProject() {
+		IWorkbench iworkbench = PlatformUI.getWorkbench();
+		if (iworkbench == null) return null;
+		IWorkbenchWindow iworkbenchwindow = iworkbench.getActiveWorkbenchWindow();
+		if (iworkbenchwindow == null) return null;
+		IWorkbenchPage iworkbenchpage = iworkbenchwindow.getActivePage();
+		if (iworkbenchpage == null) return null;
+		IEditorPart ieditorpart = iworkbenchpage.getActiveEditor();
+		IEditorInput input = ieditorpart.getEditorInput();
+	      if (!(input instanceof IFileEditorInput))
+	         return null;
+	      return ((IFileEditorInput)input).getFile().getProject();
+	}
+	public static Image getComponentImageDescription(Component c) {
+		String path = "resource/image/"+c.getComponentRef()+".jpg";
+		return getImageFromPathString(path);
+	}
+	public static Image getStateImageDescription(Component c, State s) {
+		String path = "resource/image/"+c.getComponentRef()+"-"+s.getName()+".jpg";
+		return getImageFromPathString(path);
+	}
+	private static Image getImageFromPathString(String str) {
+		IProject project = getActiveProject();
+		IResource resource = project.findMember(str);
+		if(resource==null) {
+			return null;
+		}
+		Image image;
+		try {
+			image = new Image(null,
+				    ((IFile)resource).getContents());
+			return image;
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return null;
 	}

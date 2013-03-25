@@ -20,8 +20,7 @@ public class StandardNodeAdapter extends AdapterImpl{
 		StandardNode node = (StandardNode)notification.getNotifier();
 		
 		//** 
-		System.out.println("StandardNode is changed, changed id:"+notification.getFeatureID(StandardNode.class));
-		String operatorType = node.getOperator();
+		 //System.out.println("StandardNode is changed, changed id:"+notification.getFeatureID(StandardNode.class));
 		int featureChanged = notification.getFeatureID(StandardNode.class);
 		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		final GraphBTDiagramEditor ds;
@@ -41,7 +40,7 @@ public class StandardNodeAdapter extends AdapterImpl{
 					ds.errorReversionNode.add(node);
 				}
 			} else if(notification.getOldStringValue().equalsIgnoreCase("^") && !notification.getNewStringValue().equalsIgnoreCase("^")) {
-				System.out.println("Berubah dari reversion ke node biasa nue");
+				 //System.out.println("Berubah dari reversion ke node biasa nue");
 				ds.reversionNode.remove(node);
 				ds.errorReversionNode.remove(node);
 			}
@@ -64,7 +63,7 @@ public class StandardNodeAdapter extends AdapterImpl{
 			break;
 		}
 
-		System.out.println("di standardnode adapter: "+ds.errorReversionNode.size()+" "+ds.reversionNode.size());
+		 //System.out.println("di standardnode adapter: "+ds.errorReversionNode.size()+" "+ds.reversionNode.size());
 		GraphBTUtil.updateReversionNode(ds);
 	}
 }

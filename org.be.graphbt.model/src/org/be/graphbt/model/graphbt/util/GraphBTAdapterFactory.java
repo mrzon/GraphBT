@@ -204,6 +204,14 @@ public class GraphBTAdapterFactory extends AdapterFactoryImpl {
 				return createParameterAdapter();
 			}
 			@Override
+			public Adapter caseLayoutList(LayoutList object) {
+				return createLayoutListAdapter();
+			}
+			@Override
+			public Adapter caseLayout(Layout object) {
+				return createLayoutAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -682,6 +690,34 @@ public class GraphBTAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createParameterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.be.graphbt.model.graphbt.LayoutList <em>Layout List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.be.graphbt.model.graphbt.LayoutList
+	 * @generated
+	 */
+	public Adapter createLayoutListAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.be.graphbt.model.graphbt.Layout <em>Layout</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.be.graphbt.model.graphbt.Layout
+	 * @generated
+	 */
+	public Adapter createLayoutAdapter() {
 		return null;
 	}
 

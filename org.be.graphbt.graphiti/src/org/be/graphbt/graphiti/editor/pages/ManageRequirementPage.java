@@ -47,6 +47,7 @@ public class ManageRequirementPage extends Composite{
 		// TODO Auto-generated constructor stub
 	}
 	public void init() {
+		final BEModel model = GraphBTUtil.getBEModel(d, false);
 		GridLayout layout = new GridLayout(4, false);
 		this.setLayout(layout);
 		GridData gridData;
@@ -83,8 +84,8 @@ public class ManageRequirementPage extends Composite{
 		listRequirements.setLayoutData(gridData);
 
 		listRequirements.removeAll();		
-		if(GraphBTUtil.getBEModel(d).getRequirementList()!=null) {
-		for(Requirement requirement: GraphBTUtil.getBEModel(d).getRequirementList().getRequirements()) {
+		if(model!=null && model.getRequirementList()!=null) {
+		for(Requirement requirement: model.getRequirementList().getRequirements()) {
 			listRequirements.add(requirement.getKey());
 		}	
 		}
@@ -242,7 +243,7 @@ public class ManageRequirementPage extends Composite{
 					return;
 				}
 				listRequirements.removeAll();
-				for(Requirement requirement: GraphBTUtil.getBEModel(d).getRequirementList().getRequirements()) {
+				for(Requirement requirement: model.getRequirementList().getRequirements()) {
 					listRequirements.add(requirement.getKey());
 				}
 			}
@@ -275,7 +276,8 @@ public class ManageRequirementPage extends Composite{
 
 		saveRequirementButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				
+				if(model==null)
+					return;
 				IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				final DiagramEditor ds;
 				if(page.getActiveEditor() instanceof DiagramEditor) {
@@ -286,7 +288,6 @@ public class ManageRequirementPage extends Composite{
 				}
 				
 				d = ds.getDiagramTypeProvider().getDiagram();
-				final BEModel be = GraphBTUtil.getBEModel(d);
 				final Requirement r = GraphBTUtil.getRequirement(d, requirementRefText.getText());
 
 				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
@@ -317,7 +318,8 @@ public class ManageRequirementPage extends Composite{
 						"Confirm delete requirement", "Are you sure you want to remove the requirement?");
 				if(!delete)
 					return;
-	
+				if(model==null)
+					return;
 				
 				IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				final DiagramEditor ds;
@@ -332,7 +334,7 @@ public class ManageRequirementPage extends Composite{
 
 				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 					protected void doExecute() {
-						GraphBTUtil.removeRequirement(GraphBTUtil.getBEModel(d), requirementRefText.getText());
+						GraphBTUtil.removeRequirement(model, requirementRefText.getText());
 					}
 				};
 				ds.getEditingDomain().getCommandStack().execute(cmd);
@@ -350,7 +352,7 @@ public class ManageRequirementPage extends Composite{
 				removeRequirementButton.setVisible(false);
 				editRequirementButton.setVisible(false);
 				listRequirements.removeAll();
-				for(Requirement req : GraphBTUtil.getBEModel(d).getRequirementList().getRequirements()) {
+				for(Requirement req : model.getRequirementList().getRequirements()) {
 					listRequirements.add(req.getRequirement());
 				}
 			}

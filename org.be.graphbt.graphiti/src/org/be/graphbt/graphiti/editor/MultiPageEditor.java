@@ -18,6 +18,10 @@
 package org.be.graphbt.graphiti.editor;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,17 +30,27 @@ import org.be.graphbt.graphiti.editor.pages.ManageComponentPage;
 import org.be.graphbt.graphiti.editor.pages.ManageLibraryPage;
 import org.be.graphbt.graphiti.editor.pages.ManageRequirementPage;
 import org.be.graphbt.model.graphbt.BEModel;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.graphiti.internal.GraphitiPlugin;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
+import org.eclipse.graphiti.ui.editor.DiagramEditorInput;
+import org.eclipse.graphiti.ui.internal.services.GraphitiUiInternal;
+import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
@@ -61,7 +75,6 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 
 	/** The diagram editor used in page 0. */
 	private DiagramEditor editor;
-	
 	/**
 	 * Creates a multi-page editor example.
 	 */
@@ -144,14 +157,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		setPageText(index, "Interfaces");
 	}
 	
-	/**
-	 * Design layout page
-	 */
-	void createPage6() {
-		Composite container = new Composite(getContainer(),SWT.NULL);
-		int index = addPage(container);
-		setPageText(index, "Layout");
-	}
+	
 	
 	/**
 	 * Creates the pages of the multi-page editor.
@@ -163,7 +169,6 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		createPage3();
 		createPage4();
 		createPage5();
-		createPage6();
 		this.setTitle(editor.getTitle());
 	}
 	/**

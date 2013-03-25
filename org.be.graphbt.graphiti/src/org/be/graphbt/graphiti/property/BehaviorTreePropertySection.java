@@ -215,7 +215,7 @@ implements ITabbedPropertyConstants {
 				CCombo combo = (CCombo)e.widget;
 				final String selected = combo.getItem(combo.getSelectionIndex());
 
-				final Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), selected);
+				final Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d,true), selected);
 
 				Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 					protected void doExecute() {
@@ -275,7 +275,7 @@ implements ITabbedPropertyConstants {
 				final StandardNode node = (StandardNode) ob;
 				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Change behavior") {
 					protected void doExecute() {
-						BEModel model = GraphBTUtil.getBEModel(d);
+						BEModel model = GraphBTUtil.getBEModel(d,true);
 						Component c = GraphBTUtil.getComponentByRef(model, node.getComponentRef());
 						Behavior b = GraphBTUtil.getBehaviorFromComponent(c,selected);
 						node.setBehaviorRef(b.getBehaviorRef());
@@ -556,17 +556,17 @@ implements ITabbedPropertyConstants {
 			final Diagram d = ds.getDiagramTypeProvider().getDiagram();
 
 			componentCombo.removeAll();
-			for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()) {
+			for(Component component : GraphBTUtil.getBEModel(d,true).getComponentList().getComponents()) {
 				componentCombo.add(component.getComponentName());
 			}
 
 			requirementCombo.removeAll();
-			for(Requirement requirement : GraphBTUtil.getBEModel(d).getRequirementList().getRequirements()) {
+			for(Requirement requirement : GraphBTUtil.getBEModel(d,true).getRequirementList().getRequirements()) {
 				requirementCombo.add(requirement.getKey());
 			}
 			requirementCombo.add(" ");
 
-			BEModel model = GraphBTUtil.getBEModel(d);
+			BEModel model = GraphBTUtil.getBEModel(d,true);
 
 			Component com = GraphBTUtil.getComponentByRef(model, node.getComponentRef());
 			if(com!=null) {
@@ -617,8 +617,7 @@ implements ITabbedPropertyConstants {
 					ds.reversionNode.remove(node);
 					ds.errorReversionNode.remove(node);
 				}
-//
-				System.out.println("di standardnode adapter: "+ds.errorReversionNode.size()+" "+ds.reversionNode.size());
+
 				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 					protected void doExecute() {
 						GraphBTUtil.updateReversionNode(ds);

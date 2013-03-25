@@ -29,6 +29,8 @@ import org.be.graphbt.model.graphbt.GraphBTPackage;
 import org.be.graphbt.model.graphbt.Information;
 import org.be.graphbt.model.graphbt.InputGUI;
 import org.be.graphbt.model.graphbt.InputType;
+import org.be.graphbt.model.graphbt.Layout;
+import org.be.graphbt.model.graphbt.LayoutList;
 import org.be.graphbt.model.graphbt.Libraries;
 import org.be.graphbt.model.graphbt.Library;
 import org.be.graphbt.model.graphbt.Link;
@@ -301,6 +303,20 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass layoutListEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass layoutEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum compositionEEnum = null;
 
 	/**
@@ -485,6 +501,15 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 */
 	public EReference getBEModel_ErrorReversionNode() {
 		return (EReference)beModelEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBEModel_LayoutList() {
+		return (EReference)beModelEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -1446,6 +1471,87 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getLayoutList() {
+		return layoutListEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getLayoutList_Layouts() {
+		return (EReference)layoutListEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getLayout() {
+		return layoutEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLayout_CRef() {
+		return (EAttribute)layoutEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLayout_X() {
+		return (EAttribute)layoutEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLayout_Y() {
+		return (EAttribute)layoutEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLayout_Width() {
+		return (EAttribute)layoutEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLayout_Height() {
+		return (EAttribute)layoutEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLayout_Z() {
+		return (EAttribute)layoutEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getComposition() {
 		return compositionEEnum;
 	}
@@ -1541,6 +1647,7 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		createEReference(beModelEClass, BE_MODEL__LIBRARIES);
 		createEReference(beModelEClass, BE_MODEL__REVERSION_NODE);
 		createEReference(beModelEClass, BE_MODEL__ERROR_REVERSION_NODE);
+		createEReference(beModelEClass, BE_MODEL__LAYOUT_LIST);
 
 		behaviorTreeEClass = createEClass(BEHAVIOR_TREE);
 		createEReference(behaviorTreeEClass, BEHAVIOR_TREE__ROOT_NODE);
@@ -1680,6 +1787,17 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		createEAttribute(parameterEClass, PARAMETER__NAME);
 		createEAttribute(parameterEClass, PARAMETER__TYPE);
 
+		layoutListEClass = createEClass(LAYOUT_LIST);
+		createEReference(layoutListEClass, LAYOUT_LIST__LAYOUTS);
+
+		layoutEClass = createEClass(LAYOUT);
+		createEAttribute(layoutEClass, LAYOUT__CREF);
+		createEAttribute(layoutEClass, LAYOUT__X);
+		createEAttribute(layoutEClass, LAYOUT__Y);
+		createEAttribute(layoutEClass, LAYOUT__WIDTH);
+		createEAttribute(layoutEClass, LAYOUT__HEIGHT);
+		createEAttribute(layoutEClass, LAYOUT__Z);
+
 		// Create enums
 		compositionEEnum = createEEnum(COMPOSITION);
 		branchEEnum = createEEnum(BRANCH);
@@ -1735,6 +1853,7 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		initEReference(getBEModel_Libraries(), this.getLibraries(), null, "libraries", null, 1, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBEModel_ReversionNode(), this.getStandardNode(), null, "reversionNode", null, 0, -1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBEModel_ErrorReversionNode(), this.getStandardNode(), null, "errorReversionNode", null, 0, -1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBEModel_LayoutList(), this.getLayoutList(), null, "layoutList", null, 0, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(behaviorTreeEClass, BehaviorTree.class, "BehaviorTree", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBehaviorTree_RootNode(), this.getNode(), null, "rootNode", null, 1, 1, BehaviorTree.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1883,6 +2002,17 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		initEClass(parameterEClass, Parameter.class, "Parameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getParameter_Name(), ecorePackage.getEString(), "name", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getParameter_Type(), ecorePackage.getEString(), "type", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(layoutListEClass, LayoutList.class, "LayoutList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getLayoutList_Layouts(), this.getLayout(), null, "layouts", null, 0, -1, LayoutList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(layoutEClass, Layout.class, "Layout", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getLayout_CRef(), ecorePackage.getEString(), "cRef", null, 0, 1, Layout.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLayout_X(), ecorePackage.getEInt(), "x", null, 0, 1, Layout.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLayout_Y(), ecorePackage.getEInt(), "y", null, 0, 1, Layout.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLayout_Width(), ecorePackage.getEInt(), "width", null, 0, 1, Layout.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLayout_Height(), ecorePackage.getEInt(), "height", null, 0, 1, Layout.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLayout_Z(), ecorePackage.getEInt(), "z", null, 0, 1, Layout.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(compositionEEnum, Composition.class, "Composition");

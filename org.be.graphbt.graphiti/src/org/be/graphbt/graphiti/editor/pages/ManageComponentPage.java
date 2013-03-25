@@ -118,10 +118,12 @@ public class ManageComponentPage extends Composite {
 		gridData.widthHint = 200;
 		//gridData.grabExcessVerticalSpace = true;		
 		listComponents.setLayoutData(gridData);
-
-		for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()) {
-			listComponents.add(component.getComponentName());
-		}		
+		final BEModel model = GraphBTUtil.getBEModel(d,false);
+		if(model!=null) {
+			for(Component component : model.getComponentList().getComponents()) {
+				listComponents.add(component.getComponentName());
+			}		
+		}
 		//listComponents.select(0);
 		Button componentButton = new Button(this, SWT.NULL);
 		gridData = new GridData();
@@ -292,8 +294,8 @@ public class ManageComponentPage extends Composite {
 
 
 		Component c = null; 
-		if(listComponents.getItemCount()>0) { 
-			c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), listComponents.getItem(0));
+		if(model!=null&&listComponents.getItemCount()>0) { 
+			c = GraphBTUtil.getComponent(model, listComponents.getItem(0));
 		}
 		deleteComponentButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
@@ -309,17 +311,17 @@ public class ManageComponentPage extends Composite {
 					ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
 				}
 				d = ds.getDiagramTypeProvider().getDiagram();
+				if(model!=null) {
+					final Component c = GraphBTUtil.getComponentByRef(model, componentRefTemp);
 
-				final BEModel be = GraphBTUtil.getBEModel(d);
-				final Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
+					final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Delete Component") {
+						protected void doExecute() {
+							GraphBTUtil.removeComponentByRef(model, componentRefTemp);
+						}
+					};
 
-				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Delete Component") {
-					protected void doExecute() {
-						GraphBTUtil.removeComponentByRef(be, componentRefTemp);
-					}
-				};
-
-				ds.getEditingDomain().getCommandStack().execute(cmd);
+					ds.getEditingDomain().getCommandStack().execute(cmd);
+				}
 				editComponentGroup.setVisible(false);
 				//	editComponentLabel.setVisible(false);
 				//editComponentNameText.setVisible(false);
@@ -333,8 +335,10 @@ public class ManageComponentPage extends Composite {
 
 				listComponents.removeAll();
 				listBehaviors.removeAll();
-				for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()) {
-					listComponents.add(component.getComponentName());
+				if(model!=null) {
+					for(Component component : model.getComponentList().getComponents()) {
+						listComponents.add(component.getComponentName());
+					}
 				}
 			}
 		});
@@ -345,12 +349,15 @@ public class ManageComponentPage extends Composite {
 		listComponents.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 
-				System.out.println("awal= " + index);
+				//System.out.println("awal= " + index);
 				String selected = listComponents.getItem(listComponents.getSelectionIndex());
 				index = listComponents.getSelectionIndex();
-				System.out.println("index= " + index);
+				//System.out.println("index= " + index);
 				map.put(StandardNode.COMPONENT_VALUE, selected );
-				Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), selected);
+				if(model==null)
+					return;
+				Component c = GraphBTUtil.getComponent(model, selected);
+
 				if(c!=null) {
 					listBehaviors.removeAll();
 					switch(listView.getSelectionIndex()) {
@@ -392,14 +399,16 @@ public class ManageComponentPage extends Composite {
 
 				//editComponentNameText.setText(c.getComponentName());
 				componentRefTemp = c.getComponentRef();
-				System.out.println("test awal= " + componentRefTemp);
+				//System.out.println("test awal= " + componentRefTemp);
 			}
 		});
 		listView.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				if(listComponents.getSelectionIndex()==-1)
 					return;
-				Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), listComponents.getItem(listComponents.getSelectionIndex()));
+				if(model==null)
+					return;
+				Component c = GraphBTUtil.getComponent(model, listComponents.getItem(listComponents.getSelectionIndex()));
 				if(c==null)
 					return;
 				listBehaviors.removeAll();
@@ -431,12 +440,14 @@ public class ManageComponentPage extends Composite {
 
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
+				if(model==null)
+					return;
 				String selected = listComponents.getItem(listComponents.getSelectionIndex());
 				index = listComponents.getSelectionIndex();
-				System.out.println("index= " + index);
+				//System.out.println("index= " + index);
 				map.put(StandardNode.COMPONENT_VALUE, selected );
 				listBehaviors.removeAll();
-				Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), selected);
+				Component c = GraphBTUtil.getComponent(model, selected);
 				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 						getActiveWorkbenchWindow().getShell(),
 						new DetailComponentGraphBTWizard(c));
@@ -461,8 +472,10 @@ public class ManageComponentPage extends Composite {
 			public void widgetSelected(SelectionEvent event) {
 				if(listBehaviors.getSelectionIndex() > listBehaviors.getItemCount())
 					return;
+				if(model==null)
+					return;
 				String selected = listBehaviors.getItem(listBehaviors.getSelectionIndex());
-				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
+				Component c = GraphBTUtil.getComponentByRef(model, componentRefTemp);
 				deleteBehaviorButton.setEnabled(true);
 				groupBehavior.setVisible(true);
 				switch(listView.getSelectionIndex())
@@ -493,7 +506,9 @@ public class ManageComponentPage extends Composite {
 			public void mouseDoubleClick(MouseEvent e) {
 				int s = listBehaviors.getSelectionIndex();
 				String selected = listBehaviors.getItem(s);
-				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(d), componentRefTemp);
+				if(model==null)
+					return;
+				Component c = GraphBTUtil.getComponentByRef(model, componentRefTemp);
 				switch(listView.getSelectionIndex())
 				{
 				case 0:
@@ -525,7 +540,7 @@ public class ManageComponentPage extends Composite {
 					break;
 				case 2:
 					State state = GraphBTUtil.getStateFromComponent(c, selected);
-					System.out.println("Selected state "+state);
+					//System.out.println("Selected state "+state);
 					WizardDialog sWizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 							getActiveWorkbenchWindow().getShell(),
 							new CreateStateGraphBTWizard(c,state));
@@ -554,6 +569,8 @@ public class ManageComponentPage extends Composite {
 				);
 		componentButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
+				if(model==null)
+					return;
 				HashMap <Integer,String> map = new HashMap<Integer, String>();
 				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 						getActiveWorkbenchWindow().getShell(),
@@ -562,7 +579,7 @@ public class ManageComponentPage extends Composite {
 					return;
 				}
 				listComponents.removeAll();
-				for(Component component : GraphBTUtil.getBEModel(d).getComponentList().getComponents()) {
+				for(Component component : model.getComponentList().getComponents()) {
 					listComponents.add(component.getComponentName());
 				}
 			}
@@ -572,7 +589,7 @@ public class ManageComponentPage extends Composite {
 			public void widgetSelected(SelectionEvent event) {
 				if(listComponents.getSelectionIndex()==-1)
 					return;
-				Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), listComponents.getItem(listComponents.getSelectionIndex()));
+				Component c = GraphBTUtil.getComponent(model, listComponents.getItem(listComponents.getSelectionIndex()));
 				switch(listView.getSelectionIndex())
 				{
 				case 0:
@@ -611,7 +628,7 @@ public class ManageComponentPage extends Composite {
 				case 3:
 					WizardDialog uWizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 							getActiveWorkbenchWindow().getShell(),
-//							new CreateStateGraphBTWizard(c));
+							//							new CreateStateGraphBTWizard(c));
 							new CreateUsesGraphBTWizard(c,d));
 					if(uWizardDialog!= null && uWizardDialog.open() == Window.OK) {
 						listBehaviors.removeAll();
@@ -629,6 +646,8 @@ public class ManageComponentPage extends Composite {
 
 		deleteBehaviorButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
+				if(model==null)
+					return;
 				IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				final DiagramEditor ds;
 				if(page.getActiveEditor() instanceof DiagramEditor) {
@@ -639,10 +658,9 @@ public class ManageComponentPage extends Composite {
 				}
 				d = ds.getDiagramTypeProvider().getDiagram();
 
-				final BEModel be = GraphBTUtil.getBEModel(d);
 				if(listComponents.getSelectionIndex()==-1)
 					return;
-				final Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d), listComponents.getItem(listComponents.getSelectionIndex()));
+				final Component c = GraphBTUtil.getComponent(model, listComponents.getItem(listComponents.getSelectionIndex()));
 				if(listBehaviors.getSelectionIndex()==-1)
 					return;
 

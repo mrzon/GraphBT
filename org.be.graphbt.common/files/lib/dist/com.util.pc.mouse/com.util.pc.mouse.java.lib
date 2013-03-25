@@ -11,7 +11,7 @@ public class Mouse_fli extends Mouse_c {
 	private int y;
 	private int x2;
 	private int y2;
-	private boolean stop = true;
+	private boolean stop = false;
 	
 	//}
 
@@ -28,18 +28,20 @@ public class Mouse_fli extends Mouse_c {
 		
 		return abs.backend.java.lib.types.ABSUnit.UNIT;
 	}
+	
 	public ABSUnit fli_patrol() {
 		Robot robot;
 	//Mouse_fli(){
 		try {
 			robot = new Robot();
-			stop = false;
+			
 		if(!stop)
 		{
 			robot.mouseMove(x,y);
 			robot.delay(1000);
 			robot.mouseMove(x2,y2);
 			robot.delay(1000);
+			
 		}
 		} catch (AWTException e) {
 			// TODO Auto-generated catch block

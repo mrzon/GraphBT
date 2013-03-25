@@ -20,6 +20,7 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -77,12 +78,23 @@ public class CreateStateFirstPageGraphBTWizard extends WizardPage {
 
 	@Override
 	public void createControl(Composite parent) {
-		System.out.println("Hahaha ini statenya "+s);
 		container = new Composite(parent, SWT.NULL);
+		if(s!=null) {
+			Label pLabel = new Label(container,SWT.NULL);
+			pLabel.setText("Image description:");
+			Label pictureLabel = new Label(container,SWT.NULL);
+			Image image = GraphBTUtil.getStateImageDescription(c,s);
+			if(image != null) {
+			pictureLabel.setImage(image);
+			} else {
+				pictureLabel.setText("No state image available");
+			}
+		}
 		GridLayout layout = new GridLayout();
 		container.setLayout(layout);
 		layout.numColumns = 2;
 		GridData gridData;		
+		
 		final Label typeLabel = new Label(container, SWT.NULL);
 		typeLabel.setText("State Ref:");
 		

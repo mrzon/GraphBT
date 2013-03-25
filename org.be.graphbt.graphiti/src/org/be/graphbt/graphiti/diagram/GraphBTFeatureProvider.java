@@ -41,18 +41,24 @@ import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.Component;
 import org.be.graphbt.model.graphbt.Composition;
 import org.be.graphbt.model.graphbt.Edge;
+import org.be.graphbt.model.graphbt.Layout;
+import org.be.graphbt.model.graphbt.LayoutList;
 import org.be.graphbt.model.graphbt.Link;
 import org.be.graphbt.model.graphbt.OperatorClass;
 import org.be.graphbt.model.graphbt.Requirement;
 import org.be.graphbt.model.graphbt.StandardNode;
 import org.be.graphbt.model.graphbt.TraceabilityStatusClass;
 import org.be.graphbt.graphiti.features.AddAtomicConnectionGraphBtFeature;
+import org.be.graphbt.graphiti.features.AddComponentLayoutFeature;
 import org.be.graphbt.graphiti.features.AddGeneralBtNodeFeature;
+import org.be.graphbt.graphiti.features.AddLayoutFeature;
 import org.be.graphbt.graphiti.features.AddSequentialConnectionGraphBtFeature;
 import org.be.graphbt.graphiti.features.ConnectionReconnectGraphBTFeature;
 import org.be.graphbt.graphiti.features.CopyNodeGraphBtFeature;
 import org.be.graphbt.graphiti.features.CreateAtomicConnectionGraphBtFeature;
+import org.be.graphbt.graphiti.features.CreateComponentLayoutFeature;
 import org.be.graphbt.graphiti.features.CreateGeneralBtNodeFeature;
+import org.be.graphbt.graphiti.features.CreateLayoutFeature;
 import org.be.graphbt.graphiti.features.CreateSequentialConnectionGraphBtFeature;
 import org.be.graphbt.graphiti.features.DeleteConnectionGraphBTFeature;
 import org.be.graphbt.graphiti.features.DeleteNodeGraphBTFeature;
@@ -70,7 +76,7 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 
 	@Override
 	public ICreateFeature[] getCreateFeatures() {
-		return new ICreateFeature[] {new CreateGeneralBtNodeFeature(this)};
+		return new ICreateFeature[] {new CreateGeneralBtNodeFeature(this), new CreateLayoutFeature(this),new CreateComponentLayoutFeature(this)};
 	}
 	
 	@Override
@@ -95,6 +101,10 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 			}
 		} else if (context.getNewObject() instanceof StandardNode) {
 			return new AddGeneralBtNodeFeature(this);
+		} else if (context.getNewObject() instanceof Layout) {
+			return new AddComponentLayoutFeature(this);
+		} else if (context.getNewObject() instanceof LayoutList) {
+			return new AddLayoutFeature(this);
 		}
 		return super.getAddFeature(context);
 	}

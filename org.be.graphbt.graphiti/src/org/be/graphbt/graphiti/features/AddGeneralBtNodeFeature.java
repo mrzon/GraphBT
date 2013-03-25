@@ -25,6 +25,7 @@ import org.be.graphbt.model.graphbt.Component;
 import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.graphiti.adapter.StandardNodeAdapter;
 import org.be.graphbt.graphiti.editor.GraphBTDiagramEditor;
+import org.be.graphbt.model.graphbt.BEModel;
 import org.be.graphbt.model.graphbt.Operator;
 import org.be.graphbt.model.graphbt.OperatorClass;
 import org.be.graphbt.model.graphbt.Requirement;
@@ -107,7 +108,12 @@ IAddFeature {
         //image.getStyle().getRenderingStyle().;
         rectangle.setLineWidth(1);
         gaService.setLocationAndSize(rectangle, x, y, width, height);
-        
+        BEModel model = GraphBTUtil.getBEModel(getDiagram(),false);
+        System.out.println(model+"di add general bt node");
+        if(model==null) {
+        	System.out.println("Model belum ada");
+        	//model = GraphBTUtil.getDefaultBEModel(getDiagram());
+        }
         link(containerShape, node);
         node.eAdapters().add(new StandardNodeAdapter());
         // SHAPE FOR LINE
@@ -121,7 +127,7 @@ IAddFeature {
             polyline.setForeground(manageColor(E_CLASS_FOREGROUND));
             polyline.setLineWidth(1);
         }
-        Component cp = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram()),node.getComponentRef());
+        Component cp = GraphBTUtil.getComponentByRef(model,node.getComponentRef());
     	
         // SHAPE WITH TEXT FOR COMPONENT
         {  	

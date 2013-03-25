@@ -56,14 +56,14 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
         String businessName = null;
 		
         if (bo instanceof Component) {
-			Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram()), node.getComponentRef());
+			Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram(),true), node.getComponentRef());
 			if(c != null) {
 				businessName = c.getComponentName();
 			}
 		}
 		else if (bo instanceof Behavior) {
 			if(node.getBehaviorRef() != null) {
-				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram()), node.getComponentRef());
+				Component c = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram(),true), node.getComponentRef());
 				if(GraphBTUtil.getBehaviorFromComponentByRef(c, node.getBehaviorRef())!=null)
 				businessName = GraphBTUtil.getBehaviorFromComponentByRef(c, node.getBehaviorRef()).toString();
 			}
@@ -127,7 +127,7 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
        	StandardNode node = (StandardNode) oSN;
 
         if (bo instanceof Component) {
-        	Component comp = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram()), node.getComponentRef()); 
+        	Component comp = GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram(),true), node.getComponentRef()); 
         	businessName = comp.getComponentName();
             Shape shape = (Shape) pictogramElement;
             pictogramElement.getLink().getBusinessObjects().clear();
@@ -139,7 +139,7 @@ public class UpdateGraphBtFeature extends AbstractUpdateFeature {
              }
         }
         if (bo instanceof Behavior) {
-        	Behavior beh = GraphBTUtil.getBehaviorFromComponentByRef(GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram()), node.getComponentRef()), node.getBehaviorRef());
+        	Behavior beh = GraphBTUtil.getBehaviorFromComponentByRef(GraphBTUtil.getComponentByRef(GraphBTUtil.getBEModel(getDiagram(),true), node.getComponentRef()), node.getBehaviorRef());
         	businessName = beh.toString();
             Shape shape = (Shape) pictogramElement;
 

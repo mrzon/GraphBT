@@ -22,7 +22,7 @@ public class ConnectionReconnectGraphBTFeature extends DefaultReconnectionFeatur
 
 	@Override
 	public boolean canReconnect(IReconnectionContext context) {
-	//	System.out.println("ConnectionReconnectGraphBTFeature canReconnect ndak?? "+ super.canReconnect(context));
+	//	 //System.out.println("ConnectionReconnectGraphBTFeature canReconnect ndak?? "+ super.canReconnect(context));
 		
 		if(super.canReconnect(context)) {
 			return true;
@@ -32,13 +32,13 @@ public class ConnectionReconnectGraphBTFeature extends DefaultReconnectionFeatur
 
 	@Override
 	public void preReconnect(IReconnectionContext context) {
-		System.out.println("ConnectionReconnectGraphBTFeature preReconnect try to reconnecting");
+		 //System.out.println("ConnectionReconnectGraphBTFeature preReconnect try to reconnecting");
 		if(context.getReconnectType().equals(ReconnectionContext.RECONNECT_SOURCE)) {
-			System.out.println("reconnect source "+context.toString()); 
+			 //System.out.println("reconnect source "+context.toString()); 
 			PictogramElement newTarget = context.getNewAnchor().getGraphicsAlgorithm().getPictogramElement();
 			PictogramElement  oldChild = context.getConnection().getEnd().getLink().getPictogramElement();
 			Object ob = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(newTarget);
-			System.out.println("reconnect source "+newTarget.getLink().getBusinessObjects()); 
+			 //System.out.println("reconnect source "+newTarget.getLink().getBusinessObjects()); 
 			if(ob instanceof StandardNode) {
 				StandardNode parent = (StandardNode)ob;
 				Edge e = parent.getEdge();
@@ -53,7 +53,7 @@ public class ConnectionReconnectGraphBTFeature extends DefaultReconnectionFeatur
 				e.getChildNode().add(l);
 				StandardNode od =(StandardNode)Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getOldAnchor().getLink().getPictogramElement()); 
 				od.getEdge().getChildNode().remove(nd);
-				System.out.println("ConnectionReconnectGraphBTFeature preReconnect old Parent "+ od.toString());
+				 //System.out.println("ConnectionReconnectGraphBTFeature preReconnect old Parent "+ od.toString());
 			}
 		}
 		else

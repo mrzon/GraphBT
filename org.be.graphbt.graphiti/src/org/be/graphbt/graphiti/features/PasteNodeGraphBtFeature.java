@@ -36,15 +36,11 @@ public class PasteNodeGraphBtFeature extends AbstractPasteFeature {
 			ac.setTargetContainer(diagram);
 			if(object instanceof StandardNode) {
 				object = copyNode((StandardNode)object);
-				//link(pe, bos[i]);
-
 				try {
 					GraphBTUtil.saveToModelFile((EObject) object, getDiagram());
 				} catch (CoreException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				addGraphicalRepresentation(ac, object);

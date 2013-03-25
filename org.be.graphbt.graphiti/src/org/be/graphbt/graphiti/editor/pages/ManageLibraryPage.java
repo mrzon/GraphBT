@@ -61,7 +61,7 @@ public class ManageLibraryPage extends Composite{
 	}
 
 	public void init() {
-		model = GraphBTUtil.getBEModel(ds.getDiagramTypeProvider().getDiagram());
+		model = GraphBTUtil.getBEModel(ds.getDiagramTypeProvider().getDiagram(),false);
 		GridLayout layout = new GridLayout(3, false);
 		this.setLayout(layout);
 		GridData gridData;
@@ -106,7 +106,7 @@ public class ManageLibraryPage extends Composite{
 			File f = ProjectUtil.getSharedResource(po);
 			String name = "";
 			String desc = "";
-			System.out.println(f+" "+f.isDirectory());
+			 //System.out.println(f+" "+f.isDirectory());
 			if(f.isDirectory()) {
 				File[] files = f.listFiles();
 				for(int i = 0; i < files.length; i++) {
@@ -129,7 +129,7 @@ public class ManageLibraryPage extends Composite{
 							//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
 							doc.getDocumentElement().normalize();
 						 
-							System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+							 //System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 						 
 							name = doc.getElementsByTagName("name").item(0).getTextContent();
 							desc = doc.getElementsByTagName("description").item(0).getTextContent();
@@ -212,8 +212,10 @@ public class ManageLibraryPage extends Composite{
 
 		listSelected.setLayoutData(gridData);
 		listSelected.removeAll();
+		if(model!=null) {
 		for(Library r:model.getLibraries().getImport()) {
 			listSelected.add(r.getId());
+		}
 		}
 		listSelected.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
@@ -258,7 +260,8 @@ public class ManageLibraryPage extends Composite{
 				if(selectedRemove==null) {
 					return;
 				}
-
+				if(model==null)
+					return;
 				for(int i = 0; i < model.getLibraries().getImport().size(); i++) {
 					if(selectedRemove.equals(model.getLibraries().getImport().get(i).getId())) {
 						listSelected.remove(selectedRemove);

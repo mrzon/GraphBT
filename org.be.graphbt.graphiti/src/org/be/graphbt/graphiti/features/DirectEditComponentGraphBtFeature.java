@@ -187,6 +187,6 @@ public class DirectEditComponentGraphBtFeature extends AbstractDirectEditingFeat
 		updatePictogramElement(((Shape) pe));
 	}
 	public BEModel getModel() {
-    	return GraphBTUtil.getBEModel(getDiagram());
+    	return GraphBTUtil.getBEModel(getDiagram(),true);
     }
 }

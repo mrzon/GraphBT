@@ -143,13 +143,22 @@ public interface GraphBTPackage extends EPackage {
 	int BE_MODEL__ERROR_REVERSION_NODE = 7;
 
 	/**
+	 * The feature id for the '<em><b>Layout List</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BE_MODEL__LAYOUT_LIST = 8;
+
+	/**
 	 * The number of structural features of the '<em>BE Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BE_MODEL_FEATURE_COUNT = 8;
+	int BE_MODEL_FEATURE_COUNT = 9;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.BehaviorTreeImpl <em>Behavior Tree</em>}' class.
@@ -1534,6 +1543,107 @@ public interface GraphBTPackage extends EPackage {
 	int PARAMETER_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.LayoutListImpl <em>Layout List</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.be.graphbt.model.graphbt.impl.LayoutListImpl
+	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getLayoutList()
+	 * @generated
+	 */
+	int LAYOUT_LIST = 33;
+
+	/**
+	 * The feature id for the '<em><b>Layouts</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAYOUT_LIST__LAYOUTS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Layout List</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAYOUT_LIST_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.LayoutImpl <em>Layout</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.be.graphbt.model.graphbt.impl.LayoutImpl
+	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getLayout()
+	 * @generated
+	 */
+	int LAYOUT = 34;
+
+	/**
+	 * The feature id for the '<em><b>CRef</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAYOUT__CREF = 0;
+
+	/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAYOUT__X = 1;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAYOUT__Y = 2;
+
+	/**
+	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAYOUT__WIDTH = 3;
+
+	/**
+	 * The feature id for the '<em><b>Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAYOUT__HEIGHT = 4;
+
+	/**
+	 * The feature id for the '<em><b>Z</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAYOUT__Z = 5;
+
+	/**
+	 * The number of structural features of the '<em>Layout</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAYOUT_FEATURE_COUNT = 6;
+
+	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.Composition <em>Composition</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1541,7 +1651,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getComposition()
 	 * @generated
 	 */
-	int COMPOSITION = 33;
+	int COMPOSITION = 35;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.Branch <em>Branch</em>}' enum.
@@ -1551,7 +1661,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getBranch()
 	 * @generated
 	 */
-	int BRANCH = 34;
+	int BRANCH = 36;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.Operator <em>Operator</em>}' enum.
@@ -1561,7 +1671,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 35;
+	int OPERATOR = 37;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.BehaviorType <em>Behavior Type</em>}' enum.
@@ -1571,7 +1681,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getBehaviorType()
 	 * @generated
 	 */
-	int BEHAVIOR_TYPE = 36;
+	int BEHAVIOR_TYPE = 38;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.EventType <em>Event Type</em>}' enum.
@@ -1581,7 +1691,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getEventType()
 	 * @generated
 	 */
-	int EVENT_TYPE = 37;
+	int EVENT_TYPE = 39;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.SpecialEdgeEnum <em>Special Edge Enum</em>}' enum.
@@ -1591,7 +1701,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getSpecialEdgeEnum()
 	 * @generated
 	 */
-	int SPECIAL_EDGE_ENUM = 38;
+	int SPECIAL_EDGE_ENUM = 40;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.TraceabilityStatus <em>Traceability Status</em>}' enum.
@@ -1601,7 +1711,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getTraceabilityStatus()
 	 * @generated
 	 */
-	int TRACEABILITY_STATUS = 39;
+	int TRACEABILITY_STATUS = 41;
 
 
 	/**
@@ -1701,6 +1811,17 @@ public interface GraphBTPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getBEModel_ErrorReversionNode();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.be.graphbt.model.graphbt.BEModel#getLayoutList <em>Layout List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Layout List</em>'.
+	 * @see org.be.graphbt.model.graphbt.BEModel#getLayoutList()
+	 * @see #getBEModel()
+	 * @generated
+	 */
+	EReference getBEModel_LayoutList();
 
 	/**
 	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.BehaviorTree <em>Behavior Tree</em>}'.
@@ -2837,6 +2958,103 @@ public interface GraphBTPackage extends EPackage {
 	EAttribute getParameter_Type();
 
 	/**
+	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.LayoutList <em>Layout List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Layout List</em>'.
+	 * @see org.be.graphbt.model.graphbt.LayoutList
+	 * @generated
+	 */
+	EClass getLayoutList();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.be.graphbt.model.graphbt.LayoutList#getLayouts <em>Layouts</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Layouts</em>'.
+	 * @see org.be.graphbt.model.graphbt.LayoutList#getLayouts()
+	 * @see #getLayoutList()
+	 * @generated
+	 */
+	EReference getLayoutList_Layouts();
+
+	/**
+	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.Layout <em>Layout</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Layout</em>'.
+	 * @see org.be.graphbt.model.graphbt.Layout
+	 * @generated
+	 */
+	EClass getLayout();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.Layout#getCRef <em>CRef</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>CRef</em>'.
+	 * @see org.be.graphbt.model.graphbt.Layout#getCRef()
+	 * @see #getLayout()
+	 * @generated
+	 */
+	EAttribute getLayout_CRef();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.Layout#getX <em>X</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>X</em>'.
+	 * @see org.be.graphbt.model.graphbt.Layout#getX()
+	 * @see #getLayout()
+	 * @generated
+	 */
+	EAttribute getLayout_X();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.Layout#getY <em>Y</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Y</em>'.
+	 * @see org.be.graphbt.model.graphbt.Layout#getY()
+	 * @see #getLayout()
+	 * @generated
+	 */
+	EAttribute getLayout_Y();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.Layout#getWidth <em>Width</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Width</em>'.
+	 * @see org.be.graphbt.model.graphbt.Layout#getWidth()
+	 * @see #getLayout()
+	 * @generated
+	 */
+	EAttribute getLayout_Width();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.Layout#getHeight <em>Height</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Height</em>'.
+	 * @see org.be.graphbt.model.graphbt.Layout#getHeight()
+	 * @see #getLayout()
+	 * @generated
+	 */
+	EAttribute getLayout_Height();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.Layout#getZ <em>Z</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Z</em>'.
+	 * @see org.be.graphbt.model.graphbt.Layout#getZ()
+	 * @see #getLayout()
+	 * @generated
+	 */
+	EAttribute getLayout_Z();
+
+	/**
 	 * Returns the meta object for enum '{@link org.be.graphbt.model.graphbt.Composition <em>Composition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3001,6 +3219,14 @@ public interface GraphBTPackage extends EPackage {
 		 * @generated
 		 */
 		EReference BE_MODEL__ERROR_REVERSION_NODE = eINSTANCE.getBEModel_ErrorReversionNode();
+
+		/**
+		 * The meta object literal for the '<em><b>Layout List</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BE_MODEL__LAYOUT_LIST = eINSTANCE.getBEModel_LayoutList();
 
 		/**
 		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.BehaviorTreeImpl <em>Behavior Tree</em>}' class.
@@ -3913,6 +4139,82 @@ public interface GraphBTPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PARAMETER__TYPE = eINSTANCE.getParameter_Type();
+
+		/**
+		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.LayoutListImpl <em>Layout List</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.be.graphbt.model.graphbt.impl.LayoutListImpl
+		 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getLayoutList()
+		 * @generated
+		 */
+		EClass LAYOUT_LIST = eINSTANCE.getLayoutList();
+
+		/**
+		 * The meta object literal for the '<em><b>Layouts</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LAYOUT_LIST__LAYOUTS = eINSTANCE.getLayoutList_Layouts();
+
+		/**
+		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.LayoutImpl <em>Layout</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.be.graphbt.model.graphbt.impl.LayoutImpl
+		 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getLayout()
+		 * @generated
+		 */
+		EClass LAYOUT = eINSTANCE.getLayout();
+
+		/**
+		 * The meta object literal for the '<em><b>CRef</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAYOUT__CREF = eINSTANCE.getLayout_CRef();
+
+		/**
+		 * The meta object literal for the '<em><b>X</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAYOUT__X = eINSTANCE.getLayout_X();
+
+		/**
+		 * The meta object literal for the '<em><b>Y</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAYOUT__Y = eINSTANCE.getLayout_Y();
+
+		/**
+		 * The meta object literal for the '<em><b>Width</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAYOUT__WIDTH = eINSTANCE.getLayout_Width();
+
+		/**
+		 * The meta object literal for the '<em><b>Height</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAYOUT__HEIGHT = eINSTANCE.getLayout_Height();
+
+		/**
+		 * The meta object literal for the '<em><b>Z</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAYOUT__Z = eINSTANCE.getLayout_Z();
 
 		/**
 		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.Composition <em>Composition</em>}' enum.

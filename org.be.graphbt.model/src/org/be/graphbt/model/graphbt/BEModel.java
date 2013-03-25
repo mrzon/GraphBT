@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.be.graphbt.model.graphbt.BEModel#getLibraries <em>Libraries</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.BEModel#getReversionNode <em>Reversion Node</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.BEModel#getErrorReversionNode <em>Error Reversion Node</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.BEModel#getLayoutList <em>Layout List</em>}</li>
  * </ul>
  * </p>
  *
@@ -223,6 +224,32 @@ public interface BEModel extends EObject {
 	 * @generated
 	 */
 	EList<StandardNode> getErrorReversionNode();
+
+	/**
+	 * Returns the value of the '<em><b>Layout List</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Layout List</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Layout List</em>' containment reference.
+	 * @see #setLayoutList(LayoutList)
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getBEModel_LayoutList()
+	 * @model containment="true"
+	 * @generated
+	 */
+	LayoutList getLayoutList();
+
+	/**
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.BEModel#getLayoutList <em>Layout List</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Layout List</em>' containment reference.
+	 * @see #getLayoutList()
+	 * @generated
+	 */
+	void setLayoutList(LayoutList value);
 
 	void setReversionNode(List<StandardNode> reversionnode);
 

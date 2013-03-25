@@ -68,7 +68,12 @@ ICreateFeature {
 		node.setLabel(System.currentTimeMillis()+"");
 		resource.getContents().add(node);
 		
-		BEModel beModel = GraphBTUtil.getBEModel(getDiagram());
+		BEModel beModel = GraphBTUtil.getBEModel(getDiagram(),false);
+		System.out.println(beModel+" standardNode");
+		if(beModel == null) {
+			System.out.println("BEModel is not created yet");
+		//	beModel = GraphBTUtil.getDefaultBEModel(getDiagram());
+		}
 		if(map.get(StandardNode.TRACEABILITYSTATUS_VALUE)==null ||(map.get(StandardNode.TRACEABILITYSTATUS_VALUE))!=null&&map.get(StandardNode.COMPONENT_VALUE).equals("")) {
 			node.setTraceabilityStatus(TraceabilityStatus.ORIGINAL.getLiteral());
 		}
@@ -107,22 +112,6 @@ ICreateFeature {
 	    
 	    Requirement r = GraphBTUtil.getRequirement(getDiagram(), map.get(StandardNode.TRACEABILITYLINK_VALUE));
 	    node.setTraceabilityLink(r==null?null:r.getKey());
-
-		if(beModel != null) {
-
-		}
-		else {
-			beModel = GraphBTUtil.getBEFactory().createBEModel();
-			beModel.setName("Model");
-			resource.getContents().add(beModel);
-		}
-		
-		if(beModel.getComponentList() == null) {
-			beModel.setComponentList(GraphBTUtil.getBEFactory().createComponentList());
-		}
-		if(beModel.getRequirementList() == null) {
-			beModel.setRequirementList(GraphBTUtil.getBEFactory().createRequirementList());
-		}
 		if(beModel.getDbt()== null) {
 			initiateBT(node);
 		}

@@ -307,7 +307,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					{
 						final ResourceSet rset = new ResourceSetImpl();
 						final Resource poResource = rset.createResource(uri2);
-						final BEModel bem = GraphBTUtil.getBEModel(d);
+						final BEModel bem = GraphBTUtil.getBEModel(d,true);
 					
 						final MapInformation info = GraphBTUtil.getBEFactory().createMapInformation();//new EMap<String,String> ();
 						//if(bem.getRequirementList()!=null)
@@ -465,7 +465,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						if(wizardDialog.open() != Window.OK) {
 							return;
 						}
-						GraphBTUtil.getBEModel(d);
+						GraphBTUtil.getBEModel(d,true);
 					}
 				}
 			}
@@ -490,7 +490,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						if(wizardDialog.open() != Window.OK) {
 							return;
 						}
-						GraphBTUtil.getBEModel(d);
+						GraphBTUtil.getBEModel(d,true);
 					}
 				}
 			}
@@ -516,7 +516,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						if(wizardDialog.open() != Window.OK) {
 							return;
 						}
-						GraphBTUtil.getBEModel(d);
 					}
 					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
@@ -621,7 +620,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						return;
 
 
-					BEModel mod = GraphBTUtil.getBEModel(d.getDiagramTypeProvider().getDiagram());
+					BEModel mod = GraphBTUtil.getBEModel(d.getDiagramTypeProvider().getDiagram(),true);
 					if(d.getDiagramTypeProvider().getDiagram().getChildren().size() > 0 || mod.getComponentList().getComponents().size() > 0 || mod.getRequirementList().getRequirements().size() > 0) {
 						boolean overide=MessageDialog.openQuestion(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Extract confirmation", "Diagram is not empty, are you sure you want to overide current diagram");
 						if(!overide) {
@@ -714,7 +713,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 									RequirementList rList = null;
 									ComponentList cList = null;
 									Libraries rLib = null;
-									final BEModel mod1 = GraphBTUtil.getBEModel(d.getDiagramTypeProvider().getDiagram());
+									final BEModel mod1 = GraphBTUtil.getBEModel(d.getDiagramTypeProvider().getDiagram(),true);
 									while(i.hasNext()) {
 										EObject e = i.next();
 										if(e instanceof AdditionalInformation) {
@@ -1043,7 +1042,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
 					try {
-						BEModel model = GraphBTUtil.getBEModel(d);
+						BEModel model = GraphBTUtil.getBEModel(d,true);
 						SAXParserFactory factory = SAXParserFactory.newInstance();
 						SAXParser saxParser = factory.newSAXParser();
 

@@ -64,10 +64,12 @@ public class AddAffectedAttributeFirstPageGraphBTWizard extends WizardPage {
 				attributesCombo.add(att.getName());	
 			}
 		}
+		/*
 		Attribute at = GraphBTUtil.getAttributeFromComponentByName(c, attributesCombo.getItem(0));
     	map.put(Attribute.TYPE_VALUE, at.getType());
     	typeText.setText(at.getType());
-	    attributesCombo.select(0);
+	    */
+		attributesCombo.select(0);
 	    attributesCombo.addSelectionListener(new SelectionAdapter() {
 		    public void widgetSelected(SelectionEvent e) {
 		    	Combo combo = (Combo)e.widget;

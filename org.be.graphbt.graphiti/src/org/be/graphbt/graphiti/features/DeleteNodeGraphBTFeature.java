@@ -16,7 +16,6 @@ public class DeleteNodeGraphBTFeature extends DefaultDeleteFeature {
 
 	public DeleteNodeGraphBTFeature(IFeatureProvider fp) {
 		super(fp);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

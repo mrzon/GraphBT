@@ -90,7 +90,7 @@ class GraphBTContentProvider implements ITreeContentProvider
 				DiagramEditor editor = (DiagramEditor)inputElement;
 	            // get the line coordinates as an array
 	            Diagram d = editor.getDiagramTypeProvider().getDiagram();
-	            BEModel be = GraphBTUtil.getBEModel(d);
+	            BEModel be = GraphBTUtil.getBEModel(d,true);
 	            Object[]ob = new Object[5];
 	            
 	            ob[0]=be.getLibraries().getImport();

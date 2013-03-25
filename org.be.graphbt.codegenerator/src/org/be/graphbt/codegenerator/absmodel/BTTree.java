@@ -86,7 +86,14 @@ public class BTTree {
         if(root.getOp()==BTNodeOp.REVERSION) {
             //System.out.println("hoh "+root);
             if(getNodeByQualifier(root.getComponent().getName(),root.getBehavior().getName())!=null) {
-                String temp = "node"+root.getPC().substring(0, root.getPC().length()-1) +".addNode(node"+getNodeByQualifier(root.getComponent().getName(),root.getBehavior().getName()).getPC()+");";
+                String comp = root.getComponent()==null?"null":root.getComponent().getRef().toLowerCase()+"_var";
+                String beh = root.getBehavior()==null?"":"method"+root.getBehavior().getRef();
+                String type = root.getType()==null?"":root.getType().toString();
+                String qtype = root.getBehavior()==null?"STATE":root.getBehavior().getType().toString();
+                String op = root.getOp()==null?"":root.getOp().toString();
+
+            	String temp = "N node"+root.getPC()+" = new Node("+comp+",\""+beh+"\",\""+type+"\","+qtype+","+op+",\""+root.getPC()+"\");\n";
+                temp += "node"+root.getPC() +".addNode(node"+getNodeByQualifier(root.getComponent().getName(),root.getBehavior().getName()).getPC()+");";
                 return temp;
             }
             return "";
@@ -100,7 +107,7 @@ public class BTTree {
         temp = "N node"+root.getPC()+" = new Node("+comp+",\""+beh+"\",\""+type+"\","+qtype+","+op+",\""+root.getPC()+"\");";
         for(int i = 0; i < root.getChilds().size(); i++) {
             temp+="\n"+toStringABS(root.getChilds().get(i));
-            if(root.getChilds().get(i).getOp()!=BTNodeOp.REVERSION)
+            //if(root.getChilds().get(i).getOp()!=BTNodeOp.REVERSION)
             temp+="node"+root.getPC()+".addNode(node"+getNextPC(root.getChilds().get(i))+");";
         }
      
@@ -121,7 +128,6 @@ public class BTTree {
         else if(root.getType()==BTNodeType.SEQUENTIALNODE)
             temp+="; "+toString(root.getChilds().get(0));
         else if(root.getType()==BTNodeType.PARALLELBLOCK) {
-            //System.out.println(root.getChilds()+" kaehgk");
             temp+=" P {\n";
             for(int i = 0; i < root.getChilds().size(); i++) {
                 temp+=toString(root.getChilds().get(i))+"\n";
