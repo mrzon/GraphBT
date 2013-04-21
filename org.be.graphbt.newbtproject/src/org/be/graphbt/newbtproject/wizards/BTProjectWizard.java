@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 
+import org.be.graphbt.common.ProjectUtil;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -73,10 +74,10 @@ public class BTProjectWizard extends Wizard implements INewWizard {
 					
 					IFolder src = project.getFolder("src");
 					IFolder rbt = project.getFolder("rbt");
-					IFolder resource = project.getFolder("resource");
-					IFolder image = project.getFolder("resource/image");
+					IFolder resource = project.getFolder(ProjectUtil.RESOURCE_LOCATION);
+					
 					IFile btdiagram = project.getFile(fileName+".btdiagram");
-					IFile btlayout = project.getFile("resource/"+fileName+".btlayout");
+					//IFile btlayout = project.getFile("resource/"+fileName+".btlayout");
 					IFile bt = project.getFile(fileName+".bt");
 					bt.create(new ByteArrayInputStream("".getBytes()), true, monitor);
 					String contents ="<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"+
@@ -85,18 +86,10 @@ public class BTProjectWizard extends Wizard implements INewWizard {
 							  "<colors red=\"227\" green=\"238\" blue=\"249\"/>"+
 							  "<colors red=\"255\" green=\"255\" blue=\"255\"/>"+
 							"</pi:Diagram>";
-					String contents2 ="<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"+
-							"<pi:Diagram xmi:version=\"2.0\" xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:al=\"http://eclipse.org/graphiti/mm/algorithms\" xmlns:pi=\"http://eclipse.org/graphiti/mm/pictograms\" visible=\"true\" gridUnit=\"10\" diagramTypeId=\"graphbtlayout\" name=\""+fileName+" layout\" snapToGrid=\"true\" version=\"0.9.0\">\n" +
-							  "<graphicsAlgorithm xsi:type=\"al:Rectangle\" background=\"//@colors.1\" foreground=\"//@colors.0\" lineWidth=\"1\" transparency=\"0.0\" width=\"1000\" height=\"1000\"/>"+
-							  "<colors red=\"227\" green=\"238\" blue=\"249\"/>"+
-							  "<colors red=\"255\" green=\"255\" blue=\"255\"/>"+
-							"</pi:Diagram>";
 					btdiagram.create(new ByteArrayInputStream(contents.getBytes()), true, monitor);
-					
 					src.create(true, true, monitor);
 					resource.create(true, true, monitor);
-					image.create(true, true, monitor);
-					btlayout.create(new ByteArrayInputStream(contents2.getBytes()), true, monitor);
+					//btlayout.create(new ByteArrayInputStream(contents2.getBytes()), true, monitor);
 					rbt.create(true, true, monitor);
 					
 				} catch (CoreException e) {

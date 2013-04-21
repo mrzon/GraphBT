@@ -17,6 +17,8 @@ package org.be.graphbt.graphiti;
  * </copyright>
  *
  *******************************************************************************/
+import org.be.graphbt.common.ProjectUtil;
+import org.be.graphbt.graphiti.diagram.GraphBTImageProvider;
 import org.be.graphbt.graphiti.editor.*;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -57,6 +59,7 @@ import org.be.graphbt.model.graphbt.State;
 import org.be.graphbt.model.graphbt.TraceabilityStatus;
 import org.be.graphbt.model.graphbt.TraceabilityStatusClass;
 import org.be.textbe.bt.textbt.*;
+import org.eclipse.core.internal.resources.WorkspaceRoot;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -84,6 +87,7 @@ import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
 import org.eclipse.graphiti.features.context.impl.DeleteContext;
+import org.eclipse.graphiti.internal.GraphitiPlugin;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.styles.Color;
 import org.eclipse.graphiti.mm.algorithms.styles.RenderingStyle;
@@ -99,6 +103,9 @@ import org.eclipse.graphiti.tb.ContextEntryHelper;
 import org.eclipse.graphiti.tb.IContextButtonEntry;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.internal.parts.PictogramElementDelegate;
+import org.eclipse.graphiti.ui.internal.platform.ExtensionManager;
+import org.eclipse.graphiti.ui.internal.services.GraphitiUiInternal;
+import org.eclipse.graphiti.ui.platform.IImageProvider;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.eclipse.m2m.atl.core.ATLCoreException;
@@ -927,6 +934,8 @@ public class GraphBTUtil {
 	private static StandardNode getRoot(TextBT bt, DiagramEditor de) {
 		StandardNode root = getBEFactory().createStandardNode();
 		org.be.textbe.bt.textbt.BehaviorTree btbt = bt.getBehaviorTree();
+		if(btbt == null)
+			return null;
 		org.be.textbe.bt.textbt.Node rootbt = btbt.getRootNode();
 		setNode(root,rootbt, de);
 		setChild(root,rootbt, de);
@@ -1586,7 +1595,9 @@ public class GraphBTUtil {
 		IWorkbenchWindow iworkbenchwindow = iworkbench.getActiveWorkbenchWindow();
 		if (iworkbenchwindow == null) return null;
 		IWorkbenchPage iworkbenchpage = iworkbenchwindow.getActivePage();
-		if (iworkbenchpage == null) return null;
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		if (iworkbenchpage == null) 
+			return null;
 		IEditorPart ieditorpart = iworkbenchpage.getActiveEditor();
 		IEditorInput input = ieditorpart.getEditorInput();
 	      if (!(input instanceof IFileEditorInput))
@@ -1594,15 +1605,30 @@ public class GraphBTUtil {
 	      return ((IFileEditorInput)input).getFile().getProject();
 	}
 	public static Image getComponentImageDescription(Component c) {
-		String path = "resource/image/"+c.getComponentRef()+".jpg";
+		String path = ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef()+".jpg";
 		return getImageFromPathString(path);
 	}
 	public static Image getStateImageDescription(Component c, State s) {
-		String path = "resource/image/"+c.getComponentRef()+"-"+s.getName()+".jpg";
+		String path = ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef()+"-"+s.getName()+".jpg";
 		return getImageFromPathString(path);
+	}
+	
+	public static String getImageAbsolutePath(String str) {
+		IProject project = getActiveProject();
+		if(project==null) {
+			return null;
+		}
+		IResource resource = project.findMember(str);
+		if(resource==null) {
+			return null;
+		}
+		return resource.getRawLocation().toOSString();
 	}
 	private static Image getImageFromPathString(String str) {
 		IProject project = getActiveProject();
+		if(project==null) {
+			return null;
+		}
 		IResource resource = project.findMember(str);
 		if(resource==null) {
 			return null;
@@ -1617,5 +1643,16 @@ public class GraphBTUtil {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@SuppressWarnings("restriction")
+	public static GraphBTImageProvider getImageProvider() {
+		IImageProvider s[] = ExtensionManager.getSingleton().getImageProviders();
+    	for(int i = 0; i < s.length; i++) {
+    		if(s[i] instanceof GraphBTImageProvider) {
+    			return (GraphBTImageProvider)s[i];
+    		}
+    	}
+    	return null;
 	}
 }

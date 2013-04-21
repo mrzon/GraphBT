@@ -6,6 +6,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultResizeShapeFeature;
 import org.eclipse.graphiti.mm.algorithms.Image;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
 /**
@@ -49,6 +50,13 @@ public class ResizeGraphBtFeature extends DefaultResizeShapeFeature {
 			image.setStretchH(true);
 			image.setStretchV(true);
 			image.setProportional(true);
+			ContainerShape cs = (ContainerShape)pe.eContainer();
+			if(cs.getGraphicsAlgorithm().getHeight() < image.getY()+image.getHeight()+10) {
+	        	cs.getGraphicsAlgorithm().setHeight(image.getY()+image.getHeight()+10);
+	        }
+	        if(cs.getGraphicsAlgorithm().getWidth() < image.getX()+image.getWidth()+10) {
+	        	cs.getGraphicsAlgorithm().setWidth(image.getX()+image.getWidth()+10);
+	        }
 		}
 		super.resizeShape(context);
 	}

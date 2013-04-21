@@ -20,6 +20,8 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 public class ProjectUtil {
+	
+	public static String RESOURCE_LOCATION = "resource";
 	public static URL getFileLocator(String bundleId,String path) {
 		final URL file = FileLocator.find(Platform.getBundle(bundleId), new Path(path),
 				null);

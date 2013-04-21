@@ -178,9 +178,7 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * <!-- end-user-doc -->
 	 */
 	public BehaviorTree getDbt() {
-		if(dbt==null) {
-			dbt = GraphBTFactory.eINSTANCE.createBehaviorTree();
-		}
+		
 		return dbt;
 	}
 
@@ -244,9 +242,6 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * <!-- end-user-doc -->
 	 */
 	public ComponentList getComponentList() {
-		if(componentList == null) {
-			componentList = GraphBTFactory.eINSTANCE.createComponentList();
-		}
 		return componentList;
 	}
 
@@ -289,9 +284,6 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * <!-- end-user-doc -->
 	 */
 	public RequirementList getRequirementList() {
-		if(requirementList==null) {
-			requirementList = GraphBTFactory.eINSTANCE.createRequirementList();
-		}
 		return requirementList;
 	}
 
@@ -342,9 +334,6 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GraphBTPackage.BE_MODEL__FORMULA_LIST, oldFormulaList, formulaList));
 			}
 		}
-		if(formulaList == null) {
-			formulaList = GraphBTFactory.eINSTANCE.createFormulaList();
-		}
 		return formulaList;
 	}
 
@@ -387,9 +376,7 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * <!-- end-user-doc -->
 	 */
 	public Libraries getLibraries() {
-		if(libraries==null) {
-			libraries = GraphBTFactory.eINSTANCE.createLibraries();
-		}
+		
 		return libraries;
 	}
 
@@ -668,8 +655,8 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer("BEModel ");
-		result.append(super.toString());
+		StringBuffer result = new StringBuffer();
+		//result.append(super.toString());
 		if(this.requirementList!=null)
 		result.append(this.requirementList.toString());
 		if(this.componentList!=null)

@@ -3,6 +3,9 @@
  */
 package org.be.graphbt.graphiti.diagram;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.ICopyFeature;
@@ -10,6 +13,7 @@ import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IFeature;
+import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.ILayoutFeature;
 import org.eclipse.graphiti.features.IMoveBendpointFeature;
 import org.eclipse.graphiti.features.IMoveShapeFeature;
@@ -20,7 +24,9 @@ import org.eclipse.graphiti.features.IResizeShapeFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
+import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.ICopyContext;
+import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.context.IMoveBendpointContext;
@@ -31,8 +37,10 @@ import org.eclipse.graphiti.features.context.IReconnectionContext;
 import org.eclipse.graphiti.features.context.IRemoveContext;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
+import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 
@@ -72,6 +80,7 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 
 	public GraphBTFeatureProvider(IDiagramTypeProvider dtp) {
 		super(dtp);
+		
 	}
 
 	@Override
@@ -201,5 +210,317 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	@Override
 	public IMoveBendpointFeature getMoveBendpointFeature(IMoveBendpointContext context) {
 		return null;
+	}
+	
+	@Override
+	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
+		ArrayList<ICustomFeature> customFeatures = new ArrayList<ICustomFeature>();
+		final PictogramElement pe = context.getPictogramElements()[0];
+		ICustomFeature[] ret = super.getCustomFeatures(context);
+		for(int i=0; i < ret.length; i++) {
+			customFeatures.add(ret[i]);
+		}
+		final Object ob = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		if(ob instanceof Layout) {
+			customFeatures.add(new ICustomFeature() {
+				
+				@Override
+				public IFeatureProvider getFeatureProvider() {
+					// TODO Auto-generated method stub
+					return GraphBTFeatureProvider.this;
+				}
+				
+				@Override
+				public String getDescription() {
+					return "Bring the layout to the top";
+				}
+				
+				@Override
+				public String getName() {
+					return "Bring to top";
+				}
+				
+				@Override
+				public boolean isAvailable(IContext context) {
+					return true;
+				}
+				
+				@Override
+				public boolean hasDoneChanges() {
+					// TODO Auto-generated method stub
+					return true;
+				}
+				
+				@Override
+				public void execute(IContext context) {
+					int i = 0;
+					i++;
+					ContainerShape c = (ContainerShape)pe.eContainer();
+					c.getChildren().remove(pe);
+					c.getChildren().add((Shape) pe);
+					// TODO Auto-generated method stub
+				}
+				
+				@Override
+				public boolean canUndo(IContext context) {
+					// TODO Auto-generated method stub
+					return true;
+				}
+				
+				@Override
+				public boolean canExecute(IContext context) {
+					// TODO Auto-generated method stub
+					return true;
+				}
+				
+				@Override
+				public String getImageId() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+				
+				@Override
+				public void execute(ICustomContext context) {
+					// TODO Auto-generated method stub
+					ContainerShape c = (ContainerShape)pe.eContainer();
+					c.getChildren().remove(pe);
+					c.getChildren().add((Shape) pe);
+				}
+				
+				@Override
+				public boolean canExecute(ICustomContext context) {
+					// TODO Auto-generated method stub
+					return true;
+				}
+			});
+			customFeatures.add(new ICustomFeature() {
+				
+				@Override
+				public IFeatureProvider getFeatureProvider() {
+					// TODO Auto-generated method stub
+					return GraphBTFeatureProvider.this;
+				}
+				
+				@Override
+				public String getDescription() {
+					return "Bring the layout to the bottom";
+				}
+				
+				@Override
+				public String getName() {
+					return "Bring to bottom";
+				}
+				
+				@Override
+				public boolean isAvailable(IContext context) {
+					return true;
+				}
+				
+				@Override
+				public boolean hasDoneChanges() {
+					// TODO Auto-generated method stub
+					return true;
+				}
+				
+				@Override
+				public void execute(IContext context) {
+					int i = 0;
+					i++;
+					ContainerShape c = (ContainerShape)pe.eContainer();
+					c.getChildren().remove(pe);
+					c.getChildren().add(0,(Shape)pe);
+				}
+				
+				@Override
+				public boolean canUndo(IContext context) {
+					// TODO Auto-generated method stub
+					return true;
+				}
+				
+				@Override
+				public boolean canExecute(IContext context) {
+					// TODO Auto-generated method stub
+					return true;
+				}
+				
+				@Override
+				public String getImageId() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+				
+				@Override
+				public void execute(ICustomContext context) {
+					// TODO Auto-generated method stub
+					ContainerShape c = (ContainerShape)pe.eContainer();
+					c.getChildren().remove(pe);
+					c.getChildren().add((Shape) pe);
+				}
+				
+				@Override
+				public boolean canExecute(ICustomContext context) {
+					// TODO Auto-generated method stub
+					return true;
+				}
+			});
+			customFeatures.add(new ICustomFeature() {
+				
+				@Override
+				public IFeatureProvider getFeatureProvider() {
+					// TODO Auto-generated method stub
+					return GraphBTFeatureProvider.this;
+				}
+				
+				@Override
+				public String getDescription() {
+					return "Send the layout to the back";
+				}
+				
+				@Override
+				public String getName() {
+					return "Send to back";
+				}
+				
+				@Override
+				public boolean isAvailable(IContext context) {
+					return true;
+				}
+				
+				@Override
+				public boolean hasDoneChanges() {
+					// TODO Auto-generated method stub
+					return true;
+				}
+				
+				@Override
+				public void execute(IContext context) {
+					ContainerShape c = (ContainerShape)pe.eContainer();
+					int i = c.getChildren().indexOf((Shape)pe);
+					c.getChildren().remove(pe);
+					c.getChildren().add(i-1,(Shape)pe);
+				}
+				
+				@Override
+				public boolean canUndo(IContext context) {
+					// TODO Auto-generated method stub
+					return true;
+				}
+				
+				@Override
+				public boolean canExecute(IContext context) {
+					// TODO Auto-generated method stub
+					ContainerShape c = (ContainerShape)pe.eContainer();
+					int i = c.getChildren().indexOf((Shape)pe);
+					if(i==0)
+						return false;
+					return true;
+				}
+				
+				@Override
+				public String getImageId() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+				
+				@Override
+				public void execute(ICustomContext context) {
+					// TODO Auto-generated method stub
+					ContainerShape c = (ContainerShape)pe.eContainer();
+					c.getChildren().remove(pe);
+					c.getChildren().add((Shape) pe);
+				}
+				
+				@Override
+				public boolean canExecute(ICustomContext context) {
+					// TODO Auto-generated method stub
+					return true;
+				}
+			});
+			customFeatures.add(new ICustomFeature() {
+				
+				@Override
+				public IFeatureProvider getFeatureProvider() {
+					// TODO Auto-generated method stub
+					return GraphBTFeatureProvider.this;
+				}
+				
+				@Override
+				public String getDescription() {
+					return "Send the layout to the front";
+				}
+				
+				@Override
+				public String getName() {
+					return "Send to front";
+				}
+				
+				@Override
+				public boolean isAvailable(IContext context) {
+					return true;
+				}
+				
+				@Override
+				public boolean hasDoneChanges() {
+					// TODO Auto-generated method stub
+					return true;
+				}
+				
+				@Override
+				public void execute(IContext context) {
+					ContainerShape c = (ContainerShape)pe.eContainer();
+					int i = c.getChildren().indexOf((Shape)pe);
+					c.getChildren().remove(pe);
+					c.getChildren().add(i+1,(Shape)pe);
+				}
+				
+				@Override
+				public boolean canUndo(IContext context) {
+					// TODO Auto-generated method stub
+					return true;
+				}
+				
+				@Override
+				public boolean canExecute(IContext context) {
+					// TODO Auto-generated method stub
+					ContainerShape c = (ContainerShape)pe.eContainer();
+					int i = c.getChildren().indexOf((Shape)pe);
+					if(i==c.getChildren().size()-1)
+						return false;
+					return true;
+				}
+				
+				@Override
+				public String getImageId() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+				
+				@Override
+				public void execute(ICustomContext context) {
+					// TODO Auto-generated method stub
+					ContainerShape c = (ContainerShape)pe.eContainer();
+					c.getChildren().remove(pe);
+					c.getChildren().add((Shape) pe);
+				}
+				
+				@Override
+				public boolean canExecute(ICustomContext context) {
+					// TODO Auto-generated method stub
+					return true;
+				}
+			});
+			
+			ret = new ICustomFeature[customFeatures.size()];
+			for(int i = 0; i < ret.length; i++) {
+				ret[i] = customFeatures.get(i);
+			}
+			return ret;
+		}
+		
+		if(ob instanceof Link) {
+			//return new DeleteConnectionGraphBTFeature(this);
+		}
+		
+		return super.getCustomFeatures(context);
 	}
 }

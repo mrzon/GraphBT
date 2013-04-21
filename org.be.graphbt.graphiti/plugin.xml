@@ -88,15 +88,6 @@
             id="org.be.graphbt.graphiti.diagram.GraphBTImageProvider">
       </imageProvider>
       </diagramTypeProvider>
-      <diagramTypeProvider
-            class="org.be.graphbt.graphiti.layout.diagram.GraphBTLayoutDiagramTypeProvider"
-            description="This is the layout editor for GraphBT Tool"
-            id="org.be.graphbt.graphiti.GraphBTLayoutDiagramTypeProvider"
-            name="GraphBT Layout Diagram Type Provider">
-         <diagramType
-               id="org.be.graphbt.graphiti.GraphBTLayoutDiagramType">
-         </diagramType>
-      </diagramTypeProvider>
    </extension>
 <extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
           <propertyContributor contributorId="graphbt.PropertyContributor">
@@ -132,14 +123,5 @@
                   type="org.eclipse.ui.views.properties.IPropertySource">
             </adapter>
          </factory>
-      </extension>
-      <extension
-            point="org.eclipse.graphiti.ui.diagramTypes">
-         <diagramType
-               description="Diagram to create layout for BT Diagram"
-               id="org.be.graphbt.graphiti.GraphBTLayoutDiagramType"
-               name="GraphBT Layout Diagram"
-               type="graphbtlayout">
-         </diagramType>
       </extension>
 </plugin>

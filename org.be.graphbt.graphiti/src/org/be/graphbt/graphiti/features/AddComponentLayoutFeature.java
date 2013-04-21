@@ -5,6 +5,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
 import org.eclipse.graphiti.internal.GraphitiPlugin;
+import org.eclipse.graphiti.internal.services.GraphitiInternal;
 import org.eclipse.graphiti.mm.algorithms.Image;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
@@ -18,7 +19,9 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.ui.internal.GraphitiUIPlugin;
+import org.eclipse.graphiti.ui.internal.platform.ExtensionManager;
 import org.eclipse.graphiti.ui.platform.GraphitiShapeEditPart;
+import org.eclipse.graphiti.ui.platform.IImageProvider;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
@@ -27,6 +30,7 @@ import org.be.graphbt.model.graphbt.AlternativeClass;
 import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.Branch;
 import org.be.graphbt.model.graphbt.Component;
+import org.be.graphbt.common.ProjectUtil;
 import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.graphiti.adapter.StandardNodeAdapter;
 import org.be.graphbt.graphiti.diagram.GraphBTImageProvider;
@@ -111,25 +115,37 @@ IAddFeature {
         rectangle.setBackground(manageColor(ORIGINAL_BEHAVIOR_COLOR));
         Component c = GraphBTUtil.getComponentByRef(model, layout.getCRef());
         org.eclipse.swt.graphics.Image im = GraphBTUtil.getComponentImageDescription(c);
-        try{
-        	GraphitiUIPlugin.getDefault().getImageRegistry().put("IMAGE-"+layout.getCRef(), im);
-        } catch (Exception e) {
-        	
-        }
         
-        Image image = gaService.createImage(containerShape, "IMAGE-"+layout.getCRef());
+    	GraphBTImageProvider imP = GraphBTUtil.getImageProvider();
+    	String path = GraphBTUtil.getImageAbsolutePath(ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef()+".jpg");
+    	System.out.println("Path "+path);
+    	imP.addImage(path, path);
+
+    	if(GraphitiUIPlugin.getDefault().getImageRegistry().get(path)==null) {
+    		GraphitiUIPlugin.getDefault().getImageRegistry().put(path, im);
+    	}
+        Image image = gaService.createImage(containerShape, path);
 
         int width = im.getBounds().width;
         int height = im.getBounds().height; 
-
-        //image.setWidth(100);
-        //image.setHeight(100);
-        //image.setProportional(true);
-        //image.setLineWidth(2);
+        layout.setHeight(height);
+        layout.setWidth(width);
+        layout.setX(x);
+        layout.setY(y);
+        System.out.println(image.getBackground());
+        image.setWidth(100);
+        image.setHeight(100);
+        image.setProportional(true);
+        image.setLineWidth(2);
         //image.getStyle().getRenderingStyle().;
         rectangle.setLineWidth(1);
         gaService.setLocationAndSize(image, x, y, width, height);
-        
+        if(targetDiagram.getGraphicsAlgorithm().getHeight() < y+height+10) {
+        	targetDiagram.getGraphicsAlgorithm().setHeight(y+height+10);
+        }
+        if(targetDiagram.getGraphicsAlgorithm().getWidth() < x+width+10) {
+        	targetDiagram.getGraphicsAlgorithm().setHeight(x+width+10);
+        }
         link(containerShape, layout);
         peCreateService.createChopboxAnchor(containerShape);
         

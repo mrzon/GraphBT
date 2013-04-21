@@ -1,5 +1,9 @@
 package org.be.graphbt.graphiti.diagram;
 
+import org.be.graphbt.graphiti.GraphBTUtil;
+import org.eclipse.graphiti.internal.GraphitiPlugin;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.ui.internal.GraphitiUIPlugin;
 import org.eclipse.graphiti.ui.platform.AbstractImageProvider;
 
 public class GraphBTImageProvider extends AbstractImageProvider {
@@ -14,5 +18,9 @@ public class GraphBTImageProvider extends AbstractImageProvider {
 		// register the path for each image identifier
 		addImageFilePath(IMG_EREFERENCE, "icons/sample.gif");
 		addImageFilePath(VAL_EREFERENCE, "icons/validate.gif");
+	}
+	
+	public void addImage(String ref,String path) {
+		addImageFilePath(ref, path);
 	}
 }

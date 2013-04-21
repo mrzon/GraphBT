@@ -21,6 +21,7 @@ package org.be.graphbt.graphiti.diagram;
 *******************************************************************************/
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
@@ -61,6 +62,7 @@ import org.eclipse.ui.PlatformUI;
 
 import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.Component;
+import org.be.graphbt.model.graphbt.Layout;
 import org.be.graphbt.model.graphbt.Link;
 import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.graphiti.editor.MultiPageEditor;
@@ -105,7 +107,7 @@ public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 			data.getGenericContextButtons().add(deleteButton);
 			IContextButtonEntry button = new ContextButtonEntry(null, context);
 		    button.setText("Create connection");
-		    button.setIconId(GraphBTImageProvider.IMG_EREFERENCE);
+		    button.setIconId("GRAPHBT-IMAGE-C1");
 		    data.getGenericContextButtons().add(button);
 		}
 		
@@ -168,7 +170,11 @@ public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 			ICustomFeature customFeature = customFeatures[i];
 			retList.add(new ContextMenuEntry(customFeature, context));
 		}
-		return NO_CONTEXT_MENU_ENTRIES;
+		
+		if(retList.size() > 0) {
+			ret = (IContextMenuEntry[]) retList.toArray(new IContextMenuEntry[retList.size()]);
+		}
+		return ret;
 	}
 	
 	@Override

@@ -30,6 +30,8 @@ import org.be.graphbt.graphiti.editor.pages.ManageComponentPage;
 import org.be.graphbt.graphiti.editor.pages.ManageLibraryPage;
 import org.be.graphbt.graphiti.editor.pages.ManageRequirementPage;
 import org.be.graphbt.model.graphbt.BEModel;
+import org.be.graphbt.model.graphbt.Component;
+import org.be.graphbt.model.graphbt.Layout;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
@@ -39,6 +41,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -49,6 +52,7 @@ import org.eclipse.graphiti.internal.GraphitiPlugin;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.editor.DiagramEditorInput;
+import org.eclipse.graphiti.ui.internal.GraphitiUIPlugin;
 import org.eclipse.graphiti.ui.internal.services.GraphitiUiInternal;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -62,12 +66,16 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IPageListener;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
@@ -86,6 +94,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	 * Creates page 0 of the multi-page editor,
 	 * which contains a text editor.
 	 */
+	@SuppressWarnings("restriction")
 	void createPage0() {
 		try {
 			editor = new GraphBTDiagramEditor();
@@ -95,6 +104,11 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		    Map<String, Object> m = reg.getExtensionToFactoryMap();
 		    m.put("model", new XMIResourceFactoryImpl());
 			//editor.getGraphicalViewer().setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1), MouseWheelZoomHandler.SINGLETON);
+		    IWorkbench iworkbench = PlatformUI.getWorkbench();
+			
+			IWorkbenchWindow iworkbenchwindow = iworkbench.getActiveWorkbenchWindow();
+			iworkbenchwindow.addPageListener((IPageListener) editor);
+		
 		} catch (PartInitException e) {
 			ErrorDialog.openError(
 				getSite().getShell(),
@@ -237,7 +251,6 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		HashMap <Integer, String> map = new HashMap <Integer,String>();
 		switch (newPageIndex) {
 		 case 0:  //case in editor 0
-
 		 break;
 		 case 1: //case in editor 1
 		 /**
