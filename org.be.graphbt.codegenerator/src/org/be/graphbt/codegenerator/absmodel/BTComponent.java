@@ -173,11 +173,19 @@ public class BTComponent {
             ABSMethod isTerminatedMethod = new ABSMethod(ABSDataType.BOOL,"isTerminated",new ArrayList<ABSParameter>());
             ABSMethod isBlockedMethod = new ABSMethod(ABSDataType.BOOL,"isBlocked",new ArrayList<ABSParameter>());
             ABSMethod run = new ABSMethod(ABSDataType.UNIT,"run",new ArrayList<ABSParameter>());
+            ABSMethod getId = new ABSMethod(ABSDataType.STRING,"getId",new ArrayList<ABSParameter>());
+            temp = new ArrayList<ABSParameter>();
+            temp.add(new ABSParameter(ABSDataType.STRING, "stateName"));
+            ABSMethod setComponentState = new ABSMethod(ABSDataType.UNIT,"setComponentState",temp);
+            
             //ABSMethod getData = new ABSMethod(new ABSDataType("Data"),"getData",new ArrayList<ABSParameter>());
             ABSMethodImplementation runMethodImplementation = new ABSMethodImplementation(runMethod);
             ABSMethodImplementation runI = new ABSMethodImplementation(run);
             ABSMethodImplementation isTerminatedImplementation = new ABSMethodImplementation(isTerminatedMethod);
             ABSMethodImplementation isBlockedImplementation = new ABSMethodImplementation(isBlockedMethod);
+            ABSMethodImplementation getIdImplementation = new ABSMethodImplementation(getId);
+            ABSMethodImplementation setComponentStateImplementation = new ABSMethodImplementation(setComponentState);
+            
             //ABSMethodImplementation getDataI = new ABSMethodImplementation(getData);
             //ab.add(runM);
             //ab.add(isT);
@@ -187,6 +195,9 @@ public class BTComponent {
             ac.addMethodImplementation(runI);
             ac.addMethodImplementation(isTerminatedImplementation);
             ac.addMethodImplementation(isBlockedImplementation);
+            ac.addMethodImplementation(getIdImplementation);
+            ac.addMethodImplementation(setComponentStateImplementation);
+            
             //ac.addMethodImplementation(getDataI);
             //getDataI.addStatement(new ABSStatement(ABSStatementType.RETURN,"return Val(4)"));
             ABSVariable io = new ABSVariable("io");
@@ -197,9 +208,34 @@ public class BTComponent {
             isTerminatedImplementation.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT,"terminate=False"));
             isTerminatedImplementation.addStatement(new ABSStatement(ABSStatementType.RETURN,"return temp"));
             isBlockedImplementation.addStatement(new ABSStatement(ABSStatementType.RETURN,"return block"));
+            getIdImplementation.addStatement(new ABSStatement(ABSStatementType.RETURN, "return \""+this.getRef()+"\""));
+            setComponentStateImplementation.addStatement(new ABSStatement(ABSStatementType.BLOCK, 
+        "ComponentState s = lookupUnsafe(states,stateName);\n"+
+		"Int i = 0;\n"+
+		"List<Variable> stateVars = s.getVars();\n"+
+		"Int n = length(stateVars);\n"+
+		"while(i<n) {\n"+
+		"	Variable v = nth(stateVars,i);\n"+
+		"	String vName = v.getName();\n"+
+		"	Variable var = lookupUnsafe(vars,vName);\n"+
+		"	DataType vType = var.getDataType();\n"+
+		"	if(vType == INT) {\n"+
+		"		Int intValue = v.getIntValue();\n"+
+		"		var.setIntValue(intValue);\n"+
+		"	} else if (vType == STRING) {\n"+
+		"		String stringValue = v.getStringValue();\n"+
+		"		var.setStringValue(stringValue);\n"+				
+		"	} else {\n"+
+		"		Bool boolValue = v.getBoolValue();\n"+
+		"		var.setBoolValue(boolValue);\n"+
+		"	}\n"+
+		"	i = i+1;\n"+
+		"}"));
+            
             ac.addVariable(io);
             _ABSIfGroup ab = new _ABSIfGroup();
-
+            ac.addVariable(new ABSVariable(new ABSDataType("Map<String,ComponentState>","EmptyMap"),"states"));
+            ac.addVariable(new ABSVariable(new ABSDataType("Map<String,Variable>","EmptyMap"),"vars"));
             ac.addVariable(new ABSVariable(ABSDataType.BOOL,"block"));
             ac.addVariable(new ABSVariable(ABSDataType.BOOL,"terminate"));
             runMethodImplementation.addStatement(ab);

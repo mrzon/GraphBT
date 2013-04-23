@@ -101,7 +101,7 @@ public class BTParser extends DefaultHandler
                 behaviorTemp.addRelation(attrs.getValue("question"), attrs.getValue("componentRef"), attrs.getValue("preposition"));
             }
             else if(qName.equalsIgnoreCase("behaviorTree")) {
-                //System.out.println("membuat tree.. hihuiii");
+                ////System.out.println("membuat tree.. hihuiii");
             }
             else if(qName.equalsIgnoreCase("rootNode")) {
                 BTComponent temp = bt.getComponent(attrs.getValue("componentRef"));
@@ -218,24 +218,24 @@ public class BTParser extends DefaultHandler
                 }
                 else
                 {
-                    System.out.println("ini bukan data dan bukan primitive :D "+component.getName());
+                    //System.out.println("ini bukan data dan bukan primitive :D "+component.getName());
                     if(component.getComponentClass()!=null) {
                         if(component.getComponentClass().getParameters() != null) {
                             
                             String a[] = new String[component.getComponentClass().getParameters().size()];
-                            System.out.println("jumlah param "+a.length);
+                            //System.out.println("jumlah param "+a.length);
                             for(int i = 0; i < a.length; i++) {
                                 a[i] = component.getComponentClass().getParameters().get(i).getDefault();
                                 
                                 if(!main.isDeclared(a[i])) {
-                                    System.out.println("yang belom dideclare "+a[i]);
+                                    //System.out.println("yang belom dideclare "+a[i]);
                                     skip = true;
                                     break;
                                 }
                             }
                             stat = component.getComponentClass().initialize(component.getRef().toLowerCase()+"_var",a);
                             var = component.getRef().toLowerCase()+"_var";
-                            System.out.println(stat);
+                            //System.out.println(stat);
                         }
                     }
                 }
@@ -249,10 +249,10 @@ public class BTParser extends DefaultHandler
                     main.addStatement(new ABSStatement(ABSStatementType.DECLARATION,stat));
                 }
             }
-            System.out.println(undVar.size());
+            //System.out.println(undVar.size());
             int j = 0;
             while(!undVar.isEmpty() && j++ < 1000) {
-                System.out.println("as");
+                //System.out.println("as");
                 BTComponent bb = undVar.remove(0);
                 String stat = null;
                 boolean skip = false;

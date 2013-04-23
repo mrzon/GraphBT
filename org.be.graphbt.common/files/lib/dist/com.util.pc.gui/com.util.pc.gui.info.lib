@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<import>
+<name>GUI</name>
+<description>This component can be used to show GUI of the Model</description>
+<method name="registerWidget" type="Unit">
+	<param name="str" type="String"></param> 
+	<param name="w" type="Widget"></param> 
+</method>
+<method name="removeWidget" type="Unit">
+	<param name="key" type=""></param> 
+</method>
+<method name="getWidget" type="Widget">
+	<param name="" type=""></param> 
+</method>
+<method name="show" type="Unit">
+</method>
+<method name="dispose" type="Unit">
+</method>
+<method name="setWidth" type="Unit">
+	<param name="w" type="Int"></param> 
+</method>
+<method name="" type="">
+	<param name="h" type="Int"></param> 
+</method>
+</import>

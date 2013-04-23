@@ -1,0 +1,47 @@
+ <%@ jet package="org.be.graphbt.codegenerator.gui.template" class="GraphBTGuiTemplate" imports="org.be.graphbt.model.graphbt.* import org.eclipse.emf.common.util.*;"%>
+<%BEModel model = (BEModel) argument; %>
+<%if(model.getLayoutList()==null) return null;%>
+
+<%EList<Layout> layouts = model.getLayoutList().getLayouts(); %>
+
+import java.io.*;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.*;
+
+public class Public {
+ 	public static void main(String[]args) throws IOException {
+	 	final Display display = new Display();
+		Shell shell = new Shell(display);
+		shell.setText("Hello World");
+		final Composite comp = new Composite(shell, SWT.NULL);
+		<%for (int i = 0; i < layouts.size(); i++) { %>
+		<%Layout l = layouts.get(i);%>
+		File file<%=l.getCRef()%> = new File("resource/<%=l.getCRef()%>.jpg");
+		Image image<%=l.getCRef()%> = new Image(display, new FileInputStream(file<%=l.getCRef()%>));
+		<%if(l.getCRef().startsWith("CBUTTON")) {%>
+		final Button button<%=l.getCRef()%> = new Button(comp, SWT.NULL);
+		button<%=l.getCRef()%>.setImage(image<%=l.getCRef()%>);
+		button<%=l.getCRef()%>.setBounds(image<%=l.getCRef()%>.getBounds());	
+	   	button<%=l.getCRef()%>.setLocation(<%=l.getX()%>,<%=l.getY()%>);	
+		<%} else {%>
+		final Label label<%=l.getCRef()%> = new Label(comp, SWT.NULL);	
+		label<%=l.getCRef()%>.setImage(image<%=l.getCRef()%>);
+		label<%=l.getCRef()%>.setBounds(image<%=l.getCRef()%>.getBounds());	
+	   	label<%=l.getCRef()%>.setLocation(<%=l.getX()%>,<%=l.getY()%>);	
+	   	<%}}%>
+		comp.pack();
+		shell.open();
+		while(!shell.isDisposed()) {
+			if(!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
+		display.dispose();
+ 		System.out.println("Hello World");
+ 	}
+ }

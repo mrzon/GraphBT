@@ -121,9 +121,10 @@ IAddFeature {
     	System.out.println("Path "+path);
     	imP.addImage(path, path);
 
-    	if(GraphitiUIPlugin.getDefault().getImageRegistry().get(path)==null) {
-    		GraphitiUIPlugin.getDefault().getImageRegistry().put(path, im);
+    	if(GraphitiUIPlugin.getDefault().getImageRegistry().get(path)!=null) {
+    		GraphitiUIPlugin.getDefault().getImageRegistry().remove(path);
     	}
+		GraphitiUIPlugin.getDefault().getImageRegistry().put(path, im);
         Image image = gaService.createImage(containerShape, path);
 
         int width = im.getBounds().width;

@@ -112,9 +112,6 @@ ICreateFeature {
 	    
 	    Requirement r = GraphBTUtil.getRequirement(getDiagram(), map.get(StandardNode.TRACEABILITYLINK_VALUE));
 	    node.setTraceabilityLink(r==null?null:r.getKey());
-		if(beModel.getDbt()== null) {
-			initiateBT(node);
-		}
 		
 		try {
 			GraphBTUtil.saveToModelFile(node, getDiagram());

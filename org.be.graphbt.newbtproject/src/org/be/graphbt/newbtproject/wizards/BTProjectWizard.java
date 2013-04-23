@@ -10,11 +10,18 @@ import org.be.graphbt.common.ProjectUtil;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -60,15 +67,15 @@ public class BTProjectWizard extends Wizard implements INewWizard {
 					
 					project.create(monitor);
 					project.open(monitor);
-					project.getDescription().setName(fileName);
-					String natures[] = new String[1];
-					natures[0] = "org.eclipse.jdt.core.javanature";
-					String builders[] = new String[1];
-					builders[0] = "org.eclipse.jdt.core.javabuilder";
+					IProjectDescription desc = project.getDescription();
+				    String[] prevNatures = desc.getNatureIds();
+				    String[] newNatures = new String[prevNatures.length + 1];
+				    System.arraycopy(prevNatures, 0, newNatures, 0, prevNatures.length);
+				    newNatures[prevNatures.length] = "org.eclipse.jdt.core.javanature";
+				    desc.setNatureIds(newNatures);
+				    project.setDescription(desc, new NullProgressMonitor());
 					System.out.println("Nature id"+Arrays.toString(project.getDescription().getNatureIds()));
 					
-					
-					project.getDescription().setNatureIds(natures);
 					//project.getDescription().setBuildConfigs(builders);
 					project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 					
@@ -87,6 +94,21 @@ public class BTProjectWizard extends Wizard implements INewWizard {
 							  "<colors red=\"255\" green=\"255\" blue=\"255\"/>"+
 							"</pi:Diagram>";
 					btdiagram.create(new ByteArrayInputStream(contents.getBytes()), true, monitor);
+					IJavaProject javaProject = JavaCore.create(project);
+					IClasspathEntry[] newClasspath = new IClasspathEntry[4];
+					newClasspath[0] = JavaCore.newSourceEntry(src.getFullPath());
+					newClasspath[1] = JavaCore.newLibraryEntry(
+						    new Path(ProjectUtil.getSharedResource("files/lib/swt.jar").getAbsolutePath()), // library location
+						    null, //source archive location
+						    src.getFullPath(), //source archive root path
+						    true); //exported
+					newClasspath[2] = JavaCore.newLibraryEntry(
+						    new Path(ProjectUtil.getSharedResource("files/lib/absfrontend.jar").getAbsolutePath()), // library location
+						    null, //source archive location
+						    src.getFullPath(), //source archive root path
+						    true); //exported
+					newClasspath[3] = JavaRuntime.getDefaultJREContainerEntry();
+					javaProject.setRawClasspath(newClasspath, monitor);
 					src.create(true, true, monitor);
 					resource.create(true, true, monitor);
 					//btlayout.create(new ByteArrayInputStream(contents2.getBytes()), true, monitor);

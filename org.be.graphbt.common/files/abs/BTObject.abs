@@ -6,6 +6,7 @@ import * from ExceptionModule;
 data State = Ready | Blocked | Running | Exit | Idle;
 data BehaviorType = INTERNALINPUT | INTERNALOUTPUT | EXTERNALINPUT | EXTERNALOUTPUT | GUARD | SELECTION | STATE;
 data Operator = REVERSION | REFERENCE | SYNCHRONIZATION | NOOPERATOR | BRANCHKILL;
+data DataType = INT | STRING | BOOL;
 
 def Operator operatorFromString(String rs) = 
 case rs {
@@ -197,11 +198,104 @@ class QueueNodeImpl implements QueueNode {
 	}
 }
 
+interface Variable {
+	DataType getDataType();
+	Unit setDataType(DataType dataType);
+	String getName();
+	Unit setName(String name);
+	Unit setStringValue(String value);
+	Bool getBoolValue();
+	Unit setBoolValue(Bool value);
+	Int getIntValue();
+	Unit setIntValue(Int value);
+	String getStringValue();
+}
+
+class VariableImpl() implements Variable{
+	DataType dataType = STRING;
+	String name = "VAR_NAME";
+	Int intValue = 0;
+	Bool boolValue = False;
+	String stringValue = "";
+	DataType getDataType() {
+		return dataType;
+	}
+	
+	Unit setDataType(DataType dataType) {
+		this.dataType = dataType;
+	}
+	
+	String getName() {
+		return name;
+	}
+	
+	Unit setName(String name) {
+		this.name = name;
+	}
+	
+	Unit setStringValue(String value) {
+		stringValue = value;
+	}
+	
+	Unit setIntValue(Int value) {
+		intValue = value;
+	}
+	
+	Unit setBoolValue(Bool value) {
+		boolValue = value;
+	}
+	
+	Bool getBoolValue() {
+		return boolValue;
+	}
+	
+	Int getIntValue() {
+		return intValue;
+	}
+	
+	String getStringValue() { 
+		return stringValue;
+	}
+}
+interface ComponentState {
+	String getName();
+	Unit setName(String n);
+	List<Variable> getVars();
+	Unit setVars(List<Variable> vars);
+}
+
+class ComponentStateImpl implements ComponentState {
+	String name = "STATE";
+	List<Variable> vars = Nil;
+	
+	String getName() {
+		return name;
+	}
+	
+	Unit setName(String n) {
+		name = n;
+	}
+	
+	List<Variable> getVars() {
+		return vars;
+	}
+	
+	Unit setVars(List<Variable> vars) {
+		this.vars = vars;
+	}
+}
 
 interface Component {
 	Bool isTerminated();
 	Bool isBlocked();
 	Unit runMethod(String command);
+	String getId();
+	Unit setComponentState(String s);
+}
+
+interface Widget extends Component {
+	Bool isClicked();
+	Unit click();
 }
 
 interface NodeBlock {
@@ -434,7 +528,6 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 			l = tail(l);
 			Operator op = n.getOperator();
 			String typeB = c.getBlockType();
-			
 			if(typeB == "PARALLELBLOCK"||typeB=="ALTERNATIVEBLOCK") {
 				this.evaluateChildNodes(c);
 			} else {

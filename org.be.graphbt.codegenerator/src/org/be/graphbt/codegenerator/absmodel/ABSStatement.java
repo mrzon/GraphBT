@@ -145,6 +145,9 @@ public class ABSStatement {
     public String toString() {
     	String str = stmnt;
     	System.out.println("hh "+str);
+    	if(stmnt!=null&&type.equals(ABSStatementType.BLOCK)) {
+    		return stmnt;
+    	}
     	if(stmnt!=null&&stmnt.length()>1)
         return stmnt+(stmnt.endsWith(";")?"":";")+"\n";
     	return "";

@@ -23,6 +23,7 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.7.0,4.0.0)",
  org.eclipse.gef;bundle-version="3.7.1",
  org.eclipse.m2m.atl.core
 Import-Package: org.be.graphbt.codegenerator.absmodel,
+ org.be.graphbt.codegenerator.gui.template,
  org.be.graphbt.common,
  org.be.graphbt.model.graphbt,
  org.be.graphbt.saltranslator.bt2salmodel,

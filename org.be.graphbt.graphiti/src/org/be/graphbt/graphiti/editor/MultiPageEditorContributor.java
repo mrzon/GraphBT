@@ -32,6 +32,7 @@ import org.be.graphbt.codegenerator.absmodel.ABSModule;
 import org.be.graphbt.codegenerator.absmodel.ABSStatement;
 import org.be.graphbt.codegenerator.absmodel.ABSStatementType;
 import org.be.graphbt.codegenerator.absmodel.BTParser;
+import org.be.graphbt.codegenerator.gui.template.GraphBTGuiTemplate;
 import org.be.graphbt.common.ProjectUtil;
 //TODO import btdebuggertool.commandHandler.*;
 import org.be.graphbt.saltranslator.bt2salmodel.Main;
@@ -1057,6 +1058,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 			MessageDialog.openError(null, "Code generation error", "The model is not valid, validate the model first to check error");
 			return;
 		}
+		
+
 		//codegenerator.commandHandler.StartPointParseXML debugger = new codegenerator.commandHandler.StartPointParseXML ();
 		generateBTCode.run(); //generate the bt code first
 		IFile bt = this.btIFile;
@@ -1085,7 +1088,17 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						BEModel model = GraphBTUtil.getBEModel(d,true);
 						SAXParserFactory factory = SAXParserFactory.newInstance();
 						SAXParser saxParser = factory.newSAXParser();
-
+						
+						/*Generating GUI*/
+						GraphBTGuiTemplate template = new GraphBTGuiTemplate();
+						String strah = template.generate(model);
+						IPath guiSrc = Path.fromOSString("src/Public.java");
+						IFile fileGui = (IFile) ip.getFile(guiSrc);
+						if(!fileGui.exists()) {
+							fileGui.create(new ByteArrayInputStream(strah.getBytes()), true, monitor);
+						} else {
+							fileGui.setContents(new ByteArrayInputStream(strah.getBytes()), true, false, monitor);
+						}
 						BTParser bp = new BTParser(moduleName,folder,false);
 						saxParser.parse(file, bp);
 						ABSModule mod = bp.getABSModule();

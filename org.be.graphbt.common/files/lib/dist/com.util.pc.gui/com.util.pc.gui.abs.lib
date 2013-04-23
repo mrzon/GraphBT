@@ -1,0 +1,40 @@
+interface GUI_ {
+	Unit registerWidget(String key,Widget w);
+	Unit removeWidget(String key);
+	Widget getWidget(String key);
+	Unit show();
+	Unit dispose();
+	Unit setWidth(Int x);
+	Unit setHeight(Int y);
+}
+[Foreign]
+class GUI implements GUI_
+{
+	Unit registerWidget(String key,Widget w) {
+	
+	}
+	
+	Unit removeWidget(String key) {
+	
+	}
+	
+	Widget getWidget(String key) {
+	
+	}
+	
+	Unit show() {
+	
+	}
+	
+	Unit dispose() {
+	
+	}
+	
+	Unit setWidth(Int w) {
+	
+	}
+	
+	Unit setHeight(Int h) {
+	
+	}
+}
