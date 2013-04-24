@@ -307,7 +307,7 @@ interface NodeBlock {
 
 class NodeBlockImpl implements NodeBlock {
 	NodeBlock parent = null;
-	Int id = currentms();
+	Int id = 0;
 	NodeBlock getParent() {
 		return parent;
 	}
