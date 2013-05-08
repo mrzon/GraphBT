@@ -1,7 +1,7 @@
 module BTObjects;
 export *;
 import * from ExceptionModule;
-
+import * from ABS.FLI;
 
 data State = Ready | Blocked | Running | Exit | Idle;
 data BehaviorType = INTERNALINPUT | INTERNALOUTPUT | EXTERNALINPUT | EXTERNALOUTPUT | GUARD | SELECTION | STATE;
@@ -262,6 +262,7 @@ interface ComponentState {
 	Unit setName(String n);
 	List<Variable> getVars();
 	Unit setVars(List<Variable> vars);
+	Unit addVariable(Variable v);
 }
 
 class ComponentStateImpl implements ComponentState {
@@ -283,6 +284,10 @@ class ComponentStateImpl implements ComponentState {
 	Unit setVars(List<Variable> vars) {
 		this.vars = vars;
 	}
+	
+	Unit addVariable(Variable var) {
+		vars = Cons(var, vars);
+	}
 }
 
 interface Component {
@@ -291,9 +296,6 @@ interface Component {
 	Unit runMethod(String command);
 	String getId();
 	Unit setComponentState(String s);
-}
-
-interface Widget extends Component {
 	Bool isClicked();
 	Unit click();
 }
@@ -322,9 +324,12 @@ class NodeBlockImpl implements NodeBlock {
 	
 	Bool isAncestor(NodeBlock nb) {
 		NodeBlock parent = nb.getParent();
-		Bool ancestor = True;
-		if(parent==null) {
+		Bool ancestor = False;
+		if(parent!=null) {
 			ancestor = False;
+		} 
+		if (this.parent == nb){
+			ancestor = True;
 		} else {
 			ancestor = this.isAncestor(parent);
 		}
@@ -424,7 +429,25 @@ class Node(Component c, String cmd, String t, BehaviorType nt, Operator op, Stri
 interface ProcessManager {
 	
 }
-
+interface IO {
+   String print(String msg);
+   Int readInt();
+   String readString();
+}
+[Foreign]
+class IOImpl implements IO
+{
+	String print(String msg){
+		return "this is the default implementation";
+	}
+	Int readInt(){
+		return 0;
+	}
+	String readString()
+	{
+		return "";
+	}
+}
 class ProcessManagerImpl(N r) implements ProcessManager {
 	QueueNode readyQueue = null; /** Queue to handle ready states */
 	QueueNode blockedQueue = null; /** Queue to handle blocked states */
@@ -437,6 +460,7 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 		Int size = readyQueue.size();
 		while(not(size == 0)){
 			N n = readyQueue.poll();
+			String rs = n.getPC();
 			State state = n.getState();
 			if(state != Exit) {
 				Operator op = n.getOperator();
@@ -445,7 +469,6 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 					BehaviorType nt = n.getBehaviorType();
 					if(nt == STATE) {
 						Fut<Unit> f = n!runNode();
-						
 						this.evaluateChildNodes(n);
 						await f?;
 					} else if (nt == SELECTION) {
@@ -467,18 +490,18 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 					N target = head(l);
 					NodeBlock nb = target.getNodeBlock();
 					NodeBlock nbOwn = n.getNodeBlock();
-					
 					if(nb!=nbOwn) {
 						ArrayNode nodes = readyQueue.toArray();
 						Int i = 0;
 						Int k = nodes.getLength();
 						while(i < k) {
-							N node = nodes.getElement(i);
+							N node = nodes.getElement(i);							
 							NodeBlock nbN = node.getNodeBlock();
 							Bool isAncestor = nbN.isAncestor(nb);
 							if(isAncestor) {
 								node.setState(Exit);
 							}
+							i = i+1;
 						}
 						nodes = blockedQueue.toArray();
 						i = 0;
@@ -490,12 +513,14 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 							if(isAncestor) {
 								node.setState(Exit);
 							}
+							i = i+1;
 						}
 					}
 					this!evaluateChildNodes(n);
 				}
 				n.setState(Exit);
 			}
+			suspend;
 			size = readyQueue.size();
 		}
 	}
@@ -509,14 +534,16 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 			N n = blockedQueue.poll();
 			State state = n.getState();
 			if(state != Exit) {
+				n.runNode();
 				Bool b = n.isBlocked();
 				if(not(b)) {
-					readyQueue.insert(n);
+					this.evaluateChildNodes(n);
 				} else {
 					n.setState(Blocked);
 					blockedQueue.insert(n);
 				}
 			}
+			suspend;
 			size = blockedQueue.size();
 		}
 	}
@@ -526,7 +553,7 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 		while(l != Nil) {
 			N c = head(l);
 			l = tail(l);
-			Operator op = n.getOperator();
+			Operator op = c.getOperator();
 			String typeB = c.getBlockType();
 			if(typeB == "PARALLELBLOCK"||typeB=="ALTERNATIVEBLOCK") {
 				this.evaluateChildNodes(c);
@@ -541,6 +568,7 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 						blockedQueue.insert(c);
 					}
 				} else if(op == REVERSION) {
+					String temp = c.getPC();
 					readyQueue.insert(c);
 					c.setState(Ready);
 				}
@@ -558,19 +586,23 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 			blockedQueue.insert(rNode);
 		}
 	}
-			
+	Unit execute() {
+		Int rQSize = readyQueue.size();
+		Int bQSize = blockedQueue.size();
+		while(rQSize != 0 || bQSize != 0) {
+			Fut<Unit> a = this!readyProcess();
+			Fut<Unit> b = this!evaluateBlockedProcess();
+			await a?;
+			await b?;
+			rQSize = readyQueue.size();
+		    bQSize = blockedQueue.size();
+		}
+	}
+	
 	Unit run() {
 		readyQueue = new QueueNodeImpl();
 		blockedQueue = new QueueNodeImpl();
 		this.start();
-		Int rQSize = readyQueue.size();
-		Int bQSize = blockedQueue.size();
-		while(rQSize != 0 || bQSize != 0) {
-			this!readyProcess();
-			this!evaluateBlockedProcess();
-			suspend;
-			rQSize = readyQueue.size();
-		    bQSize = blockedQueue.size();
-		}
+		this.execute();
 	}
 }

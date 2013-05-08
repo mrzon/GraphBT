@@ -32,7 +32,7 @@ public class ABSMethodImplementation implements ABSBlock{
         String temp = am.toString();
         temp+=" {\n";
         for(int i=0; i < arr.size(); i++) {
-            temp+=arr.get(i).toString() +"\n";
+            temp+=arr.get(i).toString();
         }
         temp+="}";
         return temp;

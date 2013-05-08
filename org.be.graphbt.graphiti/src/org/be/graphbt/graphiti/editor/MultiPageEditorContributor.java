@@ -26,12 +26,18 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.be.graphbt.codegenerator.absmodel.ABSClass;
+import org.be.graphbt.codegenerator.absmodel.ABSDataType;
+import org.be.graphbt.codegenerator.absmodel.ABSDeclarable;
 import org.be.graphbt.codegenerator.absmodel.ABSForeign;
+import org.be.graphbt.codegenerator.absmodel.ABSMainBlock;
 import org.be.graphbt.codegenerator.absmodel.ABSMethodImplementation;
 import org.be.graphbt.codegenerator.absmodel.ABSModule;
 import org.be.graphbt.codegenerator.absmodel.ABSStatement;
 import org.be.graphbt.codegenerator.absmodel.ABSStatementType;
+import org.be.graphbt.codegenerator.absmodel.ABSVariable;
 import org.be.graphbt.codegenerator.absmodel.BTParser;
+import org.be.graphbt.codegenerator.gui.template.GraphBTABSGuiTemplate;
+import org.be.graphbt.codegenerator.gui.template.GraphBTDocumentationTemplate;
 import org.be.graphbt.codegenerator.gui.template.GraphBTGuiTemplate;
 import org.be.graphbt.common.ProjectUtil;
 //TODO import btdebuggertool.commandHandler.*;
@@ -106,9 +112,11 @@ import org.be.graphbt.model.graphbt.BehaviorType;
 import org.be.graphbt.model.graphbt.Component;
 import org.be.graphbt.model.graphbt.ComponentList;
 import org.be.graphbt.model.graphbt.FormulaList;
+import org.be.graphbt.model.graphbt.Layout;
 import org.be.graphbt.model.graphbt.Libraries;
 import org.be.graphbt.model.graphbt.MapInformation;
 import org.be.graphbt.model.graphbt.RequirementList;
+import org.be.graphbt.model.graphbt.State;
 import org.be.graphbt.graphiti.Activator;
 import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.model.graphbt.Information;
@@ -139,12 +147,12 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	private Action verifyModel;
 	private Action correctLayout;
 	private Action importBT;
-	private IFile btIFile;
 	private Action clearDiagram;
 	private Action generateSALCode;
 	private Action runCode;
 	private Action generateDocument;
 	private Action exportBT;
+	private IFile btIFile;
 
 	/**
 	 * Creates a multi-page contributor.
@@ -170,9 +178,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	public void setActivePage(IEditorPart part) {
 		if (activeEditorPart == part)
 			return;
-
 		activeEditorPart = part;
-
 		IActionBars actionBars = getActionBars();
 		if (actionBars != null) {
 
@@ -242,11 +248,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				System.out.println("Save to: " + path);
 				FileOutputStream fos;
 				try {
-					
 					fos = new FileOutputStream(path);
-
 					ZipOutputStream zos = new ZipOutputStream(fos);
-
 					String file1Name = btIFile.getRawLocation().toOSString();
 					String file2Name = workspaceRoot.getFile(new Path(uri2.toPlatformString(true))).getRawLocation().toOSString();
 					IProject project = btIFile.getProject();
@@ -259,20 +262,16 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 								addToZipFile(fileName, zos);
 							}
 						} catch (CoreException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
 					addToZipFile(file1Name, zos);
 					addToZipFile(file2Name, zos);
-
 					zos.close();
 					fos.close();
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -304,33 +303,25 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						try {
 							if (file == null || !file.exists()) {
 								btIFile.create(in,false,null);
-							}	
-							else
-							{
+							} else {
 								btIFile.setContents(in, false, false, null);
 							}	
 						} catch (CoreException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
-
 					//extract additional info
 					URI uri2 = uri.trimFragment();
 					uri2 = uri2.trimFileExtension();
 					uri2 = uri2.appendFileExtension("info");	
-					//System.out.println(uri2);
 					file = workspaceRoot.findMember(uri2.toPlatformString(true));
 					{
 						final ResourceSet rset = new ResourceSetImpl();
 						final Resource poResource = rset.createResource(uri2);
 						final BEModel bem = GraphBTUtil.getBEModel(d,true);
-					
 						final MapInformation info = GraphBTUtil.getBEFactory().createMapInformation();//new EMap<String,String> ();
-						//if(bem.getRequirementList()!=null)
 						for(int i = 0; i < bem.getRequirementList().getRequirements().size(); i++) {
 							org.be.graphbt.model.graphbt.Requirement r = bem.getRequirementList().getRequirements().get(i);
-							//System.out.println(r.getKey());
 							if(r.getRequirement()!=null) {
 								Information inf = GraphBTUtil.getBEFactory().createInformation();
 								inf.setKey(r.getKey()+".name");
@@ -345,10 +336,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 							}
 						}
 						ComponentList cpl = bem.getComponentList();
-						//if(cpl!=null)
 						for(int i = 0; i < cpl.getComponents().size(); i++) {
 							org.be.graphbt.model.graphbt.Component c = cpl.getComponents().get(i);
-							//System.out.println(c.getComponentRef());
 							if(c.getComponentDesc()!=null) {
 								Information inf = GraphBTUtil.getBEFactory().createInformation();
 								inf.setKey(c.getComponentRef()+".desc");
@@ -368,7 +357,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						EList<Library> libs = bem.getLibraries().getImport();
 						for(int i = 0; i < libs.size(); i++) {
 							org.be.graphbt.model.graphbt.Library c = libs.get(i);
-							//System.out.println(c.getComponentRef());
 							if(c.getDesc()!=null) {
 								Information inf = GraphBTUtil.getBEFactory().createInformation();
 								inf.setKey(c.getName()+".desc");
@@ -392,7 +380,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						((DiagramEditor)activeEditorPart).getEditingDomain().getCommandStack().execute(new RecordingCommand(((DiagramEditor)activeEditorPart).getEditingDomain(),"clear diagram editor") {
 							@Override
 							protected void doExecute() {
-								//poResource.getContents().add();
 								poResource.getContents().add(EcoreUtil.copy(bem.getRequirementList()));
 								poResource.getContents().add(EcoreUtil.copy(bem.getLibraries()));
 								poResource.getContents().add(EcoreUtil.copy(bem.getComponentList()));
@@ -403,31 +390,21 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						try {
 							poResource.save(null);
 						} catch (IOException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-
-
-
 					}
-				}}
-			// Get the currently selected file from the editor
+				}
+			}
 		};	
-
 		generateBTCode.setText("Generate BT Code");
 		generateBTCode.setToolTipText("Generate the corresponding BT Code of the BE model");
 		generateBTCode.setImageDescriptor(getImageDescriptor("icons/generateBTCode.gif"));
-
 		addNewComponent = new Action() {
 			public void run() {
-				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor) {
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
-					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
 					HashMap <Integer,String> map = new HashMap<Integer, String>();
-					//String ketemu="";
-
 					WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 							getActiveWorkbenchWindow().getShell(),
 							new CreateComponentGraphBTWizard(map, d));
@@ -437,19 +414,14 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				}
 			}
 		};
-
 		addNewComponent.setText("Add new Component");
 		addNewComponent.setToolTipText("Add new component to the model");
 		addNewComponent.setImageDescriptor(getImageDescriptor("icons/newComponent.gif"));
-
 		manageComponents = new Action() {
 			public void run() {
-				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor) {
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
-					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
-					//String ketemu="";
 					if(d!=null) {
 						WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 								getActiveWorkbenchWindow().getShell(),
@@ -461,24 +433,19 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				}
 			}
 		};
-
 		manageComponents.setText("Manage Components");
 		manageComponents.setToolTipText("Manage components of the model");
 		manageComponents.setImageDescriptor(getImageDescriptor("icons/component.gif"));
-
 		manageRequirements = new Action() {
 			public void run() {
-				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor) {
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
-					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
 					HashMap <Integer,String> map = new HashMap<Integer, String>();
-					//String ketemu="";
 					if(d!=null) {
 						WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 								getActiveWorkbenchWindow().getShell(),
-								new ManageRequirementsGraphBTWizard(map, d));
+								new ManageRequirementsGraphBTWizard(map, de));
 						if(wizardDialog.open() != Window.OK) {
 							return;
 						}
@@ -490,16 +457,12 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		manageRequirements.setText("Manage Requirements");
 		manageRequirements.setToolTipText("Manage Requirements of The Model");
 		manageRequirements.setImageDescriptor(getImageDescriptor("icons/requirement.gif"));
-
 		manageLibrary = new Action() {
 			public void run() {
-				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor) {
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
-					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
 					HashMap <Integer,String> map = new HashMap<Integer, String>();
-					//String ketemu="";
 					if(d!=null) {
 						WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 								getActiveWorkbenchWindow().getShell(),
@@ -512,17 +475,13 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				}
 			}
 		};
-
 		manageLibrary.setText("Manage Library");
 		manageLibrary.setToolTipText("Manage library");
 		manageLibrary.setImageDescriptor(getImageDescriptor("icons/manageLibrary.gif"));
-
 		verifyModel = new Action() {
 			public void run() {
-				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor) {
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
-					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
 					HashMap <Integer,String> map = new HashMap<Integer, String>();
 					generateSALCode.run();
@@ -534,34 +493,24 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 							return;
 						}
 					}
-					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
 			}
 		};
-
 		verifyModel.setText("Verify Model");
 		verifyModel.setToolTipText("Verify model");
 		verifyModel.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 				getImageDescriptor(IDE.SharedImages.IMG_OPEN_MARKER));
-
 		validateBT = new Action() {
 			public void run() {
-				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor) {
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
-					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
-
 					int isValid = GraphBTUtil.isValid(d);
-
 					if(isValid == 1) {
 						MessageDialog.openError(null, "Error in validate BT", "The model should contain only one root!");
-					}
-					else if(isValid == 2) {
+					} else if(isValid == 2) {
 						MessageDialog.openError(null, "Error in validate BT", "The model contain invalid reversion node!");
-					}
-					else
-					{
+					} else {
 						MessageDialog.openInformation(null, "Validation info", "The model is valid");
 					}
 				}
@@ -570,10 +519,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		validateBT.setText("Validate BT");
 		validateBT.setToolTipText("Validate BT");
 		validateBT.setImageDescriptor(getImageDescriptor("icons/validate.gif"));
-
 		this.debugBT = new Action() {
 			public void run() {
-				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor) {
 					Diagram d = ((DiagramEditor)activeEditorPart).getDiagramTypeProvider().getDiagram();
 					if(GraphBTUtil.isValid(d)>0) {
@@ -583,7 +530,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					StartPointParseXML debugger = new StartPointParseXML ();
 					generateBTCode.run(); //generate the bt code first
 					debugger.showDebugger(btIFile, PlatformUI.getWorkbench().getActiveWorkbenchWindow());
-					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
 			}
 		};
@@ -601,14 +547,11 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		generateJavaCode.setImageDescriptor(getImageDescriptor("icons/generateCode.gif"));
 		correctLayout = new Action() {
 			public void run() {
-				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor) {
 					DiagramEditor de = (DiagramEditor)activeEditorPart;
 					// Get the currently selected file from the editor
 					Diagram d = de.getDiagramTypeProvider().getDiagram();
 					GraphBTUtil.applyTreeLayout(d);
-
-					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
 			}
 		};
@@ -622,10 +565,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					String filePath = handleBrowse();
 					if(filePath==null)
 						return;
-					
 					IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 					IPath path = Path.fromOSString(filePath);
-
 					IFile file = root.getFileForLocation(path);
 					final GraphBTDiagramEditor d = ((GraphBTDiagramEditor)activeEditorPart);
 					URI uri = d.getDiagramTypeProvider().getDiagram().eResource().getURI();
@@ -633,7 +574,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 					uri.trimFileExtension();
 					uri.appendFileExtension("model");
 					IResource res = root.findMember(uri.toPlatformString(true));
-
 					final BEModel mod = GraphBTUtil.getBEModel(d.getDiagramTypeProvider().getDiagram());
 					if(d.getDiagramTypeProvider().getDiagram().getChildren().size() > 0 || mod.getComponentList().getComponents().size() > 0 || mod.getRequirementList().getRequirements().size() > 0) {
 						boolean overide=MessageDialog.openQuestion(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Extract confirmation", "Diagram is not empty, are you sure you want to overide current diagram");
@@ -641,8 +581,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 							return;
 						}
 					}
-
-					//TODO ///
 					if(filePath.endsWith(".btinfo")){
 						ZipFile zip;
 						try {
@@ -659,14 +597,14 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 								if(sFile.isDirectory()) {
 									for(int j = 0; j < sFile.listFiles().length; j++)
 									{
-										
+
 										IPath copy = Path.fromPortableString("/"+ProjectUtil.RESOURCE_LOCATION+"/"+sFile.listFiles()[j].getName());
 										IFolder dir = res.getProject().getFolder("/"+Path.fromPortableString(ProjectUtil.RESOURCE_LOCATION));
 										if(!dir.exists()) {
 											dir.create(true, true, null);
 										}
 										IFile fi = res.getProject().getFile(copy);
-										
+
 										File tFile = new File(fi.getRawLocation().toOSString());
 										System.out.println(tFile.getName()+" want to copy");
 										ProjectUtil.copy(sFile.listFiles()[j], tFile);
@@ -682,29 +620,23 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 									ProjectUtil.copy(sFile, tFile);
 								}
 							}
-							///
 						} catch (IOException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						} catch (CoreException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
 					File f = new File(filePath);
 					if(file==null) {
 						IPath copy = Path.fromPortableString("/"+res.getProject().getName()+"/rbt/"+f.getName());
-						
 						file = root.getFile(copy);
 						System.out.println(file);
 						if(!file.exists()) {
 							try {
 								file.create(new java.io.FileInputStream(f), true, null);
 							} catch (FileNotFoundException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							} catch (CoreException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						}
@@ -713,11 +645,9 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						final IFile ffTemp = file;
 						System.out.println("XXUI "+filePath);
 						final String filePathTemp = filePath;
-						
 						d.getEditingDomain().getCommandStack().execute(new RecordingCommand(d.getEditingDomain(),"clear diagram editor") {
 							@Override
 							protected void doExecute() {
-								
 								d.reversionNode.clear();
 								d.errorReversionNode.clear();
 								Diagram diag = d.getDiagramTypeProvider().getDiagram(); 
@@ -733,12 +663,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 								diag.eResource().getResourceSet().getResource(uri, true).getContents().clear();
 								GraphBTUtil.generateFromBTFile(ffTemp, d);
 								String infoName = filePathTemp.substring(0,filePathTemp.lastIndexOf("."))+".info";
-								//System.out.println("AdditionalInfo file name: "+infoName);
 								File fTemp = new File(infoName);
-								//apply additional information
 								if(fTemp.exists()) {
-									//System.out.println("AdditionalInformation do existed");
-
 									URI ur = URI.createFileURI(fTemp.getAbsolutePath());
 									ResourceSet rs = new ResourceSetImpl();
 									Resource resource = rs.getResource(ur, true);
@@ -754,9 +680,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 											temp = (AdditionalInformation) e;
 										} else if(e instanceof RequirementList) {
 											rList = (RequirementList) e;
-											
 											mod.setRequirementList(GraphBTUtil.getBEFactory().createRequirementList());
-											
 											mod.getRequirementList().getRequirements().addAll(EcoreUtil.copyAll(rList.getRequirements()));
 										} else if(e instanceof ComponentList) {
 											cList = (ComponentList) e;
@@ -769,44 +693,9 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 										} else if(e instanceof FormulaList) {
 											FormulaList fList = (FormulaList)e;
 											mod.setFormulaList(GraphBTUtil.getBEFactory().createFormulaList());
-											
 											mod.getFormulaList().getFormula().addAll(EcoreUtil.copyAll(fList.getFormula()));
 										}
 									}
-									/*
-									if(temp==null)
-										return;
-									for(int ik = 0; ik < temp.getInfo().size(); ik++) {
-										information.put(temp.getInfo().get(ik).getKey(), temp.getInfo().get(ik).getValue());
-									}
-									//assert the sum of the requirements in the model and in the temp is the same
-									for(int i1 = 0; i1 < model.getRequirementList().getRequirements().size(); i1++) {
-										//System.out.println("AdditionalInformation extracting: Requirement");
-										org.be.graphbt.model.graphbt.Requirement r = model.getRequirementList().getRequirements().get(i1);
-										if(information.get(r.getKey()+".desc")!=null) {	
-											r.setDescription(information.get(r.getKey()+".desc"));
-										}
-										if(information.get(r.getKey()+".name")!=null) {	
-											r.setDescription(information.get(r.getKey()+".name"));
-										}
-
-									}
-									//assert the sum of the components in the model and in the temp is the same
-									for(int i1 = 0; i1 < model.getComponentList().getComponents().size(); i1++) {
-										//System.out.println("AdditionalInformation extracting: Components");
-										org.be.graphbt.model.graphbt.Component c = model.getComponentList().getComponents().get(i1);
-										if(information.get(c.getComponentRef()+".desc")!=null) {	
-											c.setComponentDesc(information.get(c.getComponentRef()+".desc"));
-										}
-										for(int j = 0; j < c.getBehaviors().size();j++) {
-											//System.out.println("AdditionalInformation extracting: Behavior");
-											org.be.graphbt.model.graphbt.Behavior b = c.getBehaviors().get(j);
-											if(information.get(c.getComponentRef()+b.getBehaviorRef()+".desc")!=null) {
-												information.get(c.getComponentRef()+b.getBehaviorRef()+".desc");
-											}
-										}
-
-									}*/
 								}
 							}
 						});
@@ -896,11 +785,22 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 						String project =  d.eResource().getURI().toPlatformString(true);
 						IResource res = root.findMember(project);
+						BEModel model = GraphBTUtil.getBEModel(d);
 						File absfrontendurl = ProjectUtil.getSharedResource("files/lib/absfrontend.jar");
+						StringBuffer classPaths = new StringBuffer(absfrontendurl.toString());
+						if(model.getLibraries()!=null) {
+							for (int i = 0; i < model.getLibraries().getImport().size(); i++) {
+								Library lib = model.getLibraries().getImport().get(i);
+								if(lib.getId().endsWith(".gui")) {
+									classPaths.append(';');
+									classPaths.append(ProjectUtil.getSharedResource("files/lib/swt.jar"));
+								}
+							}
+						}
 						String path=root.getRawLocation().toOSString()+res.getProject().getFullPath().toOSString();
 
 						String runCommand = "cmd /c start cmd.exe /k \"c: && " +
-								"java -cp "+path+"/src/;"+absfrontendurl+" "+res.getProject().getName()+".Main";
+								"java -cp "+path+"/src/;"+classPaths.toString()+" "+res.getProject().getName()+".Main";
 						System.out.println(runCommand);
 						Runtime.getRuntime().exec(runCommand);
 
@@ -923,14 +823,19 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 						MessageDialog.openError(null, "Generate document error", "The model is not valid, validate the model first to check error");
 						return;
 					}
-
 					try {
-						//ProjectDocumentation.generate("doc.html");
-						throw new IOException();
-					}catch (IOException e) {
+						BEModel model = GraphBTUtil.getBEModel(d);
+						GraphBTDocumentationTemplate template = new GraphBTDocumentationTemplate();
+						IProject project = ProjectUtil.getActiveProject();
+						IFile file = project.getFile("docs.html");
+						if(!file.exists()) {
+							file.create(new ByteArrayInputStream(template.generate(model).getBytes()), true, null);
+						} else {
+							file.setContents(new ByteArrayInputStream(template.generate(model).getBytes()), true, true, null);
+						}
+					} catch (CoreException e) {
 						e.printStackTrace();
 					}
-					//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "path: " + path+"\n"+ketemu);
 				}
 			}
 		};
@@ -1010,8 +915,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		manager.add(runCode);
 		manager.add(debugBT);
 		manager.add(new Separator());
-		//manager.add(getAction(GEFActionConstants.ZOOM_OUT));
-		//manager.add(getAction(GEFActionConstants.ZOOM_IN));
 		ZoomComboContributionItem zoomCombo = new ZoomComboContributionItem(getPage());
 		manager.add(zoomCombo);
 	}
@@ -1058,9 +961,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 			MessageDialog.openError(null, "Code generation error", "The model is not valid, validate the model first to check error");
 			return;
 		}
-		
-
-		//codegenerator.commandHandler.StartPointParseXML debugger = new codegenerator.commandHandler.StartPointParseXML ();
 		generateBTCode.run(); //generate the bt code first
 		IFile bt = this.btIFile;
 		try {
@@ -1068,37 +968,21 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 			IWorkspace workspace= ResourcesPlugin.getWorkspace();
 			IPath location= Path.fromOSString(file.getAbsolutePath()); 
 			IFile xml= workspace.getRoot().getFileForLocation(location);
-			System.out.println(xml);
 			final IProject ip = bt.getProject();
 			String modName = ip.getName();
 			StringBuffer strB = new StringBuffer(modName);
 			strB.setCharAt(0,(modName.substring(0, 1).toUpperCase().charAt(0)));
 			modName = strB.toString();
 			final String moduleName = modName; 
-
 			File f = new File(bt.getRawLocation().toOSString());
 			final String folder = f.getParentFile().getAbsolutePath();
-			System.out.println("nama workspacenya "+folder);
-
 			Job gen = new Job("Generating Java Code...") {
-
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
 					try {
 						BEModel model = GraphBTUtil.getBEModel(d,true);
 						SAXParserFactory factory = SAXParserFactory.newInstance();
 						SAXParser saxParser = factory.newSAXParser();
-						
-						/*Generating GUI*/
-						GraphBTGuiTemplate template = new GraphBTGuiTemplate();
-						String strah = template.generate(model);
-						IPath guiSrc = Path.fromOSString("src/Public.java");
-						IFile fileGui = (IFile) ip.getFile(guiSrc);
-						if(!fileGui.exists()) {
-							fileGui.create(new ByteArrayInputStream(strah.getBytes()), true, monitor);
-						} else {
-							fileGui.setContents(new ByteArrayInputStream(strah.getBytes()), true, false, monitor);
-						}
 						BTParser bp = new BTParser(moduleName,folder,false);
 						saxParser.parse(file, bp);
 						ABSModule mod = bp.getABSModule();
@@ -1109,10 +993,11 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 								isCIO = true;
 							}
 						}
+						///** ADD LIBRARY TO THE  GENERATED FILE
 						if(!isCIO) {
 							Library io = GraphBTUtil.getBEFactory().createLibrary();
 							io.setId("com.util.pc.io");
-							io.setName("IOImpl");
+							io.setName("IO");
 							libs.add(io);
 						}
 						for(int i = 0; i < libs.size(); i++) {
@@ -1121,6 +1006,9 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 							f.setName(libs.get(i).getName());
 							File []fi = ProjectUtil.getSharedResource("files/lib/dist/"+libs.get(i).getId()).listFiles();
 							int j = 0;
+							if(f.getName().equals("IO")) {
+								f.setModule("BTObjects");
+							}
 							while(j < fi.length) {
 								File entry = fi[j];
 								j++;
@@ -1133,7 +1021,13 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 									buffer.append(str+"\n");
 								}
 								if(entryName.endsWith("java.lib")) {
-									f.setJavaCode(buffer.toString().trim());
+									if(entryName.endsWith("gui.java.lib")) {
+										/*Generating GUI*/
+										GraphBTABSGuiTemplate template = new GraphBTABSGuiTemplate();
+										f.setJavaCode(template.generate(model));
+									} else {
+										f.setJavaCode(buffer.toString().trim());
+									}
 								}
 								else if(entryName.endsWith("abs.lib")) {
 									f.setABSCode(buffer.toString().trim());
@@ -1142,26 +1036,103 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 									//TODO
 								}
 							}
+							if(f.getName().equals("GUI")) {
+								ABSMainBlock main = mod.getMainBlock();
+								main.addStatement(new ABSStatement(ABSStatementType.DECLARATION, "GUI gui = new cog GUIImpl()"));
+								if(model.getLayoutList()!=null) {
+									for(Layout l:model.getLayoutList().getLayouts()) {
+										main.addStatement(new ABSStatement(ABSStatementType.ADDON, "gui!registerComponent(\""+l.getCRef()+"\","+l.getCRef().toLowerCase()+"_var)"));
+										main.addStatement(new ABSStatement(ABSStatementType.ADDON, l.getCRef().toLowerCase()+"_var.set_gui_var(gui)"));
+									}
+								}
+								main.addStatement(new ABSStatement(ABSStatementType.ADDON, "gui!show()"));
+							}
 						}
 						for(int i = 0; i < model.getComponentList().getComponents().size(); i++) {
 							Component c = model.getComponentList().getComponents().get(i);
 							ABSClass absClass = mod.getClass(c.getComponentName()+"_Class");
-
+							//** ADD 'USED' LIBRARY AS THE CLASS ATTRIBUTE
 							for(Library l:c.getUses()) {
 								if(l.getName().equals("IOImpl")) {
 									continue;
 								}
-								String type = l.getName()+"_";
+								String type = l.getName();
 								String var = l.getName().toLowerCase()+"_var";
-								absClass.addStatement(new ABSStatement(ABSStatementType.DECLARATION, type+" "+var+";"));
-								absClass.getMethodImplementation("run").addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT, var+" = new "+l.getName()+"()"));	
+								ABSVariable variable = new ABSVariable(var);
+								variable.setDataType(new ABSDataType(type, null));
+								absClass.addVariable(variable);
+								absClass.addAccessorMutator(variable);
 							}
+							//** ADD STATEMENTS FROM STATE REALIZATION BLOCK TO THE CORRESPONDED ABS METHOD
 							for(Behavior b:c.getBehaviors()) {
 								switch(b.getBehaviorType().getValue()) {
 								case BehaviorType.STATE_REALIZATION_VALUE:
 									String statements = b.getTechnicalDetail();
 									ABSMethodImplementation mi = absClass.getMethodImplementation("method"+b.getBehaviorRef());
-									mi.addStatement(new ABSStatement(ABSStatementType.BLOCK, statements));
+									
+									if(GraphBTUtil.getStateFromComponent(c, b.getBehaviorName())!= null) {
+										mi.addStatement(new ABSStatement(ABSStatementType.BLOCK, "this.setComponentState(\""+b.getBehaviorName()+"\");"));
+									}
+									if(statements!=null&&statements.trim().length() > 0) {
+										mi.addStatement(new ABSStatement(ABSStatementType.BLOCK, statements));
+									}
+								}
+							}
+							//** ADD ATTRIBUTES TO THE CLASS 
+							ABSMethodImplementation mI = absClass.getMethodImplementation("run");
+							for(Attribute a:c.getAttributes()) {
+								String name = a.getName();
+								String varName = "v"+name;
+								String dataType = a.getType().toUpperCase();
+								String value = a.getValue();
+								String stmnts = "Variable "+varName+" = new VariableImpl();\n" +
+										varName+".setName(\""+name+"\");\n" +
+										varName+".setDataType("+dataType+");\n";
+								if(dataType.equals("INT")) {
+									stmnts += varName+".setIntValue("+value+");\n";
+								} else if(dataType.equals("STRING")) {
+									stmnts += varName+".setStringValue(\""+value+"\");\n";
+								} else if(dataType.equals("BOOL")) {
+									stmnts += varName+".setBoolValue("+value+");\n";
+								}
+								stmnts += "vars = insert(vars,Pair(\""+name+"\", "+varName+"));";
+								mI.addStatement(new ABSStatement(ABSStatementType.BLOCK, stmnts));
+							}
+							//** ADD INITIALIZATION TO EVERY STATE DECLARATION
+							for(State s:c.getState()) {
+								String name = s.getName();
+								String id = s.getRef();
+								String sName = "s"+id;
+								String stmnts = "ComponentState "+sName+" = new ComponentStateImpl();\n" +
+										"states = insert(states,Pair(\""+name+"\", "+sName+"));\n";
+								for(int j = 0; j < s.getAttributes().getInfo().size(); j++) {
+									Information mapInfo = s.getAttributes().getInfo().get(j);
+									String vname = mapInfo.getKey();
+									String value = mapInfo.getValue();
+									Attribute a = c.getAttribute(vname);
+									String varName = "av"+vname;
+									String dataType = a.getType().toUpperCase();
+									stmnts += "Variable "+varName+" = new VariableImpl();\n" +
+											varName+".setName(\""+name+"\");\n" +
+											varName+".setDataType("+dataType+");\n";
+									if(dataType.equals("INT")) {
+										stmnts += varName+".setIntValue("+value+");\n";
+									} else if(dataType.equals("STRING")) {
+										stmnts += varName+".setStringValue(\""+value+"\");\n";
+									} else if(dataType.equals("BOOL")) {
+										stmnts += varName+".setBoolValue("+value+");\n";
+									}
+									stmnts+=sName+".addVariable("+varName+");\n";
+								}
+								mI.addStatement(new ABSStatement(ABSStatementType.BLOCK, stmnts));
+							}
+							for(Library l:c.getUses()) {
+								if(l.getId().equals(GraphBTUtil.GUI_LIBRARY_ID)) {
+									ABSMethodImplementation applyStateMI = absClass.getMethodImplementation("setComponentState");
+									applyStateMI.addStatement(new ABSStatement(ABSStatementType.DECLARATION, "String compId = this.getId()"));
+									applyStateMI.addStatement(new ABSStatement(ABSStatementType.CALL, "Fut<Unit> f = this.gui_var!setState(compId,stateName)"));
+									applyStateMI.addStatement(new ABSStatement(ABSStatementType.ADDON, "suspend"));
+									break;
 								}
 							}
 						}
@@ -1182,6 +1153,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		}
 	}
 
+	
 	private void generateBTCode() {
 
 	}
@@ -1195,7 +1167,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 
 		File file = new File(fileName);
 		FileInputStream fis = new FileInputStream(file);
-		IResource project =  GraphBTUtil.getActiveProject();
+		IResource project =  ProjectUtil.getActiveProject();
 		String zipFilePath = fileName.substring(fileName.indexOf(project.getName()) + project.getName().length()+1,
 				file.getCanonicalPath().length());
 		ZipEntry zipEntry = new ZipEntry(zipFilePath);

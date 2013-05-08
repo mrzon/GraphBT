@@ -34,7 +34,6 @@ import org.eclipse.ui.PlatformUI;
 
 import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.Component;
-import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.model.graphbt.Attribute;
 import org.be.graphbt.model.graphbt.Information;
 import org.be.graphbt.model.graphbt.MapInformation;
@@ -43,6 +42,8 @@ import org.be.graphbt.model.graphbt.Requirement;
 import org.be.graphbt.model.graphbt.StandardNode;
 import org.be.graphbt.model.graphbt.State;
 import org.be.graphbt.model.graphbt.TraceabilityStatus;
+import org.be.graphbt.common.ProjectUtil;
+import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.graphiti.editor.MultiPageEditor;
 import org.be.graphbt.graphiti.wizards.addaffectedattribute.AddAffectedAttributeGraphBTWizard;
 import org.be.graphbt.graphiti.wizards.createbehavior.CreateBehaviorGraphBTWizard;
@@ -83,7 +84,7 @@ public class CreateStateFirstPageGraphBTWizard extends WizardPage {
 			Label pLabel = new Label(container,SWT.NULL);
 			pLabel.setText("Image description:");
 			Label pictureLabel = new Label(container,SWT.NULL);
-			Image image = GraphBTUtil.getStateImageDescription(c,s);
+			Image image = ProjectUtil.getStateImageDescription(c,s);
 			if(image != null) {
 			pictureLabel.setImage(image);
 			} else {

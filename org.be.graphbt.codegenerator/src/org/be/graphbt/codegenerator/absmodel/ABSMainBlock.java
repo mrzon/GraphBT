@@ -14,6 +14,21 @@ import java.util.Set;
  */
 public class ABSMainBlock implements ABSBlock{
     private ArrayList<ABSStatement> st = new ArrayList<ABSStatement>();
+    private ABSStatement treeStr;
+    public ABSStatement getTreeStr() {
+		return treeStr;
+	}
+	public void setTreeStr(ABSStatement treeStr) {
+		this.treeStr = treeStr;
+	}
+	public ABSStatement getProcessStr() {
+		return processStr;
+	}
+	public void setProcessStr(ABSStatement processStr) {
+		this.processStr = processStr;
+	}
+
+	private ABSStatement processStr;
     private Set<String> dV = new HashSet<String>();
     ABSMainBlock() {
         dV.add("i");
@@ -33,6 +48,8 @@ public class ABSMainBlock implements ABSBlock{
         for(int i = 0; i < st.size(); i++) {
             temp+=st.get(i).toString();
         }
+        temp+=treeStr.toString();
+        temp+=processStr.toString();
         temp+="}";
         
         return temp;

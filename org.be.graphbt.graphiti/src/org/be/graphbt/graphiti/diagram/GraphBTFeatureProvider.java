@@ -45,6 +45,7 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 
 import org.be.graphbt.model.graphbt.AlternativeClass;
+import org.be.graphbt.model.graphbt.BEModel;
 import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.Component;
 import org.be.graphbt.model.graphbt.Composition;
@@ -56,6 +57,7 @@ import org.be.graphbt.model.graphbt.OperatorClass;
 import org.be.graphbt.model.graphbt.Requirement;
 import org.be.graphbt.model.graphbt.StandardNode;
 import org.be.graphbt.model.graphbt.TraceabilityStatusClass;
+import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.graphiti.features.AddAtomicConnectionGraphBtFeature;
 import org.be.graphbt.graphiti.features.AddComponentLayoutFeature;
 import org.be.graphbt.graphiti.features.AddGeneralBtNodeFeature;
@@ -80,27 +82,27 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 
 	public GraphBTFeatureProvider(IDiagramTypeProvider dtp) {
 		super(dtp);
-		
+
 	}
 
 	@Override
 	public ICreateFeature[] getCreateFeatures() {
 		return new ICreateFeature[] {new CreateGeneralBtNodeFeature(this), new CreateLayoutFeature(this),new CreateComponentLayoutFeature(this)};
 	}
-	
+
 	@Override
 	public ICreateConnectionFeature[] getCreateConnectionFeatures() {
 		return new ICreateConnectionFeature[] {
 				new CreateSequentialConnectionGraphBtFeature(this), 
 				new CreateAtomicConnectionGraphBtFeature(this)};
 	}
-	
+
 	@Override
 	public IAddFeature getAddFeature(IAddContext context) {
 		if (context instanceof IAddConnectionContext && 
 				context.getNewObject() instanceof Link) {
 			Link l = (Link) context.getNewObject();
-			
+
 			if(l.getSource().getEdge().getComposition().getLiteral().
 					equals(Composition.ATOMIC.getLiteral())) {
 				return new AddAtomicConnectionGraphBtFeature(this);
@@ -117,41 +119,41 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 		}
 		return super.getAddFeature(context);
 	}
-	
+
 	@Override
 	public IUpdateFeature getUpdateFeature(IUpdateContext context) {
-	    PictogramElement pictogramElement = context.getPictogramElement();
-	    Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-	    if (bo instanceof StandardNode) {
+		PictogramElement pictogramElement = context.getPictogramElement();
+		Object bo = getBusinessObjectForPictogramElement(pictogramElement);
+		if (bo instanceof StandardNode) {
 			return new UpdateGraphBtFeature(this);
 		}
-	    if (bo instanceof Component) {
+		if (bo instanceof Component) {
 			return new UpdateGraphBtFeature(this);
 		}
-	    if (bo instanceof Behavior) {
+		if (bo instanceof Behavior) {
 			return new UpdateGraphBtFeature(this);
 		}
-	    if (bo instanceof Requirement) {
+		if (bo instanceof Requirement) {
 			return new UpdateGraphBtFeature(this);
 		}
-	    if (bo instanceof OperatorClass) {
+		if (bo instanceof OperatorClass) {
 			return new UpdateGraphBtFeature(this);
 		}
-	    if (bo instanceof TraceabilityStatusClass) {
+		if (bo instanceof TraceabilityStatusClass) {
 			return new UpdateGraphBtFeature(this);
 		}
-	    if (bo instanceof AlternativeClass) {
+		if (bo instanceof AlternativeClass) {
 			return new UpdateGraphBtFeature(this);
 		}
-	    
-	   return super.getUpdateFeature(context);
-	 } 
-	
+
+		return super.getUpdateFeature(context);
+	} 
+
 	@Override
 	public IMoveShapeFeature getMoveShapeFeature(IMoveShapeContext context) {
-	    return new MoveGraphBtFeature(this);
-	 } 
-	
+		return new MoveGraphBtFeature(this);
+	} 
+
 	@Override
 	public ILayoutFeature getLayoutFeature(ILayoutContext context) {
 		if (context.getPictogramElement() instanceof ContainerShape) {
@@ -159,38 +161,38 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 		}
 		return super.getLayoutFeature(context);
 	}
-	
+
 	@Override
 	public ICopyFeature getCopyFeature(ICopyContext context) {
 		return  new CopyNodeGraphBtFeature(this);
 	}
-	
+
 	@Override
 	public IPasteFeature getPasteFeature(IPasteContext context) {
 		return  new PasteNodeGraphBtFeature(this);
 	}
-	
+
 	@Override
 	public IResizeShapeFeature getResizeShapeFeature(
-	        IResizeShapeContext context) {
-    	return new ResizeGraphBtFeature(this);
+			IResizeShapeContext context) {
+		return new ResizeGraphBtFeature(this);
 	}
-	
+
 	@Override
-    public IFeature[] getDragAndDropFeatures(IPictogramElementContext context) {
-        return getCreateConnectionFeatures();
-    }
-	
+	public IFeature[] getDragAndDropFeatures(IPictogramElementContext context) {
+		return getCreateConnectionFeatures();
+	}
+
 	public IReconnectionFeature getReconnectionFeature(IReconnectionContext context) {
 		return null;
 		//return new ConnectionReconnectGraphBTFeature(this);
 	}
-	
+
 	@Override
 	public IRemoveFeature getRemoveFeature(IRemoveContext context) {
 		return this.getRemoveFeatureEnabled(context); // remove disabled for the UI  
 	}
-	
+
 	protected IRemoveFeature getRemoveFeatureEnabled(IRemoveContext context) {
 		return super.getRemoveFeature(context); // used where we enable remove (deleting...) 
 	}
@@ -211,82 +213,83 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 	public IMoveBendpointFeature getMoveBendpointFeature(IMoveBendpointContext context) {
 		return null;
 	}
-	
+
 	@Override
 	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
 		ArrayList<ICustomFeature> customFeatures = new ArrayList<ICustomFeature>();
 		final PictogramElement pe = context.getPictogramElements()[0];
+		final BEModel model = GraphBTUtil.getBEModel(GraphBTFeatureProvider.this.getDiagramTypeProvider().getDiagram());
+
 		ICustomFeature[] ret = super.getCustomFeatures(context);
 		for(int i=0; i < ret.length; i++) {
 			customFeatures.add(ret[i]);
 		}
 		final Object ob = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 		if(ob instanceof Layout) {
+			final LayoutList list = model.getLayoutList();
+			final Layout l = (Layout) pe.getLink().getBusinessObjects().get(0);
 			customFeatures.add(new ICustomFeature() {
-				
+
 				@Override
 				public IFeatureProvider getFeatureProvider() {
 					// TODO Auto-generated method stub
 					return GraphBTFeatureProvider.this;
 				}
-				
+
 				@Override
 				public String getDescription() {
 					return "Bring the layout to the top";
 				}
-				
+
 				@Override
 				public String getName() {
 					return "Bring to top";
 				}
-				
+
 				@Override
 				public boolean isAvailable(IContext context) {
 					return true;
 				}
-				
+
 				@Override
 				public boolean hasDoneChanges() {
 					// TODO Auto-generated method stub
 					return true;
 				}
-				
+
 				@Override
 				public void execute(IContext context) {
-					int i = 0;
-					i++;
 					ContainerShape c = (ContainerShape)pe.eContainer();
+					list.getLayouts().remove(l);
+					list.getLayouts().add(l);
 					c.getChildren().remove(pe);
 					c.getChildren().add((Shape) pe);
 					// TODO Auto-generated method stub
 				}
-				
+
 				@Override
 				public boolean canUndo(IContext context) {
 					// TODO Auto-generated method stub
 					return true;
 				}
-				
+
 				@Override
 				public boolean canExecute(IContext context) {
 					// TODO Auto-generated method stub
 					return true;
 				}
-				
+
 				@Override
 				public String getImageId() {
 					// TODO Auto-generated method stub
 					return null;
 				}
-				
+
 				@Override
 				public void execute(ICustomContext context) {
 					// TODO Auto-generated method stub
-					ContainerShape c = (ContainerShape)pe.eContainer();
-					c.getChildren().remove(pe);
-					c.getChildren().add((Shape) pe);
 				}
-				
+
 				@Override
 				public boolean canExecute(ICustomContext context) {
 					// TODO Auto-generated method stub
@@ -294,69 +297,66 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 				}
 			});
 			customFeatures.add(new ICustomFeature() {
-				
+
 				@Override
 				public IFeatureProvider getFeatureProvider() {
 					// TODO Auto-generated method stub
 					return GraphBTFeatureProvider.this;
 				}
-				
+
 				@Override
 				public String getDescription() {
 					return "Bring the layout to the bottom";
 				}
-				
+
 				@Override
 				public String getName() {
 					return "Bring to bottom";
 				}
-				
+
 				@Override
 				public boolean isAvailable(IContext context) {
 					return true;
 				}
-				
+
 				@Override
 				public boolean hasDoneChanges() {
 					// TODO Auto-generated method stub
 					return true;
 				}
-				
+
 				@Override
 				public void execute(IContext context) {
-					int i = 0;
-					i++;
 					ContainerShape c = (ContainerShape)pe.eContainer();
+					list.getLayouts().remove(l);
+					list.getLayouts().add(0,l);
 					c.getChildren().remove(pe);
 					c.getChildren().add(0,(Shape)pe);
 				}
-				
+
 				@Override
 				public boolean canUndo(IContext context) {
 					// TODO Auto-generated method stub
 					return true;
 				}
-				
+
 				@Override
 				public boolean canExecute(IContext context) {
 					// TODO Auto-generated method stub
 					return true;
 				}
-				
+
 				@Override
 				public String getImageId() {
 					// TODO Auto-generated method stub
 					return null;
 				}
-				
+
 				@Override
 				public void execute(ICustomContext context) {
 					// TODO Auto-generated method stub
-					ContainerShape c = (ContainerShape)pe.eContainer();
-					c.getChildren().remove(pe);
-					c.getChildren().add((Shape) pe);
 				}
-				
+
 				@Override
 				public boolean canExecute(ICustomContext context) {
 					// TODO Auto-generated method stub
@@ -364,48 +364,50 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 				}
 			});
 			customFeatures.add(new ICustomFeature() {
-				
+
 				@Override
 				public IFeatureProvider getFeatureProvider() {
 					// TODO Auto-generated method stub
 					return GraphBTFeatureProvider.this;
 				}
-				
+
 				@Override
 				public String getDescription() {
 					return "Send the layout to the back";
 				}
-				
+
 				@Override
 				public String getName() {
 					return "Send to back";
 				}
-				
+
 				@Override
 				public boolean isAvailable(IContext context) {
 					return true;
 				}
-				
+
 				@Override
 				public boolean hasDoneChanges() {
 					// TODO Auto-generated method stub
 					return true;
 				}
-				
+
 				@Override
 				public void execute(IContext context) {
 					ContainerShape c = (ContainerShape)pe.eContainer();
 					int i = c.getChildren().indexOf((Shape)pe);
 					c.getChildren().remove(pe);
 					c.getChildren().add(i-1,(Shape)pe);
+					list.getLayouts().remove(l);
+					list.getLayouts().add(i-1,l);
 				}
-				
+
 				@Override
 				public boolean canUndo(IContext context) {
 					// TODO Auto-generated method stub
 					return true;
 				}
-				
+
 				@Override
 				public boolean canExecute(IContext context) {
 					// TODO Auto-generated method stub
@@ -415,21 +417,18 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 						return false;
 					return true;
 				}
-				
+
 				@Override
 				public String getImageId() {
 					// TODO Auto-generated method stub
 					return null;
 				}
-				
+
 				@Override
 				public void execute(ICustomContext context) {
 					// TODO Auto-generated method stub
-					ContainerShape c = (ContainerShape)pe.eContainer();
-					c.getChildren().remove(pe);
-					c.getChildren().add((Shape) pe);
 				}
-				
+
 				@Override
 				public boolean canExecute(ICustomContext context) {
 					// TODO Auto-generated method stub
@@ -437,48 +436,50 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 				}
 			});
 			customFeatures.add(new ICustomFeature() {
-				
+
 				@Override
 				public IFeatureProvider getFeatureProvider() {
 					// TODO Auto-generated method stub
 					return GraphBTFeatureProvider.this;
 				}
-				
+
 				@Override
 				public String getDescription() {
 					return "Send the layout to the front";
 				}
-				
+
 				@Override
 				public String getName() {
 					return "Send to front";
 				}
-				
+
 				@Override
 				public boolean isAvailable(IContext context) {
 					return true;
 				}
-				
+
 				@Override
 				public boolean hasDoneChanges() {
 					// TODO Auto-generated method stub
 					return true;
 				}
-				
+
 				@Override
 				public void execute(IContext context) {
 					ContainerShape c = (ContainerShape)pe.eContainer();
 					int i = c.getChildren().indexOf((Shape)pe);
 					c.getChildren().remove(pe);
 					c.getChildren().add(i+1,(Shape)pe);
+					list.getLayouts().remove(l);
+					list.getLayouts().add(i+1,l);
 				}
-				
+
 				@Override
 				public boolean canUndo(IContext context) {
 					// TODO Auto-generated method stub
 					return true;
 				}
-				
+
 				@Override
 				public boolean canExecute(IContext context) {
 					// TODO Auto-generated method stub
@@ -488,39 +489,36 @@ public class GraphBTFeatureProvider extends DefaultFeatureProvider {
 						return false;
 					return true;
 				}
-				
+
 				@Override
 				public String getImageId() {
 					// TODO Auto-generated method stub
 					return null;
 				}
-				
+
 				@Override
 				public void execute(ICustomContext context) {
 					// TODO Auto-generated method stub
-					ContainerShape c = (ContainerShape)pe.eContainer();
-					c.getChildren().remove(pe);
-					c.getChildren().add((Shape) pe);
 				}
-				
+
 				@Override
 				public boolean canExecute(ICustomContext context) {
 					// TODO Auto-generated method stub
 					return true;
 				}
 			});
-			
+
 			ret = new ICustomFeature[customFeatures.size()];
 			for(int i = 0; i < ret.length; i++) {
 				ret[i] = customFeatures.get(i);
 			}
 			return ret;
 		}
-		
+
 		if(ob instanceof Link) {
 			//return new DeleteConnectionGraphBTFeature(this);
 		}
-		
+
 		return super.getCustomFeatures(context);
 	}
 }

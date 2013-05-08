@@ -1,0 +1,71 @@
+<%@ jet package="org.be.graphbt.codegenerator.gui.template" class="GraphBTDocumentationTemplate" imports="org.be.graphbt.model.graphbt.* import org.eclipse.emf.common.util.* import org.eclipse.emf.ecore.*"%>
+<%BEModel model = (BEModel) argument; 
+	EList<Layout> layouts = null;
+	EList<Component> components = null;
+	EList<Requirement> requirements = null;
+%>
+
+<%if(model.getLayoutList()!=null) {%>
+<%layouts = model.getLayoutList().getLayouts(); }%>
+<%if(model.getComponentList()!=null) {%>
+<%components = model.getComponentList().getComponents(); }%>
+<%if(model.getRequirementList()!=null) {%>
+<%requirements = model.getRequirementList().getRequirements(); }%>
+<html>
+<head>
+<title> </title>
+</head>
+<body>
+<h1 class="title">Title</h1>
+<h2 class="subtitle">Subtitle</h2>
+<h3 class="version">Version</h3>
+<h3 class="label">Author:</h3>
+<h3 class="label">Project Description: </h3>
+<h2 class="label">Table of Contents:</h3>
+<h2 class="label">Specifications:</h2>
+<%if(requirements != null && requirements.size()>0) {%>
+<h3 class="label">Requirements</h3>
+<%for(int i = 0; i < requirements.size(); i++) {
+	Requirement r = requirements.get(i);
+%>
+<div id="requirement<%=r.getKey()%>"><span class="requirement id"><%=r.getKey()%></span> <span class="requirement name"><%=r.getRequirement()%></span><br/><span class="requirement description"><%=r.getDescription()%></span></div>
+<%}}%>
+<h3 class="label">Layouts</h3>
+
+<%if(components != null && components.size()>0) {%>
+<h3 class="component">Components</h3>
+<%for(int i = 0; i < components.size(); i++) {
+Component c = components.get(i);%>
+<div id="component<%=c.getComponentRef()%>"><span class="component id"><%=c.getComponentRef()%></span> <span class="component name"><%=c.getComponentName()%></span><br/><span class="component description"><%=c.getComponentDesc()%></span><img class="component image" src=""></div>
+<%if(c.getAttributes().size() > 0) {%>
+<div class="attributes"><h4>Attributes:</h4>
+<%for(int j = 0; j < c.getAttributes().size(); j++) {
+	Attribute a = c.getAttributes().get(j);
+%>
+<div id="component<%=c.getComponentRef()%>-attribute<%=a.getName()%>"><span class="attribute name"><%=a.getName()%></span> <span class="attribute type"><%=a.getType()%></span><br/><span class="attribute description"><%=a.getDesc()%></span></div>
+<%}%>
+</div>
+<%}%>
+<%if(c.getBehaviors().size() > 0) {%>
+<div class="behaviors"><h4>Behaviors:</h4>
+<%for(int j = 0; j < c.getBehaviors().size(); j++) {
+	Behavior b = c.getBehaviors().get(j);
+%>
+<div id="component<%=c.getComponentRef()%>-behavior<%=b.getBehaviorRef()%>"><span class="behavior name"><%=b.toString()%></span><br/><span class="behavior description"><%=b.getBehaviorDesc()%></span></div>
+<%}%>
+</div>
+<%}%>
+<%if(c.getState().size() > 0) {%>
+<div class="states"><h4>States:</h4>
+<%for(int j = 0; j < c.getState().size(); j++) {
+	State s = c.getState().get(j);
+%>
+<div id="component<%=c.getComponentRef()%>-state<%=s.getRef()%>"><span class="state name"><%=s.getName()%></span><br/><span class="state description"><%=s.getDesc()%></span></div>
+<%}%>
+
+</div>
+<%}%>
+<%}}%>
+
+</body>
+</html>

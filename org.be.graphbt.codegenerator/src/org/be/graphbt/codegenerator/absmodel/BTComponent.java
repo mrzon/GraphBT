@@ -173,6 +173,8 @@ public class BTComponent {
             ABSMethod isTerminatedMethod = new ABSMethod(ABSDataType.BOOL,"isTerminated",new ArrayList<ABSParameter>());
             ABSMethod isBlockedMethod = new ABSMethod(ABSDataType.BOOL,"isBlocked",new ArrayList<ABSParameter>());
             ABSMethod run = new ABSMethod(ABSDataType.UNIT,"run",new ArrayList<ABSParameter>());
+            ABSMethod clickMethod = new ABSMethod(ABSDataType.UNIT,"click",new ArrayList<ABSParameter>());
+            ABSMethod isClickedMethod = new ABSMethod(ABSDataType.BOOL,"isClicked",new ArrayList<ABSParameter>());
             ABSMethod getId = new ABSMethod(ABSDataType.STRING,"getId",new ArrayList<ABSParameter>());
             temp = new ArrayList<ABSParameter>();
             temp.add(new ABSParameter(ABSDataType.STRING, "stateName"));
@@ -185,7 +187,8 @@ public class BTComponent {
             ABSMethodImplementation isBlockedImplementation = new ABSMethodImplementation(isBlockedMethod);
             ABSMethodImplementation getIdImplementation = new ABSMethodImplementation(getId);
             ABSMethodImplementation setComponentStateImplementation = new ABSMethodImplementation(setComponentState);
-            
+            ABSMethodImplementation clickImplementation = new ABSMethodImplementation(clickMethod);
+            ABSMethodImplementation isClickImplementation = new ABSMethodImplementation(isClickedMethod);
             //ABSMethodImplementation getDataI = new ABSMethodImplementation(getData);
             //ab.add(runM);
             //ab.add(isT);
@@ -197,17 +200,29 @@ public class BTComponent {
             ac.addMethodImplementation(isBlockedImplementation);
             ac.addMethodImplementation(getIdImplementation);
             ac.addMethodImplementation(setComponentStateImplementation);
+            ac.addMethodImplementation(clickImplementation);
+            ac.addMethodImplementation(isClickImplementation);
             
             //ac.addMethodImplementation(getDataI);
             //getDataI.addStatement(new ABSStatement(ABSStatementType.RETURN,"return Val(4)"));
             ABSVariable io = new ABSVariable("io");
+            ABSVariable click = new ABSVariable(ABSDataType.BOOL, "click");
+            ac.addVariable(click);
+            click.setValue("False");
             io.setDataType(new ABSDataType("IO"));
             io.setValue("i");
+            clickImplementation.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT, "click = True"));
+            isClickImplementation.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT, "Bool temp = click"));
+            isClickImplementation.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT, "click = False"));
+            isClickImplementation.addStatement(new ABSStatement(ABSStatementType.RETURN, "return temp"));
+            
             runI.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT,"io=new IOImpl()"));
             isTerminatedImplementation.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT,"Bool temp=terminate"));
             isTerminatedImplementation.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT,"terminate=False"));
             isTerminatedImplementation.addStatement(new ABSStatement(ABSStatementType.RETURN,"return temp"));
-            isBlockedImplementation.addStatement(new ABSStatement(ABSStatementType.RETURN,"return block"));
+            isBlockedImplementation.addStatement(new ABSStatement(ABSStatementType.DECLARATION,"Bool temp = block"));
+            isBlockedImplementation.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT,"block = False"));
+            isBlockedImplementation.addStatement(new ABSStatement(ABSStatementType.RETURN,"return temp"));
             getIdImplementation.addStatement(new ABSStatement(ABSStatementType.RETURN, "return \""+this.getRef()+"\""));
             setComponentStateImplementation.addStatement(new ABSStatement(ABSStatementType.BLOCK, 
         "ComponentState s = lookupUnsafe(states,stateName);\n"+
@@ -253,7 +268,8 @@ public class BTComponent {
                 boolean isI = false;
                 boolean isB = false;
                 
-                if(module.isTracing()) {
+                if(module.isTracing()) 
+                {
                     absMI.addStatement(new ABSStatement(ABSStatementType.CALL,"io.print(\"on "+getName()+", "+absM.toString()+" called\")"));
                 }
                 
@@ -367,7 +383,6 @@ public class BTComponent {
                 else if(b.getType() == BTType.SELECTION) {
                     //ABSVariable abs = new ABSVariable();
                     String n = b.getName().toLowerCase();
-                    
                     if(n.startsWith("not(")) {
                         String aa[] = n.split("[\\(\\)]");
                         if(!this.boolVar.contains(aa[1].trim())) {
@@ -461,8 +476,11 @@ public class BTComponent {
                 }
                 else if(b.getType() == BTType.GUARD) {
                     String n = b.getName().toLowerCase();
-                    
-                    if(n.startsWith("not")) {
+                    if(this.getRef().startsWith("CBUTTON") && b.getName().equalsIgnoreCase("clicked")) {
+                    	absMI.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT, "Bool temp = this.isClicked()"));
+                    	absMI.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT, "block = not(temp)"));
+                    }
+                    else if(n.startsWith("not")) {
                         String aa[] = n.split("[\\(\\)]");
                         if(!this.boolVar.contains(aa[1].trim())) {
                             String stat="";
@@ -573,7 +591,7 @@ public class BTComponent {
                     this.ac.addMethodImplementation(tMI);
                     tMI.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT,n+" = "+var.getName().toLowerCase().charAt(0)));
                     if(module.getTempMM().containsKey(b.getName().toLowerCase())) {
-                        ABSMethodImplementation ami = module.getTempM().get(b.getName().toLowerCase());
+                        ABSMethodImplementation ami = module.getMethods().get(b.getName().toLowerCase());
                         String o = module.getTempMM().get(b.getName().toLowerCase()).getRef().toLowerCase()+"_var";
                         BTComponent acc = module.getTempMM().get(b.getName().toLowerCase());
                         if(isVarExist(acc.getRef().toLowerCase()+"_var")) {
@@ -634,7 +652,7 @@ public class BTComponent {
                     }
                     else
                     {   
-                        module.getTempM().put(n, absMI);
+                        module.getMethods().put(n, absMI);
                         module.getTempMM().put(n, this);
                     }
                 }
@@ -715,11 +733,7 @@ public class BTComponent {
             Iterator<ABSVariable> i = ac.getVariables().iterator();
             while(i.hasNext()) {
                 ABSVariable av = i.next();
-                ABSMethod amv = new ABSMethod(av.getDataType(),"get_"+av.getName());
-                ABSMethodImplementation amiv = new ABSMethodImplementation(amv);
-                amiv.addStatement(new ABSStatement(ABSStatementType.RETURN, "return "+av.getName()));
-                this.ab.add(amv);
-                this.ac.addMethodImplementation(amiv);
+                this.ac.addAccessorMutator(av);
             }
             return set;
         }
@@ -730,7 +744,7 @@ public class BTComponent {
         }
         return null;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 3;

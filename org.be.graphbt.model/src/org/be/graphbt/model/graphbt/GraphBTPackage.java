@@ -893,13 +893,22 @@ public interface GraphBTPackage extends EPackage {
 	int REQUIREMENT__DESCRIPTION = 3;
 
 	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT__ID = 4;
+
+	/**
 	 * The number of structural features of the '<em>Requirement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_FEATURE_COUNT = 4;
+	int REQUIREMENT_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.BehaviorImpl <em>Behavior</em>}' class.
@@ -1013,13 +1022,22 @@ public interface GraphBTPackage extends EPackage {
 	int REQUIREMENT_LIST__REQUIREMENTS = 0;
 
 	/**
+	 * The feature id for the '<em><b>Project Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_LIST__PROJECT_ID = 1;
+
+	/**
 	 * The number of structural features of the '<em>Requirement List</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_LIST_FEATURE_COUNT = 1;
+	int REQUIREMENT_LIST_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.FormulaListImpl <em>Formula List</em>}' class.
@@ -1644,6 +1662,88 @@ public interface GraphBTPackage extends EPackage {
 	int LAYOUT_FEATURE_COUNT = 6;
 
 	/**
+	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.ButtonImpl <em>Button</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.be.graphbt.model.graphbt.impl.ButtonImpl
+	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getButton()
+	 * @generated
+	 */
+	int BUTTON = 35;
+
+	/**
+	 * The feature id for the '<em><b>CRef</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUTTON__CREF = LAYOUT__CREF;
+
+	/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUTTON__X = LAYOUT__X;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUTTON__Y = LAYOUT__Y;
+
+	/**
+	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUTTON__WIDTH = LAYOUT__WIDTH;
+
+	/**
+	 * The feature id for the '<em><b>Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUTTON__HEIGHT = LAYOUT__HEIGHT;
+
+	/**
+	 * The feature id for the '<em><b>Z</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUTTON__Z = LAYOUT__Z;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUTTON__LABEL = LAYOUT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Button</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUTTON_FEATURE_COUNT = LAYOUT_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.Composition <em>Composition</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1651,7 +1751,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getComposition()
 	 * @generated
 	 */
-	int COMPOSITION = 35;
+	int COMPOSITION = 36;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.Branch <em>Branch</em>}' enum.
@@ -1661,7 +1761,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getBranch()
 	 * @generated
 	 */
-	int BRANCH = 36;
+	int BRANCH = 37;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.Operator <em>Operator</em>}' enum.
@@ -1671,7 +1771,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 37;
+	int OPERATOR = 38;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.BehaviorType <em>Behavior Type</em>}' enum.
@@ -1681,7 +1781,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getBehaviorType()
 	 * @generated
 	 */
-	int BEHAVIOR_TYPE = 38;
+	int BEHAVIOR_TYPE = 39;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.EventType <em>Event Type</em>}' enum.
@@ -1691,7 +1791,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getEventType()
 	 * @generated
 	 */
-	int EVENT_TYPE = 39;
+	int EVENT_TYPE = 40;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.SpecialEdgeEnum <em>Special Edge Enum</em>}' enum.
@@ -1701,7 +1801,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getSpecialEdgeEnum()
 	 * @generated
 	 */
-	int SPECIAL_EDGE_ENUM = 40;
+	int SPECIAL_EDGE_ENUM = 41;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.TraceabilityStatus <em>Traceability Status</em>}' enum.
@@ -1711,7 +1811,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getTraceabilityStatus()
 	 * @generated
 	 */
-	int TRACEABILITY_STATUS = 41;
+	int TRACEABILITY_STATUS = 42;
 
 
 	/**
@@ -2483,6 +2583,17 @@ public interface GraphBTPackage extends EPackage {
 	EAttribute getRequirement_Description();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.Requirement#getId <em>Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Id</em>'.
+	 * @see org.be.graphbt.model.graphbt.Requirement#getId()
+	 * @see #getRequirement()
+	 * @generated
+	 */
+	EAttribute getRequirement_Id();
+
+	/**
 	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.Behavior <em>Behavior</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2588,6 +2699,17 @@ public interface GraphBTPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getRequirementList_Requirements();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.RequirementList#getProjectId <em>Project Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Project Id</em>'.
+	 * @see org.be.graphbt.model.graphbt.RequirementList#getProjectId()
+	 * @see #getRequirementList()
+	 * @generated
+	 */
+	EAttribute getRequirementList_ProjectId();
 
 	/**
 	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.FormulaList <em>Formula List</em>}'.
@@ -3053,6 +3175,27 @@ public interface GraphBTPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getLayout_Z();
+
+	/**
+	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.Button <em>Button</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Button</em>'.
+	 * @see org.be.graphbt.model.graphbt.Button
+	 * @generated
+	 */
+	EClass getButton();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.Button#getLabel <em>Label</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Label</em>'.
+	 * @see org.be.graphbt.model.graphbt.Button#getLabel()
+	 * @see #getButton()
+	 * @generated
+	 */
+	EAttribute getButton_Label();
 
 	/**
 	 * Returns the meta object for enum '{@link org.be.graphbt.model.graphbt.Composition <em>Composition</em>}'.
@@ -3741,6 +3884,14 @@ public interface GraphBTPackage extends EPackage {
 		EAttribute REQUIREMENT__DESCRIPTION = eINSTANCE.getRequirement_Description();
 
 		/**
+		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUIREMENT__ID = eINSTANCE.getRequirement_Id();
+
+		/**
 		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.BehaviorImpl <em>Behavior</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3825,6 +3976,14 @@ public interface GraphBTPackage extends EPackage {
 		 * @generated
 		 */
 		EReference REQUIREMENT_LIST__REQUIREMENTS = eINSTANCE.getRequirementList_Requirements();
+
+		/**
+		 * The meta object literal for the '<em><b>Project Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUIREMENT_LIST__PROJECT_ID = eINSTANCE.getRequirementList_ProjectId();
 
 		/**
 		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.FormulaListImpl <em>Formula List</em>}' class.
@@ -4215,6 +4374,24 @@ public interface GraphBTPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute LAYOUT__Z = eINSTANCE.getLayout_Z();
+
+		/**
+		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.ButtonImpl <em>Button</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.be.graphbt.model.graphbt.impl.ButtonImpl
+		 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getButton()
+		 * @generated
+		 */
+		EClass BUTTON = eINSTANCE.getButton();
+
+		/**
+		 * The meta object literal for the '<em><b>Label</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BUTTON__LABEL = eINSTANCE.getButton_Label();
 
 		/**
 		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.Composition <em>Composition</em>}' enum.

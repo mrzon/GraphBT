@@ -14,6 +14,7 @@ import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.BehaviorTree;
 import org.be.graphbt.model.graphbt.BehaviorType;
 import org.be.graphbt.model.graphbt.Branch;
+import org.be.graphbt.model.graphbt.Button;
 import org.be.graphbt.model.graphbt.CTEdge;
 import org.be.graphbt.model.graphbt.Component;
 import org.be.graphbt.model.graphbt.ComponentList;
@@ -311,6 +312,13 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 * @generated
 	 */
 	private EClass layoutEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass buttonEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1066,6 +1074,15 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getRequirement_Id() {
+		return (EAttribute)requirementEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBehavior() {
 		return behaviorEClass;
 	}
@@ -1149,6 +1166,15 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 */
 	public EReference getRequirementList_Requirements() {
 		return (EReference)requirementListEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRequirementList_ProjectId() {
+		return (EAttribute)requirementListEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1552,6 +1578,24 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getButton() {
+		return buttonEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getButton_Label() {
+		return (EAttribute)buttonEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getComposition() {
 		return compositionEEnum;
 	}
@@ -1721,6 +1765,7 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		createEAttribute(requirementEClass, REQUIREMENT__REQUIREMENT);
 		createEReference(requirementEClass, REQUIREMENT__TRACEABILITY_LINK);
 		createEAttribute(requirementEClass, REQUIREMENT__DESCRIPTION);
+		createEAttribute(requirementEClass, REQUIREMENT__ID);
 
 		behaviorEClass = createEClass(BEHAVIOR);
 		createEAttribute(behaviorEClass, BEHAVIOR__BEHAVIOR_TYPE);
@@ -1734,6 +1779,7 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 
 		requirementListEClass = createEClass(REQUIREMENT_LIST);
 		createEReference(requirementListEClass, REQUIREMENT_LIST__REQUIREMENTS);
+		createEAttribute(requirementListEClass, REQUIREMENT_LIST__PROJECT_ID);
 
 		formulaListEClass = createEClass(FORMULA_LIST);
 		createEReference(formulaListEClass, FORMULA_LIST__FORMULA);
@@ -1798,6 +1844,9 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		createEAttribute(layoutEClass, LAYOUT__HEIGHT);
 		createEAttribute(layoutEClass, LAYOUT__Z);
 
+		buttonEClass = createEClass(BUTTON);
+		createEAttribute(buttonEClass, BUTTON__LABEL);
+
 		// Create enums
 		compositionEEnum = createEEnum(COMPOSITION);
 		branchEEnum = createEEnum(BRANCH);
@@ -1842,6 +1891,7 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		outputTypeEClass.getESuperTypes().add(this.getGUIImplementable());
 		inputGUIEClass.getESuperTypes().add(this.getGUI());
 		outputGUIEClass.getESuperTypes().add(this.getGUI());
+		buttonEClass.getESuperTypes().add(this.getLayout());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(beModelEClass, BEModel.class, "BEModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1930,6 +1980,7 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		initEAttribute(getRequirement_Requirement(), ecorePackage.getEString(), "Requirement", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRequirement_TraceabilityLink(), this.getStandardNode(), null, "traceabilityLink", null, 0, -1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRequirement_Description(), ecorePackage.getEString(), "Description", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRequirement_Id(), ecorePackage.getELong(), "Id", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(behaviorEClass, Behavior.class, "Behavior", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBehavior_BehaviorType(), this.getBehaviorType(), "behaviorType", null, 0, 1, Behavior.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1943,6 +1994,7 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 
 		initEClass(requirementListEClass, RequirementList.class, "RequirementList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRequirementList_Requirements(), this.getRequirement(), null, "requirements", null, 0, -1, RequirementList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRequirementList_ProjectId(), ecorePackage.getELong(), "projectId", null, 0, 1, RequirementList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(formulaListEClass, FormulaList.class, "FormulaList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFormulaList_Formula(), this.getFormula(), null, "formula", null, 0, -1, FormulaList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2013,6 +2065,9 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		initEAttribute(getLayout_Width(), ecorePackage.getEInt(), "width", null, 0, 1, Layout.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLayout_Height(), ecorePackage.getEInt(), "height", null, 0, 1, Layout.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLayout_Z(), ecorePackage.getEInt(), "z", null, 0, 1, Layout.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(buttonEClass, Button.class, "Button", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getButton_Label(), ecorePackage.getEString(), "label", null, 0, 1, Button.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(compositionEEnum, Composition.class, "Composition");

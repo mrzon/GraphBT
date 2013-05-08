@@ -34,10 +34,11 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *   <li>{@link org.be.graphbt.model.graphbt.impl.RequirementImpl#getRequirement <em>Requirement</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.impl.RequirementImpl#getTraceabilityLink <em>Traceability Link</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.impl.RequirementImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.RequirementImpl#getId <em>Id</em>}</li>
  * </ul>
  * </p>
  *
- * @generated
+ * @generated 
  */
 public class RequirementImpl extends EObjectImpl implements Requirement {
 	/**
@@ -109,6 +110,26 @@ public class RequirementImpl extends EObjectImpl implements Requirement {
 	 * @ordered
 	 */
 	protected String description = DESCRIPTION_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final long ID_EDEFAULT = 0L;
+
+	/**
+	 * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getId()
+	 * @generated
+	 * @ordered
+	 */
+	protected long id = ID_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -209,6 +230,27 @@ public class RequirementImpl extends EObjectImpl implements Requirement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public long getId() {
+		return id;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setId(long newId) {
+		long oldId = id;
+		id = newId;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GraphBTPackage.REQUIREMENT__ID, oldId, id));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -220,6 +262,8 @@ public class RequirementImpl extends EObjectImpl implements Requirement {
 				return getTraceabilityLink();
 			case GraphBTPackage.REQUIREMENT__DESCRIPTION:
 				return getDescription();
+			case GraphBTPackage.REQUIREMENT__ID:
+				return getId();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -246,6 +290,9 @@ public class RequirementImpl extends EObjectImpl implements Requirement {
 			case GraphBTPackage.REQUIREMENT__DESCRIPTION:
 				setDescription((String)newValue);
 				return;
+			case GraphBTPackage.REQUIREMENT__ID:
+				setId((Long)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -270,6 +317,9 @@ public class RequirementImpl extends EObjectImpl implements Requirement {
 			case GraphBTPackage.REQUIREMENT__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
 				return;
+			case GraphBTPackage.REQUIREMENT__ID:
+				setId(ID_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -290,6 +340,8 @@ public class RequirementImpl extends EObjectImpl implements Requirement {
 				return traceabilityLink != null && !traceabilityLink.isEmpty();
 			case GraphBTPackage.REQUIREMENT__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+			case GraphBTPackage.REQUIREMENT__ID:
+				return id != ID_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -310,11 +362,14 @@ public class RequirementImpl extends EObjectImpl implements Requirement {
 		result.append(requirement);
 		result.append(", Description: ");
 		result.append(description);
+		result.append(", Id: ");
+		result.append(id);
 		result.append(')');
 		return result.toString();
 	}
 
-
-
-
+	@Override
+	public int compareTo(Requirement arg0) {
+		return getKey().compareTo(arg0.getKey());
+	}
 } //RequirementImpl

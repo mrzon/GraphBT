@@ -38,6 +38,7 @@ import org.be.graphbt.graphiti.editor.GraphBTDiagramEditor;
 import org.be.graphbt.model.graphbt.BEModel;
 import org.be.graphbt.model.graphbt.Layout;
 import org.be.graphbt.model.graphbt.LayoutList;
+import org.be.graphbt.model.graphbt.Library;
 import org.be.graphbt.model.graphbt.Operator;
 import org.be.graphbt.model.graphbt.OperatorClass;
 import org.be.graphbt.model.graphbt.Requirement;
@@ -108,19 +109,18 @@ IAddFeature {
  
         // default size for the shape
         BEModel model = GraphBTUtil.getBEModel(getDiagram());
+        
         IGaService gaService = Graphiti.getGaService();
          
         Rectangle rectangle = gaService.createRectangle(containerShape);
         rectangle.setForeground(manageColor(E_CLASS_FOREGROUND));
         rectangle.setBackground(manageColor(ORIGINAL_BEHAVIOR_COLOR));
         Component c = GraphBTUtil.getComponentByRef(model, layout.getCRef());
-        org.eclipse.swt.graphics.Image im = GraphBTUtil.getComponentImageDescription(c);
-        
-    	GraphBTImageProvider imP = GraphBTUtil.getImageProvider();
-    	String path = GraphBTUtil.getImageAbsolutePath(ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef()+".jpg");
-    	System.out.println("Path "+path);
-    	imP.addImage(path, path);
-
+        Library lib = GraphBTUtil.getLibrary(model.getLibraries(), GraphBTUtil.GUI_LIBRARY_ID);
+        c.getUses().remove(lib);
+        c.getUses().add(lib);
+        org.eclipse.swt.graphics.Image im = ProjectUtil.getComponentImageDescription(c);
+    	String path = ProjectUtil.getImageAbsolutePath(ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef()+".jpg");
     	if(GraphitiUIPlugin.getDefault().getImageRegistry().get(path)!=null) {
     		GraphitiUIPlugin.getDefault().getImageRegistry().remove(path);
     	}
@@ -138,7 +138,6 @@ IAddFeature {
         image.setHeight(100);
         image.setProportional(true);
         image.setLineWidth(2);
-        //image.getStyle().getRenderingStyle().;
         rectangle.setLineWidth(1);
         gaService.setLocationAndSize(image, x, y, width, height);
         if(targetDiagram.getGraphicsAlgorithm().getHeight() < y+height+10) {

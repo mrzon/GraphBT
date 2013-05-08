@@ -23,6 +23,7 @@ import org.be.graphbt.model.graphbt.BEModel;
 import org.be.graphbt.model.graphbt.Component;
 import org.be.graphbt.model.graphbt.Layout;
 import org.be.graphbt.model.graphbt.Library;
+import org.be.graphbt.common.ProjectUtil;
 import org.be.graphbt.graphiti.GraphBTUtil;
 
 /**
@@ -62,7 +63,7 @@ public class CreateComponentLayoutFirstPageGraphBTWizard extends WizardPage {
 		
 		for(int i = 0; i < components.size(); i++) {
 			boolean exist = false;
-			Image image = GraphBTUtil.getComponentImageDescription(components.get(i));
+			Image image = ProjectUtil.getComponentImageDescription(components.get(i));
 			if(image != null) {
 				for(int j = 0; j < aLibs.size(); j++) {
 					if(components.get(i).getComponentRef().equals(aLibs.get(j).getCRef())) {

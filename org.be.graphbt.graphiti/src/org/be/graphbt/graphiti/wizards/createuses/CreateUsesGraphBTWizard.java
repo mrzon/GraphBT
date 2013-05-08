@@ -12,6 +12,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
 import org.be.graphbt.model.graphbt.Attribute;
+import org.be.graphbt.model.graphbt.BEModel;
 import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.BehaviorType;
 import org.be.graphbt.model.graphbt.Component;
@@ -59,21 +60,20 @@ public class CreateUsesGraphBTWizard extends Wizard {
         	ds = ((MultiPageEditor)page.
         			getActiveEditor()).getDiagramEditor();
         }
+        final BEModel model = GraphBTUtil.getBEModel(d);
         RecordingCommand cmd;
-        for(final Library l:GraphBTUtil.getBEModel(d).getLibraries().getImport()) {
-        	
-        	if(l.getId().equals(map.get(0))) {
-        		cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+        cmd = new RecordingCommand(ds.getEditingDomain(), "Add uses") {
     				protected void doExecute() {
+        for(Library l:model.getLibraries().getImport()) {
+        	if(l.getId().equals(map.get(0))) {
     					c.getUses().add(l);
+    					break;
     			    }
-    			};
+	        	}
+	        }
+		};
     		TransactionalEditingDomain f = ds.getEditingDomain();
-    		f.getCommandStack().execute(cmd);
-    			
-        	}
-        }
-			
+    		f.getCommandStack().execute(cmd);	
 		return true;
 	}
 }

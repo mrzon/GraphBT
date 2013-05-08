@@ -1,4 +1,4 @@
-interface Mouse_ {
+interface Mouse {
 	Unit move();
 	Unit patrol();
 	Unit stop();

@@ -10,6 +10,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
@@ -17,12 +18,12 @@ import org.eclipse.ui.PlatformUI;
 import org.be.graphbt.model.graphbt.BEModel;
 import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.Component;
-import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.model.graphbt.Node;
 import org.be.graphbt.model.graphbt.Operator;
 import org.be.graphbt.model.graphbt.Requirement;
 import org.be.graphbt.model.graphbt.StandardNode;
 import org.be.graphbt.model.graphbt.TraceabilityStatus;
+import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.graphiti.wizards.createstandardnode.CreateStandardNodeGraphBTWizard;
 
 /**
@@ -58,7 +59,7 @@ ICreateFeature {
 		
 		WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
                 getActiveWorkbenchWindow().getShell(),
-    		new CreateStandardNodeGraphBTWizard(map, getDiagram()));
+    		new CreateStandardNodeGraphBTWizard(map, (DiagramEditor) getDiagramEditor()));
     		
 		if (wizardDialog.open() != Window.OK) {
 			return null;
@@ -111,7 +112,7 @@ ICreateFeature {
 	    node.setBehaviorRef(b.getBehaviorRef());
 	    
 	    Requirement r = GraphBTUtil.getRequirement(getDiagram(), map.get(StandardNode.TRACEABILITYLINK_VALUE));
-	    node.setTraceabilityLink(r==null?null:r.getKey());
+	    node.setTraceabilityLink(r==null?"":r.getKey());
 		
 		try {
 			GraphBTUtil.saveToModelFile(node, getDiagram());

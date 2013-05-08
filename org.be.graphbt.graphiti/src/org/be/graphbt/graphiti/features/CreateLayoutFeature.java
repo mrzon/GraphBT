@@ -17,13 +17,13 @@ import org.eclipse.ui.PlatformUI;
 import org.be.graphbt.model.graphbt.BEModel;
 import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.Component;
-import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.model.graphbt.LayoutList;
 import org.be.graphbt.model.graphbt.Node;
 import org.be.graphbt.model.graphbt.Operator;
 import org.be.graphbt.model.graphbt.Requirement;
 import org.be.graphbt.model.graphbt.StandardNode;
 import org.be.graphbt.model.graphbt.TraceabilityStatus;
+import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.graphiti.wizards.createstandardnode.CreateStandardNodeGraphBTWizard;
 
 /**

@@ -155,6 +155,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="traceabilityLink" upperBound="-1"
         eType="#//StandardNode"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="Description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Behavior">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="behaviorType" eType="#//BehaviorType"/>
@@ -170,6 +171,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="RequirementList">
     <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
         eType="#//Requirement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="projectId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FormulaList">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -254,7 +256,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="z" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Button" eSuperTypes="#//Layout">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eSubpackages name="behaviortree" nsURI="defaultname" nsPrefix="be.behaviortree.model"/>
 </ecore:EPackage>

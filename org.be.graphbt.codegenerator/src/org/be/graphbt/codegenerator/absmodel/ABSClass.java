@@ -144,4 +144,19 @@ public class ABSClass implements ABSBlock {
     	}
     	return null;
     }
+    public void addAccessorMutator(ABSVariable av) {
+    	ABSMethod selector = new ABSMethod(av.getDataType(),"get_"+av.getName());
+        ABSMethodImplementation selectorImpl = new ABSMethodImplementation(selector);
+        selectorImpl.addStatement(new ABSStatement(ABSStatementType.RETURN, "return "+av.getName()));
+        this.getInterfaces().get(0).add(selector);
+        this.addMethodImplementation(selectorImpl);
+        ArrayList<ABSParameter> params = new ArrayList<ABSParameter>();
+        ABSParameter param = new ABSParameter(av.getDataType(), "value");
+        params.add(param);
+        ABSMethod mutator = new ABSMethod(ABSDataType.UNIT,"set_"+av.getName(),params);
+        ABSMethodImplementation mutatorImpl = new ABSMethodImplementation(mutator);
+        mutatorImpl.addStatement(new ABSStatement(ABSStatementType.ASSIGNMENT, "this."+av.getName()+" = value"));
+        this.getInterfaces().get(0).add(mutator);
+        this.addMethodImplementation(mutatorImpl);
+    }
 }

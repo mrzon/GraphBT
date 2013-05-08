@@ -2,15 +2,19 @@
 <import>
 <name>GUI</name>
 <description>This component can be used to show GUI of the Model</description>
-<method name="registerWidget" type="Unit">
+<method name="registerComponent" type="Unit">
 	<param name="str" type="String"></param> 
-	<param name="w" type="Widget"></param> 
+	<param name="w" type="Component"></param> 
 </method>
-<method name="removeWidget" type="Unit">
+<method name="removeComponent" type="Unit">
 	<param name="key" type=""></param> 
 </method>
-<method name="getWidget" type="Widget">
+<method name="getComponent" type="Component">
 	<param name="" type=""></param> 
+</method>
+<method name="setState" type="Unit">
+	<param name="componentId" type="String"></param> 
+	<param name="stateName" type="String"></param> 
 </method>
 <method name="show" type="Unit">
 </method>

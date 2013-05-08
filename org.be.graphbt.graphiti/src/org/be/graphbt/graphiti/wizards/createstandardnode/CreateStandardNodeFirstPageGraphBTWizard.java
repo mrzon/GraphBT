@@ -3,6 +3,7 @@ package org.be.graphbt.graphiti.wizards.createstandardnode;
 import java.util.HashMap;
 
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -20,11 +21,11 @@ import org.eclipse.ui.PlatformUI;
 
 import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.Component;
-import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.model.graphbt.Operator;
 import org.be.graphbt.model.graphbt.Requirement;
 import org.be.graphbt.model.graphbt.StandardNode;
 import org.be.graphbt.model.graphbt.TraceabilityStatus;
+import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.graphiti.wizards.createbehavior.CreateBehaviorGraphBTWizard;
 import org.be.graphbt.graphiti.wizards.createcomponent.CreateComponentGraphBTWizard;
 import org.be.graphbt.graphiti.wizards.managecomponents.ManageComponentsGraphBTWizard;
@@ -40,17 +41,19 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 	private Composite container;
 	private HashMap<Integer, String> map;
 	private Diagram d;
+	private DiagramEditor de;
 	private Button behaviorButton;
 	Combo componentCombo;
 	Combo behaviorCombo;
 	Combo traceabilityLinkCombo;
 	
-	public CreateStandardNodeFirstPageGraphBTWizard(HashMap<Integer, String> map, Diagram d) {
+	public CreateStandardNodeFirstPageGraphBTWizard(HashMap<Integer, String> map, DiagramEditor de) {
 		super("Create Standard Node Wizard");
 		setTitle("Create Standard Node Wizard");
 		setDescription("Fill in the Behavior Tree node elements below.");
 		this.map = map;
-		this.d=d;
+		this.de=de;
+		this.d = de.getDiagramTypeProvider().getDiagram();
 	}
 
 	@Override
@@ -214,7 +217,7 @@ public class CreateStandardNodeFirstPageGraphBTWizard extends WizardPage {
 				HashMap <Integer,String> map = new HashMap<Integer, String>();
 				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 		                getActiveWorkbenchWindow().getShell(),
-		    		new ManageRequirementsGraphBTWizard(map, d));
+		    		new ManageRequirementsGraphBTWizard(map, de));
 				if(wizardDialog.open() != Window.OK) {
 					return;
 				}

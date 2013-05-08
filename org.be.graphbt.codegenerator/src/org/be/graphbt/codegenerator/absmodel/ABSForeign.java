@@ -12,7 +12,9 @@ package org.be.graphbt.codegenerator.absmodel;
 public class ABSForeign {
     private String absCode="";
     private String name="";
-    private String javaCode="";/*
+    private String javaCode="";
+    private String module = null;
+    /*
     public static ABSForeign IO = new ABSForeign("IO");
     public static ABSForeign MATH = new ABSForeign("Math");
     public static ABSForeign MOUSE = new ABSForeign("Mouse");
@@ -50,7 +52,15 @@ public class ABSForeign {
         }
     }*/
     
-    public ABSForeign(String name, String c) {
+    public String getModule() {
+		return module;
+	}
+
+	public void setModule(String module) {
+		this.module = module;
+	}
+
+	public ABSForeign(String name, String c) {
         this.name = name;
         absCode = c;
     }

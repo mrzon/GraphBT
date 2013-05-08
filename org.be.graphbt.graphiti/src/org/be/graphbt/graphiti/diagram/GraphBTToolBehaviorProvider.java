@@ -220,8 +220,11 @@ public class GraphBTToolBehaviorProvider  extends DefaultToolBehaviorProvider {
 		final DiagramEditor de;
 		if(ep instanceof MultiPageEditor)
 			de = ((MultiPageEditor)ep).getDiagramEditor();
-		else
+		else if(ep instanceof DiagramEditor)
 			de = (DiagramEditor)ep;
+		else 
+			return null;
+		
 		final IDeleteFeature deleteFeature = featureProvider.getDeleteFeature(deleteContext);
 
 		IContextButtonEntry ret = null;

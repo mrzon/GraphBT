@@ -109,6 +109,7 @@ public class BTProjectWizard extends Wizard implements INewWizard {
 						    true); //exported
 					newClasspath[3] = JavaRuntime.getDefaultJREContainerEntry();
 					javaProject.setRawClasspath(newClasspath, monitor);
+					javaProject.setOutputLocation(src.getFullPath(), monitor);
 					src.create(true, true, monitor);
 					resource.create(true, true, monitor);
 					//btlayout.create(new ByteArrayInputStream(contents2.getBytes()), true, monitor);

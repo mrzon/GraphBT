@@ -28,9 +28,9 @@ import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 
 import org.be.graphbt.model.graphbt.BEModel;
-import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.model.graphbt.Library;
 import org.be.graphbt.graphiti.Activator;
+import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.graphiti.editor.*;
 /**
  * Class to define the contents of manage component wizard

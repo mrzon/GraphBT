@@ -18,23 +18,22 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 
-public class GitAccountPreference extends PreferencePage implements
+public class PTAccountPreference extends PreferencePage implements
 		IWorkbenchPreferencePage {
 
 	private Composite container;
-	private Text usernameText;
-	private Text passwordText;
+	private Text tokenText;
 
-	public GitAccountPreference() {
+	public PTAccountPreference() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public GitAccountPreference(String title) {
+	public PTAccountPreference(String title) {
 		super(title);
 		// TODO Auto-generated constructor stub
 	}
 
-	public GitAccountPreference(String title, ImageDescriptor image) {
+	public PTAccountPreference(String title, ImageDescriptor image) {
 		super(title, image);
 		// TODO Auto-generated constructor stub
 	}
@@ -54,24 +53,13 @@ public class GitAccountPreference extends PreferencePage implements
 		container.setLayout(layout);
 		layout.numColumns = 2;
 
-		final Label usernameLabel = new Label(container, SWT.NULL);
-		usernameLabel.setText("Username: ");
+		final Label tokenLabel = new Label(container, SWT.NULL);
+		tokenLabel.setText("Pivotal Tracker Token: ");
 		
 
-		usernameText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		usernameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		usernameText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-			//	dialogChanged();
-			}
-		});
-		
-	    final Label passwordLabel = new Label(container, SWT.NULL);
-		passwordLabel.setText("Password: ");
-		
-		passwordText = new Text(container, SWT.BORDER | SWT.SINGLE | SWT.PASSWORD);
-		passwordText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		passwordText.addModifyListener(new ModifyListener() {
+		tokenText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		tokenText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		tokenText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 			//	dialogChanged();
 			}
@@ -79,8 +67,7 @@ public class GitAccountPreference extends PreferencePage implements
 		String [] defaults = (Activator.getDefault().getGitAccountPreference());
 
 		if(defaults!=null){
-			this.passwordText.setText(defaults[1]);
-			this.usernameText.setText(defaults[0]);
+			this.tokenText.setText(defaults[0]);
 		}
 		return container;
 	}
@@ -92,11 +79,8 @@ public class GitAccountPreference extends PreferencePage implements
 	 */
 	protected void performDefaults() {
 		String [] defaults = (Activator.getDefault().getGitAccountPreference());
-		System.out.println("DefaultGitAccount "+Arrays.toString(defaults));
-
 		if(defaults!=null){
-		this.passwordText.setText(defaults[1]);
-		this.usernameText.setText(defaults[0]);
+		this.tokenText.setText(defaults[0]);
 		}
 	}
 	/** 
@@ -105,8 +89,7 @@ public class GitAccountPreference extends PreferencePage implements
 	 */
 	public boolean performOk() {
 		String [] defaults = new String[2];
-		defaults[1] = this.passwordText.getText();
-		defaults[0] = this.usernameText.getText();
+		defaults[0] = this.tokenText.getText();
 		Activator.getDefault().setGitAccountPreference(defaults);
 		return super.performOk();
 	}

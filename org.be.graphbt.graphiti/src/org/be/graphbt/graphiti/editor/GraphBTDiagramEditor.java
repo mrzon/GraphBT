@@ -48,7 +48,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PartInitException;
-public class GraphBTDiagramEditor extends DiagramEditor implements IPageListener {
+public class GraphBTDiagramEditor extends DiagramEditor implements IPartListener2 {
 	private StructuredViewer outlineViewer;
 	public final Set<StandardNode> errorReversionNode = new HashSet<StandardNode>();
 	public final List<StandardNode> reversionNode = new ArrayList<StandardNode>();
@@ -127,66 +127,84 @@ public class GraphBTDiagramEditor extends DiagramEditor implements IPageListener
 		reversionNode.addAll(model.getReversionNode());
 		errorReversionNode.addAll(model.getErrorReversionNode());
 	}
+	
+	@Override
+	public void partActivated(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
-	public void pageActivated(IWorkbenchPage page) {
-		// TODO Auto-generated method stub
-		System.out.println(page.getLabel()+" is activated");
-		final BEModel model = GraphBTUtil.getBEModel(getDiagramTypeProvider().getDiagram(),false);
-		if(model == null)
-			return;
-		if(model.getLayoutList()!=null) {
-			this.getEditDomain().getCommandStack().execute(new Command() {
-				@SuppressWarnings("restriction")
-				@Override
-				public void execute() {
-					// TODO Auto-generated method stub
-					GraphBTImageProvider imP = GraphBTUtil.getImageProvider();
-					EList<Layout>list = model.getLayoutList().getLayouts();
-					for(Layout l:list) {
-						Component c = GraphBTUtil.getComponentByRef(model, l.getCRef());
-						org.eclipse.swt.graphics.Image im = GraphBTUtil.getComponentImageDescription(c);
-						if(im==null)
-							continue;
-						String path = GraphBTUtil.getImageAbsolutePath(ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef()+".jpg");
+	public void partBroughtToTop(IWorkbenchPartReference partRef) {
+				System.out.println(partRef.getPage()+" is activated");
+				final BEModel model = GraphBTUtil.getBEModel(getDiagramTypeProvider().getDiagram(),false);
+				if(model == null)
+					return;
+				if(model.getLayoutList()!=null) {
+					this.getEditDomain().getCommandStack().execute(new Command() {
+						@SuppressWarnings("restriction")
+						@Override
+						public void execute() {
+							EList<Layout>list = model.getLayoutList().getLayouts();
+							for(Layout l:list) {
+								Component c = GraphBTUtil.getComponentByRef(model, l.getCRef());
+								org.eclipse.swt.graphics.Image im = ProjectUtil.getComponentImageDescription(c);
+								if(im==null)
+									continue;
+								String path = ProjectUtil.getImageAbsolutePath(ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef()+".jpg");
 
-						if(GraphitiUIPlugin.getDefault().getImageRegistry().get(path)!=null) {
-				    		GraphitiUIPlugin.getDefault().getImageRegistry().remove(path);
-				    	}
-						GraphitiUIPlugin.getDefault().getImageRegistry().put(path, im);
-						PictogramElement pe = Graphiti.getLinkService().getPictogramElements(getDiagramTypeProvider().getDiagram(), l).get(0);
-						Image image = Graphiti.getGaCreateService().createImage(pe, path);
-						image.setHeight(l.getHeight());
-						image.setWidth(l.getWidth());
-						
-						Graphiti.getGaService().setLocationAndSize(image, l.getX(), l.getY(), l.getWidth(), l.getHeight());
-						
-					}
+								if(GraphitiUIPlugin.getDefault().getImageRegistry().get(path)!=null) {
+						    		GraphitiUIPlugin.getDefault().getImageRegistry().remove(path);
+						    	}
+								GraphitiUIPlugin.getDefault().getImageRegistry().put(path, im);
+								PictogramElement pe = Graphiti.getLinkService().getPictogramElements(getDiagramTypeProvider().getDiagram(), l).get(0);
+								Image image = Graphiti.getGaCreateService().createImage(pe, path);
+								image.setHeight(l.getHeight());
+								image.setWidth(l.getWidth());
+								image.setProportional(true);
+								image.setStretchH(true);
+								image.setStretchV(true);
+								Graphiti.getGaService().setLocationAndSize(image, l.getX(), l.getY(), l.getWidth(), l.getHeight());
+							}
+						}
+					});
+					
 				}
-			});
-			
-		}
-	}
-
-	@SuppressWarnings("restriction")
-	@Override
-	public void pageClosed(IWorkbenchPage page) {
-		// TODO Auto-generated method stub
-		System.out.println(page.getLabel()+" is closed");
-		final BEModel model = GraphBTUtil.getBEModel(getDiagramTypeProvider().getDiagram(),false);
-		if(model == null)
-			return;
-		if(model.getLayoutList()!=null) {
-			for(Layout l:model.getLayoutList().getLayouts()) {
-				GraphitiUIPlugin.getDefault().getImageRegistry().remove("GRAPHBT-IMAGE-"+l.getCRef());
-				
-			}
-		}
 	}
 
 	@Override
-	public void pageOpened(IWorkbenchPage page) {
+	public void partClosed(IWorkbenchPartReference partRef) {
 		// TODO Auto-generated method stub
-		System.out.println(page.getLabel()+" is opened");
+		
+	}
+
+	@Override
+	public void partDeactivated(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partOpened(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partHidden(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partVisible(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partInputChanged(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
 	}
 }

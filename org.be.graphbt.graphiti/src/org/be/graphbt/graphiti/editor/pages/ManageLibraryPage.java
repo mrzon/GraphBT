@@ -1,9 +1,6 @@
 package org.be.graphbt.graphiti.editor.pages;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -13,7 +10,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.be.graphbt.common.ProjectUtil;
 import org.be.graphbt.graphiti.GraphBTUtil;
-import org.be.graphbt.graphiti.editor.MultiPageEditor;
 import org.be.graphbt.model.graphbt.BEModel;
 import org.be.graphbt.model.graphbt.Library;
 import org.be.graphbt.model.graphbt.MethodDeclaration;
@@ -36,8 +32,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -212,7 +206,7 @@ public class ManageLibraryPage extends Composite{
 
 		listSelected.setLayoutData(gridData);
 		listSelected.removeAll();
-		if(model!=null) {
+		if(model!=null && model.getLibraries()!=null) {
 		for(Library r:model.getLibraries().getImport()) {
 			listSelected.add(r.getId());
 		}

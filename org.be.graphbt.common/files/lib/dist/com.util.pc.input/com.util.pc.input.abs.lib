@@ -1,9 +1,9 @@
-interface Stdin_ {
+interface Stdin {
    Int readInt();
    String readString();
 }
 [Foreign]
-class Stdin implements Stdin_
+class StdinImpl implements Stdin
 {
 	Unit init()
 	{

@@ -155,51 +155,15 @@ public class ABSModule {
             
             BufferedReader f = null;
             BufferedWriter g = null;
-            File classpath = new File(absPath+"\\.classpath");
-            IWorkspace workspace= ResourcesPlugin.getWorkspace();
-            String projectName = classpath.getParent();
-            String strClasspath = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+
-"<classpath>\n"+
-	"<classpathentry kind=\"src\" path=\"src\"/>\n"+
-	"<classpathentry kind=\"con\" path=\"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7\"/>\n"+
-	"<classpathentry kind=\"lib\" path=\""+absbatPath+"\"\n/>"+
-	"<classpathentry kind=\"output\" path=\"bin\"/>\n"+
-"</classpath>";
-            classpath.createNewFile();
-            File project = new File(absPath+"\\.project");
-            //project.createNewFile();
-            String strProject = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+
-"<projectDescription>"+
-	"<name>"+getName()+"</name>"+
-	"<comment></comment>"+
-	"<projects>"+
-	"</projects>"+
-	"<buildSpec>"+
-		"<buildCommand>"+
-			"<name>org.eclipse.jdt.core.javabuilder</name>"+
-			"<arguments>"+
-			"</arguments>"+
-		"</buildCommand>"+
-	"</buildSpec>"+
-	"<natures>"+
-		"<nature>org.eclipse.jdt.core.javanature</nature>"+
-	"</natures>"+
-"</projectDescription>";
-            FileWriter fw;// = new FileWriter(classpath);
-           // fw.append(strClasspath);
-           // fw.flush();
-           // fw.close();
-            fw = new FileWriter(project);
-            fw.append(strProject);
-            fw.flush();
-            fw.close();
-            
+           
+           
             for(int ii = 0; ii < listOfFor.size(); ii++) {
                 try {
                     String javaCode = listOfFor.get(ii).getJavaCode();
                     f = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(javaCode.getBytes())));
-                    File ff = new File(javaPath+"\\"+getName()+"\\"+listOfFor.get(ii).getName()+"_fli.java");
-                    File gg = new File(javaPath+"\\"+getName());
+                    String module = listOfFor.get(ii).getModule() == null? getName():listOfFor.get(ii).getModule();
+                    File ff = new File(javaPath+"\\"+module+"\\"+listOfFor.get(ii).getName()+"Impl_fli.java");
+                    File gg = new File(javaPath+"\\"+module);
                     if(!gg.isDirectory()) {
                     	gg.mkdir();
                     }
@@ -227,14 +191,14 @@ public class ABSModule {
                     //Print the jvm heap size.
                     System.out.println("Heap Size = " + heapSize);
                     //p = Runtime.getRuntime().exec (absbatPath+" compile "+javaPath+" "+getName()+" "+listOfFor.get(ii).getJavaCode()+".java");
-                    String compilingCommand = "javac -cp "+javaPath+";"+absbatPath+" "+javaPath+"\\"+getName()+"\\"+listOfFor.get(ii).getName()+"_fli.java";
+                    /*String compilingCommand = "javac -cp "+javaPath+";"+absbatPath+" "+javaPath+"\\"+getName()+"\\"+listOfFor.get(ii).getName()+"_fli.java";
                     p = Runtime.getRuntime().exec (compilingCommand);
                     p.waitFor();
                     in = new BufferedReader(new InputStreamReader(p.getErrorStream()));
                     System.out.println(compilingCommand);
                     while((temp=in.readLine())!=null) {
                         System.out.println(temp);
-                    }
+                    }*/
                 } catch (Exception ex) {
                         Logger.getLogger(ABSForeign.class.getName()).log(Level.SEVERE, null, ex);
                     } 
@@ -355,7 +319,7 @@ public class ABSModule {
         return main;
     }
     
-    public HashMap<String,ABSMethodImplementation> getTempM() {
+    public HashMap<String,ABSMethodImplementation> getMethods() {
         return tempM;
     }
     

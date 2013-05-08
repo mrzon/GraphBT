@@ -1,25 +1,28 @@
-interface GUI_ {
-	Unit registerWidget(String key,Widget w);
-	Unit removeWidget(String key);
-	Widget getWidget(String key);
+interface GUI {
+	Unit registerComponent(String key,Component w);
+	Unit removeComponent(String key);
+	Component getComponent(String key);
 	Unit show();
 	Unit dispose();
+	Unit setState(String componentName, String stateName);
 	Unit setWidth(Int x);
 	Unit setHeight(Int y);
 }
 [Foreign]
-class GUI implements GUI_
+class GUIImpl implements GUI
 {
-	Unit registerWidget(String key,Widget w) {
-	
+	Map<String, Component> mapComponent = EmptyMap;
+	Unit registerComponent(String key,Component w) {
+	 	mapComponent = insert(mapComponent,Pair(key,w));
 	}
 	
-	Unit removeWidget(String key) {
-	
+	Unit removeComponent(String key) {
+		mapComponent = removeKey(mapComponent, key);
 	}
 	
-	Widget getWidget(String key) {
-	
+	Component getComponent(String key) {
+		Component w = lookupUnsafe(mapComponent, key);
+		return w;
 	}
 	
 	Unit show() {
@@ -27,6 +30,10 @@ class GUI implements GUI_
 	}
 	
 	Unit dispose() {
+	
+	}
+	
+	Unit setState(String componentName, String stateName) {
 	
 	}
 	

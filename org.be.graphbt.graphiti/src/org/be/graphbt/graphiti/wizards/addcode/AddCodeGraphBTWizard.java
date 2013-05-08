@@ -44,9 +44,6 @@ public class AddCodeGraphBTWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		if(map.get(Behavior.DETAIL_VALUE) == null||map.get(Behavior.DETAIL_VALUE).equals("")) {
-			return false;
-		}
 		IWorkbenchPage page=PlatformUI.getWorkbench().
 				getActiveWorkbenchWindow().getActivePage();
         DiagramEditor ds;

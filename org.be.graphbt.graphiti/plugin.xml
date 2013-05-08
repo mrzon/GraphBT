@@ -14,8 +14,8 @@
       point = "org.eclipse.ui.preferencePages">
 	      <page
 	         id="org.be.graphbt.graphiti.preference.Page2"
-	         class="org.be.graphbt.graphiti.preference.GitAccountPreference"
-	         name="Git Account"
+	         class="org.be.graphbt.graphiti.preference.PTAccountPreference"
+	         name="Pivotal Tracker"
 	         category="org.be.graphbt.graphiti.preference.Page1">
 	      </page>
        <page

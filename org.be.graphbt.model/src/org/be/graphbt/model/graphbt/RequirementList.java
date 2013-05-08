@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.be.graphbt.model.graphbt.RequirementList#getRequirements <em>Requirements</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.RequirementList#getProjectId <em>Project Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -42,5 +43,31 @@ public interface RequirementList extends EObject {
 	 * @generated
 	 */
 	EList<Requirement> getRequirements();
+
+	/**
+	 * Returns the value of the '<em><b>Project Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Project Id</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Project Id</em>' attribute.
+	 * @see #setProjectId(long)
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getRequirementList_ProjectId()
+	 * @model
+	 * @generated
+	 */
+	long getProjectId();
+
+	/**
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.RequirementList#getProjectId <em>Project Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Project Id</em>' attribute.
+	 * @see #getProjectId()
+	 * @generated
+	 */
+	void setProjectId(long value);
 
 } // RequirementList

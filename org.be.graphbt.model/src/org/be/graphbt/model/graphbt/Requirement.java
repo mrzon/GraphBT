@@ -22,14 +22,15 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.be.graphbt.model.graphbt.Requirement#getRequirement <em>Requirement</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.Requirement#getTraceabilityLink <em>Traceability Link</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.Requirement#getDescription <em>Description</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.Requirement#getId <em>Id</em>}</li>
  * </ul>
  * </p>
  *
  * @see org.be.graphbt.model.graphbt.GraphBTPackage#getRequirement()
  * @model
- * @generated
+ * @generated NOT
  */
-public interface Requirement extends EObject {
+public interface Requirement extends EObject, Comparable<Requirement>{
 	Integer REQUIREMENT_NAME = 0x44;
 	Integer REQUIREMENT_KEY = 0x45;
 	Integer REQUIREMENT_DESC = 0x46;
@@ -127,6 +128,32 @@ public interface Requirement extends EObject {
 	 * @generated
 	 */
 	void setDescription(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Id</em>' attribute.
+	 * @see #setId(long)
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getRequirement_Id()
+	 * @model
+	 * @generated
+	 */
+	long getId();
+
+	/**
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.Requirement#getId <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Id</em>' attribute.
+	 * @see #getId()
+	 * @generated
+	 */
+	void setId(long value);
 
 	//void setRequirementDesc(String string);
 

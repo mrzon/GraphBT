@@ -1,24 +1,6 @@
 package org.be.graphbt.graphiti;
 
-/*******************************************************************************
- * <copyright>
- *
- * Copyright (c) 2005, 2010 SAP AG.
- * Copyright (c) 2012 GreenCloud.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    SAP AG - initial API, implementation and documentation
- *    GreenCloud - enhancement in adding feature for GraphBT
- *
- * </copyright>
- *
- *******************************************************************************/
 import org.be.graphbt.common.ProjectUtil;
-import org.be.graphbt.graphiti.diagram.GraphBTImageProvider;
 import org.be.graphbt.graphiti.editor.*;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -47,9 +29,9 @@ import org.be.graphbt.model.graphbt.Composition;
 import org.be.graphbt.model.graphbt.Edge;
 import org.be.graphbt.model.graphbt.Formula;
 import org.be.graphbt.model.graphbt.GraphBTFactory;
+import org.be.graphbt.model.graphbt.Libraries;
 import org.be.graphbt.model.graphbt.Library;
 import org.be.graphbt.model.graphbt.Link;
-import org.be.graphbt.model.graphbt.MapInformation;
 import org.be.graphbt.model.graphbt.Operator;
 import org.be.graphbt.model.graphbt.OperatorClass;
 import org.be.graphbt.model.graphbt.Requirement;
@@ -59,7 +41,6 @@ import org.be.graphbt.model.graphbt.State;
 import org.be.graphbt.model.graphbt.TraceabilityStatus;
 import org.be.graphbt.model.graphbt.TraceabilityStatusClass;
 import org.be.textbe.bt.textbt.*;
-import org.eclipse.core.internal.resources.WorkspaceRoot;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -79,18 +60,11 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.emf.validation.internal.util.Log;
-import org.eclipse.graphiti.features.IDeleteFeature;
-import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
-import org.eclipse.graphiti.features.context.impl.DeleteContext;
-import org.eclipse.graphiti.internal.GraphitiPlugin;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.styles.Color;
-import org.eclipse.graphiti.mm.algorithms.styles.RenderingStyle;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
@@ -98,16 +72,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.platform.IDiagramEditor;
 import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.tb.ContextButtonEntry;
-import org.eclipse.graphiti.tb.ContextEntryHelper;
-import org.eclipse.graphiti.tb.IContextButtonEntry;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
-import org.eclipse.graphiti.ui.internal.parts.PictogramElementDelegate;
-import org.eclipse.graphiti.ui.internal.platform.ExtensionManager;
-import org.eclipse.graphiti.ui.internal.services.GraphitiUiInternal;
-import org.eclipse.graphiti.ui.platform.IImageProvider;
-import org.eclipse.graphiti.util.ColorConstant;
-import org.eclipse.graphiti.util.IColorConstant;
 import org.eclipse.m2m.atl.core.ATLCoreException;
 import org.eclipse.m2m.atl.core.IExtractor;
 import org.eclipse.m2m.atl.core.IInjector;
@@ -116,18 +81,22 @@ import org.eclipse.m2m.atl.core.IReferenceModel;
 import org.eclipse.m2m.atl.core.ModelFactory;
 import org.eclipse.m2m.atl.core.launch.ILauncher;
 import org.eclipse.m2m.atl.core.service.CoreService;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 
 public class GraphBTUtil {
+	public static String GUI_LIBRARY_ID = "com.util.pc.gui";
+	public static Libraries availableLibraries = ProjectUtil.getAvailableLibraries();
+	public static Library getLibrary(Libraries libs, String libraryID) {
+		for(Library l:libs.getImport()) {
+			if(l.getId().equals(libraryID))
+				return l;
+		}
+		return null;
+	}
 	public static void updateReversionNode(final IDiagramEditor ds) {
 		if(!(ds instanceof GraphBTDiagramEditor))
 		{
@@ -213,16 +182,31 @@ public class GraphBTUtil {
 	}
 
 	private static BEModel getDefaultBEModel(final Diagram d) {
-		BEModel beModel = GraphBTUtil.getBEFactory().createBEModel();
+		final BEModel beModel = GraphBTUtil.getBEFactory().createBEModel();
 		beModel.setName("BTPackage");
 		try {
 			saveToModelFile(beModel,d);
-			beModel.setComponentList(GraphBTUtil.getBEFactory().createComponentList());
-			beModel.setRequirementList(GraphBTUtil.getBEFactory().createRequirementList());
-			beModel.setLibraries(GraphBTUtil.getBEFactory().createLibraries());
-			beModel.setFormulaList(GraphBTUtil.getBEFactory().createFormulaList());
-			
-			
+			IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			DiagramEditor ds = null;
+			if(page == null)
+				return null;
+			if(page.getActiveEditor() instanceof DiagramEditor) {
+				ds = (DiagramEditor)page.getActiveEditor();	
+			} else if(page.getActiveEditor() instanceof MultiPageEditor) {
+				ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+			} else {
+				return null;
+			}
+			RecordingCommand cmd = new RecordingCommand(ds.getEditingDomain(), "Initialize bemodel") {
+				protected void doExecute() {
+						beModel.setComponentList(GraphBTUtil.getBEFactory().createComponentList());
+						beModel.setRequirementList(GraphBTUtil.getBEFactory().createRequirementList());
+						beModel.setLibraries(GraphBTUtil.getBEFactory().createLibraries());
+						beModel.setFormulaList(GraphBTUtil.getBEFactory().createFormulaList());
+				}
+			};
+			TransactionalEditingDomain f = ds.getEditingDomain();
+			f.getCommandStack().execute(cmd);
 			for(int i = 0; i < Operator.VALUES.size(); i++) {
 				OperatorClass oc = getBEFactory().createOperatorClass();
 				oc.setOperatorLiteral(Operator.VALUES.get(i).getLiteral());
@@ -608,7 +592,7 @@ public class GraphBTUtil {
 				return res;
 			}
 		}
-		return GraphBTUtil.getDefaultRequirement(d);
+		return null;
 	}
 
 	/**
@@ -1495,9 +1479,6 @@ public class GraphBTUtil {
 		return 0;
 	}
 	
-	
-	
-
 	/**
 	 * get Attribute instance from a component based on its reference string
 	 * @param component
@@ -1553,10 +1534,10 @@ public class GraphBTUtil {
 	}
 	
 	/**
-	 * 
+	 * Get state from component based ont the state name
 	 * @param c
-	 * @param selected
-	 * @return
+	 * @param selected state name, assert it is unique
+	 * @return the state
 	 */
 	public static State getStateFromComponent(Component c, String selected) {
 		Iterator<State> it = c.getState().iterator();
@@ -1568,9 +1549,22 @@ public class GraphBTUtil {
 		}
 		return null;
 	}
+	
+	/**
+	 * 
+	 * @param c
+	 * @param s
+	 */
 	public static void removeStateFromComponent(Component c, State s) {
 		c.getState().remove(s);
 	}
+	
+	/**
+	 * Get state from component based on its reference string
+	 * @param c
+	 * @param key
+	 * @return
+	 */
 	public static State getStateFromComponentByRef(Component c, String key) {
 		for(int i = 0; i < c.getState().size(); i++) {
 			State s = c.getState().get(i);
@@ -1580,79 +1574,18 @@ public class GraphBTUtil {
 		}
 		return null;
 	}
-	public static Library getLibraryFromComponent(Component c, String bSelection) {
-		// TODO Auto-generated method stub
+
+	/**
+	 * Get library from component based on its id
+	 * @param c
+	 * @param id
+	 * @return
+	 */
+	public static Library getLibraryFromComponent(Component c, String id) {
 		for(Library l:c.getUses()) {
-			if(l.getId().equals(bSelection))
+			if(l.getId().equals(id))
 				return l;
 		}
 		return null;
-	}
-	
-	public static IProject getActiveProject() {
-		IWorkbench iworkbench = PlatformUI.getWorkbench();
-		if (iworkbench == null) return null;
-		IWorkbenchWindow iworkbenchwindow = iworkbench.getActiveWorkbenchWindow();
-		if (iworkbenchwindow == null) return null;
-		IWorkbenchPage iworkbenchpage = iworkbenchwindow.getActivePage();
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		if (iworkbenchpage == null) 
-			return null;
-		IEditorPart ieditorpart = iworkbenchpage.getActiveEditor();
-		IEditorInput input = ieditorpart.getEditorInput();
-	      if (!(input instanceof IFileEditorInput))
-	         return null;
-	      return ((IFileEditorInput)input).getFile().getProject();
-	}
-	public static Image getComponentImageDescription(Component c) {
-		String path = ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef()+".jpg";
-		return getImageFromPathString(path);
-	}
-	public static Image getStateImageDescription(Component c, State s) {
-		String path = ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef()+"-"+s.getName()+".jpg";
-		return getImageFromPathString(path);
-	}
-	
-	public static String getImageAbsolutePath(String str) {
-		IProject project = getActiveProject();
-		if(project==null) {
-			return null;
-		}
-		IResource resource = project.findMember(str);
-		if(resource==null) {
-			return null;
-		}
-		return resource.getRawLocation().toOSString();
-	}
-	private static Image getImageFromPathString(String str) {
-		IProject project = getActiveProject();
-		if(project==null) {
-			return null;
-		}
-		IResource resource = project.findMember(str);
-		if(resource==null) {
-			return null;
-		}
-		Image image;
-		try {
-			image = new Image(null,
-				    ((IFile)resource).getContents());
-			return image;
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	@SuppressWarnings("restriction")
-	public static GraphBTImageProvider getImageProvider() {
-		IImageProvider s[] = ExtensionManager.getSingleton().getImageProviders();
-    	for(int i = 0; i < s.length; i++) {
-    		if(s[i] instanceof GraphBTImageProvider) {
-    			return (GraphBTImageProvider)s[i];
-    		}
-    	}
-    	return null;
 	}
 }

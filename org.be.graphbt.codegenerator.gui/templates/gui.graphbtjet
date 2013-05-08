@@ -1,4 +1,4 @@
- <%@ jet package="org.be.graphbt.codegenerator.gui.template" class="GraphBTGuiTemplate" imports="org.be.graphbt.model.graphbt.* import org.eclipse.emf.common.util.*;"%>
+<%@ jet package="org.be.graphbt.codegenerator.gui.template" class="GraphBTGuiTemplate" imports="org.be.graphbt.model.graphbt.* import org.eclipse.emf.common.util.*;"%>
 <%BEModel model = (BEModel) argument; %>
 <%if(model.getLayoutList()==null) return null;%>
 

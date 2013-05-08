@@ -35,6 +35,7 @@ import org.be.graphbt.model.graphbt.Layout;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -68,6 +69,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPageListener;
 import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -104,11 +106,8 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		    Map<String, Object> m = reg.getExtensionToFactoryMap();
 		    m.put("model", new XMIResourceFactoryImpl());
 			//editor.getGraphicalViewer().setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1), MouseWheelZoomHandler.SINGLETON);
-		    IWorkbench iworkbench = PlatformUI.getWorkbench();
-			
-			IWorkbenchWindow iworkbenchwindow = iworkbench.getActiveWorkbenchWindow();
-			iworkbenchwindow.addPageListener((IPageListener) editor);
-		
+		    IWorkbenchPage page = editor.getEditorSite().getPage();
+			page.addPartListener((IPartListener2) editor);
 		} catch (PartInitException e) {
 			ErrorDialog.openError(
 				getSite().getShell(),
@@ -135,7 +134,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	
 	void createPage2()
 	{
-		final Diagram d = this.editor.getDiagramTypeProvider().getDiagram();
+		final DiagramEditor d = this.editor;
 		HashMap <Integer, String> map = new HashMap <Integer,String>();
 		ManageRequirementPage container = new ManageRequirementPage(getContainer(), SWT.NULL,d,map);
 		
@@ -198,9 +197,8 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	 * Saves the multi-page editor's document.
 	 */
 	public void doSave(IProgressMonitor monitor) {
-		if(getActiveEditor() instanceof DiagramEditor) {
-			getActiveEditor().doSave(monitor);	
-		}
+		IEditorPart editor = getEditor(0);
+		editor.doSave(monitor);	
 	}
 	
 	
@@ -259,7 +257,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		 text.setText(GraphBTUtil.getBTText(((DiagramEditor)editor).getDiagramTypeProvider().getDiagram()));
 		 break;
 		 case 2:
-			 setControl(2, new ManageRequirementPage(getContainer(), SWT.NULL,d,map));
+			 setControl(2, new ManageRequirementPage(getContainer(), SWT.NULL,this.editor,map));
 			 break;
 		 case 3:
 			 setControl(3, new ManageComponentPage(getContainer(), SWT.NONE,d,map));

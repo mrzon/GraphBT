@@ -218,15 +218,11 @@ public class BTParser extends DefaultHandler
                 }
                 else
                 {
-                    //System.out.println("ini bukan data dan bukan primitive :D "+component.getName());
                     if(component.getComponentClass()!=null) {
                         if(component.getComponentClass().getParameters() != null) {
-                            
                             String a[] = new String[component.getComponentClass().getParameters().size()];
-                            //System.out.println("jumlah param "+a.length);
                             for(int i = 0; i < a.length; i++) {
                                 a[i] = component.getComponentClass().getParameters().get(i).getDefault();
-                                
                                 if(!main.isDeclared(a[i])) {
                                     //System.out.println("yang belom dideclare "+a[i]);
                                     skip = true;
@@ -235,11 +231,9 @@ public class BTParser extends DefaultHandler
                             }
                             stat = component.getComponentClass().initialize(component.getRef().toLowerCase()+"_var",a);
                             var = component.getRef().toLowerCase()+"_var";
-                            //System.out.println(stat);
                         }
                     }
                 }
-                //if(!component.getName().equalsIgnoreCase("SET") && !component.getName().equalsIgnoreCase("LIST"))
                 if(skip) {
                     undVar.add(component);
                 }
@@ -249,7 +243,6 @@ public class BTParser extends DefaultHandler
                     main.addStatement(new ABSStatement(ABSStatementType.DECLARATION,stat));
                 }
             }
-            //System.out.println(undVar.size());
             int j = 0;
             while(!undVar.isEmpty() && j++ < 1000) {
                 //System.out.println("as");
@@ -278,8 +271,8 @@ public class BTParser extends DefaultHandler
                     main.addStatement(new ABSStatement(ABSStatementType.DECLARATION,stat));
                 }
             }
-            main.addStatement(new ABSStatement(ABSStatementType.BLOCK,bt.toStringABS(bt.getRoot())));
-            main.addStatement(new ABSStatement(ABSStatementType.DECLARATION,"ProcessManager t = new ProcessManagerImpl(node0);"));
+            main.setTreeStr(new ABSStatement(ABSStatementType.BLOCK,bt.toStringABS(bt.getRoot(),null)));
+            main.setProcessStr(new ABSStatement(ABSStatementType.DECLARATION,"ProcessManager t = new ProcessManagerImpl(node0);"));
             mod.setMainBlock(main);
         }
 

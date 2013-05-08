@@ -13,6 +13,7 @@ import org.be.graphbt.model.graphbt.GraphBTPackage;
 import org.be.graphbt.model.graphbt.Requirement;
 import org.be.graphbt.model.graphbt.RequirementList;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -20,6 +21,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -33,6 +35,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.be.graphbt.model.graphbt.impl.RequirementListImpl#getRequirements <em>Requirements</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.RequirementListImpl#getProjectId <em>Project Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -48,6 +51,25 @@ public class RequirementListImpl extends EObjectImpl implements RequirementList 
 	 * @ordered
 	 */
 	protected EList<Requirement> requirements;
+
+	/**
+	 * The default value of the '{@link #getProjectId() <em>Project Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getProjectId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final long PROJECT_ID_EDEFAULT = 0L;
+	/**
+	 * The cached value of the '{@link #getProjectId() <em>Project Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getProjectId()
+	 * @generated
+	 * @ordered
+	 */
+	protected long projectId = PROJECT_ID_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -85,6 +107,27 @@ public class RequirementListImpl extends EObjectImpl implements RequirementList 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public long getProjectId() {
+		return projectId;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setProjectId(long newProjectId) {
+		long oldProjectId = projectId;
+		projectId = newProjectId;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GraphBTPackage.REQUIREMENT_LIST__PROJECT_ID, oldProjectId, projectId));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -104,6 +147,8 @@ public class RequirementListImpl extends EObjectImpl implements RequirementList 
 		switch (featureID) {
 			case GraphBTPackage.REQUIREMENT_LIST__REQUIREMENTS:
 				return getRequirements();
+			case GraphBTPackage.REQUIREMENT_LIST__PROJECT_ID:
+				return getProjectId();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -121,6 +166,9 @@ public class RequirementListImpl extends EObjectImpl implements RequirementList 
 				getRequirements().clear();
 				getRequirements().addAll((Collection<? extends Requirement>)newValue);
 				return;
+			case GraphBTPackage.REQUIREMENT_LIST__PROJECT_ID:
+				setProjectId((Long)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -136,6 +184,9 @@ public class RequirementListImpl extends EObjectImpl implements RequirementList 
 			case GraphBTPackage.REQUIREMENT_LIST__REQUIREMENTS:
 				getRequirements().clear();
 				return;
+			case GraphBTPackage.REQUIREMENT_LIST__PROJECT_ID:
+				setProjectId(PROJECT_ID_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -150,6 +201,8 @@ public class RequirementListImpl extends EObjectImpl implements RequirementList 
 		switch (featureID) {
 			case GraphBTPackage.REQUIREMENT_LIST__REQUIREMENTS:
 				return requirements != null && !requirements.isEmpty();
+			case GraphBTPackage.REQUIREMENT_LIST__PROJECT_ID:
+				return projectId != PROJECT_ID_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

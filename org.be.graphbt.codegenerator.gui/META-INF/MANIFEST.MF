@@ -5,10 +5,11 @@ Bundle-SymbolicName: org.be.graphbt.codegenerator.gui
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.be.graphbt.codegenerator.gui.Activator
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.swt;bundle-version="3.7.2"
+ org.eclipse.swt;bundle-version="3.7.2",
+ org.eclipse.emf;bundle-version="2.6.0",
+ org.eclipse.emf.ecore.xmi;bundle-version="2.7.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.be.graphbt.codegenerator.gui.template
-Import-Package: org.be.graphbt.model.graphbt,
- org.eclipse.emf.common,
- org.eclipse.emf.common.util
+Import-Package: org.be.graphbt.common,
+ org.be.graphbt.model.graphbt

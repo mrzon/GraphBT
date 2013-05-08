@@ -21,8 +21,8 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 
-import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.model.graphbt.Library;
+import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.graphiti.editor.MultiPageEditor;
 
 public class ManageLibrary extends PreferencePage implements

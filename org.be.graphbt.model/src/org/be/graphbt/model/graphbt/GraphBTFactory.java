@@ -341,6 +341,15 @@ public interface GraphBTFactory extends EFactory {
 	Layout createLayout();
 
 	/**
+	 * Returns a new object of class '<em>Button</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Button</em>'.
+	 * @generated
+	 */
+	Button createButton();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

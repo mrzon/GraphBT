@@ -441,12 +441,17 @@ public class ComponentImpl extends EObjectImpl implements Component {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public Attribute getAttribute(String name) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		for(int i = 0; i < this.getAttributes().size(); i++) {
+			if(this.getAttributes().get(i).getName().equals(name)) {
+				return this.getAttributes().get(i);
+			}
+		}
+		return null;
 	}
 
 	/**

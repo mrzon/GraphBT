@@ -104,6 +104,12 @@ IAddFeature {
         rectangle.setLineWidth(1);
         gaService.setLocationAndSize(rectangle, x, y, width, height);
         BEModel model = GraphBTUtil.getBEModel(getDiagram());
+        if(model.getLibraries() == null) {
+        	model.setLibraries(GraphBTUtil.getBEFactory().createLibraries());
+        }
+        if(GraphBTUtil.getLibrary(model.getLibraries(), GraphBTUtil.GUI_LIBRARY_ID)==null) {
+        	model.getLibraries().getImport().add(GraphBTUtil.getLibrary(GraphBTUtil.availableLibraries, GraphBTUtil.GUI_LIBRARY_ID));
+        }
         model.setLayoutList(layout);
         
         link(containerShape, layout);

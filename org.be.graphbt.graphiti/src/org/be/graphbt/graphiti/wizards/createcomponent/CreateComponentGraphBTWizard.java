@@ -11,6 +11,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
 import org.be.graphbt.model.graphbt.BEModel;
+import org.be.graphbt.model.graphbt.Behavior;
+import org.be.graphbt.model.graphbt.BehaviorType;
 import org.be.graphbt.model.graphbt.Component;
 import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.graphiti.editor.MultiPageEditor;
@@ -61,8 +63,15 @@ public class CreateComponentGraphBTWizard extends Wizard {
 				c.setComponentName(map.get(Component.NAME_VALUE));
 				c.setComponentRef(map.get(Component.REF_VALUE));
 				c.setComponentDesc(map.get(Component.DESC_VALUE));
-				
 				be.getComponentList().getComponents().add(c);		
+				if(c.getComponentRef().startsWith("CBUTTON")) {
+					Behavior b = GraphBTUtil.getBEFactory().createBehavior();
+					b.setBehaviorDesc("To detect whether the component is clicked");
+					b.setBehaviorRef("1");
+					b.setBehaviorType(BehaviorType.GUARD);
+					b.setBehaviorName("clicked");
+					c.getBehaviors().add(b);
+				}
 		    }
 		};
 		ds.getEditingDomain().getCommandStack().execute(cmd);

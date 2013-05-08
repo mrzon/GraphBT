@@ -308,7 +308,7 @@ implements ITabbedPropertyConstants {
 				final StandardNode node = (StandardNode) ob;
 				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
 					protected void doExecute() {
-						if(selected.equals(" ")) {
+						if(selected.trim().equals("")) {
 							Requirement r = GraphBTUtil.getDefaultRequirement(d);
 							node.setTraceabilityLink(r.getKey());
 						}

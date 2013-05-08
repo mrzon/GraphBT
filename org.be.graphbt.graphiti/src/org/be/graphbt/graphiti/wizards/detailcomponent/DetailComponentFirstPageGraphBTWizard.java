@@ -35,8 +35,9 @@ import org.be.graphbt.model.graphbt.BEModel;
 import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.BehaviorType;
 import org.be.graphbt.model.graphbt.Component;
-import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.model.graphbt.StandardNode;
+import org.be.graphbt.common.ProjectUtil;
+import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.graphiti.editor.MultiPageEditor;
 import org.be.graphbt.graphiti.wizards.createattribute.CreateAttributeGraphBTWizard;
 import org.be.graphbt.graphiti.wizards.createbehavior.CreateBehaviorGraphBTWizard;
@@ -73,7 +74,7 @@ public class DetailComponentFirstPageGraphBTWizard extends WizardPage {
 		layout.numColumns = 2;
 		GridData gridData = new GridData();
 		Label pictureLabel = new Label(container,SWT.NULL);
-		Image image = GraphBTUtil.getComponentImageDescription(c);
+		Image image = ProjectUtil.getComponentImageDescription(c);
 		if(image != null) {
 		pictureLabel.setImage(image);
 		} else {
