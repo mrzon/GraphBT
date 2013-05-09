@@ -36,7 +36,9 @@ import org.be.graphbt.codegenerator.absmodel.ABSStatement;
 import org.be.graphbt.codegenerator.absmodel.ABSStatementType;
 import org.be.graphbt.codegenerator.absmodel.ABSVariable;
 import org.be.graphbt.codegenerator.absmodel.BTParser;
-import org.be.graphbt.codegenerator.gui.template.GraphBTABSGuiTemplate;
+import org.be.graphbt.codegenerator.gui.template.GraphBTABSGuiDisplayTemplate;
+import org.be.graphbt.codegenerator.gui.template.GraphBTABSGuiUpdaterTemplate;
+import org.be.graphbt.codegenerator.gui.template.GraphBTABSGuiViewerTemplate;
 import org.be.graphbt.codegenerator.gui.template.GraphBTDocumentationTemplate;
 import org.be.graphbt.codegenerator.gui.template.GraphBTGuiTemplate;
 import org.be.graphbt.common.ProjectUtil;
@@ -1023,8 +1025,16 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 								if(entryName.endsWith("java.lib")) {
 									if(entryName.endsWith("gui.java.lib")) {
 										/*Generating GUI*/
-										GraphBTABSGuiTemplate template = new GraphBTABSGuiTemplate();
+										GraphBTABSGuiDisplayTemplate template = new GraphBTABSGuiDisplayTemplate();
 										f.setJavaCode(template.generate(model));
+										ABSForeign f_ = new ABSForeign();
+										f_.setName("GUIViewer");
+										f_.setJavaCode(new GraphBTABSGuiViewerTemplate().generate(model));
+										mod.addForeign(f_);
+										f_ = new ABSForeign();
+										f_.setName("GUIUpdater");
+										f_.setJavaCode(new GraphBTABSGuiUpdaterTemplate().generate(null));
+										mod.addForeign(f_);
 									} else {
 										f.setJavaCode(buffer.toString().trim());
 									}
@@ -1036,16 +1046,17 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 									//TODO
 								}
 							}
-							if(f.getName().equals("GUI")) {
+							if(libs.get(i).getId().equals(GraphBTUtil.GUI_LIBRARY_ID)) {
 								ABSMainBlock main = mod.getMainBlock();
-								main.addStatement(new ABSStatement(ABSStatementType.DECLARATION, "GUI gui = new cog GUIImpl()"));
+								main.addStatement(new ABSStatement(ABSStatementType.DECLARATION, "Display display = new cog DisplayImpl()"));
 								if(model.getLayoutList()!=null) {
 									for(Layout l:model.getLayoutList().getLayouts()) {
-										main.addStatement(new ABSStatement(ABSStatementType.ADDON, "gui!registerComponent(\""+l.getCRef()+"\","+l.getCRef().toLowerCase()+"_var)"));
-										main.addStatement(new ABSStatement(ABSStatementType.ADDON, l.getCRef().toLowerCase()+"_var.set_gui_var(gui)"));
+										main.addStatement(new ABSStatement(ABSStatementType.ADDON, "display!registerComponent(\""+l.getCRef()+"\","+l.getCRef().toLowerCase()+"_var)"));
+										main.addStatement(new ABSStatement(ABSStatementType.ADDON, l.getCRef().toLowerCase()+"_var.set_display_var(display)"));
 									}
 								}
-								main.addStatement(new ABSStatement(ABSStatementType.ADDON, "gui!show()"));
+								main.addStatement(new ABSStatement(ABSStatementType.DECLARATION, "GUIViewer guiViewer = new cog GUIViewerImpl()"));
+								main.addStatement(new ABSStatement(ABSStatementType.ADDON, "guiViewer!show(display)"));
 							}
 						}
 						for(int i = 0; i < model.getComponentList().getComponents().size(); i++) {
@@ -1130,7 +1141,8 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 								if(l.getId().equals(GraphBTUtil.GUI_LIBRARY_ID)) {
 									ABSMethodImplementation applyStateMI = absClass.getMethodImplementation("setComponentState");
 									applyStateMI.addStatement(new ABSStatement(ABSStatementType.DECLARATION, "String compId = this.getId()"));
-									applyStateMI.addStatement(new ABSStatement(ABSStatementType.CALL, "Fut<Unit> f = this.gui_var!setState(compId,stateName)"));
+									applyStateMI.addStatement(new ABSStatement(ABSStatementType.DECLARATION, "GUIUpdater guiUpdater = new GUIUpdaterImpl()"));
+									applyStateMI.addStatement(new ABSStatement(ABSStatementType.CALL, "guiUpdater!changeState(display_var,compId,stateName)"));
 									applyStateMI.addStatement(new ABSStatement(ABSStatementType.ADDON, "suspend"));
 									break;
 								}

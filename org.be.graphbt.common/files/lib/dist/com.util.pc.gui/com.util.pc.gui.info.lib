@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <import>
-<name>GUI</name>
+<name>Display</name>
 <description>This component can be used to show GUI of the Model</description>
 <method name="registerComponent" type="Unit">
 	<param name="str" type="String"></param> 
@@ -11,19 +11,5 @@
 </method>
 <method name="getComponent" type="Component">
 	<param name="" type=""></param> 
-</method>
-<method name="setState" type="Unit">
-	<param name="componentId" type="String"></param> 
-	<param name="stateName" type="String"></param> 
-</method>
-<method name="show" type="Unit">
-</method>
-<method name="dispose" type="Unit">
-</method>
-<method name="setWidth" type="Unit">
-	<param name="w" type="Int"></param> 
-</method>
-<method name="" type="">
-	<param name="h" type="Int"></param> 
 </method>
 </import>

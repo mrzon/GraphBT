@@ -1,0 +1,72 @@
+ <%@ jet package="org.be.graphbt.codegenerator.gui.template" class="GraphBTABSGuiViewerTemplate" imports="org.be.graphbt.model.graphbt.* import org.eclipse.emf.common.util.*;"%>
+<%BEModel model = (BEModel) argument; %>
+<%if(model.getLayoutList()==null) return null;%>
+
+<%EList<Layout> layouts = model.getLayoutList().getLayouts(); %>
+
+package [P];
+import java.io.*;
+import java.util.*;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.*;
+import abs.backend.java.lib.types.*;
+import abs.backend.java.lib.runtime.ABSFut;
+import BTObjects.*;
+
+public class GUIViewerImpl_fli extends GUIViewerImpl_c {
+ 	public ABSUnit fli_show(Display_i _d) {
+ 	try {
+		final DisplayImpl_fli d = (DisplayImpl_fli)_d;
+		d.display = new Display();
+		d.shell = new Shell(d.display);
+		d.composite = new Composite(d.shell, SWT.NULL);
+		d.shell.setText("GUI");
+		
+		<%for (int i = layouts.size()-1; i >= 0 ; i--) { %>
+		<%Layout l = layouts.get(i);%>
+		File file<%=l.getCRef()%> = new File("resource/<%=l.getCRef()%>.jpg");
+		Image image<%=l.getCRef()%> = new Image(d.display, new FileInputStream(file<%=l.getCRef()%>));
+		<%if(l.getCRef().startsWith("CBUTTON")) {%>
+		final Button button<%=l.getCRef()%> = new Button(d.composite, SWT.NULL);
+		d.widgets.put("<%=l.getCRef()%>",button<%=l.getCRef()%>);
+		button<%=l.getCRef()%>.setImage(image<%=l.getCRef()%>);
+		button<%=l.getCRef()%>.setBounds(image<%=l.getCRef()%>.getBounds());	
+	   	button<%=l.getCRef()%>.setLocation(<%=l.getX()%>,<%=l.getY()%>);
+	   	button<%=l.getCRef()%>.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				ABSFut<Component_i> f = d.async_getComponent(abs.backend.java.lib.types.ABSString.fromString("<%=l.getCRef()%>"));
+				Component_i component = null;
+				while(!f.isResolved()) {
+					if(f.isResolved()) {
+						component = f.getValue();
+					}
+				}
+				if(component!=null)
+					component.async_click();
+			}
+		});
+		<%} else {%>
+		final Label label<%=l.getCRef()%> = new Label(d.composite, SWT.NULL);
+		d.widgets.put("<%=l.getCRef()%>",label<%=l.getCRef()%>);	
+		label<%=l.getCRef()%>.setImage(image<%=l.getCRef()%>);
+		label<%=l.getCRef()%>.setBounds(image<%=l.getCRef()%>.getBounds());	
+	   	label<%=l.getCRef()%>.setLocation(<%=l.getX()%>,<%=l.getY()%>);	
+	   	<%}}%>
+		d.composite.pack();
+		d.shell.open();
+		while(!d.shell.isDisposed()) {
+			if(!d.display.readAndDispatch()) {
+				d.display.sleep();
+			}
+		}
+ 		d.display.dispose();
+ 	} catch (Exception e) {
+ 	}
+		
+	 	return ABSUnit.UNIT;
+ 	}
+ }
+
+ 

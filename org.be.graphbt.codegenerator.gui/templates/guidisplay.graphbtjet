@@ -1,0 +1,19 @@
+ <%@ jet package="org.be.graphbt.codegenerator.gui.template" class="GraphBTABSGuiDisplayTemplate" imports="org.be.graphbt.model.graphbt.* import org.eclipse.emf.common.util.*;"%>
+
+package [P];
+import java.io.*;
+import java.util.*;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.*;
+import abs.backend.java.lib.types.*;
+import abs.backend.java.lib.runtime.ABSFut;
+import BTObjects.*;
+
+public class DisplayImpl_fli extends DisplayImpl_c{
+	public Display display;
+	public Shell shell;
+	public Composite composite;
+	public HashMap<String, Widget> widgets = new HashMap<String, Widget>();
+}

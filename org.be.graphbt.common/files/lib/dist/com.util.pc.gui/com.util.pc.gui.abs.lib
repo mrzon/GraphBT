@@ -1,16 +1,10 @@
-interface GUI {
+interface Display {
 	Unit registerComponent(String key,Component w);
 	Unit removeComponent(String key);
 	Component getComponent(String key);
-	Unit show();
-	Unit dispose();
-	Unit setState(String componentName, String stateName);
-	Unit setWidth(Int x);
-	Unit setHeight(Int y);
 }
 [Foreign]
-class GUIImpl implements GUI
-{
+class DisplayImpl implements Display {
 	Map<String, Component> mapComponent = EmptyMap;
 	Unit registerComponent(String key,Component w) {
 	 	mapComponent = insert(mapComponent,Pair(key,w));
@@ -24,24 +18,26 @@ class GUIImpl implements GUI
 		Component w = lookupUnsafe(mapComponent, key);
 		return w;
 	}
-	
-	Unit show() {
-	
-	}
-	
-	Unit dispose() {
-	
-	}
-	
-	Unit setState(String componentName, String stateName) {
-	
-	}
-	
-	Unit setWidth(Int w) {
+}
+
+interface GUIViewer {
+	Unit show(Display d);
+}
+
+[Foreign]
+class GUIViewerImpl implements GUIViewer {
+	Unit show(Display d) {
 	
 	}
-	
-	Unit setHeight(Int h) {
+}
+
+interface GUIUpdater {
+	Unit changeState(Display d, String component, String state);
+}
+
+[Foreign]
+class GUIUpdaterImpl implements GUIUpdater {
+	Unit changeState(Display d, String component, String state) {
 	
 	}
 }
