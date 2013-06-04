@@ -2,7 +2,7 @@
 <import>
 <name>Mouse</name>
 <description>This class is used as interface with implementation.</description>
-<method name="move" type="Unit"> 
+<method name="point" type="Unit"> 
 </method>
 <method name="patrol" type="Unit"> 
 </method>

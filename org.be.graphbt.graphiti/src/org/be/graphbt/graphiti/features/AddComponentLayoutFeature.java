@@ -1,5 +1,6 @@
 package org.be.graphbt.graphiti.features;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
@@ -116,11 +117,15 @@ IAddFeature {
         rectangle.setForeground(manageColor(E_CLASS_FOREGROUND));
         rectangle.setBackground(manageColor(ORIGINAL_BEHAVIOR_COLOR));
         Component c = GraphBTUtil.getComponentByRef(model, layout.getCRef());
-        Library lib = GraphBTUtil.getLibrary(model.getLibraries(), GraphBTUtil.GUI_LIBRARY_ID);
-        c.getUses().remove(lib);
-        c.getUses().add(lib);
+        System.out.println("Library "+model.getLibraries().getImport().size());
+        Library lib = GraphBTUtil.getLibrary(model.getLibraries().getImport(), GraphBTUtil.GUI_LIBRARY_ID);
+        if(lib!=null) {
+        	if(GraphBTUtil.getLibrary(c.getUses(), GraphBTUtil.GUI_LIBRARY_ID)==null) {
+        		c.getUses().add(EcoreUtil.copy(lib));
+        	}
+        }
         org.eclipse.swt.graphics.Image im = ProjectUtil.getComponentImageDescription(c);
-    	String path = ProjectUtil.getImageAbsolutePath(ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef()+".jpg");
+    	String path = ProjectUtil.getImageAbsolutePath(ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef());
     	if(GraphitiUIPlugin.getDefault().getImageRegistry().get(path)!=null) {
     		GraphitiUIPlugin.getDefault().getImageRegistry().remove(path);
     	}

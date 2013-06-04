@@ -36,6 +36,11 @@ public class ABSFunction implements ABSBlock{
     public void addStatement(ABSStatement a) {
         st.add(a);
     }
+    
+    @Override
+	public void addStatement(int line, ABSStatement as) {
+		this.st.add(line,as);
+	}
      
     @Override
     public String toString() {
@@ -46,7 +51,7 @@ public class ABSFunction implements ABSBlock{
     }
 
     @Override
-    public void isDeclared(ABSDeclarable a) {
+    public boolean isDeclared(ABSDeclarable a) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

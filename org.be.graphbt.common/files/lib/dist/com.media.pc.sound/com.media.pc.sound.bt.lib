@@ -1,0 +1,28 @@
+<include>
+<attributes>
+	<attribute>
+		<name></name>
+		<type></type>
+		<value></value>
+		<description></description>
+	</attribute>
+</attributes>
+<states>
+	<state>
+		<name></name>
+		<description></description>
+		<attribute>
+			<name></name>
+			<value></value>
+		</attribute>
+	</state>
+</states>
+<behaviors>
+	<behavior>
+		<name></name>
+		<type></type>
+		<detail></detail>
+		<description></description>
+	</behavior>
+</behaviors>
+</include>

@@ -1,0 +1,25 @@
+interface Timer {
+   Unit start();
+   Unit stop();
+   Unit addMinute(Int m);
+   Unit addSecond(Int s);
+   Unit addHour(Int h);
+   Bool timeout();
+}
+
+[Foreign]
+class TimerImpl implements Timer {	
+   Unit start() {
+   }
+   Unit stop() {
+   }
+   Unit addMinute(Int m) {
+   }
+   Unit addSecond(Int s) {
+   }
+   Unit addHour(Int h) {
+   }
+   Bool timeout() {
+   return False;
+   }
+}

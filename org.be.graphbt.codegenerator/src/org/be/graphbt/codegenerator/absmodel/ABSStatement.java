@@ -30,7 +30,12 @@ class _ABSIf implements ABSBlock
         }
         arr.add(a);
     }
-    
+    public void addStatement(int line, ABSStatement a) {
+        if(arr == null) {
+            arr = new ArrayList<ABSStatement>();
+        }
+        arr.add(line, a);
+    }
     @Override
     public String toString() {
         String temp="";
@@ -43,7 +48,7 @@ class _ABSIf implements ABSBlock
     }
 
     @Override
-    public void isDeclared(ABSDeclarable a) {
+    public boolean isDeclared(ABSDeclarable a) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
@@ -125,9 +130,11 @@ class _ABSWhile extends ABSStatement implements ABSBlock{
     public void addStatement(ABSStatement a) {
         stmnts.add(a);
     }
-
+    public void addStatement(int line, ABSStatement as) {
+    	stmnts.add(line,as);
+    }
     @Override
-    public void isDeclared(ABSDeclarable a) {
+    public boolean isDeclared(ABSDeclarable a) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

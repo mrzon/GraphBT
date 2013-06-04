@@ -122,32 +122,11 @@ public class CreateStateFirstPageGraphBTWizard extends WizardPage {
 			    gridData.grabExcessVerticalSpace = true;
 			    
 		stateDescText.setLayoutData(gridData);
-			    
-		stateNameText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				Text t= (Text) e.widget;
-				map.put(State.NAME_VALUE, t.getText());
-				dialogChanged();
-			}
-	    });
-		stateDescText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				Text t= (Text) e.widget;
-				map.put(State.DESC_VALUE, t.getText());
-			}
-	    });
-		stateRefText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				Text t= (Text) e.widget;
-				map.put(State.ID_VALUE, t.getText());
-			}
-	    });
 		if(c.getState().contains(s)) {
 			stateNameText.setText(s.getName());
 			stateDescText.setText(s.getDesc()==null?"":s.getDesc());
 			stateRefText.setText(s.getRef());
-			stateRefText.setEnabled(false);
-			System.out.println("A is not null");
+//			stateRefText.setEnabled(false);
 			map.put(State.NAME_VALUE, s.getName());
 			map.put(State.DESC_VALUE, stateDescText.getText());
 			map.put(State.ID_VALUE, s.getRef());
@@ -237,7 +216,26 @@ public class CreateStateFirstPageGraphBTWizard extends WizardPage {
 		} else  {
 			setPageComplete(false);
 		}
-		
+		stateNameText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				Text t= (Text) e.widget;
+				map.put(State.NAME_VALUE, t.getText());
+				dialogChanged();
+			}
+	    });
+		stateDescText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				Text t= (Text) e.widget;
+				map.put(State.DESC_VALUE, t.getText());
+			}
+	    });
+		stateRefText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				Text t= (Text) e.widget;
+				map.put(State.ID_VALUE, t.getText());
+				dialogChanged();
+			}
+	    });
 		setControl(container);
 	}
 	private void dialogChanged() {
@@ -245,8 +243,10 @@ public class CreateStateFirstPageGraphBTWizard extends WizardPage {
     		changeDialog("Name can not be empty!");
     	} else if(stateRefText.getText().trim().length() == 0) {
     		changeDialog("State ref can not be empty!");
-    	} else if(GraphBTUtil.getStateFromComponentByRef(c,stateRefText.getText().trim())!=null && !c.getState().contains(s)) {
-    		changeDialog("State is already exist!");
+    	} else if(GraphBTUtil.getStateFromComponentByRef(c,stateRefText.getText().trim())!=null) {
+    		if(GraphBTUtil.getStateFromComponentByRef(c,stateRefText.getText().trim())!=s) {
+    			changeDialog("State is already exist!");
+    		}
     	} else {
     		changeDialog(null);
     	}

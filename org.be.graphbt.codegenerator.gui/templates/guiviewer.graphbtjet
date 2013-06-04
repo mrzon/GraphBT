@@ -1,4 +1,4 @@
- <%@ jet package="org.be.graphbt.codegenerator.gui.template" class="GraphBTABSGuiViewerTemplate" imports="org.be.graphbt.model.graphbt.* import org.eclipse.emf.common.util.*;"%>
+ <%@ jet package="org.be.graphbt.codegenerator.gui.template" class="GraphBTABSGuiViewerTemplate" imports="org.be.graphbt.model.graphbt.* import org.eclipse.emf.common.util.* org.be.graphbt.common.*"%>
 <%BEModel model = (BEModel) argument; %>
 <%if(model.getLayoutList()==null) return null;%>
 
@@ -26,7 +26,9 @@ public class GUIViewerImpl_fli extends GUIViewerImpl_c {
 		
 		<%for (int i = layouts.size()-1; i >= 0 ; i--) { %>
 		<%Layout l = layouts.get(i);%>
-		File file<%=l.getCRef()%> = new File("resource/<%=l.getCRef()%>.jpg");
+		
+		<%String path = ProjectUtil.getImageAbsolutePath(ProjectUtil.RESOURCE_LOCATION+"/"+l.getCRef());%>
+		File file<%=l.getCRef()%> = new File("<%=path%>");
 		Image image<%=l.getCRef()%> = new Image(d.display, new FileInputStream(file<%=l.getCRef()%>));
 		<%if(l.getCRef().startsWith("CBUTTON")) {%>
 		final Button button<%=l.getCRef()%> = new Button(d.composite, SWT.NULL);
@@ -37,14 +39,35 @@ public class GUIViewerImpl_fli extends GUIViewerImpl_c {
 	   	button<%=l.getCRef()%>.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				ABSFut<Component_i> f = d.async_getComponent(abs.backend.java.lib.types.ABSString.fromString("<%=l.getCRef()%>"));
-				Component_i component = null;
-				while(!f.isResolved()) {
-					if(f.isResolved()) {
-						component = f.getValue();
-					}
+				f.await();
+				Component_i component = f.getValue();
+				if(component!=null) {
+					ABSFut<ABSUnit> u = component.async_click();
+					u.await();
 				}
-				if(component!=null)
-					component.async_click();
+			}
+		});
+		button<%=l.getCRef()%>.addMouseListener(new MouseAdapter() {
+			public void mouseDown(org.eclipse.swt.events.MouseEvent arg0){
+				ABSFut<Component_i> f = d.async_getComponent(abs.backend.java.lib.types.ABSString.fromString("<%=l.getCRef()%>"));
+				f.await();
+				Component_i component = null;
+				component = f.getValue();
+				if(component!=null) {
+					ABSFut<ABSUnit> u = component.async_press();
+					u.await();
+				}
+			}
+		  
+		    public void mouseUp(org.eclipse.swt.events.MouseEvent arg0){
+				ABSFut<Component_i> f = d.async_getComponent(abs.backend.java.lib.types.ABSString.fromString("<%=l.getCRef()%>"));
+				f.await();
+				Component_i component = null;
+				component = f.getValue();
+				if(component!=null) {
+					ABSFut<ABSUnit> u = component.async_release();
+					u.await();
+				}
 			}
 		});
 		<%} else {%>

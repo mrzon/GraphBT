@@ -1,11 +1,17 @@
 package org.be.graphbt.graphiti.wizards.addcode;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.util.HashMap;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -59,14 +65,27 @@ public class AddCodeFirstPageGraphBTWizard extends WizardPage {
 		varList = new List(container, SWT.BORDER | SWT.V_SCROLL);
 		for(Attribute att: c.getAttributes()) {
 			varList.add(att.toString());
+			varList.setData(att.toString(), att.getName()+"_var");
 		}
+		
 		for(Library att: c.getUses()) {
 			String var = att.getName().toLowerCase()+"_var";
 			for(MethodDeclaration md: att.getMethods()) {
 				varList.add(var+":"+md.toString());
+				varList.setData(var+":"+md.toString(), var+"!"+md.getName()+"()");
 			}
 		}
-		
+		varList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				int i = varList.getSelectionIndex();
+				String s = varList.getItem(i);
+				String o = (String)varList.getData(s);
+				Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+				cb.setContents(new StringSelection(o), null);
+				absCodeText.paste();
+			}
+		});
 		final Label attributeLabel = new Label(container, SWT.NULL);
 		attributeLabel.setText("ABS Code:");
 		absCodeText = new Text(container, SWT.WRAP
@@ -74,7 +93,6 @@ public class AddCodeFirstPageGraphBTWizard extends WizardPage {
 		          | SWT.H_SCROLL
 		          | SWT.MULTI
 		          | SWT.V_SCROLL);
-
 		GridData gridData =
 				new GridData(GridData.VERTICAL_ALIGN_FILL);
 		gridData.horizontalSpan = 2;

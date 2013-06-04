@@ -13,10 +13,15 @@ import java.util.Enumeration;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.be.graphbt.model.graphbt.Attribute;
+import org.be.graphbt.model.graphbt.Behavior;
+import org.be.graphbt.model.graphbt.BehaviorType;
 import org.be.graphbt.model.graphbt.Component;
 import org.be.graphbt.model.graphbt.GraphBTFactory;
+import org.be.graphbt.model.graphbt.Information;
 import org.be.graphbt.model.graphbt.Libraries;
 import org.be.graphbt.model.graphbt.Library;
+import org.be.graphbt.model.graphbt.MapInformation;
 import org.be.graphbt.model.graphbt.MethodDeclaration;
 import org.be.graphbt.model.graphbt.Parameter;
 import org.be.graphbt.model.graphbt.State;
@@ -121,12 +126,18 @@ public class ProjectUtil {
 	}
 	
 	public static IProject getActiveProject() {
-		IWorkbench iworkbench = PlatformUI.getWorkbench();
+		final IWorkbench iworkbench = PlatformUI.getWorkbench();
 		if (iworkbench == null) return null;
-		IWorkbenchWindow iworkbenchwindow = iworkbench.getActiveWorkbenchWindow();
-		if (iworkbenchwindow == null) return null;
-		IWorkbenchPage iworkbenchpage = iworkbenchwindow.getActivePage();
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		final IWorkbenchWindow iworkbenchwindow[] = new IWorkbenchWindow[1];
+		iworkbench.getDisplay().syncExec(new Runnable(){
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				 iworkbenchwindow[0]= iworkbench.getActiveWorkbenchWindow();
+			}
+		});
+		if (iworkbenchwindow[0] == null) return null;
+		IWorkbenchPage iworkbenchpage = iworkbenchwindow[0].getActivePage();
 		if (iworkbenchpage == null) 
 			return null;
 		IEditorPart ieditorpart = iworkbenchpage.getActiveEditor();
@@ -137,32 +148,51 @@ public class ProjectUtil {
 	}
 	
 	public static Image getComponentImageDescription(Component c) {
-		String path = ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef()+".jpg";
-		return getImageFromPathString(path);
+		String path = ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef();
+		Image image = getImageFromPathString(path);
+		return image;
 	}
 	
 	public static Image getStateImageDescription(Component c, State s) {
-		String path = ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef()+"-"+s.getName()+".jpg";
-		return getImageFromPathString(path);
+		String path = ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef()+"-"+s.getName();
+		Image image = getImageFromPathString(path);
+		return image;
 	}
 	
+	/**
+	 * This method can be used to get the absolute path of the relative path to the project
+	 * @param str the relative path to the project, you should omit the image extension
+	 * @return the absolute path of the image
+	 */
 	public static String getImageAbsolutePath(String str) {
 		IProject project = getActiveProject();
 		if(project==null) {
 			return null;
 		}
-		IResource resource = project.findMember(str);
+		IResource resource = project.findMember(str+".png");
+		if(resource==null) {
+			resource = project.findMember(str+".jpg");
+		}
 		if(resource==null) {
 			return null;
 		}
-		return resource.getRawLocation().toOSString();
+		return resource.getRawLocation().toPortableString();
 	}
+	
+	/**
+	 * This method can be used to get the image instance of the relative path to the project
+	 * @param str the relative path to the project, you should omit the image extension
+	 * @return the image instance, null if no image is corresponded to the given string
+	 */
 	private static Image getImageFromPathString(String str) {
 		IProject project = getActiveProject();
 		if(project==null) {
 			return null;
 		}
-		IResource resource = project.findMember(str);
+		IResource resource = project.findMember(str+".png");
+		if(resource==null) {
+			resource = project.findMember(str+".jpg");
+		}
 		if(resource==null) {
 			return null;
 		}
@@ -178,18 +208,24 @@ public class ProjectUtil {
 		return null;
 	}
 	
+	/**
+	 * This method can be used to get the available libraries that contained in the plugin
+	 * @return the Libraries instance
+	 */
 	public static Libraries getAvailableLibraries() {
 		Bundle bundle = Platform.getBundle("org.be.graphbt.common");
 		Enumeration<String> listLib = bundle.getEntryPaths("files/lib/dist");
 		Libraries libraries = GraphBTFactory.eINSTANCE.createLibraries();
 		while(listLib.hasMoreElements()) {
 			String po = listLib.nextElement();
+			Library l = GraphBTFactory.eINSTANCE.createLibrary();
 			File f = ProjectUtil.getSharedResource(po);
 			String name = "";
 			String desc = "";
 			 //System.out.println(f+" "+f.isDirectory());
 			if(f.isDirectory()) {
 				File[] files = f.listFiles();
+				
 				for(int i = 0; i < files.length; i++) {
 					if(files[i].getName().endsWith("info.lib")) { 
 						try {
@@ -202,7 +238,6 @@ public class ProjectUtil {
 							doc.getDocumentElement().normalize();
 							name = doc.getElementsByTagName("name").item(0).getTextContent();
 							desc = doc.getElementsByTagName("description").item(0).getTextContent();
-							Library l = GraphBTFactory.eINSTANCE.createLibrary();
 							l.setId(f.getName());
 							l.setLocation(po);
 							l.setDesc(desc);
@@ -233,15 +268,110 @@ public class ProjectUtil {
 									}
 								}
 							}
-							libraries.getImport().add(l);
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
 						break;
+					} else if(files[i].getName().endsWith("bt.lib")) { 
+						try {
+							File fXmlFile = files[i];
+							DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+							DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+							Document doc = dBuilder.parse(fXmlFile);
+							doc.getDocumentElement().normalize();
+							NodeList attributes = doc.getElementsByTagName("attributes");
+							for(int ii = 0; ii < attributes.getLength(); ii++) {
+								Node node = attributes.item(ii);
+								if (node.getNodeType() == Node.ELEMENT_NODE) {
+									Element el = (Element) node;
+									NodeList stateNode = el.getElementsByTagName("attribute");
+									for(int ij = 0; ij < stateNode.getLength(); ij++) {
+										Node temp = stateNode.item(ij);
+										if (temp.getNodeType() == Node.ELEMENT_NODE) {
+											Element e = (Element)temp;
+											Attribute attribute = GraphBTFactory.eINSTANCE.createAttribute();
+											String aName = e.getElementsByTagName("name").item(0).getTextContent();
+											String aType = e.getElementsByTagName("type").item(0).getTextContent();
+											if(e.getElementsByTagName("value").getLength()> 0) {
+												String value = e.getElementsByTagName("value").item(0).getTextContent();
+												attribute.setValue(value);
+											}
+											if(e.getElementsByTagName("description").getLength()> 0) {
+												String aDescription = e.getElementsByTagName("description").item(0).getTextContent();
+												attribute.setDesc(aDescription);
+											}
+											attribute.setType(aType);
+											attribute.setName(aName);
+											l.getAttributes().add(attribute);
+										}
+									}
+								}
+							}
+							NodeList behaviors = doc.getElementsByTagName("behaviors");
+							for(int ii = 0; ii < behaviors.getLength(); ii++) {
+								Node node = behaviors.item(ii);
+								if (node.getNodeType() == Node.ELEMENT_NODE) {
+									Element el = (Element) node;
+									NodeList stateNode = el.getElementsByTagName("behavior");
+									for(int ij = 0; ij < stateNode.getLength(); ij++) {
+										Node temp = stateNode.item(ij);
+										if (temp.getNodeType() == Node.ELEMENT_NODE) {
+											Element e = (Element)temp;
+											Behavior behavior = GraphBTFactory.eINSTANCE.createBehavior();
+											String bName = e.getElementsByTagName("name").item(0).getTextContent();
+											String bType = e.getElementsByTagName("type").item(0).getTextContent();
+											if(e.getElementsByTagName("detail").getLength()> 0) {
+												String bDetail = e.getElementsByTagName("detail").item(0).getTextContent();
+												behavior.setTechnicalDetail(bDetail);
+											}
+											if(e.getElementsByTagName("description").getLength()> 0) {
+												String bDescription = e.getElementsByTagName("description").item(0).getTextContent();
+												behavior.setBehaviorDesc(bDescription);
+											}
+											behavior.setBehaviorType(BehaviorType.getByName(bType));
+											behavior.setBehaviorName(bName);
+											behavior.setBehaviorRef(ij+"");
+											l.getBehaviors().add(behavior);
+										}
+									}
+								}
+							}
+							
+							NodeList states = doc.getElementsByTagName("states");
+							for(int ii = 0; ii < states.getLength(); ii++) {
+								Node node = states.item(ii);
+								if (node.getNodeType() == Node.ELEMENT_NODE) {
+									Element el = (Element) node;
+									NodeList stateNode = el.getElementsByTagName("state");
+									for(int ij = 0; ij < stateNode.getLength(); ij++) {
+										Node temp = stateNode.item(ij);
+										if (temp.getNodeType() == Node.ELEMENT_NODE) {
+											Element e = (Element)temp;
+											State state = GraphBTFactory.eINSTANCE.createState();
+											String sName = e.getElementsByTagName("name").item(0).getTextContent();
+											String sDesc = e.getElementsByTagName("description").item(0).getTextContent();
+											state.setDesc(sDesc);
+											state.setName(sName);
+											state.setRef("S"+ij);
+											NodeList attrs = e.getElementsByTagName("attribute");
+											for(int ik = 0; ik < attrs.getLength(); ik++) {
+												Element k = (Element)attrs.item(ik);
+												String aName = e.getElementsByTagName("name").item(0).getTextContent();
+												String aValue = e.getElementsByTagName("value").item(0).getTextContent();
+												state.getAttributes().setValue(aName, aValue);
+											}
+											l.getStates().add(state);
+										}
+									}
+								}
+							}
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
 					}
 				}
 			}
-			
+			libraries.getImport().add(l);
 		}
 		return libraries;
 	}

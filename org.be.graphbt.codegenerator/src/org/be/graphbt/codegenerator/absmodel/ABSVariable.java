@@ -46,7 +46,6 @@ public class ABSVariable implements ABSDeclarable{
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 61 * hash + (this.dataType != null ? this.dataType.hashCode() : 0);
         hash = 61 * hash + (this.var != null ? this.var.hashCode() : 0);
         return hash;
     }
@@ -55,7 +54,7 @@ public class ABSVariable implements ABSDeclarable{
     public boolean equals(Object o) {
         if(o!=null && o instanceof ABSVariable) {
             ABSVariable k = (ABSVariable)o;
-            return k.hashCode()==hashCode();
+            return k.getName().equals(getName());
         }
         return false;
     }
@@ -71,6 +70,6 @@ public class ABSVariable implements ABSDeclarable{
     @Override
     public String toString() {
         String value = (val==null?dataType.getDefaultValue():val);
-        return dataType.toString()+" "+var+" = "+value+";";
+        return dataType.getName()+" "+var+" = "+value+";";
     }
 }

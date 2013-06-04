@@ -35,7 +35,7 @@ public class ABSParameter implements ABSDeclarable{
     
     @Override
     public String toString() {
-        return getDataType().toString()+" "+getName();
+        return getDataType().getName()+" "+getName();
     }
     
     public String getDefault() {

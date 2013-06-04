@@ -124,4 +124,14 @@
             </adapter>
          </factory>
       </extension>
+      <extension
+            id="org.be.graphbt.perspective.GraphBTPerspective"
+            point="org.eclipse.ui.perspectives">
+         <perspective
+               class="org.be.graphbt.graphiti.perspectives.GraphBTPerspective"
+               icon="icons/releng_gears.gif"
+               id="org.be.graphbt.graphiti.perspectives.GraphBTPerspective"
+               name="GraphBT">
+         </perspective>
+      </extension>
 </plugin>

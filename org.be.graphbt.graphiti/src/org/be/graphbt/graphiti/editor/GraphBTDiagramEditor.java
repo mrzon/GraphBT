@@ -131,7 +131,6 @@ public class GraphBTDiagramEditor extends DiagramEditor implements IPartListener
 	@Override
 	public void partActivated(IWorkbenchPartReference partRef) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -151,7 +150,7 @@ public class GraphBTDiagramEditor extends DiagramEditor implements IPartListener
 								org.eclipse.swt.graphics.Image im = ProjectUtil.getComponentImageDescription(c);
 								if(im==null)
 									continue;
-								String path = ProjectUtil.getImageAbsolutePath(ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef()+".jpg");
+								String path = ProjectUtil.getImageAbsolutePath(ProjectUtil.RESOURCE_LOCATION+"/"+c.getComponentRef());
 
 								if(GraphitiUIPlugin.getDefault().getImageRegistry().get(path)!=null) {
 						    		GraphitiUIPlugin.getDefault().getImageRegistry().remove(path);

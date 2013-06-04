@@ -181,11 +181,12 @@ class QueueNodeImpl implements QueueNode {
 	
 	ArrayNode toArray() {
 		ArrayNode temp = new ArrayNodeImpl();
-		Int length = arr.getLength();
+		Int length = this.size();
+		String str = intToString(length);
 		temp.setLength(length);
 		Int i = bottom;
 		Int j = 0;
-		while(i!=top) {
+		while(j < size) {
 			N ith = arr.getElement(i);
 			temp.set(j,ith);
 			i = i+1;
@@ -194,7 +195,7 @@ class QueueNodeImpl implements QueueNode {
 				i=0;
 			}
 		}
-		return arr;
+		return temp;
 	}
 }
 
@@ -298,6 +299,10 @@ interface Component {
 	Unit setComponentState(String s);
 	Bool isClicked();
 	Unit click();
+	Bool isPressed();
+	Unit press();
+	Bool isReleased();
+	Unit release();
 }
 
 interface NodeBlock {
@@ -323,15 +328,17 @@ class NodeBlockImpl implements NodeBlock {
 	}
 	
 	Bool isAncestor(NodeBlock nb) {
-		NodeBlock parent = nb.getParent();
 		Bool ancestor = False;
-		if(parent!=null) {
-			ancestor = False;
-		} 
-		if (this.parent == nb){
-			ancestor = True;
-		} else {
-			ancestor = this.isAncestor(parent);
+		IO io = new IOImpl();
+		if(this.parent != null) {
+			if (this.parent == nb){
+				ancestor = True;
+			} else {
+				NodeBlock parent = nb.getParent();
+				if(parent!=null) {
+					ancestor = this.isAncestor(parent);
+				}
+			}
 		}
 		return ancestor;
 	}
@@ -478,25 +485,25 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 						if(not(isTerminated)) {
 							this.evaluateChildNodes(n);
 						}
-					} else if (nt == EXTERNALINPUT) {
+					} else if (nt == EXTERNALOUTPUT) {
 						n.runNode();
 						this.evaluateChildNodes(n);
-					} else if(nt == EXTERNALOUTPUT) {
-						Fut<Unit> f = n!runNode();
-						this.evaluateChildNodes(n);
-						await f?;
 					}
 				} else if(op == REVERSION) {
 					List<N> l = n.getNodes();	//reversion node must having a child target
 					N target = head(l);
+					 
 					NodeBlock nb = target.getNodeBlock();
 					NodeBlock nbOwn = n.getNodeBlock();
 					if(nb!=nbOwn) {
 						ArrayNode nodes = readyQueue.toArray();
 						Int i = 0;
-						Int k = nodes.getLength();
+						Int k = 0;
+						if(nodes!=null) 
+							k = nodes.getLength();
 						while(i < k) {
-							N node = nodes.getElement(i);							
+							N node = nodes.getElement(i);	
+							String pcc = node.getPC();
 							NodeBlock nbN = node.getNodeBlock();
 							Bool isAncestor = nbN.isAncestor(nb);
 							if(isAncestor) {
@@ -506,7 +513,9 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 						}
 						nodes = blockedQueue.toArray();
 						i = 0;
-						k = nodes.getLength();
+						k = 0;
+						if(nodes!=null) 
+						k=nodes.getLength();
 						while(i < k) {
 							N node = nodes.getElement(i);
 							NodeBlock nbN = node.getNodeBlock();
@@ -531,6 +540,7 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 	 */
 	Unit evaluateBlockedProcess() {
 		Int size = blockedQueue.size();
+		IO io = new IOImpl();
 		while(not(size == 0)) {
 			N n = blockedQueue.poll();
 			State state = n.getState();
@@ -538,14 +548,48 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 				n.runNode();
 				Bool b = n.isBlocked();
 				if(not(b)) {
+					io.print("Not blocked");
 					this.evaluateChildNodes(n);
 				} else {
+					//io.print("Blocked");
 					n.setState(Blocked);
 					blockedQueue.insert(n);
 				}
 			}
 			suspend;
 			size = blockedQueue.size();
+		}
+	}
+	
+	Unit processAlternateBlock(N n) {
+		QueueNode alternateQueue = new QueueNodeImpl(); /** Queue to handle blocked states */
+		List<N> l = n.getNodes();
+		Bool break = False;
+		while(l != Nil && not(break)) {
+			N c = head(l);
+			l = tail(l);
+			BehaviorType ntype = c.getBehaviorType();
+			if(ntype == STATE||ntype==INTERNALOUTPUT||ntype==EXTERNALOUTPUT||ntype == SELECTION) {
+				readyQueue.insert(c);
+				c.setState(Ready);
+				break = True;
+			} else {
+				alternateQueue.insert(c);
+			}
+		}
+		while(not(break)) {
+			N c = alternateQueue.poll();
+			State state = c.getState();
+			c.runNode();
+			Bool b = c.isBlocked();
+			if(not(b)) {
+				this.evaluateChildNodes(c);
+				break = True;
+			} else {
+				n.setState(Blocked);
+				alternateQueue.insert(c);
+			}
+			suspend;
 		}
 	}
 	
@@ -556,8 +600,13 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 			l = tail(l);
 			Operator op = c.getOperator();
 			String typeB = c.getBlockType();
-			if(typeB == "PARALLELBLOCK"||typeB=="ALTERNATIVEBLOCK") {
+			String pc = c.getPC();
+			IO io = new IOImpl();
+			io.print("The block is "+typeB+" "+pc);
+			if(typeB == "PARALLELBLOCK") {
 				this.evaluateChildNodes(c);
+			} else if (typeB=="ALTERNATIVEBLOCK") {
+				this.processAlternateBlock(c);
 			} else {
 				if(op == NOOPERATOR) {
 					BehaviorType ntype = c.getBehaviorType();
@@ -566,10 +615,10 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 						c.setState(Ready);
 					} else if(ntype == GUARD||ntype==INTERNALINPUT||ntype==EXTERNALINPUT) {
 						c.setState(Blocked);
+						io.print("Ini block");
 						blockedQueue.insert(c);
 					}
 				} else if(op == REVERSION) {
-					String temp = c.getPC();
 					readyQueue.insert(c);
 					c.setState(Ready);
 				}
@@ -590,14 +639,17 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 	Unit execute() {
 		Int rQSize = readyQueue.size();
 		Int bQSize = blockedQueue.size();
+		IO io = new IOImpl();
 		while(rQSize != 0 || bQSize != 0) {
 			Fut<Unit> a = this!readyProcess();
 			Fut<Unit> b = this!evaluateBlockedProcess();
 			await a?;
 			await b?;
+			
 			rQSize = readyQueue.size();
 		    bQSize = blockedQueue.size();
 		}
+		io.print("This will always printed last");
 	}
 	
 	Unit run() {

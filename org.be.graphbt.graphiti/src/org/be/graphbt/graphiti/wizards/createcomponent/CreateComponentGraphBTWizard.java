@@ -56,7 +56,7 @@ public class CreateComponentGraphBTWizard extends Wizard {
 		final BEModel be = GraphBTUtil.getBEModel(d);
 		System.out.println(be+"di component nih");
 		
-		final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+		final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Create new component") {
 			protected void doExecute() {
 				Component c = GraphBTUtil.getBEFactory().createComponent();
 				//if(map.get(Component.COMPONENT_NAME)!=null||map.get(Component.COMPONENT_NAME)!="")
@@ -66,10 +66,22 @@ public class CreateComponentGraphBTWizard extends Wizard {
 				be.getComponentList().getComponents().add(c);		
 				if(c.getComponentRef().startsWith("CBUTTON")) {
 					Behavior b = GraphBTUtil.getBEFactory().createBehavior();
-					b.setBehaviorDesc("To detect whether the component is clicked");
+					b.setBehaviorDesc("To detect whether the button is clicked");
 					b.setBehaviorRef("1");
 					b.setBehaviorType(BehaviorType.GUARD);
 					b.setBehaviorName("clicked");
+					c.getBehaviors().add(b);
+					b = GraphBTUtil.getBEFactory().createBehavior();
+					b.setBehaviorDesc("To detect whether the button is pressed");
+					b.setBehaviorRef("2");
+					b.setBehaviorType(BehaviorType.GUARD);
+					b.setBehaviorName("pressed");
+					c.getBehaviors().add(b);
+					b = GraphBTUtil.getBEFactory().createBehavior();
+					b.setBehaviorDesc("To detect whether the button is released");
+					b.setBehaviorRef("3");
+					b.setBehaviorType(BehaviorType.GUARD);
+					b.setBehaviorName("released");
 					c.getBehaviors().add(b);
 				}
 		    }

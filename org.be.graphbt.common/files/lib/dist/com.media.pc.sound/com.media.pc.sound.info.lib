@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<import>
+<name>Sound</name>
+<description>This component can be used to play sound</description>
+<method name="play" type="Int"> 
+<param name="path" type="String"></param>
+</method>
+</import>

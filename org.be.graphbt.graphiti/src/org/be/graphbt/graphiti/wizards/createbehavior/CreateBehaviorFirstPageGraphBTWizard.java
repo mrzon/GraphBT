@@ -1,6 +1,10 @@
 package org.be.graphbt.graphiti.wizards.createbehavior;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -10,6 +14,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -19,9 +24,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import org.be.graphbt.model.graphbt.Attribute;
 import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.BehaviorType;
 import org.be.graphbt.model.graphbt.Component;
+import org.be.graphbt.model.graphbt.State;
 import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.graphiti.wizards.addcode.AddCodeGraphBTWizard;
 
@@ -35,7 +42,7 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 	private Composite container;
 	private HashMap<Integer,String> map;
 	private Component c;
-	private Text behaviorNameText;
+	private Combo behaviorNameText;
 	private Text behaviorRefText;
 	private Text behaviorDescText;
 	private Combo behaviorTypeCombo;
@@ -72,9 +79,22 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 	    final Label behaviorLabel = new Label(container, SWT.NULL);
 		behaviorLabel.setText("Behavior Name:");
 
-		behaviorNameText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		behaviorNameText = new Combo(container, SWT.BORDER | SWT.SINGLE);
 		behaviorNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
+		HashSet<String> arr = new HashSet<String>();
+		for (State state : c.getState()) {
+			arr.add(state.getName());
+		}
+		for (Attribute a : c.getAttributes()) {
+			arr.add(a.getName());
+		}
+		for (Behavior b : c.getBehaviors()) {
+			arr.add(b.getBehaviorName());
+		}
+		for (String string : arr) {
+			behaviorNameText.add(string);
+		}
+		Arrays.sort(behaviorNameText.getItems());
 		final Label behaviorRefLabel = new Label(container, SWT.NULL);
 		behaviorRefLabel.setText("Behavior Ref:");
 		
@@ -101,7 +121,7 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 		
 		behaviorNameText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				Text t= (Text) e.widget;
+				Combo t = (Combo) e.widget;
 				map.put(Behavior.NAME_VALUE, t.getText());
 				dialogChanged();
 			}
@@ -128,7 +148,7 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 				WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 						getActiveWorkbenchWindow().getShell(),
 						new AddCodeGraphBTWizard(map,c,b));
-				if(wizardDialog.open() != Window.OK) {
+				if(wizardDialog.open() == Window.OK) {
 					return;
 				}
 			}
@@ -138,14 +158,16 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 			behaviorTypeCombo.select(b.getBehaviorType().getValue());
 			behaviorTypeCombo.setEnabled(false);
 			behaviorNameText.setText(b.getBehaviorName());
-			if(b.getBehaviorType().getLiteral().equals("StateRealization")) {
+			if(b.getBehaviorType().getValue()==BehaviorType.STATE_REALIZATION_VALUE || 
+					b.getBehaviorType().getValue()==BehaviorType.GUARD_VALUE || 
+					b.getBehaviorType().getValue()==BehaviorType.SELECTION_VALUE) {
 	    		addCodeButton.setVisible(true);
 	    	} else {
 	    		addCodeButton.setVisible(false);
 	    	}
 			behaviorDescText.setText(b.getBehaviorDesc()==null?"":b.getBehaviorDesc());
 			behaviorRefText.setText(b.getBehaviorRef());
-			behaviorRefText.setEnabled(false);
+			//behaviorRefText.setEnabled(false);
 			dialogChanged();
 		}
 		
@@ -154,7 +176,9 @@ public class CreateBehaviorFirstPageGraphBTWizard extends WizardPage {
 		    	Combo combo = (Combo)e.widget;
 		    	String selected = combo.getItem(combo.getSelectionIndex());
 		    	map.put(Behavior.TYPE_VALUE, selected);
-		    	if(selected.equals("StateRealization")) {
+		    	if(combo.getSelectionIndex()==BehaviorType.STATE_REALIZATION_VALUE || 
+		    			combo.getSelectionIndex()==BehaviorType.GUARD_VALUE || 
+		    					combo.getSelectionIndex()==BehaviorType.SELECTION_VALUE) {
 		    		addCodeButton.setVisible(true);
 		    	} else {
 		    		addCodeButton.setVisible(false);

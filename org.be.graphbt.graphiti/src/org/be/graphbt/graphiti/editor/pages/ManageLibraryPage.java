@@ -16,6 +16,8 @@ import org.be.graphbt.model.graphbt.MethodDeclaration;
 import org.be.graphbt.model.graphbt.Parameter;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.validation.internal.util.Log;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
@@ -59,7 +61,7 @@ public class ManageLibraryPage extends Composite{
 		GridLayout layout = new GridLayout(3, false);
 		this.setLayout(layout);
 		GridData gridData;
-		final ArrayList<Library> availableLib = new ArrayList<Library>();
+		final EList<Library> availableLib = GraphBTUtil.availableLibraries.getImport();
 		final ArrayList<String> usedLib = new ArrayList<String>();
 		Bundle bundle = Platform.getBundle("org.be.graphbt.common");
 		Enumeration<String> listLib = bundle.getEntryPaths("files/lib/dist");
@@ -95,83 +97,12 @@ public class ManageLibraryPage extends Composite{
 		gridData.widthHint = 200;
 		//gridData.grabExcessVerticalSpace = true;		
 		listAvailable.setLayoutData(gridData);
-		while(listLib.hasMoreElements()) {
-			String po = listLib.nextElement();
-			File f = ProjectUtil.getSharedResource(po);
-			String name = "";
-			String desc = "";
-			 //System.out.println(f+" "+f.isDirectory());
-			if(f.isDirectory()) {
-				File[] files = f.listFiles();
-				for(int i = 0; i < files.length; i++) {
-					if(files[i].getName().endsWith("info.lib")) { 
-						try {/*
-							BufferedReader br = new BufferedReader(new FileReader(files[i]));
-							name = br.readLine();
-							StringBuffer buff = new StringBuffer();
-							String temp;
-							while((temp = br.readLine())!=null) {
-								buff.append(temp);
-							}
-							desc = buff.toString();*/
-							File fXmlFile = files[i];
-							DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-							DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-							Document doc = dBuilder.parse(fXmlFile);
-						 
-							//optional, but recommended
-							//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
-							doc.getDocumentElement().normalize();
-						 
-							 //System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-						 
-							name = doc.getElementsByTagName("name").item(0).getTextContent();
-							desc = doc.getElementsByTagName("description").item(0).getTextContent();
-							Library l = GraphBTUtil.getBEFactory().createLibrary();
-							l.setId(f.getName());
-							l.setLocation(po);
-							l.setDesc(desc);
-							l.setName(name);
-							NodeList methods = doc.getElementsByTagName("method");
-							for(int ii = 0; ii < methods.getLength(); ii++) {
-								Node node = methods.item(ii);
-								MethodDeclaration md = GraphBTUtil.getBEFactory().createMethodDeclaration();
-								if (node.getNodeType() == Node.ELEMENT_NODE) {
-									Element el = (Element) node;
-									String mName = el.getAttribute("name");
-									String mType = el.getAttribute("type");
-									md.setName(mName);
-									md.setType(mType);
-									l.getMethods().add(md);
-									NodeList params = el.getElementsByTagName("param");
-									for(int ij = 0; ij < params.getLength(); ij++) {
-										Node temp = params.item(ij);
-										if (temp.getNodeType() == Node.ELEMENT_NODE) {
-											Element e = (Element)temp;
-											Parameter param = GraphBTUtil.getBEFactory().createParameter();
-											String pName = e.getAttribute("name");
-											String pType = e.getAttribute("type");
-											param.setName(pName);
-											param.setType(pType);
-											md.getParameters().add(param);
-										}
-									}
-								}
-								
-							}
-							
-							availableLib.add(l);
-							listAvailable.add(l.getId());
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
-						break;
-					}
-				}
+		
+		for(Library l:availableLib) {
+			if(l.getId()!=null) {
+				listAvailable.add(l.getId());
 			}
-			
 		}
-
 		listAvailable.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				if(listAvailable.getSelectionIndex()>=0&&listAvailable.getSelectionIndex()<listAvailable.getItemCount()) {
@@ -251,9 +182,11 @@ public class ManageLibraryPage extends Composite{
 
 		leftButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				if(selectedRemove==null) {
+				int index = listSelected.getSelectionIndex();
+				if(index > listSelected.getItemCount()) {
 					return;
 				}
+				selectedRemove = listSelected.getItem(index);
 				if(model==null)
 					return;
 				for(int i = 0; i < model.getLibraries().getImport().size(); i++) {
@@ -288,7 +221,7 @@ public class ManageLibraryPage extends Composite{
 						}
 						Log.info(1, "ManageLibrary, new import is inserted");
 						listSelected.add(selectedAdd);
-						final Library sel = availableLib.get(i);
+						final Library sel = EcoreUtil.copy(availableLib.get(i));
 						final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Add Import") {
 							protected void doExecute() {
 								model.getLibraries().getImport().add(sel);

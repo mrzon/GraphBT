@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import abs.backend.java.lib.types.*;
 import abs.backend.java.lib.runtime.ABSFut;
@@ -24,6 +24,9 @@ public class GUIUpdaterImpl_fli extends GUIUpdaterImpl_c{
             public void run() {
             try {
 	 			File file = new File("resource/"+c+"-"+s+".jpg");
+	 			if(!file.exists()) {
+					file = new File("resource/"+c+"-"+s+".png");
+	 			}
 				Image image = new Image(d.display, new FileInputStream(file));
 				Widget w = d.widgets.get(c);
 				if(w instanceof Button) {
@@ -38,6 +41,100 @@ public class GUIUpdaterImpl_fli extends GUIUpdaterImpl_c{
         });
 
         return abs.backend.java.lib.types.ABSUnit.UNIT;
+	}
+
+	public ABSUnit fli_lift(final Display_i _d, final ABSString _c, final ABSInteger _dis, final ABSInteger _m) {
+		final DisplayImpl_fli d = (DisplayImpl_fli)_d;
+		if (d.display == null || d.display.isDisposed())
+			return abs.backend.java.lib.types.ABSUnit.UNIT;
+		d.display.asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				String c = _c.getString();
+				int dis = _dis.toInt();
+				final Control cd = (Control) d.widgets.get(c);
+				final Point p = cd.getLocation();
+				int x = p.x;
+				int y = p.y+dis;
+				int m = _m.toInt();
+				translate(d.display, cd, new Point(x,y), m);
+			}
+		});
+		return abs.backend.java.lib.types.ABSUnit.UNIT;
+	}
+	
+	public ABSUnit fli_shift(final Display_i _d, final ABSString _c, final ABSInteger _dis, final ABSInteger _m) {
+		final DisplayImpl_fli d = (DisplayImpl_fli)_d;
+		if (d.display == null || d.display.isDisposed())
+			return abs.backend.java.lib.types.ABSUnit.UNIT;
+		d.display.asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				String c = _c.getString();
+				int dis = _dis.toInt();
+				final Control cd = (Control) d.widgets.get(c);
+				final Point p = cd.getLocation();
+				int x = p.x+dis;
+				int y = p.y;
+				int m = _m.toInt();
+				translate(d.display, cd, new Point(x,y), m);
+			}
+		});
+		return abs.backend.java.lib.types.ABSUnit.UNIT;
+	}
+
+	public ABSUnit fli_translate(final Display_i _d, final ABSString _c, final ABSInteger _x, final ABSInteger _y, final ABSInteger _m) {
+		final DisplayImpl_fli d = (DisplayImpl_fli)_d;
+
+		if (d.display == null || d.display.isDisposed())
+			return abs.backend.java.lib.types.ABSUnit.UNIT;
+		d.display.asyncExec(new Runnable() {
+			public void run() {
+				String c = _c.getString();
+				int x = _x.toInt();
+				int y = _y.toInt();
+				Control cd = (Control) d.widgets.get(c);
+				int m = _m.toInt();
+				translate(d.display, cd, new Point(x,y), m);
+			}
+		});
+		return abs.backend.java.lib.types.ABSUnit.UNIT;
+	}
+
+	private void translate(Display d, final Control c, final Point p, final int milis) {
+		Point p_ = c.getLocation();
+		float x_c = p_.x, y_c = p_.y;
+		float x_d = (p.x-p_.x);
+		float y_d = (p.y-p_.y);
+		float x_a = x_d/((float)milis/10);
+		float y_a = y_d/((float)milis/10);
+		boolean b_x = p.x > p_.x;
+		boolean b_y = p.y > p_.y;
+		if(milis == 0) {
+			c.setLocation(p);
+			c.getParent().pack();
+		} else {
+			while ((p.x != p_.x) || (p.y != p_.y)) {
+				p_ = c.getLocation();
+				if(b_x == p.x > p_.x +x_a) {
+					x_c = x_c+x_a;
+				} else {
+					x_c = p.x;
+				}
+				if(b_y == p.y > p_.y+y_a) {
+					y_c = y_c+y_a;
+				} else {
+					y_c = p.y;
+				}
+				c.setLocation((int)x_c,(int)y_c);
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				c.getParent().pack();
+			}
+		}
 	}
 }
  

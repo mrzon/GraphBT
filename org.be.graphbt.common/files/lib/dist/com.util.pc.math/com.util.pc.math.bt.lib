@@ -1,4 +1,2 @@
-#C Math
-#D This component can be used to handle matematics operation
-#S data:=random
-#IO data
+<include>
+</include>

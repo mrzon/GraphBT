@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<import>
+<name>Timer</name>
+<description>This component can be used as a Timer</description>
+<method name="start" type="Unit"> 
+</method>
+<method name="stop" type="Unit"> 
+</method>
+<method name="timeout" type="Bool"> 
+</method>
+<method name="addMinute" type="Unit"> 
+<param name="m" type="Int"></param>
+</method>
+<method name="addSecond" type="Unit"> 
+<param name="s" type="Int"></param>
+</method>
+<method name="addHour" type="Unit"> 
+<param name="h" type="Int"></param>
+</method>
+</import>

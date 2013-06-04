@@ -74,14 +74,14 @@ public class CreateBehaviorGraphBTWizard extends Wizard {
 			b.setTechnicalDetail(map.get(Behavior.DETAIL_VALUE));
 			
 	        
-	        cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+	        cmd = new RecordingCommand(ds.getEditingDomain(), "Create behavior") {
 				protected void doExecute() {
 					c.getBehaviors().add(b);
 			    }
 			};
 		}
 		else{
-			cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+			cmd = new RecordingCommand(ds.getEditingDomain(), "Update behavior") {
 				protected void doExecute() {
 					b.setBehaviorName(map.get(Behavior.NAME_VALUE));
 					b.setBehaviorDesc(map.get(Behavior.DESC_VALUE));

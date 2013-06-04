@@ -7,10 +7,13 @@
 package org.be.graphbt.model.graphbt.impl;
 
 import java.util.Collection;
+import org.be.graphbt.model.graphbt.Attribute;
+import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.GraphBTPackage;
 import org.be.graphbt.model.graphbt.Library;
 
 import org.be.graphbt.model.graphbt.MethodDeclaration;
+import org.be.graphbt.model.graphbt.State;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -36,6 +39,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.be.graphbt.model.graphbt.impl.LibraryImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.impl.LibraryImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.impl.LibraryImpl#getMethods <em>Methods</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.LibraryImpl#getStates <em>States</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.LibraryImpl#getBehaviors <em>Behaviors</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.LibraryImpl#getAttributes <em>Attributes</em>}</li>
  * </ul>
  * </p>
  *
@@ -151,6 +157,36 @@ public class LibraryImpl extends EObjectImpl implements Library {
 	 * @ordered
 	 */
 	protected EList<MethodDeclaration> methods;
+
+	/**
+	 * The cached value of the '{@link #getStates() <em>States</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStates()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<State> states;
+
+	/**
+	 * The cached value of the '{@link #getBehaviors() <em>Behaviors</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBehaviors()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Behavior> behaviors;
+
+	/**
+	 * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAttributes()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Attribute> attributes;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -293,11 +329,53 @@ public class LibraryImpl extends EObjectImpl implements Library {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<State> getStates() {
+		if (states == null) {
+			states = new EObjectContainmentEList<State>(State.class, this, GraphBTPackage.LIBRARY__STATES);
+		}
+		return states;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Behavior> getBehaviors() {
+		if (behaviors == null) {
+			behaviors = new EObjectContainmentEList<Behavior>(Behavior.class, this, GraphBTPackage.LIBRARY__BEHAVIORS);
+		}
+		return behaviors;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Attribute> getAttributes() {
+		if (attributes == null) {
+			attributes = new EObjectContainmentEList<Attribute>(Attribute.class, this, GraphBTPackage.LIBRARY__ATTRIBUTES);
+		}
+		return attributes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case GraphBTPackage.LIBRARY__METHODS:
 				return ((InternalEList<?>)getMethods()).basicRemove(otherEnd, msgs);
+			case GraphBTPackage.LIBRARY__STATES:
+				return ((InternalEList<?>)getStates()).basicRemove(otherEnd, msgs);
+			case GraphBTPackage.LIBRARY__BEHAVIORS:
+				return ((InternalEList<?>)getBehaviors()).basicRemove(otherEnd, msgs);
+			case GraphBTPackage.LIBRARY__ATTRIBUTES:
+				return ((InternalEList<?>)getAttributes()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -322,6 +400,12 @@ public class LibraryImpl extends EObjectImpl implements Library {
 				return getId();
 			case GraphBTPackage.LIBRARY__METHODS:
 				return getMethods();
+			case GraphBTPackage.LIBRARY__STATES:
+				return getStates();
+			case GraphBTPackage.LIBRARY__BEHAVIORS:
+				return getBehaviors();
+			case GraphBTPackage.LIBRARY__ATTRIBUTES:
+				return getAttributes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -354,6 +438,18 @@ public class LibraryImpl extends EObjectImpl implements Library {
 				getMethods().clear();
 				getMethods().addAll((Collection<? extends MethodDeclaration>)newValue);
 				return;
+			case GraphBTPackage.LIBRARY__STATES:
+				getStates().clear();
+				getStates().addAll((Collection<? extends State>)newValue);
+				return;
+			case GraphBTPackage.LIBRARY__BEHAVIORS:
+				getBehaviors().clear();
+				getBehaviors().addAll((Collection<? extends Behavior>)newValue);
+				return;
+			case GraphBTPackage.LIBRARY__ATTRIBUTES:
+				getAttributes().clear();
+				getAttributes().addAll((Collection<? extends Attribute>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -384,6 +480,15 @@ public class LibraryImpl extends EObjectImpl implements Library {
 			case GraphBTPackage.LIBRARY__METHODS:
 				getMethods().clear();
 				return;
+			case GraphBTPackage.LIBRARY__STATES:
+				getStates().clear();
+				return;
+			case GraphBTPackage.LIBRARY__BEHAVIORS:
+				getBehaviors().clear();
+				return;
+			case GraphBTPackage.LIBRARY__ATTRIBUTES:
+				getAttributes().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -408,6 +513,12 @@ public class LibraryImpl extends EObjectImpl implements Library {
 				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
 			case GraphBTPackage.LIBRARY__METHODS:
 				return methods != null && !methods.isEmpty();
+			case GraphBTPackage.LIBRARY__STATES:
+				return states != null && !states.isEmpty();
+			case GraphBTPackage.LIBRARY__BEHAVIORS:
+				return behaviors != null && !behaviors.isEmpty();
+			case GraphBTPackage.LIBRARY__ATTRIBUTES:
+				return attributes != null && !attributes.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

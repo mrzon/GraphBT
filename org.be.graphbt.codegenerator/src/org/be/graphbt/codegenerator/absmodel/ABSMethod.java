@@ -49,7 +49,7 @@ public class ABSMethod implements ABSDeclarable{
     
     @Override
     public String toString() {
-        String temp = getDataType().toString()+" "+getName()+"(";
+        String temp = getDataType().getName()+" "+getName()+"(";
         if(params.size()>0) {
             temp+=params.get(0);
         }

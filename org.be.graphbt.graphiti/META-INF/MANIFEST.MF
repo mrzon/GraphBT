@@ -22,7 +22,9 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.7.0,4.0.0)",
  org.eclipse.ui.ide,
  org.eclipse.gef;bundle-version="3.7.1",
  org.eclipse.m2m.atl.core,
- pt4j;bundle-version="1.0.0"
+ pt4j;bundle-version="1.0.0",
+ org.eclipse.ui.console;bundle-version="3.5.100",
+ org.eclipse.jdt.ui
 Import-Package: org.be.graphbt.codegenerator.absmodel,
  org.be.graphbt.codegenerator.gui.template,
  org.be.graphbt.common,

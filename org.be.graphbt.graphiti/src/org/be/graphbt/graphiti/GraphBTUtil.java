@@ -1,5 +1,6 @@
 package org.be.graphbt.graphiti;
 
+import org.be.graphbt.common.PluginUtil;
 import org.be.graphbt.common.ProjectUtil;
 import org.be.graphbt.graphiti.editor.*;
 import java.io.ByteArrayInputStream;
@@ -84,14 +85,29 @@ import org.eclipse.m2m.atl.core.service.CoreService;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.WorkbenchException;
+import org.eclipse.ui.console.MessageConsoleStream;
 
 
 public class GraphBTUtil {
 	public static String GUI_LIBRARY_ID = "com.util.pc.gui";
 	public static Libraries availableLibraries = ProjectUtil.getAvailableLibraries();
-	public static Library getLibrary(Libraries libs, String libraryID) {
-		for(Library l:libs.getImport()) {
+	public static final MessageConsoleStream out(){ 
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		IWorkbenchPage perspectivePage = null;
+		try {
+			perspectivePage = PlatformUI.getWorkbench().showPerspective(GraphBTPerspective.ID, window);
+		} catch (WorkbenchException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}// showPerspective(DEBUGGER_PERSPECTIVE_ID, window);
+		
+		return PluginUtil.getConsoleStream("org.be.graphbt.view.consoleView",perspectivePage);
+	}
+	public static Library getLibrary(EList<Library> libs, String libraryID) {
+		for(Library l:libs) {
 			if(l.getId().equals(libraryID))
 				return l;
 		}
@@ -1302,12 +1318,25 @@ public class GraphBTUtil {
 	 * apply layout to a diagram
 	 * @param d
 	 */
-	public static void applyTreeLayout(Diagram d) {
-		List<StandardNode> roots = getRoots(d.eResource().getResourceSet());
-		HashMap<StandardNode,Integer> widthMap = new HashMap<StandardNode,Integer>();
-		HashMap<Integer,Integer> heightMap = new HashMap<Integer,Integer>();
-		int currentY = 0;
-		int currentX = 0;
+	public static void applyTreeLayout(final Diagram d) {
+		final List<StandardNode> roots = getRoots(d.eResource().getResourceSet());
+		final HashMap<StandardNode,Integer> widthMap = new HashMap<StandardNode,Integer>();
+		final HashMap<Integer,Integer> heightMap = new HashMap<Integer,Integer>();
+		
+		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final DiagramEditor ds;
+		if(page.getActiveEditor() instanceof DiagramEditor) {
+			ds = (DiagramEditor)page.getActiveEditor();	
+		}
+		else
+		{
+			ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
+		}
+		final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Move Node") {
+			protected void doExecute() {
+				int currentY = 0;
+				int currentX = 0;
+		
 		for(int i = 0; i < roots.size(); i++) {
 			int width = getWidth(d,roots.get(i),widthMap);
 			int height = getHeight(d,roots.get(i),heightMap,0);
@@ -1316,6 +1345,10 @@ public class GraphBTUtil {
 			currentX+=width+hSpace;
 			currentY=0;
 		}
+			}
+		};
+		ds.getEditingDomain().getCommandStack().execute(cmd);
+		
 	}
 	private static int hSpace = 20;
 	private static int vSpace = 30;
@@ -1337,15 +1370,8 @@ public class GraphBTUtil {
 		final int width = widthMap.get(node);
 		final int height = heightMap.get(level);
 		int currentHeight = rootP.getGraphicsAlgorithm().getHeight();
-		IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		final DiagramEditor ds;
-		if(page.getActiveEditor() instanceof DiagramEditor) {
-			ds = (DiagramEditor)page.getActiveEditor();	
-		}
-		else
-		{
-			ds = ((MultiPageEditor)page.getActiveEditor()).getDiagramEditor();
-		}
+		
+		
 		currentY = currentY + vSpace;
 		if(node.getParent()==null || node.getParent()!=null && node.getParent().getEdge().getComposition().getValue()==Composition.SEQUENTIAL_VALUE) {
 			if(node.getEdge()!=null && node.getEdge().getComposition().getValue()==Composition.ATOMIC_VALUE) {
@@ -1363,14 +1389,10 @@ public class GraphBTUtil {
 					final PictogramElement rootP11 = Graphiti.getLinkService().getPictogramElements(d, child).get(0);
 					final int cX = currentX;
 					final int cY = currentY;
-					final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Move Node") {
-						protected void doExecute() {
 							rootP11.getGraphicsAlgorithm().setX(cX+width/2);
 							rootP11.getGraphicsAlgorithm().setY(cY);
-						}
-					};
+					
 					currentY+=rootP11.getGraphicsAlgorithm().getHeight();
-					ds.getEditingDomain().getCommandStack().execute(cmd);
 					child = (StandardNode) child.getEdge().getChildNode().get(0).getTarget();
 				}
 				node=child;
@@ -1384,14 +1406,9 @@ public class GraphBTUtil {
 		final PictogramElement rootP1 = Graphiti.getLinkService().getPictogramElements(d, node).get(0);
 		final int cX = currentX;
 		final int cY = currentY;
-		final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Move Node") {
-			protected void doExecute() {
-				rootP1.getGraphicsAlgorithm().setX(cX+width/2);
-				rootP1.getGraphicsAlgorithm().setY(cY);
-			}
-		};
+		rootP1.getGraphicsAlgorithm().setX(cX+width/2);
+		rootP1.getGraphicsAlgorithm().setY(cY);
 		currentY+=rootP1.getGraphicsAlgorithm().getHeight()+vSpace;
-		ds.getEditingDomain().getCommandStack().execute(cmd);
 
 		if(node.getEdge()==null) {
 			return;

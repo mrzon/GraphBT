@@ -1,5 +1,5 @@
-interface Mouse_ {
-	Unit move();
+interface Mouse {
+	Unit point();
 	Unit patrol();
 	Unit stop();
 	Unit setX(Int x);
@@ -8,14 +8,14 @@ interface Mouse_ {
 	Unit setY2(Int y);
 }
 [Foreign]
-class Mouse implements Mouse_
+class MouseImpl implements Mouse
 {
 	Int x = 0;
 	Int y = 0;
 	Int x2 = 0;
 	Int y2 = 0;
 
-	Unit move(){
+	Unit point(){
 
 	}
 	Unit patrol(){

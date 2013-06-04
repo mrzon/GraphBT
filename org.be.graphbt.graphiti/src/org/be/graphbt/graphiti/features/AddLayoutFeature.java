@@ -107,8 +107,8 @@ IAddFeature {
         if(model.getLibraries() == null) {
         	model.setLibraries(GraphBTUtil.getBEFactory().createLibraries());
         }
-        if(GraphBTUtil.getLibrary(model.getLibraries(), GraphBTUtil.GUI_LIBRARY_ID)==null) {
-        	model.getLibraries().getImport().add(GraphBTUtil.getLibrary(GraphBTUtil.availableLibraries, GraphBTUtil.GUI_LIBRARY_ID));
+        if(GraphBTUtil.getLibrary(model.getLibraries().getImport(), GraphBTUtil.GUI_LIBRARY_ID)==null) {
+        	model.getLibraries().getImport().add(GraphBTUtil.getLibrary(GraphBTUtil.availableLibraries.getImport(), GraphBTUtil.GUI_LIBRARY_ID));
         }
         model.setLayoutList(layout);
         

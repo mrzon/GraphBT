@@ -1,0 +1,116 @@
+package com.googlecode.pt4j.data;
+
+import java.net.URL;
+import java.util.List;
+
+import org.joda.time.DateTime;
+
+/**
+ * Describes a Story.
+ *
+ * @author Jon Stevens
+ */
+public class StoryData
+{
+	private Long id;
+	private String storyType;
+	private URL url;
+	private Integer estimate;
+	private String currentState;
+	private String description;
+	private String name;
+	private String requestedBy;
+	private String ownedBy;
+	private DateTime createdAt;
+	private DateTime acceptedAt;
+	private List<String> labels;
+	private List<NoteData> notes;
+	private IterationData iteration;
+
+	/** */
+	public StoryData() {}
+
+	/** */
+	public Long getId()
+	{
+		return this.id;
+	}
+
+	/** */
+	public String getStoryType()
+	{
+		return this.storyType;
+	}
+
+	/** */
+	public URL getUrl()
+	{
+		return this.url;
+	}
+
+	/** */
+	public Integer getEstimate()
+	{
+		return this.estimate;
+	}
+
+	/** */
+	public String getCurrentState()
+	{
+		return this.currentState;
+	}
+
+	/** */
+	public String getDescription()
+	{
+		return this.description;
+	}
+
+	/** */
+	public String getName()
+	{
+		return this.name;
+	}
+
+	/** */
+	public String getRequestedBy()
+	{
+		return this.requestedBy;
+	}
+
+	/** */
+	public String getOwnedBy()
+	{
+		return this.ownedBy;
+	}
+
+	/** */
+	public DateTime getCreatedAt()
+	{
+		return this.createdAt;
+	}
+
+	/** */
+	public DateTime getAcceptedAt()
+	{
+		return this.acceptedAt;
+	}
+
+	/** */
+	public IterationData getIteration()
+	{
+		return this.iteration;
+	}
+
+	/** */
+	public List<String> getLabels()
+	{
+		return this.labels;
+	}
+
+	/** */
+	public List<NoteData> getNotes()
+	{
+		return this.notes;
+	}
+}

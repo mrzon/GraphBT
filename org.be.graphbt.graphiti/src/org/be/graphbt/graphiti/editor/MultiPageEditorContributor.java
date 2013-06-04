@@ -41,6 +41,7 @@ import org.be.graphbt.codegenerator.gui.template.GraphBTABSGuiUpdaterTemplate;
 import org.be.graphbt.codegenerator.gui.template.GraphBTABSGuiViewerTemplate;
 import org.be.graphbt.codegenerator.gui.template.GraphBTDocumentationTemplate;
 import org.be.graphbt.codegenerator.gui.template.GraphBTGuiTemplate;
+import org.be.graphbt.common.PluginUtil;
 import org.be.graphbt.common.ProjectUtil;
 //TODO import btdebuggertool.commandHandler.*;
 import org.be.graphbt.saltranslator.bt2salmodel.Main;
@@ -95,8 +96,11 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.ide.IDEActionFactory;
 import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
@@ -120,6 +124,7 @@ import org.be.graphbt.model.graphbt.MapInformation;
 import org.be.graphbt.model.graphbt.RequirementList;
 import org.be.graphbt.model.graphbt.State;
 import org.be.graphbt.graphiti.Activator;
+import org.be.graphbt.graphiti.GraphBTPerspective;
 import org.be.graphbt.graphiti.GraphBTUtil;
 import org.be.graphbt.model.graphbt.Information;
 import org.be.graphbt.model.graphbt.Library;
@@ -1002,6 +1007,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 							io.setName("IO");
 							libs.add(io);
 						}
+						ABSMainBlock main = mod.getMainBlock();
 						for(int i = 0; i < libs.size(); i++) {
 							ABSForeign f = new ABSForeign();
 							mod.addForeign(f);
@@ -1046,9 +1052,10 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 									//TODO
 								}
 							}
+							String type = libs.get(i).getName();
+							String var = libs.get(i).getName().toLowerCase();
+							main.addStatement(new ABSStatement(ABSStatementType.DECLARATION, type+" "+var+" = new cog "+type+"Impl()"));
 							if(libs.get(i).getId().equals(GraphBTUtil.GUI_LIBRARY_ID)) {
-								ABSMainBlock main = mod.getMainBlock();
-								main.addStatement(new ABSStatement(ABSStatementType.DECLARATION, "Display display = new cog DisplayImpl()"));
 								if(model.getLayoutList()!=null) {
 									for(Layout l:model.getLayoutList().getLayouts()) {
 										main.addStatement(new ABSStatement(ABSStatementType.ADDON, "display!registerComponent(\""+l.getCRef()+"\","+l.getCRef().toLowerCase()+"_var)"));
@@ -1076,81 +1083,76 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 							}
 							//** ADD STATEMENTS FROM STATE REALIZATION BLOCK TO THE CORRESPONDED ABS METHOD
 							for(Behavior b:c.getBehaviors()) {
+								ABSMethodImplementation mi = absClass.getMethodImplementation("method"+b.getBehaviorRef());
 								switch(b.getBehaviorType().getValue()) {
 								case BehaviorType.STATE_REALIZATION_VALUE:
-									String statements = b.getTechnicalDetail();
-									ABSMethodImplementation mi = absClass.getMethodImplementation("method"+b.getBehaviorRef());
-									
 									if(GraphBTUtil.getStateFromComponent(c, b.getBehaviorName())!= null) {
 										mi.addStatement(new ABSStatement(ABSStatementType.BLOCK, "this.setComponentState(\""+b.getBehaviorName()+"\");"));
 									}
+								case BehaviorType.GUARD_VALUE:
+								case BehaviorType.SELECTION_VALUE:
+									String statements = b.getTechnicalDetail();
 									if(statements!=null&&statements.trim().length() > 0) {
-										mi.addStatement(new ABSStatement(ABSStatementType.BLOCK, statements));
+										mi.addStatement(0,new ABSStatement(ABSStatementType.BLOCK, statements));
 									}
 								}
 							}
 							//** ADD ATTRIBUTES TO THE CLASS 
-							ABSMethodImplementation mI = absClass.getMethodImplementation("run");
 							for(Attribute a:c.getAttributes()) {
 								String name = a.getName();
-								String varName = "v"+name;
-								String dataType = a.getType().toUpperCase();
+								String varName = name.toLowerCase()+"_var";
+								String dataType = a.getType();
 								String value = a.getValue();
-								String stmnts = "Variable "+varName+" = new VariableImpl();\n" +
-										varName+".setName(\""+name+"\");\n" +
-										varName+".setDataType("+dataType+");\n";
-								if(dataType.equals("INT")) {
-									stmnts += varName+".setIntValue("+value+");\n";
-								} else if(dataType.equals("STRING")) {
-									stmnts += varName+".setStringValue(\""+value+"\");\n";
-								} else if(dataType.equals("BOOL")) {
-									stmnts += varName+".setBoolValue("+value+");\n";
+								ABSVariable var = new ABSVariable(new ABSDataType(dataType), varName);
+								var.setValue(value);
+								if(absClass.getVariables().contains(var)) {
+									absClass.getVariables().add(var);
 								}
-								stmnts += "vars = insert(vars,Pair(\""+name+"\", "+varName+"));";
-								mI.addStatement(new ABSStatement(ABSStatementType.BLOCK, stmnts));
 							}
+							ABSMethodImplementation setState = absClass.getMethodImplementation("setComponentState");
 							//** ADD INITIALIZATION TO EVERY STATE DECLARATION
+							int k = 0;
 							for(State s:c.getState()) {
 								String name = s.getName();
-								String id = s.getRef();
-								String sName = "s"+id;
-								String stmnts = "ComponentState "+sName+" = new ComponentStateImpl();\n" +
-										"states = insert(states,Pair(\""+name+"\", "+sName+"));\n";
+								String stmnts = "if";
+								if(k!=0) {
+									stmnts = "else "+stmnts;
+								}
+								k++;
+								stmnts += "(stateName == \""+name+"\") {\n";
+								
 								for(int j = 0; j < s.getAttributes().getInfo().size(); j++) {
 									Information mapInfo = s.getAttributes().getInfo().get(j);
 									String vname = mapInfo.getKey();
 									String value = mapInfo.getValue();
-									Attribute a = c.getAttribute(vname);
-									String varName = "av"+vname;
-									String dataType = a.getType().toUpperCase();
-									stmnts += "Variable "+varName+" = new VariableImpl();\n" +
-											varName+".setName(\""+name+"\");\n" +
-											varName+".setDataType("+dataType+");\n";
-									if(dataType.equals("INT")) {
-										stmnts += varName+".setIntValue("+value+");\n";
-									} else if(dataType.equals("STRING")) {
-										stmnts += varName+".setStringValue(\""+value+"\");\n";
-									} else if(dataType.equals("BOOL")) {
-										stmnts += varName+".setBoolValue("+value+");\n";
-									}
-									stmnts+=sName+".addVariable("+varName+");\n";
+									stmnts += vname+"_var = "+value+"\n";
 								}
-								mI.addStatement(new ABSStatement(ABSStatementType.BLOCK, stmnts));
+								stmnts += "}\n";
+								setState.addStatement(new ABSStatement(ABSStatementType.BLOCK, stmnts));
 							}
+							
 							for(Library l:c.getUses()) {
 								if(l.getId().equals(GraphBTUtil.GUI_LIBRARY_ID)) {
 									ABSMethodImplementation applyStateMI = absClass.getMethodImplementation("setComponentState");
 									applyStateMI.addStatement(new ABSStatement(ABSStatementType.DECLARATION, "String compId = this.getId()"));
 									applyStateMI.addStatement(new ABSStatement(ABSStatementType.DECLARATION, "GUIUpdater guiUpdater = new GUIUpdaterImpl()"));
-									applyStateMI.addStatement(new ABSStatement(ABSStatementType.CALL, "guiUpdater!changeState(display_var,compId,stateName)"));
-									applyStateMI.addStatement(new ABSStatement(ABSStatementType.ADDON, "suspend"));
-									break;
+									applyStateMI.addStatement(new ABSStatement(ABSStatementType.CALL, "Fut<Unit> u = guiUpdater!changeState(display_var,compId,stateName)"));
+									applyStateMI.addStatement(new ABSStatement(ABSStatementType.ADDON, "await u?"));
+								} else {
+									String type = l.getName();
+									String var = l.getName().toLowerCase()+"_var";
+									String cVar = c.getComponentRef().toLowerCase()+"_var";
+									main.addStatement(new ABSStatement(ABSStatementType.ADDON, cVar+".set_"+var+"("+type.toLowerCase()+")"));
 								}
 							}
 						}
 						mod.writeToFile();
 						mod.check();
-						mod.generate();
+						String error = mod.generate();
+						IWorkbenchWindow window = activeEditorPart.getEditorSite().getWorkbenchWindow();
+						
+						MessageConsoleStream out = PluginUtil.getConsoleStream("org.be.graphbt.view.consoleView",window.getActivePage());
+						out.println(error.trim().length() > 0?error+"\nCode generation failed":"Code generation completed");
 						ip.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block`

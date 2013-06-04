@@ -9,6 +9,7 @@ package org.be.graphbt.codegenerator.absmodel;
  * @author Emerson
  */
 public interface ABSBlock {
+	public void addStatement(int line, ABSStatement as);
     void addStatement(ABSStatement a);
-    void isDeclared(ABSDeclarable a);
+    boolean isDeclared(ABSDeclarable a);
 }

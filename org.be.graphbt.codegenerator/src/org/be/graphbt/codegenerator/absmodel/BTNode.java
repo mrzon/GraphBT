@@ -39,7 +39,16 @@ public class BTNode {
     private BTNodeType type = BTNodeType.SEQUENTIALNODE; 
     private BTComponent coRef = null;
     private BTBehavior beRef = null;
-    private ArrayList<BTNode> child = new ArrayList<BTNode>();
+    private BTNode parent = null;
+    public BTNode getParent() {
+		return parent;
+	}
+
+	public void setParent(BTNode parent) {
+		this.parent = parent;
+	}
+
+	private ArrayList<BTNode> child = new ArrayList<BTNode>();
     private String pc = "0";
     public BTNode(BTComponent c, BTBehavior b) {
         coRef = c;
@@ -61,6 +70,7 @@ public class BTNode {
     
     public void addChild(BTNode n) {
         child.add(n);
+        n.parent = this;
     }
     
     public ArrayList<BTNode> getChilds() {

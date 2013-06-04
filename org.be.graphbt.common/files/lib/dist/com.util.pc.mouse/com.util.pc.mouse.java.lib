@@ -4,25 +4,21 @@ import java.awt.Robot;
 import abs.backend.java.lib.types.*;
 import java.util.*;
 
-import [P].Mouse_c;
+import [P].MouseImpl_c;
 
-public class Mouse_fli extends Mouse_c {
+public class MouseImpl_fli extends MouseImpl_c {
 	private int x;
 	private int y;
 	private int x2;
 	private int y2;
 	private boolean stop = false;
 	
-	//}
-
-	public ABSUnit fli_move() {
+	public ABSUnit fli_point() {
 	Robot robot;
-	//Mouse_fli(){
 		try {
 			robot = new Robot();
 			robot.mouseMove(x,y);
 		} catch (AWTException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -31,7 +27,6 @@ public class Mouse_fli extends Mouse_c {
 	
 	public ABSUnit fli_patrol() {
 		Robot robot;
-	//Mouse_fli(){
 		try {
 			robot = new Robot();
 			

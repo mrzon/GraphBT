@@ -33,6 +33,9 @@ class GUIViewerImpl implements GUIViewer {
 
 interface GUIUpdater {
 	Unit changeState(Display d, String component, String state);
+	Unit translate(Display d, String c, Int x, Int y, Int m);
+	Unit shift(Display d, String c, Int dis, Int m);
+	Unit lift(Display d, String c, Int dis, Int m);
 }
 
 [Foreign]
@@ -40,4 +43,16 @@ class GUIUpdaterImpl implements GUIUpdater {
 	Unit changeState(Display d, String component, String state) {
 	
 	}
+	
+	Unit translate(Display d, String c, Int x, Int y, Int m) {
+	
+	}
+	
+	Unit shift(Display d, String c, Int dis, Int m) {
+	
+	}
+	
+	Unit lift(Display d, String c, Int dis, Int m) {
+	
+	}	
 }

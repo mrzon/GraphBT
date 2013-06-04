@@ -133,6 +133,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Library/location"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Library/id"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Library/methods"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Library/states"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Library/behaviors"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//Library/attributes"/>
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//Requirement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Requirement/Key"/>

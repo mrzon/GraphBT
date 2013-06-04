@@ -3,6 +3,7 @@ package org.be.graphbt.graphiti.wizards.createuses;
 import java.util.HashMap;
 
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
@@ -66,7 +67,10 @@ public class CreateUsesGraphBTWizard extends Wizard {
     				protected void doExecute() {
         for(Library l:model.getLibraries().getImport()) {
         	if(l.getId().equals(map.get(0))) {
-    					c.getUses().add(l);
+    					c.getUses().add(EcoreUtil.copy(l));
+    					c.getAttributes().addAll(EcoreUtil.copyAll(l.getAttributes()));
+    					c.getBehaviors().addAll(EcoreUtil.copyAll(l.getBehaviors()));
+    					c.getState().addAll(EcoreUtil.copyAll(l.getStates()));
     					break;
     			    }
 	        	}

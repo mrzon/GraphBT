@@ -60,9 +60,13 @@ public class ABSInterface extends ABSDataType implements ABSBlock{
     public void addStatement(ABSStatement a) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    @Override
+	public void addStatement(int line, ABSStatement as) {
+    	throw new UnsupportedOperationException("Not supported yet.");
+	}
 
     @Override
-    public void isDeclared(ABSDeclarable a) {
+    public boolean isDeclared(ABSDeclarable a) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

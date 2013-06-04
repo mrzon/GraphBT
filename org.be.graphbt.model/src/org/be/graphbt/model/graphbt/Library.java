@@ -23,6 +23,9 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.be.graphbt.model.graphbt.Library#getLocation <em>Location</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.Library#getId <em>Id</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.Library#getMethods <em>Methods</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.Library#getStates <em>States</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.Library#getBehaviors <em>Behaviors</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.Library#getAttributes <em>Attributes</em>}</li>
  * </ul>
  * </p>
  *
@@ -176,5 +179,53 @@ public interface Library extends EObject {
 	 * @generated
 	 */
 	EList<MethodDeclaration> getMethods();
+
+	/**
+	 * Returns the value of the '<em><b>States</b></em>' containment reference list.
+	 * The list contents are of type {@link org.be.graphbt.model.graphbt.State}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>States</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>States</em>' containment reference list.
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getLibrary_States()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<State> getStates();
+
+	/**
+	 * Returns the value of the '<em><b>Behaviors</b></em>' containment reference list.
+	 * The list contents are of type {@link org.be.graphbt.model.graphbt.Behavior}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Behaviors</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Behaviors</em>' containment reference list.
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getLibrary_Behaviors()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Behavior> getBehaviors();
+
+	/**
+	 * Returns the value of the '<em><b>Attributes</b></em>' containment reference list.
+	 * The list contents are of type {@link org.be.graphbt.model.graphbt.Attribute}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Attributes</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Attributes</em>' containment reference list.
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getLibrary_Attributes()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Attribute> getAttributes();
 
 } // Library

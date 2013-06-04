@@ -124,16 +124,16 @@ public class ABSClass implements ABSBlock {
     public void addStatement(ABSStatement a) {
     	statements.add(a);
     }
-    Set<ABSVariable> getVariables() {
+    public Set<ABSVariable> getVariables() {
         return vars;
     }
 
-    ArrayList<ABSParameter> getParameters() {
+    public ArrayList<ABSParameter> getParameters() {
         return params;
     }
 
     @Override
-    public void isDeclared(ABSDeclarable a) {
+    public boolean isDeclared(ABSDeclarable a) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     public ABSMethodImplementation getMethodImplementation(String methodName) {
@@ -159,4 +159,9 @@ public class ABSClass implements ABSBlock {
         this.getInterfaces().get(0).add(mutator);
         this.addMethodImplementation(mutatorImpl);
     }
+
+	@Override
+	public void addStatement(int line, ABSStatement as) {
+		this.statements.add(line,as);
+	}
 }

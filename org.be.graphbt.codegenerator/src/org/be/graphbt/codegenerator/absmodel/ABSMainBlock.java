@@ -37,7 +37,9 @@ public class ABSMainBlock implements ABSBlock{
     public void addStatement(ABSStatement as) {
         st.add(as);
     }
-    
+    public void addStatement(int line, ABSStatement as) {
+        st.add(line,as);
+    }
     public ArrayList<ABSStatement> getStatements() {
         return st;
     }
@@ -64,7 +66,7 @@ public class ABSMainBlock implements ABSBlock{
     }
 
     @Override
-    public void isDeclared(ABSDeclarable a) {
+    public boolean isDeclared(ABSDeclarable a) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

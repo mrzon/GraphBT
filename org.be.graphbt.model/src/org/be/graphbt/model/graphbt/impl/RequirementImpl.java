@@ -38,7 +38,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * </ul>
  * </p>
  *
- * @generated 
+ * @generated
  */
 public class RequirementImpl extends EObjectImpl implements Requirement {
 	/**

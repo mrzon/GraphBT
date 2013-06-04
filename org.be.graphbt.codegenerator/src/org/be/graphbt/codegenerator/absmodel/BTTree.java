@@ -95,7 +95,7 @@ public class BTTree {
 
 				temp += "N node"+root.getPC()+" = new Node("+comp+",\""+beh+"\",\""+type+"\","+qtype+","+op+",\""+root.getPC()+"\");\n";
 				temp += "node"+root.getPC()+".setNodeBlock("+nodeBlock+");\n";
-				temp += "node"+root.getPC() +".addNode(node"+getNodeByQualifier(root.getComponent().getName(),root.getBehavior().getName()).getPC()+");\n";
+				temp += "node"+root.getPC() +".addNode(node"+getAncestor(root, root.getParent()).getPC()+");\n";
 				return temp;
 			}
 			return "";
@@ -105,13 +105,13 @@ public class BTTree {
 		String type = root.getType()==null?"":root.getType().toString();
 		String qtype = root.getBehavior()==null?"STATE":root.getBehavior().getType().toString();
 		String op = root.getOp()==null?"":root.getOp().toString();
+		if(nodeBlock==null) {
+			nodeBlock = "nodeBlock";
+			temp += "NodeBlock nodeBlock = new NodeBlockImpl();\n";
+		}
 		temp += "N node"+root.getPC()+" = new Node("+comp+",\""+beh+"\",\""+type+"\","+qtype+","+op+",\""+root.getPC()+"\");\n";
+		temp += "node"+root.getPC()+".setNodeBlock("+nodeBlock+");\n";
 		if(root.getChilds().size() == 1) {
-			if(nodeBlock==null) {
-				nodeBlock = "nodeBlock";
-				temp += "NodeBlock nodeBlock = new NodeBlockImpl();\n";
-			}
-			temp += "node"+root.getPC()+".setNodeBlock("+nodeBlock+");\n";
 			temp += toStringABS(root.getChilds().get(0),nodeBlock);
 			temp += "node"+root.getPC()+".addNode(node"+getNextPC(root.getChilds().get(0))+");\n";
 		} else {
@@ -185,7 +185,19 @@ public class BTTree {
 		}
 		return m+1;
 	}
-
+	public BTNode getAncestor(BTNode node, BTNode parent) {
+		if(parent==null || node==null) {
+			return null;
+		}
+		if(parent.getType().equals(BTNodeType.ALTERNATIVEBLOCK)||parent.getType().equals(BTNodeType.ALTERNATIVEBLOCK)) {
+			return getAncestor(node, parent.getParent());
+		}
+		if(parent.getComponent()==node.getComponent() && parent.getBehavior()==node.getBehavior()) {
+			return parent;
+		} else {
+			return getAncestor(node, parent.getParent());
+		}
+	}
 	public Set<BTComponent> getComponents() {
 		return s;
 	}

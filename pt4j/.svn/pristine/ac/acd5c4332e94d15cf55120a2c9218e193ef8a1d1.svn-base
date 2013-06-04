@@ -1,0 +1,36 @@
+package com.googlecode.pt4j.data;
+
+import org.joda.time.DateTime;
+
+/**
+ * Describes an Iteration for a Story
+ *
+ * @author jon stevens
+ */
+public class IterationData
+{
+	private Long number;
+	private DateTime start;
+	private DateTime finish;
+
+	/** */
+	public IterationData() {}
+
+	/** */
+	public Long getNumber()
+	{
+		return this.number;
+	}
+
+	/** */
+	public DateTime getStart()
+	{
+		return this.start;
+	}
+
+	/** */
+	public DateTime getFinish()
+	{
+		return this.finish;
+	}
+}

@@ -20,6 +20,9 @@ public class ABSMethodImplementation implements ABSBlock{
         this.arr = arr;
     }
     
+    public void addStatement(int line, ABSStatement as) {
+        arr.add(line,as);
+    }
     public void addStatement(ABSStatement as) {
         arr.add(as);
     }
@@ -39,7 +42,7 @@ public class ABSMethodImplementation implements ABSBlock{
     }
 
     @Override
-    public void isDeclared(ABSDeclarable a) {
+    public boolean isDeclared(ABSDeclarable a) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

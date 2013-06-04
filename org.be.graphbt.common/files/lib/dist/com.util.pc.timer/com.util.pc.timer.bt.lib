@@ -1,0 +1,32 @@
+<include>
+<attributes>
+	<attribute>
+		<name>duration</name>
+		<type>Int</type>
+		<value>5</value>
+		<description>The duration of the timer in second. The default value is 5.</description>
+	</attribute>
+</attributes>
+<states>
+	<state>
+		<name>START</name>
+		<description>Indicating that the timer is started</description>
+	</state>
+	<state>
+		<name>TIMEOUT</name>
+		<description>The condition that the timer already timeout</description>
+		<attribute>
+			<name>duration</name>
+			<value>0</value>
+		</attribute>
+	</state>
+</states>
+<behaviors>
+	<behavior>
+		<name>START</name>
+		<type>StateRealization</type>
+		<detail>timer_var!start();</detail>
+		<description>Start the timer</description>
+	</behavior>
+</behaviors>
+</include>

@@ -1,0 +1,10 @@
+interface Sound {
+   Unit play(String uri);
+}
+[Foreign]
+class SoundImpl implements Sound
+{
+	Unit play(String uri){
+	
+	}
+}

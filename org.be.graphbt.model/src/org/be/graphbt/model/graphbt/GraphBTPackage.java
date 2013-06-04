@@ -838,13 +838,40 @@ public interface GraphBTPackage extends EPackage {
 	int LIBRARY__METHODS = 5;
 
 	/**
+	 * The feature id for the '<em><b>States</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__STATES = 6;
+
+	/**
+	 * The feature id for the '<em><b>Behaviors</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__BEHAVIORS = 7;
+
+	/**
+	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__ATTRIBUTES = 8;
+
+	/**
 	 * The number of structural features of the '<em>Library</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY_FEATURE_COUNT = 6;
+	int LIBRARY_FEATURE_COUNT = 9;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.RequirementImpl <em>Requirement</em>}' class.
@@ -2529,6 +2556,39 @@ public interface GraphBTPackage extends EPackage {
 	EReference getLibrary_Methods();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.be.graphbt.model.graphbt.Library#getStates <em>States</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>States</em>'.
+	 * @see org.be.graphbt.model.graphbt.Library#getStates()
+	 * @see #getLibrary()
+	 * @generated
+	 */
+	EReference getLibrary_States();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.be.graphbt.model.graphbt.Library#getBehaviors <em>Behaviors</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Behaviors</em>'.
+	 * @see org.be.graphbt.model.graphbt.Library#getBehaviors()
+	 * @see #getLibrary()
+	 * @generated
+	 */
+	EReference getLibrary_Behaviors();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.be.graphbt.model.graphbt.Library#getAttributes <em>Attributes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Attributes</em>'.
+	 * @see org.be.graphbt.model.graphbt.Library#getAttributes()
+	 * @see #getLibrary()
+	 * @generated
+	 */
+	EReference getLibrary_Attributes();
+
+	/**
 	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.Requirement <em>Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3840,6 +3900,30 @@ public interface GraphBTPackage extends EPackage {
 		 * @generated
 		 */
 		EReference LIBRARY__METHODS = eINSTANCE.getLibrary_Methods();
+
+		/**
+		 * The meta object literal for the '<em><b>States</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LIBRARY__STATES = eINSTANCE.getLibrary_States();
+
+		/**
+		 * The meta object literal for the '<em><b>Behaviors</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LIBRARY__BEHAVIORS = eINSTANCE.getLibrary_Behaviors();
+
+		/**
+		 * The meta object literal for the '<em><b>Attributes</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LIBRARY__ATTRIBUTES = eINSTANCE.getLibrary_Attributes();
 
 		/**
 		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.RequirementImpl <em>Requirement</em>}' class.
