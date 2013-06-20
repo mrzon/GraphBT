@@ -540,7 +540,6 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 	 */
 	Unit evaluateBlockedProcess() {
 		Int size = blockedQueue.size();
-		IO io = new IOImpl();
 		while(not(size == 0)) {
 			N n = blockedQueue.poll();
 			State state = n.getState();
@@ -548,10 +547,8 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 				n.runNode();
 				Bool b = n.isBlocked();
 				if(not(b)) {
-					io.print("Not blocked");
 					this.evaluateChildNodes(n);
 				} else {
-					//io.print("Blocked");
 					n.setState(Blocked);
 					blockedQueue.insert(n);
 				}
@@ -601,8 +598,6 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 			Operator op = c.getOperator();
 			String typeB = c.getBlockType();
 			String pc = c.getPC();
-			IO io = new IOImpl();
-			io.print("The block is "+typeB+" "+pc);
 			if(typeB == "PARALLELBLOCK") {
 				this.evaluateChildNodes(c);
 			} else if (typeB=="ALTERNATIVEBLOCK") {
@@ -615,7 +610,6 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 						c.setState(Ready);
 					} else if(ntype == GUARD||ntype==INTERNALINPUT||ntype==EXTERNALINPUT) {
 						c.setState(Blocked);
-						io.print("Ini block");
 						blockedQueue.insert(c);
 					}
 				} else if(op == REVERSION) {
@@ -639,17 +633,14 @@ class ProcessManagerImpl(N r) implements ProcessManager {
 	Unit execute() {
 		Int rQSize = readyQueue.size();
 		Int bQSize = blockedQueue.size();
-		IO io = new IOImpl();
 		while(rQSize != 0 || bQSize != 0) {
 			Fut<Unit> a = this!readyProcess();
 			Fut<Unit> b = this!evaluateBlockedProcess();
 			await a?;
 			await b?;
-			
 			rQSize = readyQueue.size();
 		    bQSize = blockedQueue.size();
 		}
-		io.print("This will always printed last");
 	}
 	
 	Unit run() {

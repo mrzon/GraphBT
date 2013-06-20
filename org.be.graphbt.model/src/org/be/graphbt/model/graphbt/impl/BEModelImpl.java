@@ -7,6 +7,7 @@
 package org.be.graphbt.model.graphbt.impl;
 
 import java.util.Collection;
+import org.be.graphbt.model.graphbt.AuthorList;
 import java.util.List;
 import java.util.Set;
 
@@ -48,6 +49,9 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *   <li>{@link org.be.graphbt.model.graphbt.impl.BEModelImpl#getReversionNode <em>Reversion Node</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.impl.BEModelImpl#getErrorReversionNode <em>Error Reversion Node</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.impl.BEModelImpl#getLayoutList <em>Layout List</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.BEModelImpl#getSubtitle <em>Subtitle</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.BEModelImpl#getVersion <em>Version</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.impl.BEModelImpl#getAuthorList <em>Author List</em>}</li>
  * </ul>
  * </p>
  *
@@ -153,6 +157,56 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * @ordered
 	 */
 	protected LayoutList layoutList;
+
+	/**
+	 * The default value of the '{@link #getSubtitle() <em>Subtitle</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSubtitle()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SUBTITLE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getSubtitle() <em>Subtitle</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSubtitle()
+	 * @generated
+	 * @ordered
+	 */
+	protected String subtitle = SUBTITLE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getVersion() <em>Version</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVersion()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String VERSION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getVersion() <em>Version</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVersion()
+	 * @generated
+	 * @ordered
+	 */
+	protected String version = VERSION_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getAuthorList() <em>Author List</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAuthorList()
+	 * @generated
+	 * @ordered
+	 */
+	protected AuthorList authorList;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -486,6 +540,91 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getSubtitle() {
+		return subtitle;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSubtitle(String newSubtitle) {
+		String oldSubtitle = subtitle;
+		subtitle = newSubtitle;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GraphBTPackage.BE_MODEL__SUBTITLE, oldSubtitle, subtitle));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getVersion() {
+		return version;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setVersion(String newVersion) {
+		String oldVersion = version;
+		version = newVersion;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GraphBTPackage.BE_MODEL__VERSION, oldVersion, version));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AuthorList getAuthorList() {
+		return authorList;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetAuthorList(AuthorList newAuthorList, NotificationChain msgs) {
+		AuthorList oldAuthorList = authorList;
+		authorList = newAuthorList;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GraphBTPackage.BE_MODEL__AUTHOR_LIST, oldAuthorList, newAuthorList);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAuthorList(AuthorList newAuthorList) {
+		if (newAuthorList != authorList) {
+			NotificationChain msgs = null;
+			if (authorList != null)
+				msgs = ((InternalEObject)authorList).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - GraphBTPackage.BE_MODEL__AUTHOR_LIST, null, msgs);
+			if (newAuthorList != null)
+				msgs = ((InternalEObject)newAuthorList).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - GraphBTPackage.BE_MODEL__AUTHOR_LIST, null, msgs);
+			msgs = basicSetAuthorList(newAuthorList, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GraphBTPackage.BE_MODEL__AUTHOR_LIST, newAuthorList, newAuthorList));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -501,6 +640,8 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return basicSetLibraries(null, msgs);
 			case GraphBTPackage.BE_MODEL__LAYOUT_LIST:
 				return basicSetLayoutList(null, msgs);
+			case GraphBTPackage.BE_MODEL__AUTHOR_LIST:
+				return basicSetAuthorList(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -531,6 +672,12 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return getErrorReversionNode();
 			case GraphBTPackage.BE_MODEL__LAYOUT_LIST:
 				return getLayoutList();
+			case GraphBTPackage.BE_MODEL__SUBTITLE:
+				return getSubtitle();
+			case GraphBTPackage.BE_MODEL__VERSION:
+				return getVersion();
+			case GraphBTPackage.BE_MODEL__AUTHOR_LIST:
+				return getAuthorList();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -573,6 +720,15 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 			case GraphBTPackage.BE_MODEL__LAYOUT_LIST:
 				setLayoutList((LayoutList)newValue);
 				return;
+			case GraphBTPackage.BE_MODEL__SUBTITLE:
+				setSubtitle((String)newValue);
+				return;
+			case GraphBTPackage.BE_MODEL__VERSION:
+				setVersion((String)newValue);
+				return;
+			case GraphBTPackage.BE_MODEL__AUTHOR_LIST:
+				setAuthorList((AuthorList)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -612,6 +768,15 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 			case GraphBTPackage.BE_MODEL__LAYOUT_LIST:
 				setLayoutList((LayoutList)null);
 				return;
+			case GraphBTPackage.BE_MODEL__SUBTITLE:
+				setSubtitle(SUBTITLE_EDEFAULT);
+				return;
+			case GraphBTPackage.BE_MODEL__VERSION:
+				setVersion(VERSION_EDEFAULT);
+				return;
+			case GraphBTPackage.BE_MODEL__AUTHOR_LIST:
+				setAuthorList((AuthorList)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -642,6 +807,12 @@ public class BEModelImpl extends EObjectImpl implements BEModel {
 				return errorReversionNode != null && !errorReversionNode.isEmpty();
 			case GraphBTPackage.BE_MODEL__LAYOUT_LIST:
 				return layoutList != null;
+			case GraphBTPackage.BE_MODEL__SUBTITLE:
+				return SUBTITLE_EDEFAULT == null ? subtitle != null : !SUBTITLE_EDEFAULT.equals(subtitle);
+			case GraphBTPackage.BE_MODEL__VERSION:
+				return VERSION_EDEFAULT == null ? version != null : !VERSION_EDEFAULT.equals(version);
+			case GraphBTPackage.BE_MODEL__AUTHOR_LIST:
+				return authorList != null;
 		}
 		return super.eIsSet(featureID);
 	}

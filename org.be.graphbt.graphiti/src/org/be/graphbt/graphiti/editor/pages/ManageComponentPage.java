@@ -50,24 +50,12 @@ public class ManageComponentPage extends Composite {
 	private Diagram d;
 	private String componentRefTemp;
 	private String behaviorRefTemp;
-	//	private Text editComponentNameText;
 	private Button behaviorButton;
-	//	private Button saveComponentButton;
-	//<<<<<<< HEAD
 	private Button checkButton;
-	//=======
-	//>>>>>>> refs/remotes/origin/master3wizard
-	//	private Text editBehaviorNameText; 
-	//	private Text editComponentDescText;
 	private Text componentDescText;
 	private Text behaviorDescText;
-	//	private Text editBehaviorDescText;
-
 	private Combo typeCombo;
 	private int index;
-	//	private Button saveBehaviorButton;
-	//	private Button cancelEditBehaviorButton;
-	//	private Button cancelEditComponentButton;
 	private Group groupBehavior;
 	private Label bNameLabel;
 	private Label bRefLabel;

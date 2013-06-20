@@ -16,11 +16,10 @@
 <title> </title>
 </head>
 <body>
-<h1 class="title">Title</h1>
-<h2 class="subtitle">Subtitle</h2>
-<h3 class="version">Version</h3>
+<h1 class="title"><%=model.getName()%></h1>
+<h3 class="version"><%=model.getVersion()%></h3>
 <h3 class="label">Author:</h3>
-<h3 class="label">Project Description: </h3>
+<h3 class="label">Project Description: <%=model.getSubtitle()%></h3>
 <h2 class="label">Table of Contents:</h3>
 <h2 class="label">Specifications:</h2>
 <%if(requirements != null && requirements.size()>0) {%>
@@ -36,7 +35,7 @@
 <h3 class="component">Components</h3>
 <%for(int i = 0; i < components.size(); i++) {
 Component c = components.get(i);%>
-<div id="component<%=c.getComponentRef()%>"><span class="component id"><%=c.getComponentRef()%></span> <span class="component name"><%=c.getComponentName()%></span><br/><span class="component description"><%=c.getComponentDesc()%></span><img class="component image" src=""></div>
+<div id="component<%=c.getComponentRef()%>"><span class="component id"><%=c.getComponentRef()%></span> <span class="component name"><%=c.getComponentName()%></span><br/><span class="component description"><%=c.getComponentDesc()==null?"":c.getComponentDesc()%></span><img class="component image" src="resource/<%=c.getComponentRef()%>.png" onerror="this.src='resource/<%=c.getComponentRef()%>.jpg'"></div>
 <%if(c.getAttributes().size() > 0) {%>
 <div class="attributes"><h4>Attributes:</h4>
 <%for(int j = 0; j < c.getAttributes().size(); j++) {
@@ -51,7 +50,7 @@ Component c = components.get(i);%>
 <%for(int j = 0; j < c.getBehaviors().size(); j++) {
 	Behavior b = c.getBehaviors().get(j);
 %>
-<div id="component<%=c.getComponentRef()%>-behavior<%=b.getBehaviorRef()%>"><span class="behavior name"><%=b.toString()%></span><br/><span class="behavior description"><%=b.getBehaviorDesc()%></span></div>
+<div id="component<%=c.getComponentRef()%>-behavior<%=b.getBehaviorRef()%>"><span class="behavior name"><%=b.toString().replaceAll(">", "&gt;").replaceAll("<", "&lt;")%></span><br/><span class="behavior description"><%=b.getBehaviorDesc()==null?"":b.getBehaviorDesc()%></span></div>
 <%}%>
 </div>
 <%}%>

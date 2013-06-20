@@ -27,8 +27,10 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
@@ -63,14 +65,13 @@ implements ITabbedPropertyConstants {
 	private CCombo statusCombo;
 	private CCombo branchCombo;
 	private CLabel branchLabel;
-
+	
 	@Override
 	public void createControls(Composite parent, 
 			TabbedPropertySheetPage tabbedPropertySheetPage) {
 		super.createControls(parent, tabbedPropertySheetPage);
 		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 		Composite composite = factory.createFlatFormComposite(parent);
-
 		FormData componentData;
 		FormData behaviorData;
 		FormData requirementData;
@@ -99,8 +100,6 @@ implements ITabbedPropertyConstants {
 		for(Branch branch : Branch.VALUES) {
 			branchCombo.add(branch.getName());
 		}
-
-
 
 		for(TraceabilityStatus ts : TraceabilityStatus.VALUES) {
 			statusCombo.add(ts.getName());
@@ -188,21 +187,6 @@ implements ITabbedPropertyConstants {
 		branchData.top = new FormAttachment(branchCombo, 0, SWT.CENTER);
 		branchLabel.setLayoutData(branchData);
 
-		/***/
-		PictogramElement pe = getSelectedPictogramElement();
-
-		if (pe != null) {
-			Object bo = Graphiti.getLinkService()
-					.getBusinessObjectForLinkedPictogramElement(pe);
-
-			if (bo == null)
-				return;
-
-			if(!(bo instanceof StandardNode)) {
-				return;
-			}
-		}
-
 		componentCombo.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				PictogramElement pe = getSelectedPictogramElement();
@@ -217,7 +201,7 @@ implements ITabbedPropertyConstants {
 
 				final Component c = GraphBTUtil.getComponent(GraphBTUtil.getBEModel(d,true), selected);
 
-				Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+				Command cmd = new RecordingCommand(ds.getEditingDomain(), "Change component") {
 					protected void doExecute() {
 						node.setComponentRef(c.getComponentRef());
 						String beh = c.getBehaviors().size()>0?c.getBehaviors().get(0).getBehaviorRef():"";
@@ -228,7 +212,6 @@ implements ITabbedPropertyConstants {
 						}
 						catch(RuntimeException re)
 						{
-
 							WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().
 									getActiveWorkbenchWindow().getShell(),
 									new ManageComponentsGraphBTWizard(d));
@@ -306,7 +289,7 @@ implements ITabbedPropertyConstants {
 				if(!(ob instanceof StandardNode))
 					return;
 				final StandardNode node = (StandardNode) ob;
-				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Change requirement") {
 					protected void doExecute() {
 						if(selected.trim().equals("")) {
 							Requirement r = GraphBTUtil.getDefaultRequirement(d);
@@ -342,26 +325,19 @@ implements ITabbedPropertyConstants {
 			public void widgetSelected(SelectionEvent e) {
 				CCombo combo = (CCombo)e.widget;
 				final String selected = combo.getItem(combo.getSelectionIndex());
-				PictogramElement pe = getSelectedPictogramElement();
+				final PictogramElement pe = getSelectedPictogramElement();
 				Object ob = Graphiti.getLinkService()
 						.getBusinessObjectForLinkedPictogramElement(pe);
 				if(!(ob instanceof StandardNode))
 					return;
 				final StandardNode node = (StandardNode) ob;
-				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
-					protected void doExecute() {
-						node.setTraceabilityStatus(TraceabilityStatus.getByName(selected).getLiteral());
-					}
-				};
-				ds.getEditingDomain().getCommandStack().execute(cmd);
-
-				if(!(pe instanceof ContainerShape))
-					return;
-
 				final ContainerShape cs = (ContainerShape) pe;
 
-				final RecordingCommand cmd2 = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+				final RecordingCommand cmd2 = new RecordingCommand(ds.getEditingDomain(), "Change traceability status") {
 					protected void doExecute() {
+						node.setTraceabilityStatus(TraceabilityStatus.getByName(selected).getLiteral());
+						if(!(pe instanceof ContainerShape))
+							return;
 						final Rectangle rectangle = (Rectangle) cs.getGraphicsAlgorithm();
 
 						Edge edge = node.getEdge();
@@ -454,17 +430,11 @@ implements ITabbedPropertyConstants {
 //				{
 //					GraphBTUtil.reversionNode.add(node);
 //				}
-				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
-					protected void doExecute() {
-						node.setOperator(literal);
-					}
-				};
-				ds.getEditingDomain().getCommandStack().execute(cmd);
-
 				
 				final ContainerShape cs = (ContainerShape)pe;
-				final Command cmd2 = new RecordingCommand(ds.getEditingDomain(), "Nope") {
+				final Command cmd2 = new RecordingCommand(ds.getEditingDomain(), "Update operator") {
 					protected void doExecute() {
+						node.setOperator(literal);
 						final Rectangle rectangle = (Rectangle) cs.getGraphicsAlgorithm();
 
 						Edge edge = node.getEdge();
@@ -515,8 +485,13 @@ implements ITabbedPropertyConstants {
 	@Override
 	public synchronized void  refresh() throws RuntimeException{
 		PictogramElement pe = getSelectedPictogramElement();
-
-		if (pe != null) {
+		this.aboutToBeHidden();
+		if(pe == null) {
+			return;
+		}
+		if (pe instanceof Diagram){
+			System.out.println("The diagram is clicked");
+		} else {
 			Object bo = Graphiti.getLinkService()
 					.getBusinessObjectForLinkedPictogramElement(pe);
 			if (bo == null)
@@ -542,7 +517,7 @@ implements ITabbedPropertyConstants {
 					branchLabel.setVisible(false);
 				}
 			}
-
+			super.refresh();
 			IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			final GraphBTDiagramEditor ds;
 
@@ -594,12 +569,7 @@ implements ITabbedPropertyConstants {
 				statusCombo.setText(statusString);
 				operatorCombo.setText(operatorString);
 				int sizeBefore = ds.reversionNode.size();
-				if(operatorString.equals("^"))
-				{
-				//	GraphBTUtil.reversionNode.add(node);
-				//	GraphBTUtil.updateReversionNode(ds);
-				}
-				int sizeAfter = ds.reversionNode.size();
+				
 				//if(sizeBefore != sizeAfter) {
 				
 				if(operatorString.equals("^")) {
@@ -617,13 +587,15 @@ implements ITabbedPropertyConstants {
 					ds.reversionNode.remove(node);
 					ds.errorReversionNode.remove(node);
 				}
-
-				final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Nope") {
-					protected void doExecute() {
-						GraphBTUtil.updateReversionNode(ds);
-					}
-				};
-				ds.getEditingDomain().getCommandStack().execute(cmd);
+				int sizeAfter = ds.reversionNode.size();
+				if(sizeBefore != sizeAfter) {
+					final Command cmd = new RecordingCommand(ds.getEditingDomain(), "Update reversion node") {
+						protected void doExecute() {
+							GraphBTUtil.updateReversionNode(ds);
+						}
+					};
+					ds.getEditingDomain().getCommandStack().execute(cmd);
+				}
 			}
 		}
 	}

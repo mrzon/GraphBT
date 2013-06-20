@@ -216,6 +216,14 @@ public class GraphBTAdapterFactory extends AdapterFactoryImpl {
 				return createButtonAdapter();
 			}
 			@Override
+			public Adapter caseAuthorList(AuthorList object) {
+				return createAuthorListAdapter();
+			}
+			@Override
+			public Adapter caseAuthor(Author object) {
+				return createAuthorAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -736,6 +744,34 @@ public class GraphBTAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createButtonAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.be.graphbt.model.graphbt.AuthorList <em>Author List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.be.graphbt.model.graphbt.AuthorList
+	 * @generated
+	 */
+	public Adapter createAuthorListAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.be.graphbt.model.graphbt.Author <em>Author</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.be.graphbt.model.graphbt.Author
+	 * @generated
+	 */
+	public Adapter createAuthorAdapter() {
 		return null;
 	}
 

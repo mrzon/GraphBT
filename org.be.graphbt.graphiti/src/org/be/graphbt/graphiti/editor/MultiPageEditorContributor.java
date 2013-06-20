@@ -826,10 +826,6 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 				//MessageDialog.openInformation(null, "Graphiti Sample Sketch (Incubation)", "Sample Action Executed");
 				if(activeEditorPart instanceof DiagramEditor) {
 					Diagram d = ((DiagramEditor)activeEditorPart).getDiagramTypeProvider().getDiagram();
-					if(GraphBTUtil.isValid(d)>0) {
-						MessageDialog.openError(null, "Generate document error", "The model is not valid, validate the model first to check error");
-						return;
-					}
 					try {
 						BEModel model = GraphBTUtil.getBEModel(d);
 						GraphBTDocumentationTemplate template = new GraphBTDocumentationTemplate();

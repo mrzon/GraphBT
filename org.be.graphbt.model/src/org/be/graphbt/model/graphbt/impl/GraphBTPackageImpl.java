@@ -9,6 +9,8 @@ package org.be.graphbt.model.graphbt.impl;
 import org.be.graphbt.model.graphbt.AdditionalInformation;
 import org.be.graphbt.model.graphbt.AlternativeClass;
 import org.be.graphbt.model.graphbt.Attribute;
+import org.be.graphbt.model.graphbt.Author;
+import org.be.graphbt.model.graphbt.AuthorList;
 import org.be.graphbt.model.graphbt.BEModel;
 import org.be.graphbt.model.graphbt.Behavior;
 import org.be.graphbt.model.graphbt.BehaviorTree;
@@ -325,6 +327,20 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass authorListEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass authorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum compositionEEnum = null;
 
 	/**
@@ -518,6 +534,33 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 */
 	public EReference getBEModel_LayoutList() {
 		return (EReference)beModelEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBEModel_Subtitle() {
+		return (EAttribute)beModelEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBEModel_Version() {
+		return (EAttribute)beModelEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBEModel_AuthorList() {
+		return (EReference)beModelEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
@@ -1623,6 +1666,60 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAuthorList() {
+		return authorListEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAuthorList_Authors() {
+		return (EReference)authorListEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAuthor() {
+		return authorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAuthor_Name() {
+		return (EAttribute)authorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAuthor_Contact() {
+		return (EAttribute)authorEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAuthor_Role() {
+		return (EAttribute)authorEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getComposition() {
 		return compositionEEnum;
 	}
@@ -1719,6 +1816,9 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		createEReference(beModelEClass, BE_MODEL__REVERSION_NODE);
 		createEReference(beModelEClass, BE_MODEL__ERROR_REVERSION_NODE);
 		createEReference(beModelEClass, BE_MODEL__LAYOUT_LIST);
+		createEAttribute(beModelEClass, BE_MODEL__SUBTITLE);
+		createEAttribute(beModelEClass, BE_MODEL__VERSION);
+		createEReference(beModelEClass, BE_MODEL__AUTHOR_LIST);
 
 		behaviorTreeEClass = createEClass(BEHAVIOR_TREE);
 		createEReference(behaviorTreeEClass, BEHAVIOR_TREE__ROOT_NODE);
@@ -1877,6 +1977,14 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		buttonEClass = createEClass(BUTTON);
 		createEAttribute(buttonEClass, BUTTON__LABEL);
 
+		authorListEClass = createEClass(AUTHOR_LIST);
+		createEReference(authorListEClass, AUTHOR_LIST__AUTHORS);
+
+		authorEClass = createEClass(AUTHOR);
+		createEAttribute(authorEClass, AUTHOR__NAME);
+		createEAttribute(authorEClass, AUTHOR__CONTACT);
+		createEAttribute(authorEClass, AUTHOR__ROLE);
+
 		// Create enums
 		compositionEEnum = createEEnum(COMPOSITION);
 		branchEEnum = createEEnum(BRANCH);
@@ -1934,6 +2042,9 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 		initEReference(getBEModel_ReversionNode(), this.getStandardNode(), null, "reversionNode", null, 0, -1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBEModel_ErrorReversionNode(), this.getStandardNode(), null, "errorReversionNode", null, 0, -1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBEModel_LayoutList(), this.getLayoutList(), null, "layoutList", null, 0, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBEModel_Subtitle(), ecorePackage.getEString(), "subtitle", null, 0, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBEModel_Version(), ecorePackage.getEString(), "version", null, 0, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBEModel_AuthorList(), this.getAuthorList(), null, "authorList", null, 0, 1, BEModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(behaviorTreeEClass, BehaviorTree.class, "BehaviorTree", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBehaviorTree_RootNode(), this.getNode(), null, "rootNode", null, 1, 1, BehaviorTree.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2101,6 +2212,14 @@ public class GraphBTPackageImpl extends EPackageImpl implements GraphBTPackage {
 
 		initEClass(buttonEClass, Button.class, "Button", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getButton_Label(), ecorePackage.getEString(), "label", null, 0, 1, Button.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(authorListEClass, AuthorList.class, "AuthorList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAuthorList_Authors(), this.getAuthor(), null, "authors", null, 0, -1, AuthorList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(authorEClass, Author.class, "Author", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAuthor_Name(), ecorePackage.getEString(), "name", null, 0, 1, Author.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAuthor_Contact(), ecorePackage.getEString(), "contact", null, 0, 1, Author.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAuthor_Role(), ecorePackage.getEString(), "role", null, 0, 1, Author.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(compositionEEnum, Composition.class, "Composition");

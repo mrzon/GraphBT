@@ -93,19 +93,33 @@
           <propertyContributor contributorId="graphbt.PropertyContributor">
               <propertyCategory category="Graphiti">
               </propertyCategory>
+              <propertyCategory
+                    category="Project">
+              </propertyCategory>
           </propertyContributor>
       </extension>
       <extension
           point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
           <propertyTabs contributorId="graphbt.PropertyContributor">
-              <propertyTab label="Main" category="Graphiti"
+              <propertyTab label="Node Properties" category="Graphiti"
                   id="graphiti.main.tab">
+              </propertyTab>
+              <propertyTab
+                    category="Project"
+                    id="org.be.graphbt.graphiti.projectProperty"
+                    label="Project Properties">
               </propertyTab>
           </propertyTabs>
       </extension>   
       <extension
           point="org.eclipse.ui.views.properties.tabbed.propertySections">
           <propertySections contributorId="graphbt.PropertyContributor">
+              <propertySection
+                    class="org.be.graphbt.graphiti.property.ProjectPropertySection1"
+                    filter="org.be.graphbt.graphiti.property.ProjectPropertyFilter"
+                    id="org.be.graphbt.graphiti.projectProperty.propertySection1"
+                    tab="org.be.graphbt.graphiti.projectProperty">
+              </propertySection>
               <propertySection
                     tab="graphiti.main.tab"
                     class="org.be.graphbt.graphiti.property.BehaviorTreePropertySection"

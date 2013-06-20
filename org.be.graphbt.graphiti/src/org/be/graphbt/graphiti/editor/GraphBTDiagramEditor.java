@@ -139,7 +139,7 @@ public class GraphBTDiagramEditor extends DiagramEditor implements IPartListener
 				final BEModel model = GraphBTUtil.getBEModel(getDiagramTypeProvider().getDiagram(),false);
 				if(model == null)
 					return;
-				if(model.getLayoutList()!=null) {
+				if(model.getLayoutList()!=null && this.getEditDomain() !=null) {
 					this.getEditDomain().getCommandStack().execute(new Command() {
 						@SuppressWarnings("restriction")
 						@Override

@@ -29,6 +29,9 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.be.graphbt.model.graphbt.BEModel#getReversionNode <em>Reversion Node</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.BEModel#getErrorReversionNode <em>Error Reversion Node</em>}</li>
  *   <li>{@link org.be.graphbt.model.graphbt.BEModel#getLayoutList <em>Layout List</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.BEModel#getSubtitle <em>Subtitle</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.BEModel#getVersion <em>Version</em>}</li>
+ *   <li>{@link org.be.graphbt.model.graphbt.BEModel#getAuthorList <em>Author List</em>}</li>
  * </ul>
  * </p>
  *
@@ -250,6 +253,84 @@ public interface BEModel extends EObject {
 	 * @generated
 	 */
 	void setLayoutList(LayoutList value);
+
+	/**
+	 * Returns the value of the '<em><b>Subtitle</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Subtitle</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Subtitle</em>' attribute.
+	 * @see #setSubtitle(String)
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getBEModel_Subtitle()
+	 * @model
+	 * @generated
+	 */
+	String getSubtitle();
+
+	/**
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.BEModel#getSubtitle <em>Subtitle</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Subtitle</em>' attribute.
+	 * @see #getSubtitle()
+	 * @generated
+	 */
+	void setSubtitle(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Version</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Version</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Version</em>' attribute.
+	 * @see #setVersion(String)
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getBEModel_Version()
+	 * @model
+	 * @generated
+	 */
+	String getVersion();
+
+	/**
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.BEModel#getVersion <em>Version</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Version</em>' attribute.
+	 * @see #getVersion()
+	 * @generated
+	 */
+	void setVersion(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Author List</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Author List</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Author List</em>' containment reference.
+	 * @see #setAuthorList(AuthorList)
+	 * @see org.be.graphbt.model.graphbt.GraphBTPackage#getBEModel_AuthorList()
+	 * @model containment="true"
+	 * @generated
+	 */
+	AuthorList getAuthorList();
+
+	/**
+	 * Sets the value of the '{@link org.be.graphbt.model.graphbt.BEModel#getAuthorList <em>Author List</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Author List</em>' containment reference.
+	 * @see #getAuthorList()
+	 * @generated
+	 */
+	void setAuthorList(AuthorList value);
 
 	void setReversionNode(List<StandardNode> reversionnode);
 

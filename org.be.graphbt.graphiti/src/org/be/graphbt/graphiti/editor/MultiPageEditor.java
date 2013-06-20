@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.be.graphbt.graphiti.GraphBTUtil;
+import org.be.graphbt.graphiti.editor.pages.DocumentationPage;
 import org.be.graphbt.graphiti.editor.pages.ManageComponentPage;
 import org.be.graphbt.graphiti.editor.pages.ManageLibraryPage;
 import org.be.graphbt.graphiti.editor.pages.ManageRequirementPage;
@@ -162,12 +163,13 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	}
 
 	/**
-	 * Interface page
+	 * Documentation page
 	 */
 	void createPage5() {
-		Composite container = new Composite(getContainer(),SWT.NULL);
+		final DiagramEditor d = this.editor;
+		DocumentationPage container = new DocumentationPage(getContainer(),SWT.NULL,d.getDiagramTypeProvider().getDiagram());
 		int index = addPage(container);
-		setPageText(index, "Interfaces");
+		setPageText(index, "Documentation");
 	}
 	
 	
@@ -241,7 +243,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		return true;
 	}
 	/**
-	 * Calculates the contents of page 2 when the it is activated.
+	 * Calculates the contents of page when the it is activated.
 	 */
 	protected void pageChange(int newPageIndex) {
 		super.pageChange(newPageIndex);
@@ -264,6 +266,13 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 			 break;
 		 case 4:
 			 setControl(4,  new ManageLibraryPage(getContainer(), SWT.NONE,this.editor));
+			 break;
+		 case 5:
+			 if(getControl(5) instanceof DocumentationPage) {
+				 DocumentationPage page = (DocumentationPage)getControl(5);
+				 page.reload();
+				 System.out.println("Halalal");
+			 }
 			 break;
 		}
 	}

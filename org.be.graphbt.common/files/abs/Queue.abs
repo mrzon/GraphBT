@@ -105,12 +105,3 @@ class QueueIntImpl implements QueueInt{
 		arr = arrT;
 	}
 }
-
-{
-	QueueInt q = new QueueIntImpl();
-	suspend;
-	q.init(list[1,2,3,4]);
-	q.insert(99);
-	q.poll();
-	q.poll();
-}

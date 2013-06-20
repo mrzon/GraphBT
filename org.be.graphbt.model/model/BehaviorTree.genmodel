@@ -64,6 +64,9 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/reversionNode"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/errorReversionNode"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/layoutList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//BEModel/subtitle"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//BEModel/version"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BEModel/authorList"/>
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//BehaviorTree">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//BehaviorTree/rootNode"/>
@@ -225,6 +228,14 @@
     </genClasses>
     <genClasses ecoreClass="DefaultName.ecore#//Button">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Button/label"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//AuthorList">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DefaultName.ecore#//AuthorList/authors"/>
+    </genClasses>
+    <genClasses ecoreClass="DefaultName.ecore#//Author">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Author/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Author/contact"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DefaultName.ecore#//Author/role"/>
     </genClasses>
     <nestedGenPackages prefix="Behaviortree" basePackage="model" disposableProviderFactory="true"
         ecorePackage="DefaultName.ecore#//behaviortree"/>

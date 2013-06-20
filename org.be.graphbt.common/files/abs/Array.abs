@@ -76,11 +76,3 @@ class ArrayIntImpl() implements ArrayInt
 		}
 	}
 }
-
-
-{
-	ArrayInt arr = new ArrayIntImpl();
-	arr.init(list[1,2,4]);
-	Int len = arr.getLength();
-	Element x = arr.getElement(4);
-}

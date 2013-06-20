@@ -97,6 +97,8 @@ public class GraphBTFactoryImpl extends EFactoryImpl implements GraphBTFactory {
 			case GraphBTPackage.LAYOUT_LIST: return createLayoutList();
 			case GraphBTPackage.LAYOUT: return createLayout();
 			case GraphBTPackage.BUTTON: return createButton();
+			case GraphBTPackage.AUTHOR_LIST: return createAuthorList();
+			case GraphBTPackage.AUTHOR: return createAuthor();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -514,6 +516,26 @@ public class GraphBTFactoryImpl extends EFactoryImpl implements GraphBTFactory {
 	public Button createButton() {
 		ButtonImpl button = new ButtonImpl();
 		return button;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AuthorList createAuthorList() {
+		AuthorListImpl authorList = new AuthorListImpl();
+		return authorList;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Author createAuthor() {
+		AuthorImpl author = new AuthorImpl();
+		return author;
 	}
 
 	/**

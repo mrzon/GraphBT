@@ -152,13 +152,40 @@ public interface GraphBTPackage extends EPackage {
 	int BE_MODEL__LAYOUT_LIST = 8;
 
 	/**
+	 * The feature id for the '<em><b>Subtitle</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BE_MODEL__SUBTITLE = 9;
+
+	/**
+	 * The feature id for the '<em><b>Version</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BE_MODEL__VERSION = 10;
+
+	/**
+	 * The feature id for the '<em><b>Author List</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BE_MODEL__AUTHOR_LIST = 11;
+
+	/**
 	 * The number of structural features of the '<em>BE Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BE_MODEL_FEATURE_COUNT = 9;
+	int BE_MODEL_FEATURE_COUNT = 12;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.BehaviorTreeImpl <em>Behavior Tree</em>}' class.
@@ -1771,6 +1798,80 @@ public interface GraphBTPackage extends EPackage {
 	int BUTTON_FEATURE_COUNT = LAYOUT_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.AuthorListImpl <em>Author List</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.be.graphbt.model.graphbt.impl.AuthorListImpl
+	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getAuthorList()
+	 * @generated
+	 */
+	int AUTHOR_LIST = 36;
+
+	/**
+	 * The feature id for the '<em><b>Authors</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AUTHOR_LIST__AUTHORS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Author List</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AUTHOR_LIST_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.impl.AuthorImpl <em>Author</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.be.graphbt.model.graphbt.impl.AuthorImpl
+	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getAuthor()
+	 * @generated
+	 */
+	int AUTHOR = 37;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AUTHOR__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Contact</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AUTHOR__CONTACT = 1;
+
+	/**
+	 * The feature id for the '<em><b>Role</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AUTHOR__ROLE = 2;
+
+	/**
+	 * The number of structural features of the '<em>Author</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AUTHOR_FEATURE_COUNT = 3;
+
+	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.Composition <em>Composition</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1778,7 +1879,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getComposition()
 	 * @generated
 	 */
-	int COMPOSITION = 36;
+	int COMPOSITION = 38;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.Branch <em>Branch</em>}' enum.
@@ -1788,7 +1889,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getBranch()
 	 * @generated
 	 */
-	int BRANCH = 37;
+	int BRANCH = 39;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.Operator <em>Operator</em>}' enum.
@@ -1798,7 +1899,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 38;
+	int OPERATOR = 40;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.BehaviorType <em>Behavior Type</em>}' enum.
@@ -1808,7 +1909,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getBehaviorType()
 	 * @generated
 	 */
-	int BEHAVIOR_TYPE = 39;
+	int BEHAVIOR_TYPE = 41;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.EventType <em>Event Type</em>}' enum.
@@ -1818,7 +1919,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getEventType()
 	 * @generated
 	 */
-	int EVENT_TYPE = 40;
+	int EVENT_TYPE = 42;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.SpecialEdgeEnum <em>Special Edge Enum</em>}' enum.
@@ -1828,7 +1929,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getSpecialEdgeEnum()
 	 * @generated
 	 */
-	int SPECIAL_EDGE_ENUM = 41;
+	int SPECIAL_EDGE_ENUM = 43;
 
 	/**
 	 * The meta object id for the '{@link org.be.graphbt.model.graphbt.TraceabilityStatus <em>Traceability Status</em>}' enum.
@@ -1838,7 +1939,7 @@ public interface GraphBTPackage extends EPackage {
 	 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getTraceabilityStatus()
 	 * @generated
 	 */
-	int TRACEABILITY_STATUS = 42;
+	int TRACEABILITY_STATUS = 44;
 
 
 	/**
@@ -1949,6 +2050,39 @@ public interface GraphBTPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getBEModel_LayoutList();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.BEModel#getSubtitle <em>Subtitle</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Subtitle</em>'.
+	 * @see org.be.graphbt.model.graphbt.BEModel#getSubtitle()
+	 * @see #getBEModel()
+	 * @generated
+	 */
+	EAttribute getBEModel_Subtitle();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.BEModel#getVersion <em>Version</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Version</em>'.
+	 * @see org.be.graphbt.model.graphbt.BEModel#getVersion()
+	 * @see #getBEModel()
+	 * @generated
+	 */
+	EAttribute getBEModel_Version();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.be.graphbt.model.graphbt.BEModel#getAuthorList <em>Author List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Author List</em>'.
+	 * @see org.be.graphbt.model.graphbt.BEModel#getAuthorList()
+	 * @see #getBEModel()
+	 * @generated
+	 */
+	EReference getBEModel_AuthorList();
 
 	/**
 	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.BehaviorTree <em>Behavior Tree</em>}'.
@@ -3258,6 +3392,70 @@ public interface GraphBTPackage extends EPackage {
 	EAttribute getButton_Label();
 
 	/**
+	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.AuthorList <em>Author List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Author List</em>'.
+	 * @see org.be.graphbt.model.graphbt.AuthorList
+	 * @generated
+	 */
+	EClass getAuthorList();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.be.graphbt.model.graphbt.AuthorList#getAuthors <em>Authors</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Authors</em>'.
+	 * @see org.be.graphbt.model.graphbt.AuthorList#getAuthors()
+	 * @see #getAuthorList()
+	 * @generated
+	 */
+	EReference getAuthorList_Authors();
+
+	/**
+	 * Returns the meta object for class '{@link org.be.graphbt.model.graphbt.Author <em>Author</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Author</em>'.
+	 * @see org.be.graphbt.model.graphbt.Author
+	 * @generated
+	 */
+	EClass getAuthor();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.Author#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.be.graphbt.model.graphbt.Author#getName()
+	 * @see #getAuthor()
+	 * @generated
+	 */
+	EAttribute getAuthor_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.Author#getContact <em>Contact</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Contact</em>'.
+	 * @see org.be.graphbt.model.graphbt.Author#getContact()
+	 * @see #getAuthor()
+	 * @generated
+	 */
+	EAttribute getAuthor_Contact();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.be.graphbt.model.graphbt.Author#getRole <em>Role</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Role</em>'.
+	 * @see org.be.graphbt.model.graphbt.Author#getRole()
+	 * @see #getAuthor()
+	 * @generated
+	 */
+	EAttribute getAuthor_Role();
+
+	/**
 	 * Returns the meta object for enum '{@link org.be.graphbt.model.graphbt.Composition <em>Composition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3430,6 +3628,30 @@ public interface GraphBTPackage extends EPackage {
 		 * @generated
 		 */
 		EReference BE_MODEL__LAYOUT_LIST = eINSTANCE.getBEModel_LayoutList();
+
+		/**
+		 * The meta object literal for the '<em><b>Subtitle</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BE_MODEL__SUBTITLE = eINSTANCE.getBEModel_Subtitle();
+
+		/**
+		 * The meta object literal for the '<em><b>Version</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BE_MODEL__VERSION = eINSTANCE.getBEModel_Version();
+
+		/**
+		 * The meta object literal for the '<em><b>Author List</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BE_MODEL__AUTHOR_LIST = eINSTANCE.getBEModel_AuthorList();
 
 		/**
 		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.BehaviorTreeImpl <em>Behavior Tree</em>}' class.
@@ -4476,6 +4698,58 @@ public interface GraphBTPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute BUTTON__LABEL = eINSTANCE.getButton_Label();
+
+		/**
+		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.AuthorListImpl <em>Author List</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.be.graphbt.model.graphbt.impl.AuthorListImpl
+		 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getAuthorList()
+		 * @generated
+		 */
+		EClass AUTHOR_LIST = eINSTANCE.getAuthorList();
+
+		/**
+		 * The meta object literal for the '<em><b>Authors</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference AUTHOR_LIST__AUTHORS = eINSTANCE.getAuthorList_Authors();
+
+		/**
+		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.impl.AuthorImpl <em>Author</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.be.graphbt.model.graphbt.impl.AuthorImpl
+		 * @see org.be.graphbt.model.graphbt.impl.GraphBTPackageImpl#getAuthor()
+		 * @generated
+		 */
+		EClass AUTHOR = eINSTANCE.getAuthor();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AUTHOR__NAME = eINSTANCE.getAuthor_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Contact</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AUTHOR__CONTACT = eINSTANCE.getAuthor_Contact();
+
+		/**
+		 * The meta object literal for the '<em><b>Role</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AUTHOR__ROLE = eINSTANCE.getAuthor_Role();
 
 		/**
 		 * The meta object literal for the '{@link org.be.graphbt.model.graphbt.Composition <em>Composition</em>}' enum.

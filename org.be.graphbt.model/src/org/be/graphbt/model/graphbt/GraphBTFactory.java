@@ -350,6 +350,24 @@ public interface GraphBTFactory extends EFactory {
 	Button createButton();
 
 	/**
+	 * Returns a new object of class '<em>Author List</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Author List</em>'.
+	 * @generated
+	 */
+	AuthorList createAuthorList();
+
+	/**
+	 * Returns a new object of class '<em>Author</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Author</em>'.
+	 * @generated
+	 */
+	Author createAuthor();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
